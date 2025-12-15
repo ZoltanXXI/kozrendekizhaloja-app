@@ -920,7 +920,11 @@ with col_search:
             except Exception:
                 # don't break the search UI if auto-generation fails
                 pass
-
+ # 3. Recept megjelenítése
+        title = strip_icon_ligatures(ai_recipe['title'])
+        text = strip_icon_ligatures(ai_recipe['archaic_recipe'])
+        st.markdown(f"<h3>{title}</h3><p>{text}</p>", unsafe_allow_html=True)
+        
 with col_sort:
     sort_by = st.selectbox(
         "Rendezés",
@@ -975,14 +979,13 @@ if "gpt_search_results" in st.session_state:
     if results.get("suggested_recipes"):
         st.markdown("**📖 Releváns történeti receptek:**")
         for recipe_title in results["suggested_recipes"][:3]:
-            recipe = next((r for r in historical_recipes if r.get("title", "").lower() == recipe_title.lower()), None)
-            if recipe:
-                clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
-                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
-                with st.expander(f"📜 {clean_title}"):
-                    st.markdown(clean_text + "...")
-    
-    st.markdown("---")
+    recipe = next((r for r in historical_recipes if r.get("title", "").lower() == recipe_title.lower()), None)
+    if recipe:
+        clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
+        clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
+        with st.expander(f"📜 {clean_title}"):
+            st.markdown(clean_text + "...")
+
 
 # Node szűrés
 if "gpt_search_results" not in st.session_state or not query:
@@ -1017,9 +1020,9 @@ st.markdown(f"<h3 style='text-align: center; color: white; font-family: Cinzel, 
 cols = st.columns(6)
 for i, n in enumerate(filtered_nodes[:60]):
     type_emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(n.get('node_type'), '⚪')
-    
-    if cols[i % 6].button(f"{type_emoji} {n['Label']}", key=f"node_{i}"):
-        sel = n["Label"]
+clean_label = strip_icon_ligatures(n['Label'])
+if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
+    sel = n["Label"]
         
         related = [
             e["Target"] if e["Source"] == sel else e["Source"]
