@@ -250,30 +250,54 @@ random.seed(42)
 def load_data():
     # Resolve data paths relative to this script so Streamlit can run from any CWD
     script_dir = os.path.dirname(__file__)
-    alapanyag_path = os.path.join(script_dir, "data", "recept_alapanyagok_TÖKÉLETES.json")
-    tripartit_path = os.path.join(script_dir, "data", "Recept_halo__molekula_tripartit.csv")
-    edges_path = os.path.join(script_dir, "data", "recept_halo_edges.csv")
-    historical_path = os.path.join(script_dir, "data", "HistoricalRecipe_export.csv")
 
-    tripartit_df = pd.read_csv(
-        tripartit_path,
-        delimiter=";",
-        encoding="utf-8"
-    )
-    edges_df = pd.read_csv(
-        edges_path,
-        encoding="utf-8"
-    )
-    historical_df = pd.read_csv(
-        historical_path,
-        encoding="utf-8"
-    )
+    # Helper: try several candidate bases so app works when run from different CWDs
+    def _resolve(rel_path):
+        candidates = []
+        # common bases to try
+        bases = [script_dir, os.getcwd(), os.path.abspath(os.path.join(script_dir, '..'))]
+        for b in bases:
+            candidates.append(os.path.normpath(os.path.join(b, rel_path)))
+        # also try the relative path as-is
+        candidates.append(os.path.normpath(rel_path))
+
+        for p in candidates:
+            if os.path.exists(p):
+                return p
+        # return list of attempted candidates for diagnostics if not found
+        return candidates
+
+    alapanyag_path = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
+    tripartit_path = _resolve(os.path.join('data', 'Recept_halo__molekula_tripartit.csv'))
+    edges_path = _resolve(os.path.join('data', 'recept_halo_edges.csv'))
+    historical_path = _resolve(os.path.join('data', 'HistoricalRecipe_export.csv'))
+
+    # If resolution returned a list, the file wasn't found; surface clear error
+    def _ensure_found(res, logical_name):
+        if isinstance(res, list):
+            st.error(f"❌ Hiányzik a fájl: {logical_name}. Próbált elérési utak:")
+            for p in res:
+                st.write(f"- {p}")
+            st.stop()
+        return res
+
+    tripartit_path = _ensure_found(tripartit_path, 'data/Recept_halo__molekula_tripartit.csv')
+    edges_path = _ensure_found(edges_path, 'data/recept_halo_edges.csv')
+    historical_path = _ensure_found(historical_path, 'data/HistoricalRecipe_export.csv')
+
+    tripartit_df = pd.read_csv(tripartit_path, delimiter=';', encoding='utf-8')
+    edges_df = pd.read_csv(edges_path, encoding='utf-8')
+    historical_df = pd.read_csv(historical_path, encoding='utf-8')
     # Try to load an optional "perfect" ingredients JSON
     perfect_ings = []
     try:
-        perfect_path = os.path.join(script_dir, "Data", "recept_alapanyagok_TÖKÉLETES.json")
-        if os.path.exists(perfect_path):
-            with open(perfect_path, encoding="utf-8") as f:
+        # perfect ingredients file may live under `Data/` or `data/` — try both via resolver
+        perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
+        if isinstance(perfect_candidate, list):
+            perfect_candidate = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
+
+        if not isinstance(perfect_candidate, list) and os.path.exists(perfect_candidate):
+            with open(perfect_candidate, encoding='utf-8') as f:
                 raw = json.load(f)
                 # Normalize into a flat list of unique ingredient labels.
                 ingredients = set()
