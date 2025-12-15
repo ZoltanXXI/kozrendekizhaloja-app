@@ -12,24 +12,6 @@ import random
 import unicodedata
 import re
 
-possible_paths = [
-    "data/Recept_halo__molekula_tripartit.csv",
-    "/mount/src/kozrendekizhaloja-app/Recept_halo__molekula_tripartit.csv",
-    "/mount/src/data/Recept_halo__molekula_tripartit.csv"
-]
-
-csv_path = None
-for path in possible_paths:
-    if os.path.exists(path):
-        csv_path = path
-        break
-
-if csv_path:
-    tripartit_df = pd.read_csv(csv_path)
-    st.success(f"✅ Fájl betöltve: {csv_path}")
-else:
-    st.error("❌ Hiányzik a fájl minden próbált elérési útvonalon!")
-    
 # ===============================
 # STREAMLIT KONFIG
 # ===============================
@@ -303,16 +285,46 @@ def load_data():
     edges_path = _ensure_found(edges_path, 'data/recept_halo_edges.csv')
     historical_path = _ensure_found(historical_path, 'data/HistoricalRecipe_export.csv')
 
-    tripartit_df = pd.read_csv(tripartit_path, delimiter=';', encoding='utf-8')
-    edges_df = pd.read_csv(edges_path, encoding='utf-8')
-    historical_df = pd.read_csv(historical_path, encoding='utf-8')
+    # Robust CSV reader: try common encodings/separators and fall back to a
+    # human-readable error with a small file preview to help debugging on Cloud.
+    def safe_read_csv(path, name, default_sep=';'):
+        try:
+            return pd.read_csv(path, delimiter=default_sep, encoding='utf-8', on_bad_lines='skip')
+        except Exception as e1:
+            # Try inferring separator using python engine
+            try:
+                return pd.read_csv(path, sep=None, engine='python', encoding='utf-8', on_bad_lines='skip')
+            except Exception:
+                # Try latin1 in case of encoding issues
+                try:
+                    return pd.read_csv(path, delimiter=default_sep, encoding='latin1', on_bad_lines='skip')
+                except Exception:
+                    try:
+                        return pd.read_csv(path, sep=None, engine='python', encoding='latin1', on_bad_lines='skip')
+                    except Exception as final_e:
+                        # If still failing, show a concise preview and stop so the user can inspect file
+                        try:
+                            with open(path, 'r', encoding='utf-8', errors='replace') as fh:
+                                preview = fh.read(5000)
+                        except Exception:
+                            preview = f"(Could not read file contents for preview: {path})"
+
+                        st.error(f"❌ Hiba a CSV beolvasásakor: {name}")
+                        st.markdown("**Próbált beolvasási módszerek:** UTF-8 with ';', infer sep (python engine), Latin-1 variants.")
+                        st.markdown("**Fájl előnézet (első 5000 karakter):**")
+                        st.code(preview)
+                        st.stop()
+
+    tripartit_df = safe_read_csv(tripartit_path, 'data/Recept_halo__molekula_tripartit.csv', default_sep=';')
+    edges_df = safe_read_csv(edges_path, 'data/recept_halo_edges.csv', default_sep=',')
+    historical_df = safe_read_csv(historical_path, 'data/HistoricalRecipe_export.csv', default_sep=',')
     # Try to load an optional "perfect" ingredients JSON
     perfect_ings = []
     try:
         # perfect ingredients file may live under `Data/` or `data/` — try both via resolver
-        perfect_candidate = _resolve(os.path.join('recept_alapanyagok_TÖKÉLETES.json'))
+        perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
         if isinstance(perfect_candidate, list):
-            perfect_candidate = _resolve(os.path.join('recept_alapanyagok_TÖKÉLETES.json'))
+            perfect_candidate = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
 
         if not isinstance(perfect_candidate, list) and os.path.exists(perfect_candidate):
             with open(perfect_candidate, encoding='utf-8') as f:
@@ -1092,7 +1104,3 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
