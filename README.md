@@ -21,7 +21,7 @@ A **Közrendek Ízhálója** a XVII. századi magyar gasztronómia modern háló
 
 ### 📚 A Forrásmű
 
-A [Szakácsmesterségnek könyvecskéje](https://mek.oszk.hu/08300/08343/08343.htm#252) az egyik legkorábbi ránk maradt magyar nyelvű nyomtatott szakácskönyv. Receptjei nem pontos mennyiségeket, hanem arányokat és eljárásokat rögzítenek — a "becsületes közrendeknek" készült, akik tapasztalatból főztek.
+A [Szakácsmesterségnek könyvecskéje](https://mek.oszk.hu/08300/08343/08343.htm) az egyik legkorábbi ránk maradt magyar nyelvű nyomtatott szakácskönyv. Receptjei nem pontos mennyiségeket, hanem arányokat és eljárásokat rögzítenek. A "becsületes közrendeknek" készült, akik tapasztalatból főztek.
 
 ### 🕸️ Barabási-féle Flavor Network
 
@@ -125,6 +125,7 @@ Győződj meg róla, hogy a `data/` mappában a következő fájlok vannak:
 - `Recept_halo__molekula_tripartit.csv`
 - `recept_halo_edges.csv`
 - `HistoricalRecipe_export.csv`
+- `recept_alapanyagok_TÖKÉLETES.json`
 
 ---
 
@@ -229,12 +230,12 @@ Az AI generálás az [OpenAI GPT-5.2 Prompting Guide](https://cookbook.openai.co
 - **Átlagos hossz:** 70.7 szó
 - **Medián:** 61 szó
 - **Eloszlás:** Jobbra ferde (átlag > medián)
-- **Böjti receptek:** ~32%
+- **Böjti receptek:** ~17.8%
 
 ### Adatforrások
 
-- Magyar Nemzeti Múzeum Könyvtára
-- 18. századi szakácskönyvek
+- Országos Széchenyi Könyvtár online könyvtára: Magyar Elektronikus Könyvtár (https://mek.oszk.hu/08300/08343/08343.htm)
+- 17. századi szakácskönyvek
 - Molekuláris gasztronómia adatbázisok
 
 ---
@@ -249,7 +250,7 @@ Az AI generálás az [OpenAI GPT-5.2 Prompting Guide](https://cookbook.openai.co
 ### Backend
 - **Python 3.10+**
 - **Pandas** - Adatelemzés
-- **OpenAI GPT-4o** - AI receptgenerálás
+- **OpenAI GPT-5.2** - AI receptgenerálás
 - **python-dotenv** - Környezeti változók
 
 ---
@@ -275,6 +276,7 @@ Az AI generálás az [OpenAI GPT-5.2 Prompting Guide](https://cookbook.openai.co
 - [OpenAI GPT-5.2 Prompting Guide](https://cookbook.openai.com/examples/gpt-5/gpt-5-2_prompting_guide)
 - NetworkX Documentation
 - Ahn, Y. Y., et al. (2011). "Flavor network and the principles of food pairing." *Scientific Reports*.
+- Barabási, A.-L. (2024). A hálózatok tudománya. Open Books.
 
 ---
 
@@ -292,13 +294,14 @@ Közreműködés várható! Issues és pull requestek szívesen fogadottak.
 
 ## 📞 Kapcsolat
 
-- **Email:** your.email@example.com
-- **GitHub:** [@your-username](https://github.com/your-username)
+- **Email:** turo.zoli99@gmail.com
+- **GitHub:** [@ZoltanXXI](https://github.com/ZoltanXXI)
 
 ---
 
 <div align="center">
   <p><strong>Közrendek Ízhálója © 2025</strong></p>
   <p>Hálózatelemzés + Történeti Források + AI Generálás</p>
-  <p>Built with ❤️ using Streamlit, NetworkX, Plotly & OpenAI GPT-4o</p>
+  <p>Built with ❤️ using Streamlit, NetworkX, Plotly, Barabási's book & OpenAI GPT-5.2</p>
+
 </div>
