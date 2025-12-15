@@ -12,15 +12,23 @@ import random
 import unicodedata
 import re
 
-# Közvetlenül a megtalált abszolút útvonalat használjuk
-csv_path = '/mount/src/kozrendekizhaloja-app/Recept_halo__molekula_tripartit.csv'
+possible_paths = [
+    "data/Recept_halo__molekula_tripartit.csv",
+    "/mount/src/kozrendekizhaloja-app/Recept_halo__molekula_tripartit.csv",
+    "/mount/src/data/Recept_halo__molekula_tripartit.csv"
+]
 
-if os.path.exists(csv_path):
-    tripartit_df = pd.read_csv(csv_path, delimiter=';', encoding='utf-8')
+csv_path = None
+for path in possible_paths:
+    if os.path.exists(path):
+        csv_path = path
+        break
+
+if csv_path:
+    tripartit_df = pd.read_csv(csv_path)
     st.success(f"✅ Fájl betöltve: {csv_path}")
-    st.dataframe(tripartit_df.head())
 else:
-    st.error(f"❌ Hiányzik a fájl: {csv_path}")
+    st.error("❌ Hiányzik a fájl minden próbált elérési útvonalon!")
     
 # ===============================
 # STREAMLIT KONFIG
@@ -1084,6 +1092,7 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
