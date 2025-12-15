@@ -1,0 +1,3344 @@
+Source,Target,Type,Id,Label,Weight
+Káposzta kolozsvári módon,savanyú káposzta,Undirected,0,,1
+Káposzta kolozsvári módon,tyúk,Undirected,1,,1
+Káposzta kolozsvári módon,lúd,Undirected,2,,1
+Káposzta kolozsvári módon,szalonna,Undirected,3,,1
+Káposzta kolozsvári módon,bors,Undirected,4,,1
+Káposzta kolozsvári módon,bor,Undirected,5,,1
+savanyú káposzta,lactic acid,Undirected,6,,1
+savanyú káposzta,acetic acid,Undirected,7,,1
+savanyú káposzta,ethyl acetate,Undirected,8,,1
+savanyú káposzta,dimethyl sulfide,Undirected,9,,1
+savanyú káposzta,allyl isothiocyanate,Undirected,10,,1
+savanyú káposzta,Töltött káposzta,Undirected,11,,1
+savanyú káposzta,Káposztát közönséges módon,Undirected,12,,1
+savanyú káposzta,Tejfeles káposzta,Undirected,13,,1
+savanyú káposzta,Sült,Undirected,14,,1
+savanyú káposzta,Káposzta ikrával,Undirected,15,,1
+savanyú káposzta,Zsákvászonnal,Undirected,16,,1
+savanyú káposzta,Káposztás béles,Undirected,17,,1
+lactic acid,tejföl,Undirected,18,,1
+lactic acid,káposztalé,Undirected,19,,1
+lactic acid,aludttej,Undirected,20,,1
+lactic acid,édes aludttej,Undirected,21,,1
+lactic acid,édes orda,Undirected,22,,1
+lactic acid,sós orda,Undirected,23,,1
+lactic acid,új édes sajt,Undirected,24,,1
+lactic acid,orda,Undirected,25,,1
+lactic acid,lágy túró,Undirected,26,,1
+acetic acid,ecet,Undirected,27,,1
+acetic acid,savanyú alma,Undirected,28,,1
+acetic acid,káposztalé,Undirected,29,,1
+acetic acid,borecet,Undirected,30,,1
+acetic acid,kovász,Undirected,31,,1
+ethyl acetate,bor,Undirected,32,,1
+ethyl acetate,ecet,Undirected,33,,1
+ethyl acetate,mazsola,Undirected,34,,1
+ethyl acetate,sör,Undirected,35,,1
+ethyl acetate,gyümölcs,Undirected,36,,1
+ethyl acetate,aszúbor,Undirected,37,,1
+ethyl acetate,élesztő,Undirected,38,,1
+ethyl acetate,borecet,Undirected,39,,1
+ethyl acetate,édes bor,Undirected,40,,1
+ethyl acetate,mézes bor,Undirected,41,,1
+ethyl acetate,vörösbor,Undirected,42,,1
+ethyl acetate,kovász,Undirected,43,,1
+ethyl acetate,kenyértészta,Undirected,44,,1
+dimethyl sulfide,káposztalevél,Undirected,45,,1
+dimethyl sulfide,új káposzta,Undirected,46,,1
+dimethyl sulfide,káposztalé,Undirected,47,,1
+dimethyl sulfide,sör,Undirected,48,,1
+dimethyl sulfide,tej,Undirected,49,,1
+dimethyl sulfide,tojásfehérje,Undirected,50,,1
+dimethyl sulfide,káposzta,Undirected,51,,1
+dimethyl sulfide,fejes káposzta,Undirected,52,,1
+dimethyl sulfide,kék káposzta,Undirected,53,,1
+allyl isothiocyanate,káposztalevél,Undirected,54,,1
+allyl isothiocyanate,új káposzta,Undirected,55,,1
+allyl isothiocyanate,torma,Undirected,56,,1
+allyl isothiocyanate,friss tormahajtás,Undirected,57,,1
+allyl isothiocyanate,káposzta,Undirected,58,,1
+tyúk,2-furfurylthiol,Undirected,59,,1
+tyúk,methional,Undirected,60,,1
+tyúk,hexanal,Undirected,61,,1
+tyúk,"(E,E)-2,4-decadienal",Undirected,62,,1
+tyúk,Német lév,Undirected,63,,1
+tyúk,Egressel,Undirected,64,,1
+tyúk,Tyúk tiszta borssal,Undirected,65,,1
+tyúk,Éles lév,Undirected,66,,1
+tyúk,Magyar lév,Undirected,67,,1
+tyúk,Kocka-lév,Undirected,68,,1
+tyúk,Töltött tyúk,Undirected,69,,1
+tyúk,Tyúk káposzta-lévben,Undirected,70,,1
+tyúk,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,71,,1
+tyúk,Váradi lév,Undirected,72,,1
+tyúk,Hal téjfellel,Undirected,73,,1
+2-furfurylthiol,lúd,Undirected,74,,1
+2-furfurylthiol,csirkehús,Undirected,75,,1
+2-furfurylthiol,tyúkhús,Undirected,76,,1
+2-furfurylthiol,csirke,Undirected,77,,1
+2-furfurylthiol,liba,Undirected,78,,1
+2-furfurylthiol,galamb,Undirected,79,,1
+2-furfurylthiol,apró madarak,Undirected,80,,1
+2-furfurylthiol,kappan,Undirected,81,,1
+2-furfurylthiol,fiatal lúd,Undirected,82,,1
+2-furfurylthiol,fiatal kacsa,Undirected,83,,1
+2-furfurylthiol,fürjhús,Undirected,84,,1
+methional,lúd,Undirected,85,,1
+methional,marhahús,Undirected,86,,1
+methional,tehénhús,Undirected,87,,1
+methional,árpagyöngy,Undirected,88,,1
+methional,csirkehús,Undirected,89,,1
+methional,fehér kenyér,Undirected,90,,1
+methional,tojás,Undirected,91,,1
+methional,marhahúsleves,Undirected,92,,1
+methional,főtt marhahús,Undirected,93,,1
+methional,kenyér,Undirected,94,,1
+methional,marha- vagy juhhúsleves,Undirected,95,,1
+methional,hús,Undirected,96,,1
+methional,húsleves,Undirected,97,,1
+methional,húslé,Undirected,98,,1
+methional,tyúkhús,Undirected,99,,1
+methional,szárnyashús,Undirected,100,,1
+methional,máj,Undirected,101,,1
+methional,tüdő,Undirected,102,,1
+methional,sajt,Undirected,103,,1
+methional,kucsmagomba,Undirected,104,,1
+methional,csirke,Undirected,105,,1
+methional,liba,Undirected,106,,1
+methional,főzőlé,Undirected,107,,1
+methional,galamb,Undirected,108,,1
+methional,főtt tojás,Undirected,109,,1
+methional,egyéb hús,Undirected,110,,1
+methional,marhaláb,Undirected,111,,1
+methional,juhtüdő,Undirected,112,,1
+methional,marhanyelv,Undirected,113,,1
+methional,sült hús,Undirected,114,,1
+methional,borjúmáj,Undirected,115,,1
+methional,báránymáj,Undirected,116,,1
+methional,fehér kenyérbél,Undirected,117,,1
+methional,borjúhús,Undirected,118,,1
+methional,apró madarak,Undirected,119,,1
+methional,kappan,Undirected,120,,1
+methional,fiatal lúd,Undirected,121,,1
+methional,fiatal kacsa,Undirected,122,,1
+methional,liba- vagy kacsaaprólék,Undirected,123,,1
+methional,malactüdő,Undirected,124,,1
+methional,malacmáj,Undirected,125,,1
+methional,fürjhús,Undirected,126,,1
+methional,tojássárgája,Undirected,127,,1
+methional,tyúktojás,Undirected,128,,1
+methional,lúdtojás,Undirected,129,,1
+methional,cipó,Undirected,130,,1
+methional,kemény sajt,Undirected,131,,1
+methional,sült hal,Undirected,132,,1
+methional,fenyőgomba,Undirected,133,,1
+hexanal,lúd,Undirected,134,,1
+hexanal,szalonna,Undirected,135,,1
+hexanal,bárányhús,Undirected,136,,1
+hexanal,avas zsír,Undirected,137,,1
+hexanal,juhhús,Undirected,138,,1
+hexanal,csirkehús,Undirected,139,,1
+hexanal,tojás,Undirected,140,,1
+hexanal,marhahúsleves,Undirected,141,,1
+hexanal,marha- vagy juhhúsleves,Undirected,142,,1
+hexanal,hús,Undirected,143,,1
+hexanal,savanyú alma,Undirected,144,,1
+hexanal,vadalma,Undirected,145,,1
+hexanal,háj,Undirected,146,,1
+hexanal,csuka,Undirected,147,,1
+hexanal,húsleves,Undirected,148,,1
+hexanal,zsír,Undirected,149,,1
+hexanal,szalonnatepertő,Undirected,150,,1
+hexanal,tepertő,Undirected,151,,1
+hexanal,húslé,Undirected,152,,1
+hexanal,tyúkhús,Undirected,153,,1
+hexanal,szárnyashús,Undirected,154,,1
+hexanal,vadhús,Undirected,155,,1
+hexanal,sertéshús,Undirected,156,,1
+hexanal,sertés orja (hátgerinc),Undirected,157,,1
+hexanal,máj,Undirected,158,,1
+hexanal,tüdő,Undirected,159,,1
+hexanal,egres,Undirected,160,,1
+hexanal,sertés keresztcsont,Undirected,161,,1
+hexanal,malachús,Undirected,162,,1
+hexanal,alma,Undirected,163,,1
+hexanal,dió,Undirected,164,,1
+hexanal,sertésvér,Undirected,165,,1
+hexanal,csirkevér,Undirected,166,,1
+hexanal,disznóhús,Undirected,167,,1
+hexanal,szarvashús,Undirected,168,,1
+hexanal,őzhús,Undirected,169,,1
+hexanal,hal,Undirected,170,,1
+hexanal,juhfej,Undirected,171,,1
+hexanal,juhláb,Undirected,172,,1
+hexanal,malac,Undirected,173,,1
+hexanal,csirke,Undirected,174,,1
+hexanal,liba,Undirected,175,,1
+hexanal,köles,Undirected,176,,1
+hexanal,főzőlé,Undirected,177,,1
+hexanal,galamb,Undirected,178,,1
+hexanal,bárányfej,Undirected,179,,1
+hexanal,bárányláb,Undirected,180,,1
+hexanal,egyéb hús,Undirected,181,,1
+hexanal,szalonnazsír,Undirected,182,,1
+hexanal,marha tokahús és bőr,Undirected,183,,1
+hexanal,juhtüdő,Undirected,184,,1
+hexanal,juhgyomor,Undirected,185,,1
+hexanal,gyümölcs,Undirected,186,,1
+hexanal,sertéshátgerinc,Undirected,187,,1
+hexanal,füstölt sonka,Undirected,188,,1
+hexanal,kása,Undirected,189,,1
+hexanal,olívaolaj,Undirected,190,,1
+hexanal,sertésháló (faggyúhártya),Undirected,191,,1
+hexanal,apró madarak,Undirected,192,,1
+hexanal,kappan,Undirected,193,,1
+hexanal,fiatal lúd,Undirected,194,,1
+hexanal,fiatal kacsa,Undirected,195,,1
+hexanal,liba- vagy kacsaaprólék,Undirected,196,,1
+hexanal,meggy,Undirected,197,,1
+hexanal,malactüdő,Undirected,198,,1
+hexanal,sütnivaló hús,Undirected,199,,1
+hexanal,fürjhús,Undirected,200,,1
+hexanal,tyúktojás,Undirected,201,,1
+hexanal,lúdtojás,Undirected,202,,1
+hexanal,nyers tojás,Undirected,203,,1
+hexanal,kövi csík,Undirected,204,,1
+hexanal,juhhúsleves,Undirected,205,,1
+hexanal,laboda,Undirected,206,,1
+hexanal,tök,Undirected,207,,1
+hexanal,birsalma,Undirected,208,,1
+hexanal,zsemlekása,Undirected,209,,1
+hexanal,zab,Undirected,210,,1
+hexanal,keményítő,Undirected,211,,1
+hexanal,csíkhal,Undirected,212,,1
+hexanal,menyhal,Undirected,213,,1
+hexanal,lenmagolaj,Undirected,214,,1
+hexanal,salátalevél,Undirected,215,,1
+hexanal,nagy lapu szára,Undirected,216,,1
+hexanal,kerti saláta szára,Undirected,217,,1
+hexanal,uborka,Undirected,218,,1
+hexanal,saláta,Undirected,219,,1
+hexanal,kendermag,Undirected,220,,1
+hexanal,korpa,Undirected,221,,1
+hexanal,köleskása,Undirected,222,,1
+hexanal,növényi olaj,Undirected,223,,1
+hexanal,viza,Undirected,224,,1
+hexanal,lenolaj,Undirected,225,,1
+hexanal,mák,Undirected,226,,1
+hexanal,sertéssonka (sódar),Undirected,227,,1
+hexanal,sódar (füstölt sertéssonka),Undirected,228,,1
+hexanal,görögdinnyehéj,Undirected,229,,1
+hexanal,dióbél,Undirected,230,,1
+hexanal,olajmag,Undirected,231,,1
+hexanal,mogyoró,Undirected,232,,1
+hexanal,meggylé,Undirected,233,,1
+hexanal,sertésfej,Undirected,234,,1
+hexanal,sertésfül,Undirected,235,,1
+hexanal,sertésbőr,Undirected,236,,1
+hexanal,sóska,Undirected,237,,1
+"(E,E)-2,4-decadienal",csirkehús,Undirected,238,,1
+"(E,E)-2,4-decadienal",csirke,Undirected,239,,1
+lúd,1-octen-3-ol,Undirected,240,,1
+lúd,Törött lév,Undirected,241,,1
+lúd,Lúd sülve,Undirected,242,,1
+lúd,Cifra lév,Undirected,243,,1
+1-octen-3-ol,marhahús,Undirected,244,,1
+1-octen-3-ol,tehénhús,Undirected,245,,1
+1-octen-3-ol,csuka,Undirected,246,,1
+1-octen-3-ol,szárnyashús,Undirected,247,,1
+1-octen-3-ol,vadhús,Undirected,248,,1
+1-octen-3-ol,sertéshús,Undirected,249,,1
+1-octen-3-ol,máj,Undirected,250,,1
+1-octen-3-ol,szarvashús,Undirected,251,,1
+1-octen-3-ol,őzhús,Undirected,252,,1
+1-octen-3-ol,hal,Undirected,253,,1
+1-octen-3-ol,kucsmagomba,Undirected,254,,1
+1-octen-3-ol,liba,Undirected,255,,1
+1-octen-3-ol,laskagomba,Undirected,256,,1
+1-octen-3-ol,csiperke gomba,Undirected,257,,1
+1-octen-3-ol,pisztráng,Undirected,258,,1
+1-octen-3-ol,sült hal,Undirected,259,,1
+1-octen-3-ol,fenyőgomba,Undirected,260,,1
+1-octen-3-ol,viza,Undirected,261,,1
+1-octen-3-ol,tokhal,Undirected,262,,1
+szalonna,guaiacol,Undirected,263,,1
+szalonna,4-methylguaiacol,Undirected,264,,1
+szalonna,syringol,Undirected,265,,1
+szalonna,phenol,Undirected,266,,1
+szalonna,Töltött káposzta,Undirected,267,,1
+szalonna,Káposztát közönséges módon,Undirected,268,,1
+szalonna,Tejfeles káposzta,Undirected,269,,1
+szalonna,Új káposzta szalonnával,Undirected,270,,1
+szalonna,Savanyú lév,Undirected,271,,1
+szalonna,Német lév,Undirected,272,,1
+szalonna,Röstölt lév,Undirected,273,,1
+szalonna,Répával,Undirected,274,,1
+szalonna,Spékkel,Undirected,275,,1
+szalonna,Egressel,Undirected,276,,1
+szalonna,Tyúk tiszta borssal,Undirected,277,,1
+szalonna,"Klödör, azaz gombóc",Undirected,278,,1
+szalonna,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,279,,1
+szalonna,Tüdőkása,Undirected,280,,1
+szalonna,Kocka-lév,Undirected,281,,1
+szalonna,Töltött tyúk,Undirected,282,,1
+szalonna,Tárkonnyal,Undirected,283,,1
+szalonna,Kaporral,Undirected,284,,1
+szalonna,"Zsufa, azaz savanyú mártás",Undirected,285,,1
+szalonna,"Kutkusa, azaz juhbélből készült étel",Undirected,286,,1
+szalonna,"Ecettel, hagymával",Undirected,287,,1
+szalonna,Luther-lév,Undirected,288,,1
+szalonna,Tejes borsó,Undirected,289,,1
+szalonna,Téjfellel,Undirected,290,,1
+szalonna,"Orjával, azaz a sertés hátgerincével",Undirected,291,,1
+szalonna,Gombát fõzni,Undirected,292,,1
+szalonna,Madár-lév,Undirected,293,,1
+szalonna,Vadhús sülve,Undirected,294,,1
+szalonna,Deszpot-lév,Undirected,295,,1
+szalonna,Váradi lév,Undirected,296,,1
+szalonna,Töltött malac,Undirected,297,,1
+szalonna,Zsályás pecsenye,Undirected,298,,1
+szalonna,Töltelék,Undirected,299,,1
+szalonna,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,300,,1
+szalonna,Sült pástétom,Undirected,301,,1
+szalonna,Nyers káposzta-saláta,Undirected,302,,1
+szalonna,"Cicer, azaz bagoly-borsó",Undirected,303,,1
+szalonna,"Tyúkfi, azaz csirke borkőben való",Undirected,304,,1
+szalonna,Hagyma lével,Undirected,305,,1
+guaiacol,rizs,Undirected,306,,1
+guaiacol,kenyér,Undirected,307,,1
+guaiacol,szalonnatepertő,Undirected,308,,1
+guaiacol,szalonnazsír,Undirected,309,,1
+guaiacol,füstölt szalonna vagy sonka,Undirected,310,,1
+guaiacol,füstölt sonka,Undirected,311,,1
+guaiacol,kolbász,Undirected,312,,1
+guaiacol,sertéssonka (sódar),Undirected,313,,1
+guaiacol,sódar (füstölt sertéssonka),Undirected,314,,1
+4-methylguaiacol,füstölt szalonna vagy sonka,Undirected,315,,1
+4-methylguaiacol,füstölt sonka,Undirected,316,,1
+4-methylguaiacol,sertéssonka (sódar),Undirected,317,,1
+4-methylguaiacol,sódar (füstölt sertéssonka),Undirected,318,,1
+syringol,füstölt szalonna vagy sonka,Undirected,319,,1
+syringol,füstölt sonka,Undirected,320,,1
+syringol,sódar (füstölt sertéssonka),Undirected,321,,1
+phenol,füstölt szalonna vagy sonka,Undirected,322,,1
+phenol,füstölt sonka,Undirected,323,,1
+phenol,sódar (füstölt sertéssonka),Undirected,324,,1
+bors,piperine,Undirected,325,,1
+bors,β-caryophyllene,Undirected,326,,1
+bors,limonene,Undirected,327,,1
+bors,α-pinene,Undirected,328,,1
+bors,β-pinene,Undirected,329,,1
+bors,sabinene,Undirected,330,,1
+bors,myrcene,Undirected,331,,1
+bors,α-phellandrene,Undirected,332,,1
+bors,terpinolene,Undirected,333,,1
+bors,Tehénhús árpa-kásával,Undirected,334,,1
+bors,Tehénhús-lév,Undirected,335,,1
+bors,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,336,,1
+bors,Tehénhús tiszta borssal,Undirected,337,,1
+bors,Kaszás lév,Undirected,338,,1
+bors,Tormás téjfel,Undirected,339,,1
+bors,Savanyú lév,Undirected,340,,1
+bors,Német lév,Undirected,341,,1
+bors,Röstölt lév,Undirected,342,,1
+bors,Máj rántva,Undirected,343,,1
+bors,Fokhagyma-lével,Undirected,344,,1
+bors,Spékkel,Undirected,345,,1
+bors,Egressel,Undirected,346,,1
+bors,Tyúk tiszta borssal,Undirected,347,,1
+bors,Fekete lév,Undirected,348,,1
+bors,Másképpen ugyanez,Undirected,349,,1
+bors,"Klödör, azaz gombóc",Undirected,350,,1
+bors,Pástétom-lével,Undirected,351,,1
+bors,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,352,,1
+bors,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,353,,1
+bors,"Pikáda, azaz fűszerezett hússzelet",Undirected,354,,1
+bors,Kenyér-kása,Undirected,355,,1
+bors,Éles lév,Undirected,356,,1
+bors,Tüdőkása,Undirected,357,,1
+bors,"Tyúkfi, azaz csirke sóban",Undirected,358,,1
+bors,Magyar lév,Undirected,359,,1
+bors,Kocka-lév,Undirected,360,,1
+bors,Ludas kása,Undirected,361,,1
+bors,Töltött tyúk,Undirected,362,,1
+bors,Tárkonnyal,Undirected,363,,1
+bors,Balázs-lév,Undirected,364,,1
+bors,"Zsufa, azaz savanyú mártás",Undirected,365,,1
+bors,Vendég-lév,Undirected,366,,1
+bors,Galuska,Undirected,367,,1
+bors,Majoránna-lév,Undirected,368,,1
+bors,Keresdi lév,Undirected,369,,1
+bors,Nyelvet főzni,Undirected,370,,1
+bors,Bárányhúst német módon,Undirected,371,,1
+bors,Savanyú pecsenye,Undirected,372,,1
+bors,Bárányfő hidegen,Undirected,373,,1
+bors,Luther-lév,Undirected,374,,1
+bors,"Lapos tüdő, máj",Undirected,375,,1
+bors,Téjfellel,Undirected,376,,1
+bors,Szürke lév,Undirected,377,,1
+bors,Gombát fõzni,Undirected,378,,1
+bors,Sült lév,Undirected,379,,1
+bors,Karbonáta,Undirected,380,,1
+bors,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,381,,1
+bors,Madár-lév,Undirected,382,,1
+bors,Vadhús sülve,Undirected,383,,1
+bors,Gyümölcs-lév,Undirected,384,,1
+bors,Szegfüves lév,Undirected,385,,1
+bors,Bors-porral,Undirected,386,,1
+bors,Deszpot-lév,Undirected,387,,1
+bors,Mikó-lév,Undirected,388,,1
+bors,"Leány-sarjával, azaz friss tormahajtással",Undirected,389,,1
+bors,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,390,,1
+bors,Töltött malac,Undirected,391,,1
+bors,Bárányhús pirítva,Undirected,392,,1
+bors,Zsályás pecsenye,Undirected,393,,1
+bors,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,394,,1
+bors,Sült pástétom,Undirected,395,,1
+bors,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,396,,1
+bors,"Töltött tyúkmony, azaz töltött tojás",Undirected,397,,1
+bors,"Vajas klödör, azaz vajas gombóc",Undirected,398,,1
+bors,"Spanior lév, azaz spanyol lé",Undirected,399,,1
+bors,Zólnai lév,Undirected,400,,1
+bors,Kenyér-torta,Undirected,401,,1
+bors,Olasz kolbász,Undirected,402,,1
+bors,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,403,,1
+bors,Olasz káposzta,Undirected,404,,1
+bors,"Tyúkmony-lév, azaz tojás-lé",Undirected,405,,1
+bors,Német rántott,Undirected,406,,1
+bors,Boros leves,Undirected,407,,1
+bors,Rák töltve,Undirected,408,,1
+bors,"Disilber, azaz tojásétel",Undirected,409,,1
+bors,Szilvás béles,Undirected,410,,1
+bors,Rák-sajt,Undirected,411,,1
+bors,Zuppon,Undirected,412,,1
+bors,Káposzta ikrával,Undirected,413,,1
+bors,Ég-lév,Undirected,414,,1
+bors,Gutta-lév,Undirected,415,,1
+bors,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,416,,1
+bors,Lengyel cibre,Undirected,417,,1
+bors,"Körtvély fõve, azaz körte fõzve",Undirected,418,,1
+bors,Ugorka-saláta,Undirected,419,,1
+bors,Bot-lév,Undirected,420,,1
+bors,Ikrát főzni,Undirected,421,,1
+bors,Párolt rák,Undirected,422,,1
+bors,Hal rizskásával,Undirected,423,,1
+bors,Olaj-spék,Undirected,424,,1
+bors,"Cicer, azaz bagoly-borsó",Undirected,425,,1
+bors,"Lémonyával, azaz citrommal",Undirected,426,,1
+bors,Törött lével hal,Undirected,427,,1
+bors,Csukát csuka-lével,Undirected,428,,1
+bors,Kozák-lével,Undirected,429,,1
+bors,Zöld lével,Undirected,430,,1
+bors,Borsos szilva,Undirected,431,,1
+bors,Ecetes cibre,Undirected,432,,1
+bors,Hal fekete lével,Undirected,433,,1
+bors,Zuppon-lév,Undirected,434,,1
+bors,Tiszta borssal,Undirected,435,,1
+bors,Vizát viza-lével,Undirected,436,,1
+bors,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,437,,1
+bors,Borított lév,Undirected,438,,1
+bors,Hagyma rántva,Undirected,439,,1
+bors,Káposzta-lév cibre,Undirected,440,,1
+bors,Seres kenyér,Undirected,441,,1
+bors,Olajos lév,Undirected,442,,1
+bors,Rák tehénhús-lévben,Undirected,443,,1
+bors,"Tyúkfi, azaz csirke cipóban való",Undirected,444,,1
+bors,Báránybél édes téjjel,Undirected,445,,1
+bors,Sódar gyümölcsös lével,Undirected,446,,1
+bors,Sódar szegfüves lével,Undirected,447,,1
+bors,Malac hidegen,Undirected,448,,1
+bors,Tyúk-saláta,Undirected,449,,1
+bors,Hagyma lével,Undirected,450,,1
+bors,"Kolbász, lévre",Undirected,451,,1
+bors,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,452,,1
+bors,"Szegfüves sása, azaz szegfüves mártás",Undirected,453,,1
+bors,Dinnye-torta,Undirected,454,,1
+bors,Zsemlye-galuska,Undirected,455,,1
+piperine,fekete bors,Undirected,456,,1
+β-caryophyllene,fekete bors,Undirected,457,,1
+β-caryophyllene,sárgarépa,Undirected,458,,1
+β-caryophyllene,szegfűszeg,Undirected,459,,1
+β-caryophyllene,fahéj,Undirected,460,,1
+limonene,fekete bors,Undirected,461,,1
+limonene,petrezselyemlevél,Undirected,462,,1
+limonene,citromlé,Undirected,463,,1
+limonene,fenyőmag,Undirected,464,,1
+limonene,petrezselyem,Undirected,465,,1
+limonene,petrezselyemzöld,Undirected,466,,1
+limonene,tárkony,Undirected,467,,1
+limonene,zöld petrezselyem,Undirected,468,,1
+limonene,citrom,Undirected,469,,1
+limonene,kapor,Undirected,470,,1
+limonene,sózott citrom,Undirected,471,,1
+limonene,friss kapor,Undirected,472,,1
+limonene,köményzöld,Undirected,473,,1
+limonene,szerecsendió,Undirected,474,,1
+limonene,citromhéj,Undirected,475,,1
+limonene,zöld dió,Undirected,476,,1
+limonene,reszelt citromhéj,Undirected,477,,1
+α-pinene,fekete bors,Undirected,478,,1
+α-pinene,zsálya,Undirected,479,,1
+α-pinene,fenyőmag,Undirected,480,,1
+α-pinene,petrezselyem,Undirected,481,,1
+α-pinene,szerecsendió-virág,Undirected,482,,1
+α-pinene,zsályalevél,Undirected,483,,1
+α-pinene,szerecsendió,Undirected,484,,1
+α-pinene,zöld dió,Undirected,485,,1
+β-pinene,fekete bors,Undirected,486,,1
+β-pinene,fenyőmag,Undirected,487,,1
+β-pinene,köményzöld,Undirected,488,,1
+sabinene,fekete bors,Undirected,489,,1
+sabinene,szerecsendió-virág,Undirected,490,,1
+myrcene,fekete bors,Undirected,491,,1
+myrcene,fenyőmag,Undirected,492,,1
+myrcene,sárgarépa,Undirected,493,,1
+myrcene,sör,Undirected,494,,1
+α-phellandrene,fekete bors,Undirected,495,,1
+α-phellandrene,kapor,Undirected,496,,1
+α-phellandrene,friss kapor,Undirected,497,,1
+terpinolene,fekete bors,Undirected,498,,1
+terpinolene,petrezselyemgyökér,Undirected,499,,1
+terpinolene,sárgarépa,Undirected,500,,1
+bor,ethanol,Undirected,501,,1
+bor,isoamyl alcohol,Undirected,502,,1
+bor,phenylethyl alcohol,Undirected,503,,1
+bor,linalool,Undirected,504,,1
+bor,ethyl tartrate,Undirected,505,,1
+bor,Töltött káposzta,Undirected,506,,1
+bor,Káposztát közönséges módon,Undirected,507,,1
+bor,Tejfeles káposzta,Undirected,508,,1
+bor,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,509,,1
+bor,Savanyú lév,Undirected,510,,1
+bor,Német lév,Undirected,511,,1
+bor,Röstölt lév,Undirected,512,,1
+bor,Tüdő rántva,Undirected,513,,1
+bor,Pástétom-lével,Undirected,514,,1
+bor,"Berbécsfő, azaz juhfej",Undirected,515,,1
+bor,Éles lév,Undirected,516,,1
+bor,Balázs-lév,Undirected,517,,1
+bor,"Zsufa, azaz savanyú mártás",Undirected,518,,1
+bor,Bárányfő rántva,Undirected,519,,1
+bor,Vendég-lév,Undirected,520,,1
+bor,Majoránna-lév,Undirected,521,,1
+bor,Keresdi lév,Undirected,522,,1
+bor,Savanyú pecsenye,Undirected,523,,1
+bor,Szürke lév,Undirected,524,,1
+bor,Mustos pecsenye,Undirected,525,,1
+bor,Sült lév,Undirected,526,,1
+bor,Karbonáta,Undirected,527,,1
+bor,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,528,,1
+bor,Madár-lév,Undirected,529,,1
+bor,Citrom-lév,Undirected,530,,1
+bor,Gyümölcs-lév,Undirected,531,,1
+bor,Szegfüves lév,Undirected,532,,1
+bor,Deszpot-lév,Undirected,533,,1
+bor,"Leány-sarjával, azaz friss tormahajtással",Undirected,534,,1
+bor,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,535,,1
+bor,Cifra lév,Undirected,536,,1
+bor,Váradi lév,Undirected,537,,1
+bor,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,538,,1
+bor,Egész alma,Undirected,539,,1
+bor,"Spanior lév, azaz spanyol lé",Undirected,540,,1
+bor,Írós lév,Undirected,541,,1
+bor,Kenyér-torta,Undirected,542,,1
+bor,Hal téjfellel,Undirected,543,,1
+bor,Olasz kolbász,Undirected,544,,1
+bor,"Boros szérdék, azaz boros aludttej",Undirected,545,,1
+bor,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,546,,1
+bor,Boros leves,Undirected,547,,1
+bor,Alma-fánk,Undirected,548,,1
+bor,Rák-sajt,Undirected,549,,1
+bor,"Mondola-sása, azaz mandula-mártás",Undirected,550,,1
+bor,Káposzta vajjal,Undirected,551,,1
+bor,Alma-lév,Undirected,552,,1
+bor,Gutta-lév,Undirected,553,,1
+bor,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,554,,1
+bor,Lengyel cibre,Undirected,555,,1
+bor,"Körtvély fõve, azaz körte fõzve",Undirected,556,,1
+bor,Bot-lév,Undirected,557,,1
+bor,Párolt rák,Undirected,558,,1
+bor,Olaj-spék,Undirected,559,,1
+bor,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,560,,1
+bor,Hal fekete lével,Undirected,561,,1
+bor,Vizát viza-lével,Undirected,562,,1
+bor,Rák tehénhús-lévben,Undirected,563,,1
+bor,Sódar gyümölcsös lével,Undirected,564,,1
+bor,Sódar szegfüves lével,Undirected,565,,1
+bor,Tyúk-saláta,Undirected,566,,1
+bor,Hagyma lével,Undirected,567,,1
+bor,"Más meggy-sása, azaz meggy-mártás",Undirected,568,,1
+bor,"Szegfüves sása, azaz szegfüves mártás",Undirected,569,,1
+bor,Õszibarack-torta,Undirected,570,,1
+bor,Másféle öntött birsalma-liktáriom,Undirected,571,,1
+bor,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,572,,1
+bor,"Veres csipke-liktáriom, azaz csipkebogyó-befőtt",Undirected,573,,1
+ethanol,aszúbor,Undirected,574,,1
+ethanol,édes bor,Undirected,575,,1
+ethanol,mézes bor,Undirected,576,,1
+ethanol,vörösbor,Undirected,577,,1
+ethanol,kenyértészta,Undirected,578,,1
+isoamyl alcohol,sör,Undirected,579,,1
+isoamyl alcohol,élesztő,Undirected,580,,1
+isoamyl alcohol,kovász,Undirected,581,,1
+phenylethyl alcohol,rózsavíz,Undirected,582,,1
+phenylethyl alcohol,rózsaolaj,Undirected,583,,1
+phenylethyl alcohol,élesztő,Undirected,584,,1
+phenylethyl alcohol,vörösbor,Undirected,585,,1
+phenylethyl alcohol,kovász,Undirected,586,,1
+phenylethyl alcohol,vörös rózsaszirom,Undirected,587,,1
+phenylethyl alcohol,rózsa,Undirected,588,,1
+phenylethyl alcohol,rózsaszirom,Undirected,589,,1
+linalool,gyömbér,Undirected,590,,1
+linalool,zsálya,Undirected,591,,1
+linalool,majoránna,Undirected,592,,1
+linalool,méz,Undirected,593,,1
+linalool,szerecsendió-virág,Undirected,594,,1
+linalool,dió,Undirected,595,,1
+linalool,mandula,Undirected,596,,1
+linalool,citrom,Undirected,597,,1
+linalool,fahéj,Undirected,598,,1
+linalool,szőlő,Undirected,599,,1
+linalool,zsályalevél,Undirected,600,,1
+linalool,gyümölcs,Undirected,601,,1
+linalool,meggy,Undirected,602,,1
+linalool,bodzavirág,Undirected,603,,1
+linalool,szilva,Undirected,604,,1
+linalool,barack,Undirected,605,,1
+linalool,birsalma,Undirected,606,,1
+linalool,aszalt szilva,Undirected,607,,1
+linalool,őszibarack,Undirected,608,,1
+linalool,apró vörös szőlő,Undirected,609,,1
+linalool,málna,Undirected,610,,1
+linalool,szőlőmust,Undirected,611,,1
+linalool,dióbél,Undirected,612,,1
+linalool,sárgabarack,Undirected,613,,1
+linalool,csipkebogyó,Undirected,614,,1
+linalool,meggylé,Undirected,615,,1
+Töltött káposzta,káposztalevél,Undirected,616,,1
+Töltött káposzta,marhahús,Undirected,617,,1
+Töltött káposzta,fekete bors,Undirected,618,,1
+Töltött káposzta,gyömbér,Undirected,619,,1
+Töltött káposzta,só,Undirected,620,,1
+marhahús,12-methyltridecanal,Undirected,621,,1
+marhahús,(E)-2-nonenal,Undirected,622,,1
+marhahús,nonanal,Undirected,623,,1
+marhahús,octanal,Undirected,624,,1
+marhahús,bis(2-methyl-3-furyl)disulfide,Undirected,625,,1
+marhahús,Káposztát közönséges módon,Undirected,626,,1
+marhahús,Tejfeles káposzta,Undirected,627,,1
+marhahús,Új káposzta szalonnával,Undirected,628,,1
+marhahús,Tehénhús rizskásával,Undirected,629,,1
+marhahús,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,630,,1
+marhahús,"Polyékával, azaz sült marhahúsból készült étellel",Undirected,631,,1
+marhahús,Vadalmával,Undirected,632,,1
+marhahús,Tormás téjfel,Undirected,633,,1
+marhahús,Laska,Undirected,634,,1
+marhahús,Tehénhús petrezselyemmel,Undirected,635,,1
+marhahús,Fokhagyma-lével,Undirected,636,,1
+marhahús,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,637,,1
+marhahús,Kenyér-kása,Undirected,638,,1
+marhahús,Kaporral,Undirected,639,,1
+marhahús,Keresdi lév,Undirected,640,,1
+marhahús,"Orjával, azaz a sertés hátgerincével",Undirected,641,,1
+marhahús,Mustos pecsenye,Undirected,642,,1
+marhahús,Sült,Undirected,643,,1
+marhahús,Füstölt pecsenye,Undirected,644,,1
+marhahús,Zsályás pecsenye,Undirected,645,,1
+marhahús,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,646,,1
+12-methyltridecanal,tehénhús,Undirected,647,,1
+12-methyltridecanal,főtt marhahús,Undirected,648,,1
+12-methyltridecanal,marhaláb,Undirected,649,,1
+12-methyltridecanal,marha tokahús és bőr,Undirected,650,,1
+12-methyltridecanal,marhanyelv,Undirected,651,,1
+12-methyltridecanal,borjúhús,Undirected,652,,1
+(E)-2-nonenal,avas zsír,Undirected,653,,1
+(E)-2-nonenal,tehénhús,Undirected,654,,1
+(E)-2-nonenal,tojás,Undirected,655,,1
+(E)-2-nonenal,sertéshús,Undirected,656,,1
+(E)-2-nonenal,disznóhús,Undirected,657,,1
+(E)-2-nonenal,borjúhús,Undirected,658,,1
+(E)-2-nonenal,zab,Undirected,659,,1
+(E)-2-nonenal,uborka,Undirected,660,,1
+nonanal,tehénhús,Undirected,661,,1
+nonanal,rizs,Undirected,662,,1
+nonanal,marhahúsleves,Undirected,663,,1
+nonanal,marha- vagy juhhúsleves,Undirected,664,,1
+nonanal,hús,Undirected,665,,1
+nonanal,háj,Undirected,666,,1
+nonanal,húsleves,Undirected,667,,1
+nonanal,zsír,Undirected,668,,1
+nonanal,húslé,Undirected,669,,1
+nonanal,vadhús,Undirected,670,,1
+nonanal,sertéshús,Undirected,671,,1
+nonanal,sertés orja (hátgerinc),Undirected,672,,1
+nonanal,tüdő,Undirected,673,,1
+nonanal,sertés keresztcsont,Undirected,674,,1
+nonanal,malachús,Undirected,675,,1
+nonanal,sertésvér,Undirected,676,,1
+nonanal,csirkevér,Undirected,677,,1
+nonanal,disznóhús,Undirected,678,,1
+nonanal,szarvashús,Undirected,679,,1
+nonanal,őzhús,Undirected,680,,1
+nonanal,malac,Undirected,681,,1
+nonanal,köles,Undirected,682,,1
+nonanal,főzőlé,Undirected,683,,1
+nonanal,egyéb hús,Undirected,684,,1
+nonanal,szalonnazsír,Undirected,685,,1
+nonanal,marhaláb,Undirected,686,,1
+nonanal,marha tokahús és bőr,Undirected,687,,1
+nonanal,juhtüdő,Undirected,688,,1
+nonanal,marhanyelv,Undirected,689,,1
+nonanal,tej,Undirected,690,,1
+nonanal,sertéshátgerinc,Undirected,691,,1
+nonanal,füstölt sonka,Undirected,692,,1
+nonanal,kása,Undirected,693,,1
+nonanal,olívaolaj,Undirected,694,,1
+nonanal,sertésháló (faggyúhártya),Undirected,695,,1
+nonanal,borjúhús,Undirected,696,,1
+nonanal,liba- vagy kacsaaprólék,Undirected,697,,1
+nonanal,malactüdő,Undirected,698,,1
+nonanal,sütnivaló hús,Undirected,699,,1
+nonanal,juhhúsleves,Undirected,700,,1
+nonanal,édes tej,Undirected,701,,1
+nonanal,laboda,Undirected,702,,1
+nonanal,bivalytej,Undirected,703,,1
+nonanal,sós tej,Undirected,704,,1
+nonanal,hideg tej,Undirected,705,,1
+nonanal,nagy lapu szára,Undirected,706,,1
+nonanal,kendermag,Undirected,707,,1
+nonanal,korpa,Undirected,708,,1
+nonanal,köleskása,Undirected,709,,1
+nonanal,növényi olaj,Undirected,710,,1
+nonanal,sertéssonka (sódar),Undirected,711,,1
+nonanal,sódar (füstölt sertéssonka),Undirected,712,,1
+nonanal,olajmag,Undirected,713,,1
+nonanal,sertésfej,Undirected,714,,1
+nonanal,sertésfül,Undirected,715,,1
+nonanal,sertésbőr,Undirected,716,,1
+nonanal,méhviasz,Undirected,717,,1
+octanal,bárányhús,Undirected,718,,1
+octanal,méhviasz,Undirected,719,,1
+bis(2-methyl-3-furyl)disulfide,tehénhús,Undirected,720,,1
+bis(2-methyl-3-furyl)disulfide,főtt marhahús,Undirected,721,,1
+fekete bors,Káposztát közönséges módon,Undirected,722,,1
+fekete bors,Tehénhús rizskásával,Undirected,723,,1
+fekete bors,Laska,Undirected,724,,1
+fekete bors,Répával,Undirected,725,,1
+fekete bors,Tüdő rántva,Undirected,726,,1
+fekete bors,Tüdõ-étek,Undirected,727,,1
+fekete bors,Lábból való saláta,Undirected,728,,1
+fekete bors,Töltelék,Undirected,729,,1
+fekete bors,Veres béles,Undirected,730,,1
+fekete bors,"Tejes klödör, azaz tejes gombóc",Undirected,731,,1
+fekete bors,Vereshagymát fõzni,Undirected,732,,1
+fekete bors,Koldus-lév,Undirected,733,,1
+fekete bors,Zsákvászonnal,Undirected,734,,1
+fekete bors,Disznófőből való sajt,Undirected,735,,1
+gyömbér,zingiberene,Undirected,736,,1
+gyömbér,ar-curcumene,Undirected,737,,1
+gyömbér,β-sesquiphellandrene,Undirected,738,,1
+gyömbér,gingerol,Undirected,739,,1
+gyömbér,shogaol,Undirected,740,,1
+gyömbér,citral,Undirected,741,,1
+gyömbér,borneol,Undirected,742,,1
+gyömbér,"1,8-cineole",Undirected,743,,1
+gyömbér,camphene,Undirected,744,,1
+gyömbér,geranial,Undirected,745,,1
+gyömbér,neral,Undirected,746,,1
+gyömbér,Tehénhús árpa-kásával,Undirected,747,,1
+gyömbér,Tehénhús rizskásával,Undirected,748,,1
+gyömbér,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,749,,1
+gyömbér,Tehénhús tiszta borssal,Undirected,750,,1
+gyömbér,Laska,Undirected,751,,1
+gyömbér,Törött lév,Undirected,752,,1
+gyömbér,Savanyú lév,Undirected,753,,1
+gyömbér,Német lév,Undirected,754,,1
+gyömbér,Röstölt lév,Undirected,755,,1
+gyömbér,Tüdő rántva,Undirected,756,,1
+gyömbér,Fokhagyma-lével,Undirected,757,,1
+gyömbér,Spékkel,Undirected,758,,1
+gyömbér,Egressel,Undirected,759,,1
+gyömbér,Tyúk tiszta borssal,Undirected,760,,1
+gyömbér,Fekete lév,Undirected,761,,1
+gyömbér,Másképpen ugyanez,Undirected,762,,1
+gyömbér,"Klödör, azaz gombóc",Undirected,763,,1
+gyömbér,Pástétom-lével,Undirected,764,,1
+gyömbér,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,765,,1
+gyömbér,"Pikáda, azaz fűszerezett hússzelet",Undirected,766,,1
+gyömbér,Kenyér-kása,Undirected,767,,1
+gyömbér,Éles lév,Undirected,768,,1
+gyömbér,Tüdőkása,Undirected,769,,1
+gyömbér,Magyar lév,Undirected,770,,1
+gyömbér,Kocka-lév,Undirected,771,,1
+gyömbér,Ludas kása,Undirected,772,,1
+gyömbér,Töltött tyúk,Undirected,773,,1
+gyömbér,Balázs-lév,Undirected,774,,1
+gyömbér,"Zsufa, azaz savanyú mártás",Undirected,775,,1
+gyömbér,Vendég-lév,Undirected,776,,1
+gyömbér,Majoránna-lév,Undirected,777,,1
+gyömbér,Tüdõ-étek,Undirected,778,,1
+gyömbér,Keresdi lév,Undirected,779,,1
+gyömbér,Nyelvet főzni,Undirected,780,,1
+gyömbér,Bárányhúst német módon,Undirected,781,,1
+gyömbér,Savanyú pecsenye,Undirected,782,,1
+gyömbér,Luther-lév,Undirected,783,,1
+gyömbér,"Lapos tüdő, máj",Undirected,784,,1
+gyömbér,Téjfellel,Undirected,785,,1
+gyömbér,Szürke lév,Undirected,786,,1
+gyömbér,Gombát fõzni,Undirected,787,,1
+gyömbér,Karbonáta,Undirected,788,,1
+gyömbér,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,789,,1
+gyömbér,Madár-lév,Undirected,790,,1
+gyömbér,Citrom-lév,Undirected,791,,1
+gyömbér,Gyümölcs-lév,Undirected,792,,1
+gyömbér,Szegfüves lév,Undirected,793,,1
+gyömbér,Bors-porral,Undirected,794,,1
+gyömbér,Gyömbéres lév,Undirected,795,,1
+gyömbér,Mikó-lév,Undirected,796,,1
+gyömbér,"Leány-sarjával, azaz friss tormahajtással",Undirected,797,,1
+gyömbér,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,798,,1
+gyömbér,Cifra lév,Undirected,799,,1
+gyömbér,Váradi lév,Undirected,800,,1
+gyömbér,Töltött malac,Undirected,801,,1
+gyömbér,Bárányhús pirítva,Undirected,802,,1
+gyömbér,Töltelék,Undirected,803,,1
+gyömbér,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,804,,1
+gyömbér,Sült pástétom,Undirected,805,,1
+gyömbér,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,806,,1
+gyömbér,"Vajas klödör, azaz vajas gombóc",Undirected,807,,1
+gyömbér,Írós lév,Undirected,808,,1
+gyömbér,Zólnai lév,Undirected,809,,1
+gyömbér,Veres béles,Undirected,810,,1
+gyömbér,Kenyér-torta,Undirected,811,,1
+gyömbér,Hal téjfellel,Undirected,812,,1
+gyömbér,Olasz kolbász,Undirected,813,,1
+gyömbér,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,814,,1
+gyömbér,"Tejes klödör, azaz tejes gombóc",Undirected,815,,1
+gyömbér,Hajtott tejes étek,Undirected,816,,1
+gyömbér,Vereshagymát fõzni,Undirected,817,,1
+gyömbér,Boros kenyér,Undirected,818,,1
+gyömbér,"Tyúkmony-lév, azaz tojás-lé",Undirected,819,,1
+gyömbér,Német rántott,Undirected,820,,1
+gyömbér,Boros leves,Undirected,821,,1
+gyömbér,Rák töltve,Undirected,822,,1
+gyömbér,Alma-fánk,Undirected,823,,1
+gyömbér,Szilvás béles,Undirected,824,,1
+gyömbér,Rák-sajt,Undirected,825,,1
+gyömbér,Szilvás cipó,Undirected,826,,1
+gyömbér,Palástos rizskása,Undirected,827,,1
+gyömbér,Zuppon,Undirected,828,,1
+gyömbér,Koldus-lév,Undirected,829,,1
+gyömbér,Ég-lév,Undirected,830,,1
+gyömbér,Zsákvászonnal,Undirected,831,,1
+gyömbér,Gutta-lév,Undirected,832,,1
+gyömbér,Lengyel cibre,Undirected,833,,1
+gyömbér,"Körtvély fõve, azaz körte fõzve",Undirected,834,,1
+gyömbér,Bot-lév,Undirected,835,,1
+gyömbér,Ikrát főzni,Undirected,836,,1
+gyömbér,Borsóleves,Undirected,837,,1
+gyömbér,Lencseleves,Undirected,838,,1
+gyömbér,Hal rizskásával,Undirected,839,,1
+gyömbér,Olaj-spék,Undirected,840,,1
+gyömbér,"Cicer, azaz bagoly-borsó",Undirected,841,,1
+gyömbér,"Lémonyával, azaz citrommal",Undirected,842,,1
+gyömbér,Törött lével hal,Undirected,843,,1
+gyömbér,Csukát csuka-lével,Undirected,844,,1
+gyömbér,Kozák-lével,Undirected,845,,1
+gyömbér,Zöld lével,Undirected,846,,1
+gyömbér,Ecetes cibre,Undirected,847,,1
+gyömbér,Hal fekete lével,Undirected,848,,1
+gyömbér,Zuppon-lév,Undirected,849,,1
+gyömbér,Tiszta borssal,Undirected,850,,1
+gyömbér,Vizát viza-lével,Undirected,851,,1
+gyömbér,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,852,,1
+gyömbér,Borított lév,Undirected,853,,1
+gyömbér,Olajos lév,Undirected,854,,1
+gyömbér,Rák tehénhús-lévben,Undirected,855,,1
+gyömbér,"Tyúkfi, azaz csirke cipóban való",Undirected,856,,1
+gyömbér,Báránybél édes téjjel,Undirected,857,,1
+gyömbér,Sódar gyümölcsös lével,Undirected,858,,1
+gyömbér,Sódar szegfüves lével,Undirected,859,,1
+gyömbér,Malac hidegen,Undirected,860,,1
+gyömbér,Hagyma lével,Undirected,861,,1
+gyömbér,"Kolbász, lévre",Undirected,862,,1
+gyömbér,Rizskása tejben,Undirected,863,,1
+gyömbér,"Gyömbéres sása, azaz gyömbéres mártás",Undirected,864,,1
+gyömbér,Dinnye-torta,Undirected,865,,1
+gyömbér,Más birsalma-liktáriom borral s fûszerszámmal,Undirected,866,,1
+gyömbér,Eleven gyömbért így csinálj,Undirected,867,,1
+gyömbér,Disznófőből való sajt,Undirected,868,,1
+gyömbér,Zsemlye-galuska,Undirected,869,,1
+citral,citromlé,Undirected,870,,1
+citral,citrom,Undirected,871,,1
+citral,sózott citrom,Undirected,872,,1
+citral,citromhéj,Undirected,873,,1
+citral,reszelt citromhéj,Undirected,874,,1
+borneol,zsálya,Undirected,875,,1
+borneol,zsályalevél,Undirected,876,,1
+"1,8-cineole",zsálya,Undirected,877,,1
+"1,8-cineole",zsályalevél,Undirected,878,,1
+camphene,zsálya,Undirected,879,,1
+camphene,zsályalevél,Undirected,880,,1
+geranial,citromhéj,Undirected,881,,1
+geranial,reszelt citromhéj,Undirected,882,,1
+neral,citromhéj,Undirected,883,,1
+neral,reszelt citromhéj,Undirected,884,,1
+só,Tehénhús tiszta borssal,Undirected,885,,1
+só,Kaszás lév,Undirected,886,,1
+só,Vadalmával,Undirected,887,,1
+só,Tehénhús tormával,Undirected,888,,1
+só,Tormás téjfel,Undirected,889,,1
+só,Törött lév,Undirected,890,,1
+só,Tehénhús petrezselyemmel,Undirected,891,,1
+só,Máj rántva,Undirected,892,,1
+só,Spékkel,Undirected,893,,1
+só,Tyúk tiszta borssal,Undirected,894,,1
+só,Fekete lév,Undirected,895,,1
+só,"Klödör, azaz gombóc",Undirected,896,,1
+só,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,897,,1
+só,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,898,,1
+só,Éles lév,Undirected,899,,1
+só,"Tyúkfi, azaz csirke sóban",Undirected,900,,1
+só,Ludas kása,Undirected,901,,1
+só,Sárga lév,Undirected,902,,1
+só,Töltött tyúk,Undirected,903,,1
+só,Balázs-lév,Undirected,904,,1
+só,"Zsufa, azaz savanyú mártás",Undirected,905,,1
+só,Bárányfő rántva,Undirected,906,,1
+só,Vendég-lév,Undirected,907,,1
+só,Galuska,Undirected,908,,1
+só,Kocsonya,Undirected,909,,1
+só,"Kutkusa, azaz juhbélből készült étel",Undirected,910,,1
+só,Lábból való saláta,Undirected,911,,1
+só,Nyelvet főzni,Undirected,912,,1
+só,"Ecettel, hagymával",Undirected,913,,1
+só,Bárányhúst német módon,Undirected,914,,1
+só,Bárányfő hidegen,Undirected,915,,1
+só,Luther-lév,Undirected,916,,1
+só,Téjfellel,Undirected,917,,1
+só,"Orjával, azaz a sertés hátgerincével",Undirected,918,,1
+só,"Leány-sarjával, azaz friss tormahajtással",Undirected,919,,1
+só,Cifra lév,Undirected,920,,1
+só,Bárányhús pirítva,Undirected,921,,1
+só,Sült pástétom,Undirected,922,,1
+só,Húst bésózni,Undirected,923,,1
+só,Írós lév,Undirected,924,,1
+só,Zólnai lév,Undirected,925,,1
+só,Kenyér-torta,Undirected,926,,1
+só,Bába-kenyér,Undirected,927,,1
+só,Rák tejföllel,Undirected,928,,1
+só,Hal téjfellel,Undirected,929,,1
+só,"Tejes klödör, azaz tejes gombóc",Undirected,930,,1
+só,Vagdalt étek,Undirected,931,,1
+só,Tálban főtt tejes étek,Undirected,932,,1
+só,Borza-kása,Undirected,933,,1
+só,Vereshagymát fõzni,Undirected,934,,1
+só,Olasz káposzta,Undirected,935,,1
+só,Hüvelyes borsó,Undirected,936,,1
+só,"Murok, azaz sárgarépa tejjel",Undirected,937,,1
+só,Német rántott,Undirected,938,,1
+só,Serleves,Undirected,939,,1
+só,Lapos tészta,Undirected,940,,1
+só,Tolyó-fánk,Undirected,941,,1
+só,Palacsinta,Undirected,942,,1
+só,"Disilber, azaz tojásétel",Undirected,943,,1
+só,Rák-sajt,Undirected,944,,1
+só,Rántott rák,Undirected,945,,1
+só,Rák tejfellel,Undirected,946,,1
+só,"Mondola-sása, azaz mandula-mártás",Undirected,947,,1
+só,Tölcséres fánk,Undirected,948,,1
+só,Barack-fánk,Undirected,949,,1
+só,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,950,,1
+só,Vízleves,Undirected,951,,1
+só,"Domika, azaz túróból és kenyérből készített étel",Undirected,952,,1
+só,Pép,Undirected,953,,1
+só,Lyukas kása,Undirected,954,,1
+só,Gutta-lév,Undirected,955,,1
+só,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,956,,1
+só,Torzsa-saláta,Undirected,957,,1
+só,Ugorka-saláta,Undirected,958,,1
+só,Miskuláncia-saláta,Undirected,959,,1
+só,"Mondola-lév, azaz mandula-lé",Undirected,960,,1
+só,Kendermag-cibre,Undirected,961,,1
+só,Ikrát főzni,Undirected,962,,1
+só,Nyers káposzta-saláta,Undirected,963,,1
+só,Párolt rák,Undirected,964,,1
+só,Ugorkát télre sózni,Undirected,965,,1
+só,Fenyőgombát főzni,Undirected,966,,1
+só,Kínzott kása,Undirected,967,,1
+só,Olaj-spék,Undirected,968,,1
+só,"Lémonyával, azaz citrommal",Undirected,969,,1
+só,Törött lével hal,Undirected,970,,1
+só,Csukát csuka-lével,Undirected,971,,1
+só,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,972,,1
+só,Zöld lével,Undirected,973,,1
+só,Ecetes cibre,Undirected,974,,1
+só,Hal fekete lével,Undirected,975,,1
+só,Zuppon-lév,Undirected,976,,1
+só,Tiszta borssal,Undirected,977,,1
+só,Vizát viza-lével,Undirected,978,,1
+só,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,979,,1
+só,Kása olajjal,Undirected,980,,1
+só,Borsó laskával,Undirected,981,,1
+só,Hagyma rántva,Undirected,982,,1
+só,"Lása, azaz laskagomba",Undirected,983,,1
+só,Sós víz,Undirected,984,,1
+só,Báránybél édes téjjel,Undirected,985,,1
+só,Malac hidegen,Undirected,986,,1
+só,Rizskása tejben,Undirected,987,,1
+só,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,988,,1
+só,Zsemlye-galuska,Undirected,989,,1
+Káposztát közönséges módon,bárányhús,Undirected,990,,1
+Káposztát közönséges módon,avas zsír,Undirected,991,,1
+bárányhús,4-methyloctanoic acid,Undirected,992,,1
+bárányhús,4-methylnonanoic acid,Undirected,993,,1
+bárányhús,4-methylphenol,Undirected,994,,1
+bárányhús,p-cresol,Undirected,995,,1
+bárányhús,Tárkonnyal,Undirected,996,,1
+bárányhús,"Zsufa, azaz savanyú mártás",Undirected,997,,1
+bárányhús,Bárányhúst német módon,Undirected,998,,1
+bárányhús,Bárányhús pirítva,Undirected,999,,1
+4-methyloctanoic acid,juhhús,Undirected,1000,,1
+4-methyloctanoic acid,juhfej,Undirected,1001,,1
+4-methyloctanoic acid,juhláb,Undirected,1002,,1
+4-methyloctanoic acid,ürü,Undirected,1003,,1
+4-methyloctanoic acid,bárányfej,Undirected,1004,,1
+4-methyloctanoic acid,bárányláb,Undirected,1005,,1
+4-methyloctanoic acid,juhbél,Undirected,1006,,1
+4-methyloctanoic acid,juhgyomor,Undirected,1007,,1
+4-methyloctanoic acid,juh vastagbél,Undirected,1008,,1
+4-methyloctanoic acid,bárány,Undirected,1009,,1
+4-methyloctanoic acid,báránymáj,Undirected,1010,,1
+4-methylnonanoic acid,juhhús,Undirected,1011,,1
+4-methylnonanoic acid,ürü,Undirected,1012,,1
+4-methylnonanoic acid,bárány,Undirected,1013,,1
+p-cresol,juhhús,Undirected,1014,,1
+p-cresol,juhfej,Undirected,1015,,1
+p-cresol,juhláb,Undirected,1016,,1
+p-cresol,ürü,Undirected,1017,,1
+p-cresol,bárányfej,Undirected,1018,,1
+p-cresol,bárányláb,Undirected,1019,,1
+p-cresol,juhbél,Undirected,1020,,1
+p-cresol,juhgyomor,Undirected,1021,,1
+p-cresol,juh vastagbél,Undirected,1022,,1
+p-cresol,bárány,Undirected,1023,,1
+avas zsír,decanal,Undirected,1024,,1
+decanal,háj,Undirected,1025,,1
+decanal,sertésháló (faggyúhártya),Undirected,1026,,1
+decanal,sertésbőr,Undirected,1027,,1
+decanal,méhviasz,Undirected,1028,,1
+Tejfeles káposzta,tejföl,Undirected,1029,,1
+tejföl,diacetyl,Undirected,1030,,1
+tejföl,acetoin,Undirected,1031,,1
+tejföl,butanoic acid,Undirected,1032,,1
+tejföl,δ-decalactone,Undirected,1033,,1
+tejföl,Tormás téjfel,Undirected,1034,,1
+tejföl,Egressel,Undirected,1035,,1
+tejföl,Tejes borsó,Undirected,1036,,1
+tejföl,Téjfellel,Undirected,1037,,1
+tejföl,Téjfel-kenyér,Undirected,1038,,1
+tejföl,Cseh rántott,Undirected,1039,,1
+tejföl,Kenyér-torta,Undirected,1040,,1
+tejföl,Bába-kenyér,Undirected,1041,,1
+tejföl,Rák tejföllel,Undirected,1042,,1
+tejföl,Hal téjfellel,Undirected,1043,,1
+tejföl,"Boros szérdék, azaz boros aludttej",Undirected,1044,,1
+tejföl,Túrós étek,Undirected,1045,,1
+tejföl,Tálban főtt tejes étek,Undirected,1046,,1
+tejföl,Serleves,Undirected,1047,,1
+tejföl,Rák tejfellel,Undirected,1048,,1
+tejföl,Tejfeles túró,Undirected,1049,,1
+tejföl,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,1050,,1
+tejföl,Azonban ezek is jók,Undirected,1051,,1
+tejföl,Báránybél édes téjjel,Undirected,1052,,1
+diacetyl,vaj,Undirected,1053,,1
+diacetyl,aludttej,Undirected,1054,,1
+diacetyl,túró,Undirected,1055,,1
+diacetyl,írós vaj,Undirected,1056,,1
+diacetyl,édes aludttej,Undirected,1057,,1
+diacetyl,édes orda,Undirected,1058,,1
+diacetyl,sós orda,Undirected,1059,,1
+diacetyl,új édes sajt,Undirected,1060,,1
+diacetyl,orda,Undirected,1061,,1
+diacetyl,lágy túró,Undirected,1062,,1
+diacetyl,kovász,Undirected,1063,,1
+diacetyl,kenyértészta,Undirected,1064,,1
+acetoin,ecet,Undirected,1065,,1
+acetoin,vaj,Undirected,1066,,1
+acetoin,aludttej,Undirected,1067,,1
+acetoin,túró,Undirected,1068,,1
+acetoin,írós vaj,Undirected,1069,,1
+acetoin,édes aludttej,Undirected,1070,,1
+acetoin,lágy túró,Undirected,1071,,1
+butanoic acid,savanyú alma,Undirected,1072,,1
+butanoic acid,vaj,Undirected,1073,,1
+butanoic acid,sajt,Undirected,1074,,1
+butanoic acid,túró,Undirected,1075,,1
+butanoic acid,írós vaj,Undirected,1076,,1
+butanoic acid,kemény sajt,Undirected,1077,,1
+butanoic acid,új édes sajt,Undirected,1078,,1
+butanoic acid,orda,Undirected,1079,,1
+δ-decalactone,vaj,Undirected,1080,,1
+δ-decalactone,sajt,Undirected,1081,,1
+δ-decalactone,tej,Undirected,1082,,1
+δ-decalactone,édes tej,Undirected,1083,,1
+δ-decalactone,túró,Undirected,1084,,1
+δ-decalactone,bivalytej,Undirected,1085,,1
+δ-decalactone,sós tej,Undirected,1086,,1
+δ-decalactone,írós vaj,Undirected,1087,,1
+δ-decalactone,kemény sajt,Undirected,1088,,1
+δ-decalactone,hideg tej,Undirected,1089,,1
+Új káposzta szalonnával,új káposzta,Undirected,1090,,1
+Új káposzta szalonnával,juhhús,Undirected,1091,,1
+Új káposzta szalonnával,ecet,Undirected,1092,,1
+Új káposzta szalonnával,borkő,Undirected,1093,,1
+új káposzta,dimethyl trisulfide,Undirected,1094,,1
+új káposzta,Új káposzta tejben,Undirected,1095,,1
+dimethyl trisulfide,máj,Undirected,1096,,1
+dimethyl trisulfide,főtt tojás,Undirected,1097,,1
+dimethyl trisulfide,borjúmáj,Undirected,1098,,1
+dimethyl trisulfide,báránymáj,Undirected,1099,,1
+dimethyl trisulfide,malacmáj,Undirected,1100,,1
+dimethyl trisulfide,káposzta,Undirected,1101,,1
+dimethyl trisulfide,fejes káposzta,Undirected,1102,,1
+dimethyl trisulfide,kék káposzta,Undirected,1103,,1
+juhhús,Fokhagyma-lével,Undirected,1104,,1
+juhhús,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1105,,1
+juhhús,"Pikáda, azaz fűszerezett hússzelet",Undirected,1106,,1
+juhhús,Kenyér-kása,Undirected,1107,,1
+juhhús,Kaporral,Undirected,1108,,1
+juhhús,"Orjával, azaz a sertés hátgerincével",Undirected,1109,,1
+juhhús,Mustos pecsenye,Undirected,1110,,1
+juhhús,Sült,Undirected,1111,,1
+ecet,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,1112,,1
+ecet,Kaszás lév,Undirected,1113,,1
+ecet,Tormás téjfel,Undirected,1114,,1
+ecet,Savanyú lév,Undirected,1115,,1
+ecet,Német lév,Undirected,1116,,1
+ecet,Röstölt lév,Undirected,1117,,1
+ecet,Fokhagyma-lével,Undirected,1118,,1
+ecet,Fekete lév,Undirected,1119,,1
+ecet,Másképpen ugyanez,Undirected,1120,,1
+ecet,Pástétom-lével,Undirected,1121,,1
+ecet,"Berbécsfő, azaz juhfej",Undirected,1122,,1
+ecet,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,1123,,1
+ecet,Tüdőkása,Undirected,1124,,1
+ecet,"Tyúkfi, azaz csirke sóban",Undirected,1125,,1
+ecet,Tárkonnyal,Undirected,1126,,1
+ecet,Kaporral,Undirected,1127,,1
+ecet,Balázs-lév,Undirected,1128,,1
+ecet,"Zsufa, azaz savanyú mártás",Undirected,1129,,1
+ecet,Majoránna-lév,Undirected,1130,,1
+ecet,Tüdõ-étek,Undirected,1131,,1
+ecet,Kocsonya,Undirected,1132,,1
+ecet,Lábból való saláta,Undirected,1133,,1
+ecet,Savanyú pecsenye,Undirected,1134,,1
+ecet,Bárányfő hidegen,Undirected,1135,,1
+ecet,Luther-lév,Undirected,1136,,1
+ecet,Szürke lév,Undirected,1137,,1
+ecet,Sült lév,Undirected,1138,,1
+ecet,Karbonáta,Undirected,1139,,1
+ecet,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,1140,,1
+ecet,Madár-lév,Undirected,1141,,1
+ecet,Citrom-lév,Undirected,1142,,1
+ecet,Bors-porral,Undirected,1143,,1
+ecet,"Leány-sarjával, azaz friss tormahajtással",Undirected,1144,,1
+ecet,Cifra lév,Undirected,1145,,1
+ecet,"Dió-sása, azaz dió-mártás",Undirected,1146,,1
+ecet,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,1147,,1
+ecet,Húst bésózni,Undirected,1148,,1
+ecet,Írós lév,Undirected,1149,,1
+ecet,Hal téjfellel,Undirected,1150,,1
+ecet,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,1151,,1
+ecet,"Mondola-sása, azaz mandula-mártás",Undirected,1152,,1
+ecet,Gutta-lév,Undirected,1153,,1
+ecet,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,1154,,1
+ecet,Saláta,Undirected,1155,,1
+ecet,Torzsa-saláta,Undirected,1156,,1
+ecet,Ugorka-saláta,Undirected,1157,,1
+ecet,Kendermag-cibre,Undirected,1158,,1
+ecet,Nyers káposzta-saláta,Undirected,1159,,1
+ecet,Ugorkát télre sózni,Undirected,1160,,1
+ecet,Fenyőgombát főzni,Undirected,1161,,1
+ecet,Lencseleves,Undirected,1162,,1
+ecet,Olaj-spék,Undirected,1163,,1
+ecet,Csukát csuka-lével,Undirected,1164,,1
+ecet,Ecetes cibre,Undirected,1165,,1
+ecet,Hal fekete lével,Undirected,1166,,1
+ecet,Zuppon-lév,Undirected,1167,,1
+ecet,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,1168,,1
+ecet,Viza ikra,Undirected,1169,,1
+ecet,Új káposzta,Undirected,1170,,1
+ecet,Sódar gyümölcsös lével,Undirected,1171,,1
+ecet,Malac hidegen,Undirected,1172,,1
+ecet,Tyúk-saláta,Undirected,1173,,1
+ecet,Hagyma lével,Undirected,1174,,1
+ecet,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,1175,,1
+ecet,"Szegfüves sása, azaz szegfüves mártás",Undirected,1176,,1
+borkő,Új káposzta,Undirected,1177,,1
+borkő,"Tyúkfi, azaz csirke borkőben való",Undirected,1178,,1
+Tehénhús árpa-kásával,tehénhús,Undirected,1179,,1
+Tehénhús árpa-kásával,árpagyöngy,Undirected,1180,,1
+Tehénhús árpa-kásával,petrezselyemlevél,Undirected,1181,,1
+Tehénhús árpa-kásával,petrezselyemgyökér,Undirected,1182,,1
+Tehénhús árpa-kásával,citromlé,Undirected,1183,,1
+Tehénhús árpa-kásával,víz,Undirected,1184,,1
+tehénhús,Tehénhús tiszta borssal,Undirected,1185,,1
+tehénhús,Tehénhús tormával,Undirected,1186,,1
+árpagyöngy,3-methylbutanal,Undirected,1187,,1
+árpagyöngy,"2,3-butanedione",Undirected,1188,,1
+árpagyöngy,Árpa-kása,Undirected,1189,,1
+3-methylbutanal,fehér kenyér,Undirected,1190,,1
+3-methylbutanal,kenyér,Undirected,1191,,1
+3-methylbutanal,kenyérbél,Undirected,1192,,1
+3-methylbutanal,kenyér (bél),Undirected,1193,,1
+3-methylbutanal,fehér kenyérbél,Undirected,1194,,1
+3-methylbutanal,cipó,Undirected,1195,,1
+3-methylbutanal,vízben áztatott kenyér,Undirected,1196,,1
+3-methylbutanal,kenyércipó,Undirected,1197,,1
+petrezselyemlevél,myristicin,Undirected,1198,,1
+petrezselyemlevél,apiole,Undirected,1199,,1
+petrezselyemlevél,"1,3,8-p-menthatriene",Undirected,1200,,1
+petrezselyemlevél,Vadalmával,Undirected,1201,,1
+petrezselyemlevél,Tormás téjfel,Undirected,1202,,1
+petrezselyemlevél,Tyúk tiszta borssal,Undirected,1203,,1
+petrezselyemlevél,Kenyér-kása,Undirected,1204,,1
+petrezselyemlevél,"Tyúkfi, azaz csirke sóban",Undirected,1205,,1
+petrezselyemlevél,Töltött tyúk,Undirected,1206,,1
+petrezselyemlevél,Lábból való saláta,Undirected,1207,,1
+petrezselyemlevél,Bárányfő hidegen,Undirected,1208,,1
+petrezselyemlevél,"Lapos tüdő, máj",Undirected,1209,,1
+petrezselyemlevél,Téjfellel,Undirected,1210,,1
+petrezselyemlevél,Mikó-lév,Undirected,1211,,1
+petrezselyemlevél,Töltelék,Undirected,1212,,1
+petrezselyemlevél,"Vajas klödör, azaz vajas gombóc",Undirected,1213,,1
+petrezselyemlevél,Zólnai lév,Undirected,1214,,1
+petrezselyemlevél,Rák tejföllel,Undirected,1215,,1
+petrezselyemlevél,Hal téjfellel,Undirected,1216,,1
+petrezselyemlevél,Vereshagymát fõzni,Undirected,1217,,1
+petrezselyemlevél,Rák töltve,Undirected,1218,,1
+petrezselyemlevél,Miskuláncia-saláta,Undirected,1219,,1
+petrezselyemlevél,Párolt rák,Undirected,1220,,1
+petrezselyemlevél,"Cicer, azaz bagoly-borsó",Undirected,1221,,1
+petrezselyemlevél,Zöld lével,Undirected,1222,,1
+petrezselyemlevél,"Kolbász, lévre",Undirected,1223,,1
+myristicin,petrezselyemgyökér,Undirected,1224,,1
+myristicin,petrezselyem,Undirected,1225,,1
+myristicin,petrezselyemzöld,Undirected,1226,,1
+myristicin,szerecsendió-virág,Undirected,1227,,1
+myristicin,zöld petrezselyem,Undirected,1228,,1
+myristicin,kapor,Undirected,1229,,1
+myristicin,friss kapor,Undirected,1230,,1
+myristicin,szerecsendió,Undirected,1231,,1
+apiole,petrezselyemgyökér,Undirected,1232,,1
+apiole,petrezselyem,Undirected,1233,,1
+apiole,petrezselyemzöld,Undirected,1234,,1
+apiole,zöld petrezselyem,Undirected,1235,,1
+"1,3,8-p-menthatriene",petrezselyem,Undirected,1236,,1
+"1,3,8-p-menthatriene",petrezselyemzöld,Undirected,1237,,1
+"1,3,8-p-menthatriene",zöld petrezselyem,Undirected,1238,,1
+petrezselyemgyökér,falcarinol,Undirected,1239,,1
+petrezselyemgyökér,Tehénhús rizskásával,Undirected,1240,,1
+petrezselyemgyökér,Tehénhús tormával,Undirected,1241,,1
+petrezselyemgyökér,Tormás téjfel,Undirected,1242,,1
+petrezselyemgyökér,Törött lév,Undirected,1243,,1
+petrezselyemgyökér,Német lév,Undirected,1244,,1
+petrezselyemgyökér,Tyúk tiszta borssal,Undirected,1245,,1
+petrezselyemgyökér,Pástétom-lével,Undirected,1246,,1
+petrezselyemgyökér,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1247,,1
+petrezselyemgyökér,Kenyér-kása,Undirected,1248,,1
+petrezselyemgyökér,Magyar lév,Undirected,1249,,1
+petrezselyemgyökér,Balázs-lév,Undirected,1250,,1
+petrezselyemgyökér,Keresdi lév,Undirected,1251,,1
+petrezselyemgyökér,"Ecettel, hagymával",Undirected,1252,,1
+petrezselyemgyökér,Bárányhúst német módon,Undirected,1253,,1
+petrezselyemgyökér,"Lapos tüdő, máj",Undirected,1254,,1
+petrezselyemgyökér,Szürke lév,Undirected,1255,,1
+petrezselyemgyökér,Zólnai lév,Undirected,1256,,1
+petrezselyemgyökér,Rák tejföllel,Undirected,1257,,1
+petrezselyemgyökér,Hal téjfellel,Undirected,1258,,1
+petrezselyemgyökér,Zuppon,Undirected,1259,,1
+petrezselyemgyökér,Borsóleves,Undirected,1260,,1
+petrezselyemgyökér,Lencseleves,Undirected,1261,,1
+petrezselyemgyökér,Hal rizskásával,Undirected,1262,,1
+petrezselyemgyökér,"Cicer, azaz bagoly-borsó",Undirected,1263,,1
+petrezselyemgyökér,Törött lével hal,Undirected,1264,,1
+petrezselyemgyökér,Tiszta borssal,Undirected,1265,,1
+petrezselyemgyökér,Borított lév,Undirected,1266,,1
+petrezselyemgyökér,"Kolbász, lévre",Undirected,1267,,1
+citromlé,ascorbic acid,Undirected,1268,,1
+citromlé,Pástétom-lével,Undirected,1269,,1
+citromlé,Keresdi lév,Undirected,1270,,1
+citromlé,Szürke lév,Undirected,1271,,1
+citromlé,Madár-lév,Undirected,1272,,1
+citromlé,Citrom-lév,Undirected,1273,,1
+citromlé,Írós lév,Undirected,1274,,1
+citromlé,"Tyúkfi, azaz csirke cipóban való",Undirected,1275,,1
+citromlé,"Mondola-pogácsa, azaz mandula-pogácsa",Undirected,1276,,1
+citromlé,"Apró veres szõlõ-, málna-, eper-liktáriomok",Undirected,1277,,1
+citromlé,Fényes birsalma-liktárium,Undirected,1278,,1
+citromlé,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,1279,,1
+citromlé,Rózsa-liktáriom,Undirected,1280,,1
+citromlé,Másképpen így főzd,Undirected,1281,,1
+citromlé,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,1282,,1
+citromlé,A citrom-pogácsát tiszta nádcukorból így csináld,Undirected,1283,,1
+citromlé,"Tengeri szõlõbõl, azaz ribizlibõl, meggybõl, sóskából is így csináld; csakhogy,",Undirected,1284,,1
+víz,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,1285,,1
+víz,Tehénhús tiszta borssal,Undirected,1286,,1
+víz,Kaszás lév,Undirected,1287,,1
+víz,Vadalmával,Undirected,1288,,1
+víz,Tehénhús tormával,Undirected,1289,,1
+víz,Tormás téjfel,Undirected,1290,,1
+víz,Laska,Undirected,1291,,1
+víz,Törött lév,Undirected,1292,,1
+víz,Tehénhús petrezselyemmel,Undirected,1293,,1
+víz,"Murokkal, azaz sárgarépával",Undirected,1294,,1
+víz,Máj rántva,Undirected,1295,,1
+víz,Tüdő rántva,Undirected,1296,,1
+víz,Fokhagyma-lével,Undirected,1297,,1
+víz,Spékkel,Undirected,1298,,1
+víz,Tyúk tiszta borssal,Undirected,1299,,1
+víz,Fekete lév,Undirected,1300,,1
+víz,"Klödör, azaz gombóc",Undirected,1301,,1
+víz,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,1302,,1
+víz,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1303,,1
+víz,Éles lév,Undirected,1304,,1
+víz,Ludas kása,Undirected,1305,,1
+víz,Balázs-lév,Undirected,1306,,1
+víz,"Zsufa, azaz savanyú mártás",Undirected,1307,,1
+víz,Bárányfő rántva,Undirected,1308,,1
+víz,Vendég-lév,Undirected,1309,,1
+víz,Galuska,Undirected,1310,,1
+víz,Kocsonya,Undirected,1311,,1
+víz,Lábból való saláta,Undirected,1312,,1
+víz,Nyelvet főzni,Undirected,1313,,1
+víz,"Ecettel, hagymával",Undirected,1314,,1
+víz,Bárányhúst német módon,Undirected,1315,,1
+víz,Luther-lév,Undirected,1316,,1
+víz,"Lapos tüdő, máj",Undirected,1317,,1
+víz,"Orjával, azaz a sertés hátgerincével",Undirected,1318,,1
+víz,Gombát fõzni,Undirected,1319,,1
+víz,Sült lév,Undirected,1320,,1
+víz,Vadhús sülve,Undirected,1321,,1
+víz,Deszpot-lév,Undirected,1322,,1
+víz,Mikó-lév,Undirected,1323,,1
+víz,"Leány-sarjával, azaz friss tormahajtással",Undirected,1324,,1
+víz,Cifra lév,Undirected,1325,,1
+víz,Fokhagymás pecsenye,Undirected,1326,,1
+víz,Sült pástétom,Undirected,1327,,1
+víz,Húst bésózni,Undirected,1328,,1
+víz,Mandula-torta,Undirected,1329,,1
+víz,Makaróni,Undirected,1330,,1
+víz,Olasz makaróni,Undirected,1331,,1
+víz,"Spanior lév, azaz spanyol lé",Undirected,1332,,1
+víz,Írós lév,Undirected,1333,,1
+víz,Zólnai lév,Undirected,1334,,1
+víz,Kenyér-torta,Undirected,1335,,1
+víz,Rák tejföllel,Undirected,1336,,1
+víz,Hal téjfellel,Undirected,1337,,1
+víz,Túrós étek,Undirected,1338,,1
+víz,Olasz káposzta,Undirected,1339,,1
+víz,Hüvelyes borsó,Undirected,1340,,1
+víz,"Murok, azaz sárgarépa tejjel",Undirected,1341,,1
+víz,Alma-kása,Undirected,1342,,1
+víz,Tök téjjel,Undirected,1343,,1
+víz,"Tyúkmony-lév, azaz tojás-lé",Undirected,1344,,1
+víz,Serleves,Undirected,1345,,1
+víz,Lapos tészta,Undirected,1346,,1
+víz,"Pila, azaz rizskásából készült étel",Undirected,1347,,1
+víz,Palacsinta,Undirected,1348,,1
+víz,"Disilber, azaz tojásétel",Undirected,1349,,1
+víz,"Piroska, azaz túróval töltött derelye",Undirected,1350,,1
+víz,Süveg-fánk,Undirected,1351,,1
+víz,Rák-sajt,Undirected,1352,,1
+víz,Rántott rák,Undirected,1353,,1
+víz,"Mondola-sása, azaz mandula-mártás",Undirected,1354,,1
+víz,Birsalma-pástétom,Undirected,1355,,1
+víz,"Körtvély-pástétom, azaz körte-pástétom",Undirected,1356,,1
+víz,Kapros túrós béles,Undirected,1357,,1
+víz,Vízleves,Undirected,1358,,1
+víz,"Domika, azaz túróból és kenyérből készített étel",Undirected,1359,,1
+víz,Pép,Undirected,1360,,1
+víz,Lyukas kása,Undirected,1361,,1
+víz,Köles-kása,Undirected,1362,,1
+víz,Zab-kása,Undirected,1363,,1
+víz,Ordás leves,Undirected,1364,,1
+víz,Zuppon,Undirected,1365,,1
+víz,Zsálya-fánk,Undirected,1366,,1
+víz,Gutta-lév,Undirected,1367,,1
+víz,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,1368,,1
+víz,"Körtvély fõve, azaz körte fõzve",Undirected,1369,,1
+víz,Torzsa-saláta,Undirected,1370,,1
+víz,"Mondola-lév, azaz mandula-lé",Undirected,1371,,1
+víz,Bot-lév,Undirected,1372,,1
+víz,Kendermag-cibre,Undirected,1373,,1
+víz,Ikrát főzni,Undirected,1374,,1
+víz,Nyers káposzta-saláta,Undirected,1375,,1
+víz,Borsóleves,Undirected,1376,,1
+víz,Párolt rák,Undirected,1377,,1
+víz,Korpa-cibre,Undirected,1378,,1
+víz,Borsót főzni,Undirected,1379,,1
+víz,Ugorkát télre sózni,Undirected,1380,,1
+víz,Fenyőgombát főzni,Undirected,1381,,1
+víz,Kínzott kása,Undirected,1382,,1
+víz,Lencseleves,Undirected,1383,,1
+víz,Olaj-spék,Undirected,1384,,1
+víz,"Cicer, azaz bagoly-borsó",Undirected,1385,,1
+víz,"Lémonyával, azaz citrommal",Undirected,1386,,1
+víz,Törött lével hal,Undirected,1387,,1
+víz,Csukát csuka-lével,Undirected,1388,,1
+víz,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,1389,,1
+víz,Zöld lével,Undirected,1390,,1
+víz,Borsos szilva,Undirected,1391,,1
+víz,Ecetes cibre,Undirected,1392,,1
+víz,Hal fekete lével,Undirected,1393,,1
+víz,Zuppon-lév,Undirected,1394,,1
+víz,Tiszta borssal,Undirected,1395,,1
+víz,Vizát viza-lével,Undirected,1396,,1
+víz,Borított lév,Undirected,1397,,1
+víz,Borsó laskával,Undirected,1398,,1
+víz,Káposztás béles,Undirected,1399,,1
+víz,Hagyma rántva,Undirected,1400,,1
+víz,Káposzta-lév cibre,Undirected,1401,,1
+víz,"Lönye, azaz kenyér- vagy kalácstészta",Undirected,1402,,1
+víz,"Lása, azaz laskagomba",Undirected,1403,,1
+víz,Sós víz,Undirected,1404,,1
+víz,Olajos lév,Undirected,1405,,1
+víz,Új káposzta,Undirected,1406,,1
+víz,Rák tehénhús-lévben,Undirected,1407,,1
+víz,"Tyúkfi, azaz csirke borkőben való",Undirected,1408,,1
+víz,Báránybél édes téjjel,Undirected,1409,,1
+víz,Sódar gyümölcsös lével,Undirected,1410,,1
+víz,Sódar szegfüves lével,Undirected,1411,,1
+víz,Malac hidegen,Undirected,1412,,1
+víz,"Kolbász, lévre",Undirected,1413,,1
+víz,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,1414,,1
+víz,"Más meggy-sása, azaz meggy-mártás",Undirected,1415,,1
+víz,Mozsár-fánk,Undirected,1416,,1
+víz,"Liktáriomok, azaz befőzöttek csinálásához megkívánt méz készítés",Undirected,1417,,1
+víz,Görögdinnye-liktáriom,Undirected,1418,,1
+víz,Fényes birsalma-liktárium,Undirected,1419,,1
+víz,Másféle öntött birsalma-liktáriom,Undirected,1420,,1
+víz,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,1421,,1
+víz,Más fényes birsalma-liktáriom,Undirected,1422,,1
+víz,Másféle fényes birsalma-liktáriom,Undirected,1423,,1
+víz,Birsalmából piros liktáriom,Undirected,1424,,1
+víz,Más egész meggy-liktáriom,Undirected,1425,,1
+víz,Más egész meggybõl liktáriom,Undirected,1426,,1
+víz,Más meggy-liktáriom,Undirected,1427,,1
+víz,Fényes meggy-liktáriom,Undirected,1428,,1
+víz,Másképpen így főzd,Undirected,1429,,1
+víz,"Tengeri barack-liktáriom, azaz sárgabarack-befőtt",Undirected,1430,,1
+víz,Zöld dió-liktáriom,Undirected,1431,,1
+víz,Birsalma tésztát így csinálj,Undirected,1432,,1
+víz,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,1433,,1
+víz,"A szederjes viola-julepet, azaz viola-szirupot így csináld",Undirected,1434,,1
+víz,Eleven gyömbért így csinálj,Undirected,1435,,1
+víz,A birsalma-sajtot így csináld,Undirected,1436,,1
+víz,Zsemlye-galuska,Undirected,1437,,1
+víz,"A marcafántot, azaz marcipánt így csináld",Undirected,1438,,1
+Tehénhús rizskásával,csirkehús,Undirected,1439,,1
+Tehénhús rizskásával,rizs,Undirected,1440,,1
+Tehénhús rizskásával,mazsola,Undirected,1441,,1
+Tehénhús rizskásával,sáfrány,Undirected,1442,,1
+csirkehús,2-methyl-3-furanthiol,Undirected,1443,,1
+csirkehús,Laska,Undirected,1444,,1
+csirkehús,Fekete lév,Undirected,1445,,1
+csirkehús,Kenyér-kása,Undirected,1446,,1
+csirkehús,Sárga lév,Undirected,1447,,1
+csirkehús,Galuska,Undirected,1448,,1
+csirkehús,Sült,Undirected,1449,,1
+2-methyl-3-furanthiol,mogyoró,Undirected,1450,,1
+rizs,2-acetyl-1-pyrroline,Undirected,1451,,1
+rizs,Rántott rizskása,Undirected,1452,,1
+rizs,"Pila, azaz rizskásából készült étel",Undirected,1453,,1
+rizs,Palástos rizskása,Undirected,1454,,1
+rizs,Hal rizskásával,Undirected,1455,,1
+rizs,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,1456,,1
+rizs,Rizskása tejben,Undirected,1457,,1
+2-acetyl-1-pyrroline,fehér kenyér,Undirected,1458,,1
+2-acetyl-1-pyrroline,tojás,Undirected,1459,,1
+2-acetyl-1-pyrroline,marhahúsleves,Undirected,1460,,1
+2-acetyl-1-pyrroline,kenyér,Undirected,1461,,1
+2-acetyl-1-pyrroline,húsleves,Undirected,1462,,1
+2-acetyl-1-pyrroline,kenyérbél,Undirected,1463,,1
+2-acetyl-1-pyrroline,kenyér (bél),Undirected,1464,,1
+2-acetyl-1-pyrroline,sült hús,Undirected,1465,,1
+2-acetyl-1-pyrroline,fekete kenyér,Undirected,1466,,1
+2-acetyl-1-pyrroline,fehér kenyérbél,Undirected,1467,,1
+2-acetyl-1-pyrroline,tojássárgája,Undirected,1468,,1
+2-acetyl-1-pyrroline,zsemlemorzsa,Undirected,1469,,1
+2-acetyl-1-pyrroline,cipó,Undirected,1470,,1
+2-acetyl-1-pyrroline,tészta,Undirected,1471,,1
+2-acetyl-1-pyrroline,rák,Undirected,1472,,1
+2-acetyl-1-pyrroline,metélt tészta,Undirected,1473,,1
+2-acetyl-1-pyrroline,zsemlekása,Undirected,1474,,1
+2-acetyl-1-pyrroline,kalács,Undirected,1475,,1
+2-acetyl-1-pyrroline,perec,Undirected,1476,,1
+2-acetyl-1-pyrroline,pirított kenyér,Undirected,1477,,1
+2-acetyl-1-pyrroline,kenyércipó,Undirected,1478,,1
+mazsola,furaneol,Undirected,1479,,1
+mazsola,ethyl butanoate,Undirected,1480,,1
+mazsola,phenylacetaldehyde,Undirected,1481,,1
+mazsola,Másképpen ugyanez,Undirected,1482,,1
+mazsola,Sárga lév,Undirected,1483,,1
+mazsola,Vendég-lév,Undirected,1484,,1
+mazsola,Karbonáta,Undirected,1485,,1
+mazsola,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,1486,,1
+mazsola,Madár-lév,Undirected,1487,,1
+mazsola,Gyümölcs-lév,Undirected,1488,,1
+mazsola,Szegfüves lév,Undirected,1489,,1
+mazsola,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,1490,,1
+mazsola,Töltött cipó,Undirected,1491,,1
+mazsola,Bába-fánk,Undirected,1492,,1
+mazsola,Paláta,Undirected,1493,,1
+mazsola,"Körtvély-béles, azaz körte-béles",Undirected,1494,,1
+mazsola,Kenyér-torta,Undirected,1495,,1
+mazsola,Rántott rizskása,Undirected,1496,,1
+mazsola,Olasz kolbász,Undirected,1497,,1
+mazsola,Boros leves,Undirected,1498,,1
+mazsola,Ostya-béles,Undirected,1499,,1
+mazsola,"Pila, azaz rizskásából készült étel",Undirected,1500,,1
+mazsola,Rák-sajt,Undirected,1501,,1
+mazsola,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,1502,,1
+mazsola,Gutta-lév,Undirected,1503,,1
+mazsola,Bot-lév,Undirected,1504,,1
+mazsola,Sódar szegfüves lével,Undirected,1505,,1
+furaneol,méz,Undirected,1506,,1
+furaneol,cukor,Undirected,1507,,1
+furaneol,nádcukor,Undirected,1508,,1
+furaneol,édes bor,Undirected,1509,,1
+furaneol,ostya,Undirected,1510,,1
+furaneol,nádcukorszirup,Undirected,1511,,1
+furaneol,eper,Undirected,1512,,1
+furaneol,cukor (nádcukor),Undirected,1513,,1
+furaneol,porcukor,Undirected,1514,,1
+furaneol,cukorszirup,Undirected,1515,,1
+ethyl butanoate,egres,Undirected,1516,,1
+ethyl butanoate,dinnye,Undirected,1517,,1
+phenylacetaldehyde,méz,Undirected,1518,,1
+phenylacetaldehyde,bodzavirág,Undirected,1519,,1
+phenylacetaldehyde,mézes bor,Undirected,1520,,1
+sáfrány,safranal,Undirected,1521,,1
+sáfrány,picrocrocin,Undirected,1522,,1
+sáfrány,crocin,Undirected,1523,,1
+sáfrány,"2,6,6-trimethyl-1,3-cyclohexadiene-1-carbaldehyde",Undirected,1524,,1
+sáfrány,ketoisophorone,Undirected,1525,,1
+sáfrány,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,1526,,1
+sáfrány,Laska,Undirected,1527,,1
+sáfrány,Törött lév,Undirected,1528,,1
+sáfrány,Savanyú lév,Undirected,1529,,1
+sáfrány,Német lév,Undirected,1530,,1
+sáfrány,Röstölt lév,Undirected,1531,,1
+sáfrány,Spékkel,Undirected,1532,,1
+sáfrány,"Klödör, azaz gombóc",Undirected,1533,,1
+sáfrány,Kenyér-kása,Undirected,1534,,1
+sáfrány,Éles lév,Undirected,1535,,1
+sáfrány,Tüdőkása,Undirected,1536,,1
+sáfrány,Ludas kása,Undirected,1537,,1
+sáfrány,Sárga lév,Undirected,1538,,1
+sáfrány,Töltött tyúk,Undirected,1539,,1
+sáfrány,Tárkonnyal,Undirected,1540,,1
+sáfrány,"Zsufa, azaz savanyú mártás",Undirected,1541,,1
+sáfrány,Vendég-lév,Undirected,1542,,1
+sáfrány,Galuska,Undirected,1543,,1
+sáfrány,Bárányhúst német módon,Undirected,1544,,1
+sáfrány,Téjfellel,Undirected,1545,,1
+sáfrány,Karbonáta,Undirected,1546,,1
+sáfrány,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,1547,,1
+sáfrány,Madár-lév,Undirected,1548,,1
+sáfrány,Gyümölcs-lév,Undirected,1549,,1
+sáfrány,"Leány-sarjával, azaz friss tormahajtással",Undirected,1550,,1
+sáfrány,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,1551,,1
+sáfrány,Töltött malac,Undirected,1552,,1
+sáfrány,Bárányhús pirítva,Undirected,1553,,1
+sáfrány,Töltelék,Undirected,1554,,1
+sáfrány,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,1555,,1
+sáfrány,Töltött cipó,Undirected,1556,,1
+sáfrány,"Spanior lév, azaz spanyol lé",Undirected,1557,,1
+sáfrány,Egres-béles,Undirected,1558,,1
+sáfrány,Kenyér-torta,Undirected,1559,,1
+sáfrány,Bába-kenyér,Undirected,1560,,1
+sáfrány,Olasz kolbász,Undirected,1561,,1
+sáfrány,"Tejes klödör, azaz tejes gombóc",Undirected,1562,,1
+sáfrány,Hajtott tejes étek,Undirected,1563,,1
+sáfrány,"Tyúkmony-lév, azaz tojás-lé",Undirected,1564,,1
+sáfrány,Boros leves,Undirected,1565,,1
+sáfrány,Rák töltve,Undirected,1566,,1
+sáfrány,Rák-sajt,Undirected,1567,,1
+sáfrány,Rák tejfellel,Undirected,1568,,1
+sáfrány,Német tejes étek,Undirected,1569,,1
+sáfrány,Barack-fánk,Undirected,1570,,1
+sáfrány,Birsalma-pástétom,Undirected,1571,,1
+sáfrány,Káposzta ikrával,Undirected,1572,,1
+sáfrány,Koldus-lév,Undirected,1573,,1
+sáfrány,Ég-lév,Undirected,1574,,1
+sáfrány,Zsákvászonnal,Undirected,1575,,1
+sáfrány,Gutta-lév,Undirected,1576,,1
+sáfrány,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,1577,,1
+sáfrány,Lengyel cibre,Undirected,1578,,1
+sáfrány,Bot-lév,Undirected,1579,,1
+sáfrány,"Lémonyával, azaz citrommal",Undirected,1580,,1
+sáfrány,Törött lével hal,Undirected,1581,,1
+sáfrány,Ecetes cibre,Undirected,1582,,1
+sáfrány,Vizát viza-lével,Undirected,1583,,1
+sáfrány,Báránybél édes téjjel,Undirected,1584,,1
+sáfrány,Sódar gyümölcsös lével,Undirected,1585,,1
+sáfrány,Malac hidegen,Undirected,1586,,1
+sáfrány,"Gyömbéres sása, azaz gyömbéres mártás",Undirected,1587,,1
+sáfrány,Dinnye-torta,Undirected,1588,,1
+sáfrány,Zsemlye-galuska,Undirected,1589,,1
+Tehénhús-lév,fehér kenyér,Undirected,1590,,1
+Tehénhús-lév,tojás,Undirected,1591,,1
+Tehénhús-lév,marhahúsleves,Undirected,1592,,1
+Tehénhús-lév,főtt marhahús,Undirected,1593,,1
+fehér kenyér,furfural,Undirected,1594,,1
+fehér kenyér,"Kukrejttel, azaz borecetes, fenyőmagvas mártással",Undirected,1595,,1
+fehér kenyér,Törött lév,Undirected,1596,,1
+fehér kenyér,Kenyér-kása,Undirected,1597,,1
+fehér kenyér,Vendég-lév,Undirected,1598,,1
+fehér kenyér,Gyümölcs-lév,Undirected,1599,,1
+fehér kenyér,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,1600,,1
+fehér kenyér,"Dió-sása, azaz dió-mártás",Undirected,1601,,1
+fehér kenyér,Téjfel-kenyér,Undirected,1602,,1
+fehér kenyér,Tálban főtt,Undirected,1603,,1
+fehér kenyér,Makaróni,Undirected,1604,,1
+fehér kenyér,Boros kenyér,Undirected,1605,,1
+fehér kenyér,"Mondola-klödör, azaz mandula-gombóc",Undirected,1606,,1
+fehér kenyér,"Mondola-lév, azaz mandula-lé",Undirected,1607,,1
+fehér kenyér,Vizát viza-lével,Undirected,1608,,1
+furfural,kenyér,Undirected,1609,,1
+furfural,zsemlemorzsa,Undirected,1610,,1
+furfural,tészta,Undirected,1611,,1
+furfural,metélt tészta,Undirected,1612,,1
+furfural,keményítő,Undirected,1613,,1
+furfural,pirított kenyér,Undirected,1614,,1
+furfural,vízben áztatott kenyér,Undirected,1615,,1
+tojás,hydrogen sulfide,Undirected,1616,,1
+tojás,Kaszás lév,Undirected,1617,,1
+tojás,Laska,Undirected,1618,,1
+tojás,Savanyú lév,Undirected,1619,,1
+tojás,Tüdő rántva,Undirected,1620,,1
+tojás,Spékkel,Undirected,1621,,1
+tojás,"Klödör, azaz gombóc",Undirected,1622,,1
+tojás,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,1623,,1
+tojás,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1624,,1
+tojás,Kenyér-kása,Undirected,1625,,1
+tojás,Tüdőkása,Undirected,1626,,1
+tojás,Tárkonnyal,Undirected,1627,,1
+tojás,"Zsufa, azaz savanyú mártás",Undirected,1628,,1
+tojás,Bárányfő rántva,Undirected,1629,,1
+tojás,Galuska,Undirected,1630,,1
+tojás,"Ecettel, hagymával",Undirected,1631,,1
+tojás,Bárányfő hidegen,Undirected,1632,,1
+tojás,Téjfellel,Undirected,1633,,1
+tojás,Karbonáta,Undirected,1634,,1
+tojás,"Leány-sarjával, azaz friss tormahajtással",Undirected,1635,,1
+tojás,Töltött malac,Undirected,1636,,1
+tojás,Töltelék,Undirected,1637,,1
+tojás,Sült pástétom,Undirected,1638,,1
+tojás,Tálban főtt,Undirected,1639,,1
+tojás,Új káposzta tejben,Undirected,1640,,1
+tojás,Zsemlye-kása,Undirected,1641,,1
+tojás,Alma-étek,Undirected,1642,,1
+tojás,Makaróni,Undirected,1643,,1
+tojás,Olasz makaróni,Undirected,1644,,1
+tojás,Töltött cipó,Undirected,1645,,1
+tojás,Bába-fánk,Undirected,1646,,1
+tojás,"Körtvély-béles, azaz körte-béles",Undirected,1647,,1
+tojás,Kenyér-torta,Undirected,1648,,1
+tojás,Bába-kenyér,Undirected,1649,,1
+tojás,Rántott rizskása,Undirected,1650,,1
+tojás,Olasz kolbász,Undirected,1651,,1
+tojás,"Boros szérdék, azaz boros aludttej",Undirected,1652,,1
+tojás,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,1653,,1
+tojás,"Tejes klödör, azaz tejes gombóc",Undirected,1654,,1
+tojás,Sûrû tejes étek,Undirected,1655,,1
+tojás,"Lábbogó, azaz lebegő tejes étek",Undirected,1656,,1
+tojás,Vagdalt étek,Undirected,1657,,1
+tojás,Túrós étek,Undirected,1658,,1
+tojás,Tálban főtt tejes étek,Undirected,1659,,1
+tojás,Borza-kása,Undirected,1660,,1
+tojás,Laboda-paréj,Undirected,1661,,1
+tojás,Alma-kása,Undirected,1662,,1
+tojás,Tök téjjel,Undirected,1663,,1
+tojás,"Tyúkmony-lév, azaz tojás-lé",Undirected,1664,,1
+tojás,Német rántott,Undirected,1665,,1
+tojás,Serleves,Undirected,1666,,1
+tojás,Boros leves,Undirected,1667,,1
+tojás,Rák töltve,Undirected,1668,,1
+tojás,Lapos tészta,Undirected,1669,,1
+tojás,Ostya-béles,Undirected,1670,,1
+tojás,Alma-fánk,Undirected,1671,,1
+tojás,Palacsinta,Undirected,1672,,1
+tojás,"Disilber, azaz tojásétel",Undirected,1673,,1
+tojás,"Piroska, azaz túróval töltött derelye",Undirected,1674,,1
+tojás,Süveg-fánk,Undirected,1675,,1
+tojás,Dió-béles,Undirected,1676,,1
+tojás,Szilvás béles,Undirected,1677,,1
+tojás,Rák-sajt,Undirected,1678,,1
+tojás,Rántott rák,Undirected,1679,,1
+tojás,Német tejes étek,Undirected,1680,,1
+tojás,Tejfeles túró,Undirected,1681,,1
+tojás,Főkötős fánk,Undirected,1682,,1
+tojás,Barack-fánk,Undirected,1683,,1
+tojás,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,1684,,1
+tojás,Szilvás cipó,Undirected,1685,,1
+tojás,Tálban főtt zsemlekása,Undirected,1686,,1
+tojás,"Mondola-klödör, azaz mandula-gombóc",Undirected,1687,,1
+tojás,Zuppon,Undirected,1688,,1
+tojás,Bodza-fánk,Undirected,1689,,1
+tojás,Zsálya-fánk,Undirected,1690,,1
+tojás,Bot-lév,Undirected,1691,,1
+tojás,Ecetes cibre,Undirected,1692,,1
+tojás,Tyúk-saláta,Undirected,1693,,1
+tojás,Másképpen,Undirected,1694,,1
+tojás,Rántott kenyér,Undirected,1695,,1
+tojás,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,1696,,1
+tojás,Rózsa-kása,Undirected,1697,,1
+tojás,Dinnye-torta,Undirected,1698,,1
+tojás,Mozsár-fánk,Undirected,1699,,1
+tojás,Más egész meggy-liktáriom,Undirected,1700,,1
+tojás,Zsemlye-galuska,Undirected,1701,,1
+hydrogen sulfide,főtt tojás,Undirected,1702,,1
+hydrogen sulfide,tojásfehérje,Undirected,1703,,1
+hydrogen sulfide,tojássárgája,Undirected,1704,,1
+hydrogen sulfide,tyúktojás,Undirected,1705,,1
+hydrogen sulfide,lúdtojás,Undirected,1706,,1
+hydrogen sulfide,nyers tojás,Undirected,1707,,1
+marhahúsleves,pyrazines,Undirected,1708,,1
+marhahúsleves,Tüdő rántva,Undirected,1709,,1
+marhahúsleves,"Pikáda, azaz fűszerezett hússzelet",Undirected,1710,,1
+marhahúsleves,Kenyér-kása,Undirected,1711,,1
+marhahúsleves,Tüdőkása,Undirected,1712,,1
+marhahúsleves,Majoránna-lév,Undirected,1713,,1
+marhahúsleves,Tüdõ-étek,Undirected,1714,,1
+marhahúsleves,Keresdi lév,Undirected,1715,,1
+marhahúsleves,Sült lév,Undirected,1716,,1
+marhahúsleves,Madár-lév,Undirected,1717,,1
+marhahúsleves,Citrom-lév,Undirected,1718,,1
+marhahúsleves,Mikó-lév,Undirected,1719,,1
+marhahúsleves,Hal téjfellel,Undirected,1720,,1
+marhahúsleves,Vereshagymát fõzni,Undirected,1721,,1
+marhahúsleves,Rák tehénhús-lévben,Undirected,1722,,1
+marhahúsleves,"Tyúkfi, azaz csirke cipóban való",Undirected,1723,,1
+marhahúsleves,Sódar gyümölcsös lével,Undirected,1724,,1
+marhahúsleves,Zsemlye-galuska,Undirected,1725,,1
+pyrazines,marha- vagy juhhúsleves,Undirected,1726,,1
+pyrazines,húsleves,Undirected,1727,,1
+pyrazines,szalonnatepertő,Undirected,1728,,1
+pyrazines,tepertő,Undirected,1729,,1
+pyrazines,húslé,Undirected,1730,,1
+pyrazines,szárnyashús,Undirected,1731,,1
+pyrazines,vadhús,Undirected,1732,,1
+pyrazines,szarvashús,Undirected,1733,,1
+pyrazines,őzhús,Undirected,1734,,1
+pyrazines,főzőlé,Undirected,1735,,1
+pyrazines,sült hús,Undirected,1736,,1
+pyrazines,sütnivaló hús,Undirected,1737,,1
+pyrazines,rák,Undirected,1738,,1
+pyrazines,juhhúsleves,Undirected,1739,,1
+pyrazines,sült hal,Undirected,1740,,1
+pyrazines,perec,Undirected,1741,,1
+pyrazines,pirított kenyér,Undirected,1742,,1
+"Kukrejttel, azaz borecetes, fenyőmagvas mártással",vöröshagyma,Undirected,1743,,1
+"Kukrejttel, azaz borecetes, fenyőmagvas mártással",zsálya,Undirected,1744,,1
+"Kukrejttel, azaz borecetes, fenyőmagvas mártással",fenyőmag,Undirected,1745,,1
+vöröshagyma,propyl disulfide,Undirected,1746,,1
+vöröshagyma,methyl propyl disulfide,Undirected,1747,,1
+vöröshagyma,dipropyl trisulfide,Undirected,1748,,1
+vöröshagyma,lachrymatory factor,Undirected,1749,,1
+vöröshagyma,allyl methyl trisulfide,Undirected,1750,,1
+vöröshagyma,"Polyékával, azaz sült marhahúsból készült étellel",Undirected,1751,,1
+vöröshagyma,Törött lév,Undirected,1752,,1
+vöröshagyma,Német lév,Undirected,1753,,1
+vöröshagyma,Máj rántva,Undirected,1754,,1
+vöröshagyma,Spékkel,Undirected,1755,,1
+vöröshagyma,Fekete lév,Undirected,1756,,1
+vöröshagyma,"Klödör, azaz gombóc",Undirected,1757,,1
+vöröshagyma,Pástétom-lével,Undirected,1758,,1
+vöröshagyma,Tüdőkása,Undirected,1759,,1
+vöröshagyma,Sárga lév,Undirected,1760,,1
+vöröshagyma,Töltött tyúk,Undirected,1761,,1
+vöröshagyma,Balázs-lév,Undirected,1762,,1
+vöröshagyma,"Kutkusa, azaz juhbélből készült étel",Undirected,1763,,1
+vöröshagyma,"Ecettel, hagymával",Undirected,1764,,1
+vöröshagyma,Savanyú pecsenye,Undirected,1765,,1
+vöröshagyma,Szürke lév,Undirected,1766,,1
+vöröshagyma,Madár-lév,Undirected,1767,,1
+vöröshagyma,Töltelék,Undirected,1768,,1
+vöröshagyma,"Vetrece, azaz hosszúra vágott főtt marhahús",Undirected,1769,,1
+vöröshagyma,"Vajas klödör, azaz vajas gombóc",Undirected,1770,,1
+vöröshagyma,"Tejes klödör, azaz tejes gombóc",Undirected,1771,,1
+vöröshagyma,Vereshagymát fõzni,Undirected,1772,,1
+vöröshagyma,Vízleves,Undirected,1773,,1
+vöröshagyma,Koldus-lév,Undirected,1774,,1
+vöröshagyma,Zsákvászonnal,Undirected,1775,,1
+vöröshagyma,Gutta-lév,Undirected,1776,,1
+vöröshagyma,Kendermag-cibre,Undirected,1777,,1
+vöröshagyma,Borsóleves,Undirected,1778,,1
+vöröshagyma,Lencseleves,Undirected,1779,,1
+vöröshagyma,Törött lével hal,Undirected,1780,,1
+vöröshagyma,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,1781,,1
+vöröshagyma,Zuppon-lév,Undirected,1782,,1
+vöröshagyma,Tiszta borssal,Undirected,1783,,1
+vöröshagyma,Borított lév,Undirected,1784,,1
+vöröshagyma,Lencse olajjal,Undirected,1785,,1
+vöröshagyma,Káposztás béles,Undirected,1786,,1
+vöröshagyma,Hagyma rántva,Undirected,1787,,1
+vöröshagyma,Olajos lév,Undirected,1788,,1
+vöröshagyma,Viza ikra,Undirected,1789,,1
+vöröshagyma,Báránybél édes téjjel,Undirected,1790,,1
+vöröshagyma,Malac hidegen,Undirected,1791,,1
+vöröshagyma,Hagyma lével,Undirected,1792,,1
+vöröshagyma,"Kolbász, lévre",Undirected,1793,,1
+propyl disulfide,hagyma,Undirected,1794,,1
+methyl propyl disulfide,hagyma,Undirected,1795,,1
+dipropyl trisulfide,hagyma,Undirected,1796,,1
+lachrymatory factor,hagyma,Undirected,1797,,1
+zsálya,thujone,Undirected,1798,,1
+zsálya,camphor,Undirected,1799,,1
+zsálya,Lúd sülve,Undirected,1800,,1
+zsálya,Zsályás pecsenye,Undirected,1801,,1
+zsálya,Sült pástétom,Undirected,1802,,1
+zsálya,Lencseleves,Undirected,1803,,1
+zsálya,"Cicer, azaz bagoly-borsó",Undirected,1804,,1
+thujone,zsályalevél,Undirected,1805,,1
+camphor,zsályalevél,Undirected,1806,,1
+fenyőmag,Savanyú pecsenye,Undirected,1807,,1
+fenyőmag,Lúd sülve,Undirected,1808,,1
+fenyőmag,Húst bésózni,Undirected,1809,,1
+Tehénhús tiszta borssal,petrezselyem,Undirected,1810,,1
+Tehénhús tiszta borssal,fokhagyma,Undirected,1811,,1
+petrezselyem,Lengyel lév,Undirected,1812,,1
+petrezselyem,Tehénhús petrezselyemmel,Undirected,1813,,1
+petrezselyem,Tüdő rántva,Undirected,1814,,1
+petrezselyem,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,1815,,1
+petrezselyem,Tüdőkása,Undirected,1816,,1
+petrezselyem,Sárga lév,Undirected,1817,,1
+petrezselyem,Galuska,Undirected,1818,,1
+petrezselyem,"Kutkusa, azaz juhbélből készült étel",Undirected,1819,,1
+petrezselyem,Gombát fõzni,Undirected,1820,,1
+petrezselyem,Citrom-lév,Undirected,1821,,1
+petrezselyem,Töltött malac,Undirected,1822,,1
+petrezselyem,"Töltött tyúkmony, azaz töltött tojás",Undirected,1823,,1
+petrezselyem,Írós lév,Undirected,1824,,1
+petrezselyem,Olaj-spék,Undirected,1825,,1
+petrezselyem,"Lémonyával, azaz citrommal",Undirected,1826,,1
+petrezselyem,Törött lével hal,Undirected,1827,,1
+petrezselyem,Rák tehénhús-lévben,Undirected,1828,,1
+petrezselyem,"Tyúkfi, azaz csirke borkőben való",Undirected,1829,,1
+petrezselyem,Tyúk-saláta,Undirected,1830,,1
+petrezselyem,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,1831,,1
+fokhagyma,allicin,Undirected,1832,,1
+fokhagyma,diallyl disulfide,Undirected,1833,,1
+fokhagyma,diallyl trisulfide,Undirected,1834,,1
+fokhagyma,ajoene,Undirected,1835,,1
+fokhagyma,vinyl dithiins,Undirected,1836,,1
+fokhagyma,Kaszás lév,Undirected,1837,,1
+fokhagyma,Fokhagyma-lével,Undirected,1838,,1
+fokhagyma,Tyúk tiszta borssal,Undirected,1839,,1
+fokhagyma,"Berbécsfő, azaz juhfej",Undirected,1840,,1
+fokhagyma,Hideg étek,Undirected,1841,,1
+fokhagyma,Bors-porral,Undirected,1842,,1
+fokhagyma,Deszpot-lév,Undirected,1843,,1
+fokhagyma,Fokhagymás pecsenye,Undirected,1844,,1
+fokhagyma,"Dió-sása, azaz dió-mártás",Undirected,1845,,1
+fokhagyma,Húst bésózni,Undirected,1846,,1
+fokhagyma,"Mondola-sása, azaz mandula-mártás",Undirected,1847,,1
+fokhagyma,Ugorka-saláta,Undirected,1848,,1
+fokhagyma,Fenyőgombát főzni,Undirected,1849,,1
+allicin,kolbász,Undirected,1850,,1
+allicin,zöld fokhagyma,Undirected,1851,,1
+diallyl disulfide,kolbász,Undirected,1852,,1
+diallyl disulfide,zöld fokhagyma,Undirected,1853,,1
+"Polyékával, azaz sült marhahúsból készült étellel",kenyér,Undirected,1854,,1
+"Polyékával, azaz sült marhahúsból készült étellel",marha- vagy juhhúsleves,Undirected,1855,,1
+kenyér,4-vinylguaiacol,Undirected,1856,,1
+kenyér,Kaszás lév,Undirected,1857,,1
+kenyér,Vadalmával,Undirected,1858,,1
+kenyér,Tehénhús tormával,Undirected,1859,,1
+kenyér,Tormás téjfel,Undirected,1860,,1
+kenyér,Savanyú lév,Undirected,1861,,1
+kenyér,Német lév,Undirected,1862,,1
+kenyér,Röstölt lév,Undirected,1863,,1
+kenyér,Lengyel lév,Undirected,1864,,1
+kenyér,Tüdő rántva,Undirected,1865,,1
+kenyér,Spékkel,Undirected,1866,,1
+kenyér,Egressel,Undirected,1867,,1
+kenyér,Másképpen ugyanez,Undirected,1868,,1
+kenyér,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1869,,1
+kenyér,Éles lév,Undirected,1870,,1
+kenyér,Magyar lév,Undirected,1871,,1
+kenyér,Kocka-lév,Undirected,1872,,1
+kenyér,Tárkonnyal,Undirected,1873,,1
+kenyér,Keresdi lév,Undirected,1874,,1
+kenyér,"Ecettel, hagymával",Undirected,1875,,1
+kenyér,Luther-lév,Undirected,1876,,1
+kenyér,Tejes borsó,Undirected,1877,,1
+kenyér,Téjfellel,Undirected,1878,,1
+kenyér,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,1879,,1
+kenyér,Szegfüves lév,Undirected,1880,,1
+kenyér,Bors-porral,Undirected,1881,,1
+kenyér,Váradi lév,Undirected,1882,,1
+kenyér,Bárányhús pirítva,Undirected,1883,,1
+kenyér,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,1884,,1
+kenyér,Bába-fánk,Undirected,1885,,1
+kenyér,Írós lév,Undirected,1886,,1
+kenyér,Kenyér-torta,Undirected,1887,,1
+kenyér,"Boros szérdék, azaz boros aludttej",Undirected,1888,,1
+kenyér,Sûrû tejes étek,Undirected,1889,,1
+kenyér,"Lábbogó, azaz lebegő tejes étek",Undirected,1890,,1
+kenyér,Túrós étek,Undirected,1891,,1
+kenyér,"Murok, azaz sárgarépa tejjel",Undirected,1892,,1
+kenyér,"Tyúkmony-lév, azaz tojás-lé",Undirected,1893,,1
+kenyér,Serleves,Undirected,1894,,1
+kenyér,Boros leves,Undirected,1895,,1
+kenyér,Rák tejfellel,Undirected,1896,,1
+kenyér,"Daru-sása, azaz daru-mártás",Undirected,1897,,1
+kenyér,Vízleves,Undirected,1898,,1
+kenyér,"Domika, azaz túróból és kenyérből készített étel",Undirected,1899,,1
+kenyér,Pép,Undirected,1900,,1
+kenyér,Édes tej,Undirected,1901,,1
+kenyér,Ordás leves,Undirected,1902,,1
+kenyér,Alma-lév,Undirected,1903,,1
+kenyér,Koldus-lév,Undirected,1904,,1
+kenyér,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,1905,,1
+kenyér,Lengyel cibre,Undirected,1906,,1
+kenyér,"Körtvély fõve, azaz körte fõzve",Undirected,1907,,1
+kenyér,Bot-lév,Undirected,1908,,1
+kenyér,Kendermag-cibre,Undirected,1909,,1
+kenyér,Borsóleves,Undirected,1910,,1
+kenyér,Korpa-cibre,Undirected,1911,,1
+kenyér,Borsót főzni,Undirected,1912,,1
+kenyér,Lencseleves,Undirected,1913,,1
+kenyér,Hal rizskásával,Undirected,1914,,1
+kenyér,Olaj-spék,Undirected,1915,,1
+kenyér,"Cicer, azaz bagoly-borsó",Undirected,1916,,1
+kenyér,"Lémonyával, azaz citrommal",Undirected,1917,,1
+kenyér,Törött lével hal,Undirected,1918,,1
+kenyér,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,1919,,1
+kenyér,Ecetes cibre,Undirected,1920,,1
+kenyér,Hal fekete lével,Undirected,1921,,1
+kenyér,Zuppon-lév,Undirected,1922,,1
+kenyér,Tiszta borssal,Undirected,1923,,1
+kenyér,Lencse olajjal,Undirected,1924,,1
+kenyér,Borsó laskával,Undirected,1925,,1
+kenyér,Káposzta-lév cibre,Undirected,1926,,1
+kenyér,Sós víz,Undirected,1927,,1
+kenyér,Olajos lév,Undirected,1928,,1
+kenyér,Sódar szegfüves lével,Undirected,1929,,1
+kenyér,"Kolbász, lévre",Undirected,1930,,1
+kenyér,Másképpen,Undirected,1931,,1
+kenyér,Rántott kenyér,Undirected,1932,,1
+4-vinylguaiacol,fekete kenyér,Undirected,1933,,1
+marha- vagy juhhúsleves,Savanyú pecsenye,Undirected,1934,,1
+Kaszás lév,hús,Undirected,1935,,1
+Kaszás lév,liszt,Undirected,1936,,1
+hús,Savanyú lév,Undirected,1937,,1
+hús,Német lév,Undirected,1938,,1
+hús,Röstölt lév,Undirected,1939,,1
+hús,"Murokkal, azaz sárgarépával",Undirected,1940,,1
+hús,Répával,Undirected,1941,,1
+hús,Spékkel,Undirected,1942,,1
+hús,Egressel,Undirected,1943,,1
+hús,"Klödör, azaz gombóc",Undirected,1944,,1
+hús,Pástétom-lével,Undirected,1945,,1
+hús,Éles lév,Undirected,1946,,1
+hús,Kocka-lév,Undirected,1947,,1
+hús,Sárga lév,Undirected,1948,,1
+hús,Balázs-lév,Undirected,1949,,1
+hús,Vendég-lév,Undirected,1950,,1
+hús,"Ecettel, hagymával",Undirected,1951,,1
+hús,Szürke lév,Undirected,1952,,1
+hús,Húst bésózni,Undirected,1953,,1
+liszt,Savanyú lév,Undirected,1954,,1
+liszt,Német lév,Undirected,1955,,1
+liszt,Röstölt lév,Undirected,1956,,1
+liszt,Máj rántva,Undirected,1957,,1
+liszt,"Klödör, azaz gombóc",Undirected,1958,,1
+liszt,Pástétom-lével,Undirected,1959,,1
+liszt,"Berbécsfő, azaz juhfej",Undirected,1960,,1
+liszt,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,1961,,1
+liszt,Tárkonnyal,Undirected,1962,,1
+liszt,"Zsufa, azaz savanyú mártás",Undirected,1963,,1
+liszt,Bárányfő rántva,Undirected,1964,,1
+liszt,Galuska,Undirected,1965,,1
+liszt,Majoránna-lév,Undirected,1966,,1
+liszt,"Ecettel, hagymával",Undirected,1967,,1
+liszt,Bárányhúst német módon,Undirected,1968,,1
+liszt,Savanyú pecsenye,Undirected,1969,,1
+liszt,Tejes borsó,Undirected,1970,,1
+liszt,"Lapos tüdő, máj",Undirected,1971,,1
+liszt,"Orjával, azaz a sertés hátgerincével",Undirected,1972,,1
+liszt,Bárányhús pirítva,Undirected,1973,,1
+liszt,Mandula-torta,Undirected,1974,,1
+liszt,"Vajas klödör, azaz vajas gombóc",Undirected,1975,,1
+liszt,Olasz kolbász,Undirected,1976,,1
+liszt,"Tyúkmony-zsufa, azaz tojásos savanyú mártás",Undirected,1977,,1
+liszt,Vagdalt étek,Undirected,1978,,1
+liszt,Tálban főtt tejes étek,Undirected,1979,,1
+liszt,Borza-kása,Undirected,1980,,1
+liszt,Vereshagymát fõzni,Undirected,1981,,1
+liszt,Ostya-béles,Undirected,1982,,1
+liszt,Alma-fánk,Undirected,1983,,1
+liszt,Palacsinta,Undirected,1984,,1
+liszt,Süveg-fánk,Undirected,1985,,1
+liszt,Szilvás béles,Undirected,1986,,1
+liszt,Rántott rák,Undirected,1987,,1
+liszt,Német tejes étek,Undirected,1988,,1
+liszt,Főkötős fánk,Undirected,1989,,1
+liszt,Tölcséres fánk,Undirected,1990,,1
+liszt,Barack-fánk,Undirected,1991,,1
+liszt,Szilvás cipó,Undirected,1992,,1
+liszt,Pép,Undirected,1993,,1
+liszt,Köles-kása,Undirected,1994,,1
+liszt,"Bálmos, azaz puliszkaszerű étel",Undirected,1995,,1
+liszt,Bodza-fánk,Undirected,1996,,1
+liszt,Zsálya-fánk,Undirected,1997,,1
+liszt,Koldus-lév,Undirected,1998,,1
+liszt,Gutta-lév,Undirected,1999,,1
+liszt,Bot-lév,Undirected,2000,,1
+liszt,Ikrát főzni,Undirected,2001,,1
+liszt,Korpa-cibre,Undirected,2002,,1
+liszt,"Cicer, azaz bagoly-borsó",Undirected,2003,,1
+liszt,Ecetes cibre,Undirected,2004,,1
+liszt,Zuppon-lév,Undirected,2005,,1
+liszt,Tiszta borssal,Undirected,2006,,1
+liszt,Kása olajjal,Undirected,2007,,1
+liszt,Lencse olajjal,Undirected,2008,,1
+liszt,Borsó laskával,Undirected,2009,,1
+liszt,Káposzta-lév cibre,Undirected,2010,,1
+liszt,Olajos lév,Undirected,2011,,1
+liszt,"Kolbász, lévre",Undirected,2012,,1
+liszt,Rózsa-kása,Undirected,2013,,1
+Vadalmával,savanyú alma,Undirected,2014,,1
+Vadalmával,vadalma,Undirected,2015,,1
+savanyú alma,hexyl acetate,Undirected,2016,,1
+savanyú alma,Birsalma-lévbõl más fényes liktáriom,Undirected,2017,,1
+hexyl acetate,alma,Undirected,2018,,1
+hexyl acetate,körte,Undirected,2019,,1
+hexyl acetate,olívaolaj,Undirected,2020,,1
+hexyl acetate,barack,Undirected,2021,,1
+hexyl acetate,őszibarack,Undirected,2022,,1
+hexyl acetate,dinnye,Undirected,2023,,1
+hexyl acetate,muskotály körte,Undirected,2024,,1
+hexyl acetate,sárgabarack,Undirected,2025,,1
+vadalma,(E)-2-hexenal,Undirected,2026,,1
+vadalma,ethyl 2-methylbutanoate,Undirected,2027,,1
+vadalma,β-damascenone,Undirected,2028,,1
+(E)-2-hexenal,alma,Undirected,2029,,1
+(E)-2-hexenal,dió,Undirected,2030,,1
+(E)-2-hexenal,olívaolaj,Undirected,2031,,1
+(E)-2-hexenal,lenolaj,Undirected,2032,,1
+ethyl 2-methylbutanoate,alma,Undirected,2033,,1
+ethyl 2-methylbutanoate,birsalma,Undirected,2034,,1
+β-damascenone,egres,Undirected,2035,,1
+β-damascenone,alma,Undirected,2036,,1
+Tehénhús tormával,torma,Undirected,2037,,1
+torma,2-phenylethyl isothiocyanate,Undirected,2038,,1
+torma,3-butenyl isothiocyanate,Undirected,2039,,1
+torma,Tyúk káposzta-lévben,Undirected,2040,,1
+torma,Tüdõ-étek,Undirected,2041,,1
+torma,"Kutkusa, azaz juhbélből készült étel",Undirected,2042,,1
+torma,Mustos pecsenye,Undirected,2043,,1
+torma,Korpa-cibre,Undirected,2044,,1
+2-phenylethyl isothiocyanate,friss tormahajtás,Undirected,2045,,1
+Laska,búzaliszt,Undirected,2046,,1
+Laska,vaj,Undirected,2047,,1
+Laska,háj,Undirected,2048,,1
+búzaliszt,Sült pástétom,Undirected,2049,,1
+búzaliszt,Makaróni,Undirected,2050,,1
+búzaliszt,Olasz makaróni,Undirected,2051,,1
+búzaliszt,"Tejes klödör, azaz tejes gombóc",Undirected,2052,,1
+búzaliszt,"Körtvély-fánk, azaz körte-fánk",Undirected,2053,,1
+vaj,hexanoic acid,Undirected,2054,,1
+vaj,δ-octalactone,Undirected,2055,,1
+vaj,δ-dodecalactone,Undirected,2056,,1
+vaj,2-heptanone,Undirected,2057,,1
+vaj,2-nonanone,Undirected,2058,,1
+vaj,acetaldehyde (trace),Undirected,2059,,1
+vaj,Savanyú lév,Undirected,2060,,1
+vaj,Német lév,Undirected,2061,,1
+vaj,Máj rántva,Undirected,2062,,1
+vaj,Tüdő rántva,Undirected,2063,,1
+vaj,Kocka-lév,Undirected,2064,,1
+vaj,Bárányfő rántva,Undirected,2065,,1
+vaj,Majoránna-lév,Undirected,2066,,1
+vaj,Tüdõ-étek,Undirected,2067,,1
+vaj,Tejes borsó,Undirected,2068,,1
+vaj,Sült lév,Undirected,2069,,1
+vaj,Karbonáta,Undirected,2070,,1
+vaj,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2071,,1
+vaj,Madár-lév,Undirected,2072,,1
+vaj,Citrom-lév,Undirected,2073,,1
+vaj,Mikó-lév,Undirected,2074,,1
+vaj,Váradi lév,Undirected,2075,,1
+vaj,Töltelék,Undirected,2076,,1
+vaj,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2077,,1
+vaj,Mandula-torta,Undirected,2078,,1
+vaj,Téjfel-kenyér,Undirected,2079,,1
+vaj,Tálban főtt,Undirected,2080,,1
+vaj,Zsemlye-kása,Undirected,2081,,1
+vaj,Makaróni,Undirected,2082,,1
+vaj,Olasz makaróni,Undirected,2083,,1
+vaj,Egész alma,Undirected,2084,,1
+vaj,Töltött cipó,Undirected,2085,,1
+vaj,"Spanior lév, azaz spanyol lé",Undirected,2086,,1
+vaj,Cseh rántott,Undirected,2087,,1
+vaj,Bába-fánk,Undirected,2088,,1
+vaj,Írós lév,Undirected,2089,,1
+vaj,Zólnai lév,Undirected,2090,,1
+vaj,Veres béles,Undirected,2091,,1
+vaj,"Körtvély-béles, azaz körte-béles",Undirected,2092,,1
+vaj,Bába-kenyér,Undirected,2093,,1
+vaj,Rák tejföllel,Undirected,2094,,1
+vaj,Hal téjfellel,Undirected,2095,,1
+vaj,Rántott rizskása,Undirected,2096,,1
+vaj,Olasz kolbász,Undirected,2097,,1
+vaj,"Boros szérdék, azaz boros aludttej",Undirected,2098,,1
+vaj,"Tejes klödör, azaz tejes gombóc",Undirected,2099,,1
+vaj,Hajtott tejes étek,Undirected,2100,,1
+vaj,Metélt étek,Undirected,2101,,1
+vaj,Sûrû tejes étek,Undirected,2102,,1
+vaj,"Lábbogó, azaz lebegő tejes étek",Undirected,2103,,1
+vaj,Vagdalt étek,Undirected,2104,,1
+vaj,Túrós étek,Undirected,2105,,1
+vaj,Vereshagymát fõzni,Undirected,2106,,1
+vaj,Olasz káposzta,Undirected,2107,,1
+vaj,Laboda-paréj,Undirected,2108,,1
+vaj,Hüvelyes borsó,Undirected,2109,,1
+vaj,Alma-kása,Undirected,2110,,1
+vaj,Boros kenyér,Undirected,2111,,1
+vaj,"Tyúkmony-lév, azaz tojás-lé",Undirected,2112,,1
+vaj,Német rántott,Undirected,2113,,1
+vaj,Serleves,Undirected,2114,,1
+vaj,Rák töltve,Undirected,2115,,1
+vaj,Lapos tészta,Undirected,2116,,1
+vaj,Ostya-béles,Undirected,2117,,1
+vaj,Alma-fánk,Undirected,2118,,1
+vaj,"Pila, azaz rizskásából készült étel",Undirected,2119,,1
+vaj,Tolyó-fánk,Undirected,2120,,1
+vaj,Árpa-kása,Undirected,2121,,1
+vaj,Palacsinta,Undirected,2122,,1
+vaj,"Disilber, azaz tojásétel",Undirected,2123,,1
+vaj,"Körtvély-fánk, azaz körte-fánk",Undirected,2124,,1
+vaj,"Piroska, azaz túróval töltött derelye",Undirected,2125,,1
+vaj,Süveg-fánk,Undirected,2126,,1
+vaj,Dió-béles,Undirected,2127,,1
+vaj,Szilvás béles,Undirected,2128,,1
+vaj,Rántott rák,Undirected,2129,,1
+vaj,Német tejes étek,Undirected,2130,,1
+vaj,"Daru-sása, azaz daru-mártás",Undirected,2131,,1
+vaj,Főkötős fánk,Undirected,2132,,1
+vaj,Tölcséres fánk,Undirected,2133,,1
+vaj,Birsalma-pástétom,Undirected,2134,,1
+vaj,Szilvás cipó,Undirected,2135,,1
+vaj,Tálban főtt zsemlekása,Undirected,2136,,1
+vaj,Kapros túrós béles,Undirected,2137,,1
+vaj,Vízleves,Undirected,2138,,1
+vaj,"Domika, azaz túróból és kenyérből készített étel",Undirected,2139,,1
+vaj,Pép,Undirected,2140,,1
+vaj,Köles-kása,Undirected,2141,,1
+vaj,Zab-kása,Undirected,2142,,1
+vaj,Káposzta vajjal,Undirected,2143,,1
+vaj,Zuppon,Undirected,2144,,1
+vaj,Bodza-fánk,Undirected,2145,,1
+vaj,Zsálya-fánk,Undirected,2146,,1
+vaj,Bot-lév,Undirected,2147,,1
+vaj,Ikrát főzni,Undirected,2148,,1
+vaj,Borsót főzni,Undirected,2149,,1
+vaj,"Cicer, azaz bagoly-borsó",Undirected,2150,,1
+vaj,Hagyma rántva,Undirected,2151,,1
+vaj,Rák tehénhús-lévben,Undirected,2152,,1
+vaj,"Tyúkfi, azaz csirke cipóban való",Undirected,2153,,1
+vaj,Báránybél édes téjjel,Undirected,2154,,1
+vaj,Másképpen,Undirected,2155,,1
+vaj,Rántott körte,Undirected,2156,,1
+vaj,Rántott kenyér,Undirected,2157,,1
+vaj,Rózsa-kása,Undirected,2158,,1
+vaj,Mozsár-fánk,Undirected,2159,,1
+vaj,Zsemlye-galuska,Undirected,2160,,1
+hexanoic acid,sajt,Undirected,2161,,1
+hexanoic acid,kemény sajt,Undirected,2162,,1
+δ-octalactone,tej,Undirected,2163,,1
+δ-octalactone,édes tej,Undirected,2164,,1
+δ-octalactone,kalács,Undirected,2165,,1
+δ-octalactone,bivalytej,Undirected,2166,,1
+δ-octalactone,sós tej,Undirected,2167,,1
+δ-octalactone,hideg tej,Undirected,2168,,1
+2-heptanone,sajt,Undirected,2169,,1
+háj,Német lév,Undirected,2170,,1
+háj,Citrom-lév,Undirected,2171,,1
+Törött lév,csuka,Undirected,2172,,1
+csuka,trimethylamine,Undirected,2173,,1
+csuka,geosmin,Undirected,2174,,1
+csuka,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,2175,,1
+csuka,Luther-lév,Undirected,2176,,1
+csuka,Hal téjfellel,Undirected,2177,,1
+csuka,Gutta-lév,Undirected,2178,,1
+csuka,Olaj-spék,Undirected,2179,,1
+csuka,Törött lével hal,Undirected,2180,,1
+csuka,Csukát csuka-lével,Undirected,2181,,1
+trimethylamine,hal,Undirected,2182,,1
+trimethylamine,rák,Undirected,2183,,1
+trimethylamine,pisztráng,Undirected,2184,,1
+trimethylamine,kövi csík,Undirected,2185,,1
+trimethylamine,halikra,Undirected,2186,,1
+trimethylamine,csíkhal,Undirected,2187,,1
+trimethylamine,menyhal,Undirected,2188,,1
+trimethylamine,sült hal,Undirected,2189,,1
+trimethylamine,ponty,Undirected,2190,,1
+trimethylamine,viza,Undirected,2191,,1
+trimethylamine,harcsa,Undirected,2192,,1
+trimethylamine,tokhal,Undirected,2193,,1
+trimethylamine,vizaikra,Undirected,2194,,1
+geosmin,hal,Undirected,2195,,1
+geosmin,kövi csík,Undirected,2196,,1
+geosmin,csíkhal,Undirected,2197,,1
+geosmin,ponty,Undirected,2198,,1
+geosmin,harcsa,Undirected,2199,,1
+Savanyú lév,húsleves,Undirected,2200,,1
+húsleves,"Murokkal, azaz sárgarépával",Undirected,2201,,1
+Német lév,zsír,Undirected,2202,,1
+Német lév,szalonnatepertő,Undirected,2203,,1
+zsír,Pástétom-lével,Undirected,2204,,1
+zsír,"Szömörcsök-lév, azaz kucsmagomba-lé",Undirected,2205,,1
+zsír,Hideg étek,Undirected,2206,,1
+zsír,"Ecettel, hagymával",Undirected,2207,,1
+zsír,Savanyú pecsenye,Undirected,2208,,1
+zsír,"Lapos tüdő, máj",Undirected,2209,,1
+zsír,"Orjával, azaz a sertés hátgerincével",Undirected,2210,,1
+zsír,Madár-lév,Undirected,2211,,1
+zsír,Töltött malac,Undirected,2212,,1
+zsír,Zsályás pecsenye,Undirected,2213,,1
+zsír,Fürjhús sülve,Undirected,2214,,1
+zsír,Barack-fánk,Undirected,2215,,1
+zsír,Kék káposzta,Undirected,2216,,1
+Röstölt lév,tepertő,Undirected,2217,,1
+Röstölt lév,húslé,Undirected,2218,,1
+Lengyel lév,tyúkhús,Undirected,2219,,1
+Lengyel lév,szárnyashús,Undirected,2220,,1
+Lengyel lév,vadhús,Undirected,2221,,1
+Lengyel lév,majoránna,Undirected,2222,,1
+tyúkhús,"Pikáda, azaz fűszerezett hússzelet",Undirected,2223,,1
+tyúkhús,Madár-lév,Undirected,2224,,1
+szárnyashús,Citrom-lév,Undirected,2225,,1
+vadhús,gamey notes,Undirected,2226,,1
+vadhús,Fekete lév,Undirected,2227,,1
+vadhús,Vadhús sülve,Undirected,2228,,1
+vadhús,Sült pástétom,Undirected,2229,,1
+majoránna,terpinen-4-ol,Undirected,2230,,1
+majoránna,γ-terpinene,Undirected,2231,,1
+majoránna,cis-sabinene hydrate,Undirected,2232,,1
+majoránna,α-terpinene,Undirected,2233,,1
+majoránna,Pástétom-lével,Undirected,2234,,1
+majoránna,"Pikáda, azaz fűszerezett hússzelet",Undirected,2235,,1
+majoránna,Majoránna-lév,Undirected,2236,,1
+majoránna,Savanyú pecsenye,Undirected,2237,,1
+majoránna,Lúd sülve,Undirected,2238,,1
+majoránna,Töltött malac,Undirected,2239,,1
+majoránna,Töltelék,Undirected,2240,,1
+majoránna,Rák töltve,Undirected,2241,,1
+majoránna,Lencseleves,Undirected,2242,,1
+terpinen-4-ol,szerecsendió-virág,Undirected,2243,,1
+terpinen-4-ol,szerecsendió,Undirected,2244,,1
+γ-terpinene,sárgarépa,Undirected,2245,,1
+γ-terpinene,citrom,Undirected,2246,,1
+γ-terpinene,sózott citrom,Undirected,2247,,1
+γ-terpinene,köménymag,Undirected,2248,,1
+γ-terpinene,citromhéj,Undirected,2249,,1
+γ-terpinene,reszelt citromhéj,Undirected,2250,,1
+"Murokkal, azaz sárgarépával",sárgarépa,Undirected,2251,,1
+sárgarépa,β-bisabolene,Undirected,2252,,1
+sárgarépa,Répával,Undirected,2253,,1
+sárgarépa,Sárga lév,Undirected,2254,,1
+sárgarépa,"Murok, azaz sárgarépa tejjel",Undirected,2255,,1
+Répával,sertéshús,Undirected,2256,,1
+Répával,sertés orja (hátgerinc),Undirected,2257,,1
+Répával,méz,Undirected,2258,,1
+sertéshús,2-pentylfuran,Undirected,2259,,1
+sertéshús,skatole,Undirected,2260,,1
+sertéshús,indole,Undirected,2261,,1
+sertéshús,Fekete lév,Undirected,2262,,1
+sertéshús,"Pikáda, azaz fűszerezett hússzelet",Undirected,2263,,1
+sertéshús,Sült,Undirected,2264,,1
+sertéshús,Füstölt pecsenye,Undirected,2265,,1
+sertéshús,Disznófőből való sajt,Undirected,2266,,1
+2-pentylfuran,sertés orja (hátgerinc),Undirected,2267,,1
+2-pentylfuran,sertés keresztcsont,Undirected,2268,,1
+2-pentylfuran,malachús,Undirected,2269,,1
+2-pentylfuran,disznóhús,Undirected,2270,,1
+2-pentylfuran,malac,Undirected,2271,,1
+2-pentylfuran,sertéshátgerinc,Undirected,2272,,1
+2-pentylfuran,mák,Undirected,2273,,1
+2-pentylfuran,sertésfej,Undirected,2274,,1
+2-pentylfuran,sertésfül,Undirected,2275,,1
+skatole,disznóhús,Undirected,2276,,1
+skatole,juhbél,Undirected,2277,,1
+skatole,juh vastagbél,Undirected,2278,,1
+skatole,sertésfej,Undirected,2279,,1
+méz,hotrienol,Undirected,2280,,1
+méz,phenylacetic acid,Undirected,2281,,1
+méz,methyl syringate,Undirected,2282,,1
+méz,Másképpen ugyanez,Undirected,2283,,1
+méz,Éles lév,Undirected,2284,,1
+méz,Sárga lév,Undirected,2285,,1
+méz,Vendég-lév,Undirected,2286,,1
+méz,Tejes borsó,Undirected,2287,,1
+méz,Mustos pecsenye,Undirected,2288,,1
+méz,Karbonáta,Undirected,2289,,1
+méz,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2290,,1
+méz,Madár-lév,Undirected,2291,,1
+méz,Gyümölcs-lév,Undirected,2292,,1
+méz,Szegfüves lév,Undirected,2293,,1
+méz,Bors-porral,Undirected,2294,,1
+méz,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,2295,,1
+méz,Cifra lév,Undirected,2296,,1
+méz,Váradi lév,Undirected,2297,,1
+méz,Töltelék,Undirected,2298,,1
+méz,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2299,,1
+méz,Téjfel-kenyér,Undirected,2300,,1
+méz,Tálban főtt,Undirected,2301,,1
+méz,"Töltött tyúkmony, azaz töltött tojás",Undirected,2302,,1
+méz,Alma-étek,Undirected,2303,,1
+méz,Egész alma,Undirected,2304,,1
+méz,Töltött cipó,Undirected,2305,,1
+méz,"Spanior lév, azaz spanyol lé",Undirected,2306,,1
+méz,Cseh rántott,Undirected,2307,,1
+méz,Bába-fánk,Undirected,2308,,1
+méz,Zólnai lév,Undirected,2309,,1
+méz,Kenyér-torta,Undirected,2310,,1
+méz,Bába-kenyér,Undirected,2311,,1
+méz,Rántott rizskása,Undirected,2312,,1
+méz,Olasz kolbász,Undirected,2313,,1
+méz,"Boros szérdék, azaz boros aludttej",Undirected,2314,,1
+méz,"Tejes klödör, azaz tejes gombóc",Undirected,2315,,1
+méz,Tálban főtt tejes étek,Undirected,2316,,1
+méz,Alma-kása,Undirected,2317,,1
+méz,Boros leves,Undirected,2318,,1
+méz,Rák töltve,Undirected,2319,,1
+méz,"Pila, azaz rizskásából készült étel",Undirected,2320,,1
+méz,"Körtvély-fánk, azaz körte-fánk",Undirected,2321,,1
+méz,Dió-béles,Undirected,2322,,1
+méz,Rák-sajt,Undirected,2323,,1
+méz,"Mondola-sása, azaz mandula-mártás",Undirected,2324,,1
+méz,"Daru-sása, azaz daru-mártás",Undirected,2325,,1
+méz,Tölcséres fánk,Undirected,2326,,1
+méz,Birsalma-pástétom,Undirected,2327,,1
+méz,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2328,,1
+méz,Tálban főtt zsemlekása,Undirected,2329,,1
+méz,Alma-lév,Undirected,2330,,1
+méz,Gutta-lév,Undirected,2331,,1
+méz,Lengyel cibre,Undirected,2332,,1
+méz,"Körtvély fõve, azaz körte fõzve",Undirected,2333,,1
+méz,Bot-lév,Undirected,2334,,1
+méz,Párolt rák,Undirected,2335,,1
+méz,Borsót főzni,Undirected,2336,,1
+méz,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,2337,,1
+méz,Borsos szilva,Undirected,2338,,1
+méz,Hal fekete lével,Undirected,2339,,1
+méz,Vizát viza-lével,Undirected,2340,,1
+méz,"Lönye, azaz kenyér- vagy kalácstészta",Undirected,2341,,1
+méz,Seres kenyér,Undirected,2342,,1
+méz,Sódar gyümölcsös lével,Undirected,2343,,1
+méz,Sódar szegfüves lével,Undirected,2344,,1
+méz,Malac hidegen,Undirected,2345,,1
+méz,Rántott körte,Undirected,2346,,1
+méz,"Más meggy-sása, azaz meggy-mártás",Undirected,2347,,1
+méz,"Szegfüves sása, azaz szegfüves mártás",Undirected,2348,,1
+méz,Dinnye-torta,Undirected,2349,,1
+méz,"Liktáriomok, azaz befőzöttek csinálásához megkívánt méz készítés",Undirected,2350,,1
+méz,Görögdinnye-liktáriom,Undirected,2351,,1
+méz,Nyers meggy-liktáriom,Undirected,2352,,1
+méz,Más egész meggy-liktáriom,Undirected,2353,,1
+méz,Más egész meggybõl liktáriom,Undirected,2354,,1
+méz,Muskotály körte-befőtt,Undirected,2355,,1
+méz,"Barack-liktáriom, azaz õszibarack-befõtt",Undirected,2356,,1
+méz,Tört som-liktáriom,Undirected,2357,,1
+méz,"Veres csipke-liktáriom, azaz csipkebogyó-befőtt",Undirected,2358,,1
+méz,Zöld dió-liktáriom,Undirected,2359,,1
+hotrienol,bodzavirág,Undirected,2360,,1
+Máj rántva,máj,Undirected,2361,,1
+máj,3-methylthiopropanal,Undirected,2362,,1
+máj,"Lapos tüdő, máj",Undirected,2363,,1
+máj,Sült,Undirected,2364,,1
+3-methylthiopropanal,borjúmáj,Undirected,2365,,1
+3-methylthiopropanal,báránymáj,Undirected,2366,,1
+3-methylthiopropanal,malacmáj,Undirected,2367,,1
+Tüdő rántva,tüdő,Undirected,2368,,1
+Tüdő rántva,sajt,Undirected,2369,,1
+Tüdő rántva,kenyérbél,Undirected,2370,,1
+tüdő,Tüdőkása,Undirected,2371,,1
+tüdő,Tüdõ-étek,Undirected,2372,,1
+tüdő,"Lapos tüdő, máj",Undirected,2373,,1
+sajt,isovaleric acid,Undirected,2374,,1
+sajt,Makaróni,Undirected,2375,,1
+sajt,Olasz makaróni,Undirected,2376,,1
+sajt,Azonban ezek is jók,Undirected,2377,,1
+isovaleric acid,kemény sajt,Undirected,2378,,1
+kenyérbél,Galuska,Undirected,2379,,1
+kenyérbél,Töltelék,Undirected,2380,,1
+kenyérbél,Rák töltve,Undirected,2381,,1
+kenyérbél,"Mondola-sása, azaz mandula-mártás",Undirected,2382,,1
+kenyérbél,Zuppon,Undirected,2383,,1
+kenyérbél,Kozák-lével,Undirected,2384,,1
+kenyérbél,"Tyúkfi, azaz csirke borkőben való",Undirected,2385,,1
+Fokhagyma-lével,sárga lé,Undirected,2386,,1
+Spékkel,petrezselyemzöld,Undirected,2387,,1
+petrezselyemzöld,"Klödör, azaz gombóc",Undirected,2388,,1
+petrezselyemzöld,Savanyú pecsenye,Undirected,2389,,1
+petrezselyemzöld,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,2390,,1
+petrezselyemzöld,Borított lév,Undirected,2391,,1
+Egressel,egres,Undirected,2392,,1
+egres,Egres-béles,Undirected,2393,,1
+egres,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,2394,,1
+Tyúk tiszta borssal,szerecsendió-virág,Undirected,2395,,1
+szerecsendió-virág,elemicin,Undirected,2396,,1
+szerecsendió-virág,safrole,Undirected,2397,,1
+szerecsendió-virág,myristic acid,Undirected,2398,,1
+szerecsendió-virág,Pástétom-lével,Undirected,2399,,1
+szerecsendió-virág,"Pikáda, azaz fűszerezett hússzelet",Undirected,2400,,1
+szerecsendió-virág,Kenyér-kása,Undirected,2401,,1
+szerecsendió-virág,Éles lév,Undirected,2402,,1
+szerecsendió-virág,Balázs-lév,Undirected,2403,,1
+szerecsendió-virág,Majoránna-lév,Undirected,2404,,1
+szerecsendió-virág,Keresdi lév,Undirected,2405,,1
+szerecsendió-virág,Savanyú pecsenye,Undirected,2406,,1
+szerecsendió-virág,Szürke lév,Undirected,2407,,1
+szerecsendió-virág,Gombát fõzni,Undirected,2408,,1
+szerecsendió-virág,Sült lév,Undirected,2409,,1
+szerecsendió-virág,Karbonáta,Undirected,2410,,1
+szerecsendió-virág,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2411,,1
+szerecsendió-virág,Cifra lév,Undirected,2412,,1
+szerecsendió-virág,Írós lév,Undirected,2413,,1
+szerecsendió-virág,Rák tejföllel,Undirected,2414,,1
+szerecsendió-virág,Hal téjfellel,Undirected,2415,,1
+szerecsendió-virág,Vereshagymát fõzni,Undirected,2416,,1
+szerecsendió-virág,"Tyúkmony-lév, azaz tojás-lé",Undirected,2417,,1
+szerecsendió-virág,Zuppon,Undirected,2418,,1
+szerecsendió-virág,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,2419,,1
+szerecsendió-virág,Hal rizskásával,Undirected,2420,,1
+szerecsendió-virág,"Lémonyával, azaz citrommal",Undirected,2421,,1
+szerecsendió-virág,Törött lével hal,Undirected,2422,,1
+szerecsendió-virág,Tiszta borssal,Undirected,2423,,1
+szerecsendió-virág,Rák tehénhús-lévben,Undirected,2424,,1
+szerecsendió-virág,"Tyúkfi, azaz csirke cipóban való",Undirected,2425,,1
+szerecsendió-virág,Zsemlye-galuska,Undirected,2426,,1
+elemicin,szerecsendió,Undirected,2427,,1
+safrole,szerecsendió,Undirected,2428,,1
+myristic acid,szerecsendió,Undirected,2429,,1
+Fekete lév,sertés keresztcsont,Undirected,2430,,1
+Fekete lév,malachús,Undirected,2431,,1
+Fekete lév,kenyér (bél),Undirected,2432,,1
+Fekete lév,alma,Undirected,2433,,1
+Fekete lév,dió,Undirected,2434,,1
+Fekete lév,cukor,Undirected,2435,,1
+Fekete lév,szegfűszeg,Undirected,2436,,1
+Fekete lév,tárkony,Undirected,2437,,1
+Fekete lév,sertésvér,Undirected,2438,,1
+Fekete lév,csirkevér,Undirected,2439,,1
+alma,Másképpen ugyanez,Undirected,2440,,1
+alma,Éles lév,Undirected,2441,,1
+alma,Vendég-lév,Undirected,2442,,1
+alma,Savanyú pecsenye,Undirected,2443,,1
+alma,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2444,,1
+alma,Gyümölcs-lév,Undirected,2445,,1
+alma,Gyömbéres lév,Undirected,2446,,1
+alma,Alma-étek,Undirected,2447,,1
+alma,Egész alma,Undirected,2448,,1
+alma,"Spanior lév, azaz spanyol lé",Undirected,2449,,1
+alma,Cseh rántott,Undirected,2450,,1
+alma,Alma-kása,Undirected,2451,,1
+alma,Alma-fánk,Undirected,2452,,1
+alma,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2453,,1
+alma,Alma-lév,Undirected,2454,,1
+alma,Ég-lév,Undirected,2455,,1
+alma,Kozák-lével,Undirected,2456,,1
+alma,Hal fekete lével,Undirected,2457,,1
+alma,Malac hidegen,Undirected,2458,,1
+alma,Rántott körte,Undirected,2459,,1
+dió,juglone,Undirected,2460,,1
+dió,"Dió-sása, azaz dió-mártás",Undirected,2461,,1
+dió,Dió-béles,Undirected,2462,,1
+dió,Kínzott kása,Undirected,2463,,1
+dió,Sült hal,Undirected,2464,,1
+dió,Hal fekete lével,Undirected,2465,,1
+juglone,dióbél,Undirected,2466,,1
+juglone,zöld dió,Undirected,2467,,1
+cukor,maltol,Undirected,2468,,1
+cukor,hydroxymethylfurfural,Undirected,2469,,1
+cukor,Tüdõ-étek,Undirected,2470,,1
+cukor,Savanyú pecsenye,Undirected,2471,,1
+cukor,Zsemlye-kása,Undirected,2472,,1
+cukor,Alma-étek,Undirected,2473,,1
+cukor,Egres-béles,Undirected,2474,,1
+cukor,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2475,,1
+cukor,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,2476,,1
+cukor,"Mondola-klödör, azaz mandula-gombóc",Undirected,2477,,1
+cukor,Azonban ezek is jók,Undirected,2478,,1
+cukor,"Mondola-perec, azaz mandula-perec",Undirected,2479,,1
+cukor,Gutta-lév,Undirected,2480,,1
+cukor,Kék káposzta,Undirected,2481,,1
+cukor,Õszibarack-torta,Undirected,2482,,1
+cukor,Fényes birsalma-liktárium,Undirected,2483,,1
+cukor,Másféle fényes birsalma-liktáriom,Undirected,2484,,1
+cukor,Más birsalma-liktáriom borral s fûszerszámmal,Undirected,2485,,1
+cukor,"Tengeri barack-liktáriom, azaz sárgabarack-befőtt",Undirected,2486,,1
+cukor,Birsalma tésztát így csinálj,Undirected,2487,,1
+cukor,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,2488,,1
+cukor,A birsalma-sajtot így csináld,Undirected,2489,,1
+cukor,Más sárga birsalma-sajt,Undirected,2490,,1
+maltol,nádcukor,Undirected,2491,,1
+maltol,fekete kenyér,Undirected,2492,,1
+maltol,ostya,Undirected,2493,,1
+maltol,kalács,Undirected,2494,,1
+maltol,pirított kenyér,Undirected,2495,,1
+maltol,nádcukorszirup,Undirected,2496,,1
+maltol,cukor (nádcukor),Undirected,2497,,1
+maltol,cukorszirup,Undirected,2498,,1
+hydroxymethylfurfural,nádcukor,Undirected,2499,,1
+hydroxymethylfurfural,cukor (nádcukor),Undirected,2500,,1
+szegfűszeg,eugenol,Undirected,2501,,1
+szegfűszeg,eugenyl acetate,Undirected,2502,,1
+szegfűszeg,humulene,Undirected,2503,,1
+szegfűszeg,caryophyllene oxide,Undirected,2504,,1
+szegfűszeg,Másképpen ugyanez,Undirected,2505,,1
+szegfűszeg,Magyar lév,Undirected,2506,,1
+szegfűszeg,Keresdi lév,Undirected,2507,,1
+szegfűszeg,Sült lév,Undirected,2508,,1
+szegfűszeg,Karbonáta,Undirected,2509,,1
+szegfűszeg,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2510,,1
+szegfűszeg,Madár-lév,Undirected,2511,,1
+szegfűszeg,Sült,Undirected,2512,,1
+szegfűszeg,Szegfüves lév,Undirected,2513,,1
+szegfűszeg,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,2514,,1
+szegfűszeg,Váradi lév,Undirected,2515,,1
+szegfűszeg,Sült pástétom,Undirected,2516,,1
+szegfűszeg,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2517,,1
+szegfűszeg,Veres béles,Undirected,2518,,1
+szegfűszeg,"Körtvély-béles, azaz körte-béles",Undirected,2519,,1
+szegfűszeg,Egres-béles,Undirected,2520,,1
+szegfűszeg,Olasz kolbász,Undirected,2521,,1
+szegfűszeg,Szilvás béles,Undirected,2522,,1
+szegfűszeg,Birsalma-pástétom,Undirected,2523,,1
+szegfűszeg,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2524,,1
+szegfűszeg,Szilvás cipó,Undirected,2525,,1
+szegfűszeg,Alma-lév,Undirected,2526,,1
+szegfűszeg,"Körtvély fõve, azaz körte fõzve",Undirected,2527,,1
+szegfűszeg,Hal fekete lével,Undirected,2528,,1
+szegfűszeg,Sódar szegfüves lével,Undirected,2529,,1
+szegfűszeg,"Szegfüves sása, azaz szegfüves mártás",Undirected,2530,,1
+szegfűszeg,"Gyömbéres sása, azaz gyömbéres mártás",Undirected,2531,,1
+szegfűszeg,Más birsalma-liktáriom borral s fûszerszámmal,Undirected,2532,,1
+szegfűszeg,Zöld dió-liktáriom,Undirected,2533,,1
+szegfűszeg,Disznófőből való sajt,Undirected,2534,,1
+eugenol,fahéj,Undirected,2535,,1
+eugenol,meggy,Undirected,2536,,1
+eugenol,rózsavíz,Undirected,2537,,1
+eugenol,meggylé,Undirected,2538,,1
+tárkony,estragole,Undirected,2539,,1
+tárkony,methyl chavicol,Undirected,2540,,1
+tárkony,anethole,Undirected,2541,,1
+tárkony,β-ocimene,Undirected,2542,,1
+tárkony,Éles lév,Undirected,2543,,1
+tárkony,Tárkonnyal,Undirected,2544,,1
+tárkony,Kaporral,Undirected,2545,,1
+tárkony,"Zsufa, azaz savanyú mártás",Undirected,2546,,1
+tárkony,Bárányfő hidegen,Undirected,2547,,1
+tárkony,Rák tejfellel,Undirected,2548,,1
+tárkony,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,2549,,1
+tárkony,Miskuláncia-saláta,Undirected,2550,,1
+tárkony,"Tyúkmony-saláta, azaz tojás-saláta",Undirected,2551,,1
+Másképpen ugyanez,disznóhús,Undirected,2552,,1
+Másképpen ugyanez,szarvashús,Undirected,2553,,1
+Másképpen ugyanez,őzhús,Undirected,2554,,1
+Másképpen ugyanez,hagyma,Undirected,2555,,1
+Másképpen ugyanez,mandula,Undirected,2556,,1
+Másképpen ugyanez,füge,Undirected,2557,,1
+hagyma,Éles lév,Undirected,2558,,1
+hagyma,Töltött malac,Undirected,2559,,1
+hagyma,Ég-lév,Undirected,2560,,1
+hagyma,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,2561,,1
+hagyma,Kozák-lével,Undirected,2562,,1
+hagyma,Hal fekete lével,Undirected,2563,,1
+mandula,benzaldehyde,Undirected,2564,,1
+mandula,hydrogen cyanide (trace),Undirected,2565,,1
+mandula,benzoic acid,Undirected,2566,,1
+mandula,Vendég-lév,Undirected,2567,,1
+mandula,Karbonáta,Undirected,2568,,1
+mandula,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2569,,1
+mandula,Gyümölcs-lév,Undirected,2570,,1
+mandula,Szegfüves lév,Undirected,2571,,1
+mandula,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,2572,,1
+mandula,Cifra lév,Undirected,2573,,1
+mandula,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2574,,1
+mandula,Mandula-torta,Undirected,2575,,1
+mandula,Töltött cipó,Undirected,2576,,1
+mandula,"Spanior lév, azaz spanyol lé",Undirected,2577,,1
+mandula,Paláta,Undirected,2578,,1
+mandula,Veres béles,Undirected,2579,,1
+mandula,"Körtvély-béles, azaz körte-béles",Undirected,2580,,1
+mandula,Kenyér-torta,Undirected,2581,,1
+mandula,Olasz kolbász,Undirected,2582,,1
+mandula,Boros leves,Undirected,2583,,1
+mandula,Ostya-béles,Undirected,2584,,1
+mandula,"Mondola-sása, azaz mandula-mártás",Undirected,2585,,1
+mandula,"Daru-sása, azaz daru-mártás",Undirected,2586,,1
+mandula,"Mondola-klödör, azaz mandula-gombóc",Undirected,2587,,1
+mandula,Alma-lév,Undirected,2588,,1
+mandula,"Mondola-perec, azaz mandula-perec",Undirected,2589,,1
+mandula,"Mondola-lév, azaz mandula-lé",Undirected,2590,,1
+mandula,Sódar gyümölcsös lével,Undirected,2591,,1
+mandula,Sódar szegfüves lével,Undirected,2592,,1
+mandula,Malac hidegen,Undirected,2593,,1
+mandula,"Mondola-pogácsa, azaz mandula-pogácsa",Undirected,2594,,1
+mandula,A mandula-olajat így csináld,Undirected,2595,,1
+mandula,"A marcafántot, azaz marcipánt így csináld",Undirected,2596,,1
+mandula,"Mondola-téj, azaz mandula-tej",Undirected,2597,,1
+benzaldehyde,meggy,Undirected,2598,,1
+benzaldehyde,szilva,Undirected,2599,,1
+benzaldehyde,aszalt szilva,Undirected,2600,,1
+benzaldehyde,őszibarack,Undirected,2601,,1
+benzaldehyde,sárgabarack,Undirected,2602,,1
+benzaldehyde,som,Undirected,2603,,1
+benzaldehyde,meggylé,Undirected,2604,,1
+benzoic acid,som,Undirected,2605,,1
+füge,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2606,,1
+füge,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2607,,1
+füge,Töltött cipó,Undirected,2608,,1
+füge,Kenyér-torta,Undirected,2609,,1
+füge,Boros leves,Undirected,2610,,1
+füge,Gutta-lév,Undirected,2611,,1
+Pástétom-lével,hal,Undirected,2612,,1
+hal,"(E,Z)-2,6-nonadienal",Undirected,2613,,1
+hal,Éles lév,Undirected,2614,,1
+hal,Sárga lév,Undirected,2615,,1
+hal,Luther-lév,Undirected,2616,,1
+hal,Szürke lév,Undirected,2617,,1
+hal,Bors-porral,Undirected,2618,,1
+hal,Írós lév,Undirected,2619,,1
+hal,Zólnai lév,Undirected,2620,,1
+hal,Ég-lév,Undirected,2621,,1
+hal,"Mondola-lév, azaz mandula-lé",Undirected,2622,,1
+hal,Hal rizskásával,Undirected,2623,,1
+hal,Olaj-spék,Undirected,2624,,1
+hal,Sült hal,Undirected,2625,,1
+hal,"Lémonyával, azaz citrommal",Undirected,2626,,1
+hal,Kozák-lével,Undirected,2627,,1
+hal,Zöld lével,Undirected,2628,,1
+hal,Hal fekete lével,Undirected,2629,,1
+hal,Zuppon-lév,Undirected,2630,,1
+hal,Tiszta borssal,Undirected,2631,,1
+hal,Olajos lév,Undirected,2632,,1
+"(E,Z)-2,6-nonadienal",uborka,Undirected,2633,,1
+"(E,Z)-2,6-nonadienal",görögdinnyehéj,Undirected,2634,,1
+"Berbécsfő, azaz juhfej",juhfej,Undirected,2635,,1
+"Berbécsfő, azaz juhfej",juhláb,Undirected,2636,,1
+"Berbécsfő, azaz juhfej",ürü,Undirected,2637,,1
+juhfej,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,2638,,1
+juhláb,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,2639,,1
+ürü,branched fatty acids,Undirected,2640,,1
+ürü,"Berbécsfő-saláta, azaz juhfej-saláta",Undirected,2641,,1
+"Szömörcsök-lév, azaz kucsmagomba-lé",kucsmagomba,Undirected,2642,,1
+kucsmagomba,1-octen-3-one,Undirected,2643,,1
+kucsmagomba,3-octanone,Undirected,2644,,1
+kucsmagomba,"Szömörcsök-gomba, azaz kucsmagomba főve",Undirected,2645,,1
+3-octanone,laskagomba,Undirected,2646,,1
+"Pikáda, azaz fűszerezett hússzelet",zöld petrezselyem,Undirected,2647,,1
+"Pikáda, azaz fűszerezett hússzelet",citrom,Undirected,2648,,1
+citrom,geraniol,Undirected,2649,,1
+citrom,citronellal,Undirected,2650,,1
+citrom,Éles lév,Undirected,2651,,1
+citrom,Tüdõ-étek,Undirected,2652,,1
+citrom,Keresdi lév,Undirected,2653,,1
+citrom,Savanyú pecsenye,Undirected,2654,,1
+citrom,Sült lév,Undirected,2655,,1
+citrom,Karbonáta,Undirected,2656,,1
+citrom,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2657,,1
+citrom,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,2658,,1
+citrom,Cifra lév,Undirected,2659,,1
+citrom,Veres béles,Undirected,2660,,1
+citrom,Rák tejföllel,Undirected,2661,,1
+citrom,Hal téjfellel,Undirected,2662,,1
+citrom,Gutta-lév,Undirected,2663,,1
+citrom,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,2664,,1
+citrom,"Lémonyával, azaz citrommal",Undirected,2665,,1
+citrom,Malac hidegen,Undirected,2666,,1
+citrom,"A fejér bis-coctumot, azaz fehér piskótát így csináld",Undirected,2667,,1
+geraniol,szőlő,Undirected,2668,,1
+geraniol,rózsavíz,Undirected,2669,,1
+geraniol,rózsaolaj,Undirected,2670,,1
+geraniol,apró vörös szőlő,Undirected,2671,,1
+geraniol,vörös rózsaszirom,Undirected,2672,,1
+geraniol,rózsa,Undirected,2673,,1
+geraniol,rózsaszirom,Undirected,2674,,1
+geraniol,csipkebogyó,Undirected,2675,,1
+Éles lév,malac,Undirected,2676,,1
+malac,Töltött malac,Undirected,2677,,1
+malac,Malac hidegen,Undirected,2678,,1
+"Tyúkfi, azaz csirke sóban",csirke,Undirected,2679,,1
+csirke,Keresdi lév,Undirected,2680,,1
+csirke,Téjfellel,Undirected,2681,,1
+csirke,Hal téjfellel,Undirected,2682,,1
+csirke,"Tyúkfi, azaz csirke cipóban való",Undirected,2683,,1
+csirke,"Tyúkfi, azaz csirke borkőben való",Undirected,2684,,1
+csirke,Tyúk-saláta,Undirected,2685,,1
+Magyar lév,fahéj,Undirected,2686,,1
+fahéj,cinnamaldehyde,Undirected,2687,,1
+fahéj,cinnamyl acetate,Undirected,2688,,1
+fahéj,coumarin,Undirected,2689,,1
+fahéj,benzyl benzoate,Undirected,2690,,1
+fahéj,Tüdõ-étek,Undirected,2691,,1
+fahéj,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2692,,1
+fahéj,"Meggy-sása, azaz meggy-mártás, sült alá",Undirected,2693,,1
+fahéj,Váradi lév,Undirected,2694,,1
+fahéj,Töltött cipó,Undirected,2695,,1
+fahéj,Cseh rántott,Undirected,2696,,1
+fahéj,Veres béles,Undirected,2697,,1
+fahéj,"Körtvély-béles, azaz körte-béles",Undirected,2698,,1
+fahéj,Egres-béles,Undirected,2699,,1
+fahéj,Alma-kása,Undirected,2700,,1
+fahéj,Német rántott,Undirected,2701,,1
+fahéj,"Pila, azaz rizskásából készült étel",Undirected,2702,,1
+fahéj,Rák-sajt,Undirected,2703,,1
+fahéj,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2704,,1
+fahéj,Gutta-lév,Undirected,2705,,1
+fahéj,"Mondola-lév, azaz mandula-lé",Undirected,2706,,1
+fahéj,"Lémonyával, azaz citrommal",Undirected,2707,,1
+fahéj,Õszibarack-torta,Undirected,2708,,1
+fahéj,Más birsalma-liktáriom borral s fûszerszámmal,Undirected,2709,,1
+fahéj,Zöld dió-liktáriom,Undirected,2710,,1
+fahéj,A birsalma-sajtot így csináld,Undirected,2711,,1
+Ludas kása,liba,Undirected,2712,,1
+Ludas kása,köles,Undirected,2713,,1
+köles,Lyukas kása,Undirected,2714,,1
+köles,Köles-kása,Undirected,2715,,1
+Hideg étek,disznóláb,Undirected,2716,,1
+Hideg étek,főzőlé,Undirected,2717,,1
+disznóláb,Lábból való saláta,Undirected,2718,,1
+Sárga lév,nádcukor,Undirected,2719,,1
+Sárga lév,ribizli,Undirected,2720,,1
+nádcukor,Bárányfő rántva,Undirected,2721,,1
+nádcukor,Karbonáta,Undirected,2722,,1
+nádcukor,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2723,,1
+nádcukor,Cifra lév,Undirected,2724,,1
+nádcukor,Mandula-torta,Undirected,2725,,1
+nádcukor,Téjfel-kenyér,Undirected,2726,,1
+nádcukor,Tálban főtt,Undirected,2727,,1
+nádcukor,Egész alma,Undirected,2728,,1
+nádcukor,Töltött cipó,Undirected,2729,,1
+nádcukor,Cseh rántott,Undirected,2730,,1
+nádcukor,Paláta,Undirected,2731,,1
+nádcukor,Veres béles,Undirected,2732,,1
+nádcukor,"Körtvély-béles, azaz körte-béles",Undirected,2733,,1
+nádcukor,Bába-kenyér,Undirected,2734,,1
+nádcukor,Rántott rizskása,Undirected,2735,,1
+nádcukor,Tálban főtt tejes étek,Undirected,2736,,1
+nádcukor,Alma-kása,Undirected,2737,,1
+nádcukor,Boros kenyér,Undirected,2738,,1
+nádcukor,Német rántott,Undirected,2739,,1
+nádcukor,Alma-fánk,Undirected,2740,,1
+nádcukor,"Pila, azaz rizskásából készült étel",Undirected,2741,,1
+nádcukor,Tolyó-fánk,Undirected,2742,,1
+nádcukor,"Körtvély-fánk, azaz körte-fánk",Undirected,2743,,1
+nádcukor,Rák-sajt,Undirected,2744,,1
+nádcukor,Főkötős fánk,Undirected,2745,,1
+nádcukor,Tölcséres fánk,Undirected,2746,,1
+nádcukor,Barack-fánk,Undirected,2747,,1
+nádcukor,Szilvás cipó,Undirected,2748,,1
+nádcukor,Tálban főtt zsemlekása,Undirected,2749,,1
+nádcukor,Palástos rizskása,Undirected,2750,,1
+nádcukor,Saláta,Undirected,2751,,1
+nádcukor,Miskuláncia-saláta,Undirected,2752,,1
+nádcukor,"Mondola-lév, azaz mandula-lé",Undirected,2753,,1
+nádcukor,Rózsa-kása,Undirected,2754,,1
+nádcukor,"Mondola-pogácsa, azaz mandula-pogácsa",Undirected,2755,,1
+nádcukor,"Liktáriomok, azaz befőzöttek csinálásához megkívánt méz készítés",Undirected,2756,,1
+nádcukor,"Apró veres szõlõ-, málna-, eper-liktáriomok",Undirected,2757,,1
+nádcukor,Másféle öntött birsalma-liktáriom,Undirected,2758,,1
+nádcukor,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,2759,,1
+nádcukor,Más fényes birsalma-liktáriom,Undirected,2760,,1
+nádcukor,Birsalma-lévbõl más fényes liktáriom,Undirected,2761,,1
+nádcukor,Birsalmából piros liktáriom,Undirected,2762,,1
+nádcukor,Más egész meggybõl liktáriom,Undirected,2763,,1
+nádcukor,Rózsa-liktáriom,Undirected,2764,,1
+nádcukor,Másképpen így főzd,Undirected,2765,,1
+nádcukor,Másképpen így,Undirected,2766,,1
+nádcukor,"A szederjes viola-julepet, azaz viola-szirupot így csináld",Undirected,2767,,1
+nádcukor,Eleven gyömbért így csinálj,Undirected,2768,,1
+nádcukor,"A fejér bis-coctumot, azaz fehér piskótát így csináld",Undirected,2769,,1
+nádcukor,A citrom-pogácsát tiszta nádcukorból így csináld,Undirected,2770,,1
+ribizli,methyl butanoate,Undirected,2771,,1
+ribizli,ethyl butyrate,Undirected,2772,,1
+ribizli,eucalyptol,Undirected,2773,,1
+ribizli,Tüdõ-étek,Undirected,2774,,1
+ribizli,Karbonáta,Undirected,2775,,1
+ribizli,Cifra lév,Undirected,2776,,1
+ribizli,Töltött cipó,Undirected,2777,,1
+ribizli,"Spanior lév, azaz spanyol lé",Undirected,2778,,1
+ribizli,Bába-kenyér,Undirected,2779,,1
+ribizli,Rák-sajt,Undirected,2780,,1
+ribizli,"Daru-sása, azaz daru-mártás",Undirected,2781,,1
+ribizli,Bot-lév,Undirected,2782,,1
+ribizli,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,2783,,1
+ribizli,Mozsár-fánk,Undirected,2784,,1
+ribizli,"Tengeri szõlõbõl, azaz ribizlibõl, meggybõl, sóskából is így csináld; csakhogy,",Undirected,2785,,1
+methyl butanoate,vörös ribizli,Undirected,2786,,1
+methyl butanoate,ribizlilé,Undirected,2787,,1
+ethyl butyrate,vörös ribizli,Undirected,2788,,1
+ethyl butyrate,ribizlilé,Undirected,2789,,1
+eucalyptol,vörös ribizli,Undirected,2790,,1
+eucalyptol,ribizlilé,Undirected,2791,,1
+Töltött tyúk,galamb,Undirected,2792,,1
+Töltött tyúk,főtt tojás,Undirected,2793,,1
+galamb,Téjfellel,Undirected,2794,,1
+főtt tojás,"Vajas klödör, azaz vajas gombóc",Undirected,2795,,1
+Kaporral,kapor,Undirected,2796,,1
+kapor,carvone,Undirected,2797,,1
+kapor,dillapiole,Undirected,2798,,1
+kapor,Majoránna-lév,Undirected,2799,,1
+kapor,Túrós étek,Undirected,2800,,1
+kapor,"Piroska, azaz túróval töltött derelye",Undirected,2801,,1
+kapor,Tejfeles túró,Undirected,2802,,1
+kapor,Ordás leves,Undirected,2803,,1
+kapor,Torzsa-saláta,Undirected,2804,,1
+kapor,Ugorkát télre sózni,Undirected,2805,,1
+carvone,friss kapor,Undirected,2806,,1
+dillapiole,friss kapor,Undirected,2807,,1
+Tyúk káposzta-lévben,káposztalé,Undirected,2808,,1
+káposztalé,Káposzta ikrával,Undirected,2809,,1
+káposztalé,Koldus-lév,Undirected,2810,,1
+káposztalé,Zsákvászonnal,Undirected,2811,,1
+káposztalé,Borított lév,Undirected,2812,,1
+káposztalé,Kása olajjal,Undirected,2813,,1
+káposztalé,Káposzta-lév cibre,Undirected,2814,,1
+káposztalé,Olajos lév,Undirected,2815,,1
+káposztalé,"Kolbász, lévre",Undirected,2816,,1
+Bárányfő rántva,bárányfej,Undirected,2817,,1
+Bárányfő rántva,bárányláb,Undirected,2818,,1
+Bárányfő rántva,sör,Undirected,2819,,1
+sör,Serleves,Undirected,2820,,1
+sör,Seres kenyér,Undirected,2821,,1
+Vendég-lév,szőlő,Undirected,2822,,1
+Vendég-lév,körte,Undirected,2823,,1
+szőlő,methyl anthranilate,Undirected,2824,,1
+szőlő,nerol,Undirected,2825,,1
+szőlő,Tálban főtt tejes étek,Undirected,2826,,1
+szőlő,Malac hidegen,Undirected,2827,,1
+szőlő,Dinnye-torta,Undirected,2828,,1
+methyl anthranilate,apró vörös szőlő,Undirected,2829,,1
+methyl anthranilate,eper,Undirected,2830,,1
+methyl anthranilate,szőlőmust,Undirected,2831,,1
+nerol,rózsavíz,Undirected,2832,,1
+nerol,rózsaolaj,Undirected,2833,,1
+nerol,apró vörös szőlő,Undirected,2834,,1
+nerol,vörös rózsaszirom,Undirected,2835,,1
+nerol,rózsa,Undirected,2836,,1
+nerol,rózsaszirom,Undirected,2837,,1
+körte,"ethyl (E,Z)-2,4-decadienoate",Undirected,2838,,1
+körte,ethyl octanoate,Undirected,2839,,1
+körte,butyl acetate,Undirected,2840,,1
+körte,"Kappan-lév, azaz ivartalanított kakas-lé",Undirected,2841,,1
+körte,Gyümölcs-lév,Undirected,2842,,1
+körte,Gyömbéres lév,Undirected,2843,,1
+körte,"Körtvély-béles, azaz körte-béles",Undirected,2844,,1
+körte,"Körtvély-pástétom, azaz körte-pástétom",Undirected,2845,,1
+körte,"Körtvély fõve, azaz körte fõzve",Undirected,2846,,1
+körte,Sódar gyümölcsös lével,Undirected,2847,,1
+körte,Rántott körte,Undirected,2848,,1
+"ethyl (E,Z)-2,4-decadienoate",muskotály körte,Undirected,2849,,1
+ethyl octanoate,szilva,Undirected,2850,,1
+ethyl octanoate,muskotály körte,Undirected,2851,,1
+Galuska,egyéb hús,Undirected,2852,,1
+Majoránna-lév,csirkehús vagy más húsféle,Undirected,2853,,1
+Majoránna-lév,sózott citrom,Undirected,2854,,1
+Majoránna-lév,szalonnazsír,Undirected,2855,,1
+sózott citrom,Madár-lév,Undirected,2856,,1
+szalonnazsír,Bárányhúst német módon,Undirected,2857,,1
+szalonnazsír,Citrom-lév,Undirected,2858,,1
+Kocsonya,marhaláb,Undirected,2859,,1
+Kocsonya,marha tokahús és bőr,Undirected,2860,,1
+Kocsonya,zsályalevél,Undirected,2861,,1
+marhaláb,Lábból való saláta,Undirected,2862,,1
+zsályalevél,Zsálya-fánk,Undirected,2863,,1
+zsályalevél,Miskuláncia-saláta,Undirected,2864,,1
+zsályalevél,Borsóleves,Undirected,2865,,1
+"Kutkusa, azaz juhbélből készült étel",juhbél,Undirected,2866,,1
+"Kutkusa, azaz juhbélből készült étel",juhtüdő,Undirected,2867,,1
+"Kutkusa, azaz juhbélből készült étel",juhgyomor,Undirected,2868,,1
+"Kutkusa, azaz juhbélből készült étel",juh vastagbél,Undirected,2869,,1
+"Kutkusa, azaz juhbélből készült étel",füstölt szalonna vagy sonka,Undirected,2870,,1
+Nyelvet főzni,marhanyelv,Undirected,2871,,1
+Nyelvet főzni,gyümölcs,Undirected,2872,,1
+Savanyú pecsenye,sült hús,Undirected,2873,,1
+sült hús,Sült lév,Undirected,2874,,1
+sült hús,Deszpot-lév,Undirected,2875,,1
+sült hús,Gyömbéres lév,Undirected,2876,,1
+sült hús,Mikó-lév,Undirected,2877,,1
+sült hús,"Dió-sása, azaz dió-mártás",Undirected,2878,,1
+sült hús,"Malozsa-lév, azaz mazsola-mártás sült alá",Undirected,2879,,1
+sült hús,Hagyma lével,Undirected,2880,,1
+Bárányfő hidegen,bárány,Undirected,2881,,1
+Bárányfő hidegen,turbolya,Undirected,2882,,1
+turbolya,Saláta,Undirected,2883,,1
+turbolya,Miskuláncia-saláta,Undirected,2884,,1
+Tejes borsó,borsó,Undirected,2885,,1
+Tejes borsó,tej,Undirected,2886,,1
+Tejes borsó,sertéshátgerinc,Undirected,2887,,1
+Tejes borsó,füstölt sonka,Undirected,2888,,1
+borsó,"Orjával, azaz a sertés hátgerincével",Undirected,2889,,1
+borsó,Hüvelyes borsó,Undirected,2890,,1
+borsó,Borsóleves,Undirected,2891,,1
+borsó,Borsót főzni,Undirected,2892,,1
+borsó,Borsó laskával,Undirected,2893,,1
+tej,acetaldehyde,Undirected,2894,,1
+tej,Tálban főtt,Undirected,2895,,1
+tej,Új káposzta tejben,Undirected,2896,,1
+tej,Zsemlye-kása,Undirected,2897,,1
+tej,Makaróni,Undirected,2898,,1
+tej,Bába-fánk,Undirected,2899,,1
+tej,Paláta,Undirected,2900,,1
+tej,Írós lév,Undirected,2901,,1
+tej,Kenyér-torta,Undirected,2902,,1
+tej,Rántott rizskása,Undirected,2903,,1
+tej,"Tejes klödör, azaz tejes gombóc",Undirected,2904,,1
+tej,Hajtott tejes étek,Undirected,2905,,1
+tej,Metélt étek,Undirected,2906,,1
+tej,"Lábbogó, azaz lebegő tejes étek",Undirected,2907,,1
+tej,Vagdalt étek,Undirected,2908,,1
+tej,Borza-kása,Undirected,2909,,1
+tej,Laboda-paréj,Undirected,2910,,1
+tej,"Murok, azaz sárgarépa tejjel",Undirected,2911,,1
+tej,Tök téjjel,Undirected,2912,,1
+tej,Árpa-kása,Undirected,2913,,1
+tej,Palacsinta,Undirected,2914,,1
+tej,"Körtvély-fánk, azaz körte-fánk",Undirected,2915,,1
+tej,Rák-sajt,Undirected,2916,,1
+tej,Német tejes étek,Undirected,2917,,1
+tej,Tölcséres fánk,Undirected,2918,,1
+tej,"Tyúkmony-sajt, azaz tojás-sajt",Undirected,2919,,1
+tej,Tálban főtt zsemlekása,Undirected,2920,,1
+tej,"Mondola-klödör, azaz mandula-gombóc",Undirected,2921,,1
+tej,Palástos rizskása,Undirected,2922,,1
+tej,Köles-kása,Undirected,2923,,1
+tej,Zab-kása,Undirected,2924,,1
+tej,"Bálmos, azaz puliszkaszerű étel",Undirected,2925,,1
+tej,Kínzott kása,Undirected,2926,,1
+tej,Báránybél édes téjjel,Undirected,2927,,1
+tej,Másképpen,Undirected,2928,,1
+tej,Rizskása tejben,Undirected,2929,,1
+tej,Mozsár-fánk,Undirected,2930,,1
+acetaldehyde,aludttej,Undirected,2931,,1
+sertéshátgerinc,Kék káposzta,Undirected,2932,,1
+"Lapos tüdő, máj",marhahús- vagy juhhúsleves,Undirected,2933,,1
+"Orjával, azaz a sertés hátgerincével",lencse,Undirected,2934,,1
+"Orjával, azaz a sertés hátgerincével",kása,Undirected,2935,,1
+"Orjával, azaz a sertés hátgerincével",sertés hátgerinc (orja),Undirected,2936,,1
+lencse,Lencseleves,Undirected,2937,,1
+lencse,Lencse olajjal,Undirected,2938,,1
+kása,Kínzott kása,Undirected,2939,,1
+kása,Kása olajjal,Undirected,2940,,1
+Szürke lév,fekete kenyér,Undirected,2941,,1
+Szürke lév,olívaolaj,Undirected,2942,,1
+olívaolaj,Zólnai lév,Undirected,2943,,1
+olívaolaj,Olasz káposzta,Undirected,2944,,1
+olívaolaj,Hüvelyes borsó,Undirected,2945,,1
+olívaolaj,Saláta,Undirected,2946,,1
+olívaolaj,Ugorka-saláta,Undirected,2947,,1
+olívaolaj,Miskuláncia-saláta,Undirected,2948,,1
+olívaolaj,Bot-lév,Undirected,2949,,1
+olívaolaj,Nyers káposzta-saláta,Undirected,2950,,1
+olívaolaj,Párolt rák,Undirected,2951,,1
+olívaolaj,Hal rizskásával,Undirected,2952,,1
+olívaolaj,"Olajos domika, azaz túróból és kenyérbõl készített étel",Undirected,2953,,1
+olívaolaj,Tiszta borssal,Undirected,2954,,1
+olívaolaj,Borított lév,Undirected,2955,,1
+olívaolaj,Hagyma rántva,Undirected,2956,,1
+Gombát fõzni,laskagomba,Undirected,2957,,1
+Gombát fõzni,csiperke gomba,Undirected,2958,,1
+csiperke gomba,benzyl alcohol,Undirected,2959,,1
+benzyl alcohol,meggy,Undirected,2960,,1
+Mustos pecsenye,must,Undirected,2961,,1
+Karbonáta,borjúmáj,Undirected,2962,,1
+Karbonáta,báránymáj,Undirected,2963,,1
+Karbonáta,fehér kenyérbél,Undirected,2964,,1
+Karbonáta,sertésháló (faggyúhártya),Undirected,2965,,1
+Karbonáta,borjúhús,Undirected,2966,,1
+Karbonáta,apró madarak,Undirected,2967,,1
+fehér kenyérbél,Rák tejföllel,Undirected,2968,,1
+fehér kenyérbél,Hal téjfellel,Undirected,2969,,1
+fehér kenyérbél,Rák tehénhús-lévben,Undirected,2970,,1
+fehér kenyérbél,Sódar gyümölcsös lével,Undirected,2971,,1
+borjúhús,Zsályás pecsenye,Undirected,2972,,1
+"Kappan-lév, azaz ivartalanított kakas-lé",kappan,Undirected,2973,,1
+kappan,Cifra lév,Undirected,2974,,1
+Sült,kolbász,Undirected,2975,,1
+Sült,köménymag,Undirected,2976,,1
+kolbász,capsaicin,Undirected,2977,,1
+kolbász,capsanthin,Undirected,2978,,1
+kolbász,dihydrocapsaicin,Undirected,2979,,1
+kolbász,"Kolbász, lévre",Undirected,2980,,1
+köménymag,cuminaldehyde,Undirected,2981,,1
+köménymag,p-cymene,Undirected,2982,,1
+Bors-porral,olaj,Undirected,2983,,1
+olaj,Vereshagymát fõzni,Undirected,2984,,1
+olaj,Koldus-lév,Undirected,2985,,1
+olaj,Ikrát főzni,Undirected,2986,,1
+olaj,Borsóleves,Undirected,2987,,1
+olaj,Korpa-cibre,Undirected,2988,,1
+olaj,Borsót főzni,Undirected,2989,,1
+olaj,Olaj-spék,Undirected,2990,,1
+olaj,"Cicer, azaz bagoly-borsó",Undirected,2991,,1
+olaj,Csukát csuka-lével,Undirected,2992,,1
+olaj,Kozák-lével,Undirected,2993,,1
+olaj,Kása olajjal,Undirected,2994,,1
+olaj,Káposztás béles,Undirected,2995,,1
+olaj,"Lása, azaz laskagomba",Undirected,2996,,1
+olaj,Új káposzta,Undirected,2997,,1
+"Leány-sarjával, azaz friss tormahajtással",friss tormahajtás,Undirected,2998,,1
+"Leány-sarjával, azaz friss tormahajtással",zöld fokhagyma,Undirected,2999,,1
+"Leány-sarjával, azaz friss tormahajtással",fiatal lúd,Undirected,3000,,1
+"Leány-sarjával, azaz friss tormahajtással",fiatal kacsa,Undirected,3001,,1
+"Leány-sarjával, azaz friss tormahajtással",liba- vagy kacsaaprólék,Undirected,3002,,1
+zöld fokhagyma,allyl methyl sulfide,Undirected,3003,,1
+"Meggy-sása, azaz meggy-mártás, sült alá",meggy,Undirected,3004,,1
+meggy,"Más meggy-sása, azaz meggy-mártás",Undirected,3005,,1
+meggy,Nyers meggy-liktáriom,Undirected,3006,,1
+meggy,Más egész meggy-liktáriom,Undirected,3007,,1
+meggy,Más egész meggybõl liktáriom,Undirected,3008,,1
+meggy,Más meggy-liktáriom,Undirected,3009,,1
+meggy,Fényes meggy-liktáriom,Undirected,3010,,1
+meggy,"Tengeri szõlõbõl, azaz ribizlibõl, meggybõl, sóskából is így csináld; csakhogy,",Undirected,3011,,1
+Cifra lév,rózsavíz,Undirected,3012,,1
+Cifra lév,tojásfehérje,Undirected,3013,,1
+rózsavíz,citronellol,Undirected,3014,,1
+rózsavíz,Mandula-torta,Undirected,3015,,1
+rózsavíz,Téjfel-kenyér,Undirected,3016,,1
+rózsavíz,Tálban főtt,Undirected,3017,,1
+rózsavíz,Zsemlye-kása,Undirected,3018,,1
+rózsavíz,Paláta,Undirected,3019,,1
+rózsavíz,Veres béles,Undirected,3020,,1
+rózsavíz,Egres-béles,Undirected,3021,,1
+rózsavíz,Tálban főtt tejes étek,Undirected,3022,,1
+rózsavíz,Alma-kása,Undirected,3023,,1
+rózsavíz,"Daru-sása, azaz daru-mártás",Undirected,3024,,1
+rózsavíz,Tálban főtt zsemlekása,Undirected,3025,,1
+rózsavíz,"Mondola-klödör, azaz mandula-gombóc",Undirected,3026,,1
+rózsavíz,"Mondola-perec, azaz mandula-perec",Undirected,3027,,1
+rózsavíz,"Mondola-lév, azaz mandula-lé",Undirected,3028,,1
+rózsavíz,Rózsa-kása,Undirected,3029,,1
+rózsavíz,"Mondola-pogácsa, azaz mandula-pogácsa",Undirected,3030,,1
+rózsavíz,Õszibarack-torta,Undirected,3031,,1
+rózsavíz,Rózsa-liktáriom,Undirected,3032,,1
+rózsavíz,"A marcafántot, azaz marcipánt így csináld",Undirected,3033,,1
+rózsavíz,"Mondola-téj, azaz mandula-tej",Undirected,3034,,1
+citronellol,rózsaolaj,Undirected,3035,,1
+citronellol,vörös rózsaszirom,Undirected,3036,,1
+citronellol,rózsa,Undirected,3037,,1
+citronellol,rózsaszirom,Undirected,3038,,1
+tojásfehérje,methanethiol,Undirected,3039,,1
+tojásfehérje,Paláta,Undirected,3040,,1
+tojásfehérje,"Körtvély-fánk, azaz körte-fánk",Undirected,3041,,1
+tojásfehérje,Tölcséres fánk,Undirected,3042,,1
+tojásfehérje,"Liktáriomok, azaz befőzöttek csinálásához megkívánt méz készítés",Undirected,3043,,1
+tojásfehérje,"Apró veres szõlõ-, málna-, eper-liktáriomok",Undirected,3044,,1
+tojásfehérje,Fényes birsalma-liktárium,Undirected,3045,,1
+tojásfehérje,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,3046,,1
+tojásfehérje,Más fényes birsalma-liktáriom,Undirected,3047,,1
+tojásfehérje,Másképpen így főzd,Undirected,3048,,1
+tojásfehérje,"Tengeri barack-liktáriom, azaz sárgabarack-befőtt",Undirected,3049,,1
+tojásfehérje,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,3050,,1
+tojásfehérje,"A fejér bis-coctumot, azaz fehér piskótát így csináld",Undirected,3051,,1
+tojásfehérje,"A marcafántot, azaz marcipánt így csináld",Undirected,3052,,1
+tojásfehérje,Apró fánkocskákat így csinálj,Undirected,3053,,1
+methanethiol,káposzta,Undirected,3054,,1
+Váradi lév,aszúbor,Undirected,3055,,1
+aszúbor,botrytis compounds,Undirected,3056,,1
+Töltött malac,malactüdő,Undirected,3057,,1
+Töltött malac,malacmáj,Undirected,3058,,1
+Fokhagymás pecsenye,sütnivaló hús,Undirected,3059,,1
+Bárányhús pirítva,kömény,Undirected,3060,,1
+Töltelék,csirkehús vagy más szárnyas,Undirected,3061,,1
+Sült pástétom,rozsliszt,Undirected,3062,,1
+Fürjhús sülve,fürjhús,Undirected,3063,,1
+Fürjhús sülve,kenyérmorzsa,Undirected,3064,,1
+kenyérmorzsa,"Piroska, azaz túróval töltött derelye",Undirected,3065,,1
+Mandula-torta,rózsaolaj,Undirected,3066,,1
+Mandula-torta,tojássárgája,Undirected,3067,,1
+tojássárgája,trimethylamine (trace),Undirected,3068,,1
+tojássárgája,Téjfel-kenyér,Undirected,3069,,1
+tojássárgája,Cseh rántott,Undirected,3070,,1
+tojássárgája,Tolyó-fánk,Undirected,3071,,1
+tojássárgája,"Körtvély-fánk, azaz körte-fánk",Undirected,3072,,1
+"Töltött tyúkmony, azaz töltött tojás",tyúktojás,Undirected,3073,,1
+"Töltött tyúkmony, azaz töltött tojás",lúdtojás,Undirected,3074,,1
+"Vajas klödör, azaz vajas gombóc",nyers tojás,Undirected,3075,,1
+Zsemlye-kása,zsemlemorzsa,Undirected,3076,,1
+zsemlemorzsa,Olasz makaróni,Undirected,3077,,1
+zsemlemorzsa,Lapos tészta,Undirected,3078,,1
+zsemlemorzsa,Zsemlye-galuska,Undirected,3079,,1
+Töltött cipó,cipó,Undirected,3080,,1
+cipó,Szilvás cipó,Undirected,3081,,1
+Zólnai lév,finomliszt,Undirected,3082,,1
+Veres béles,vörös ribizli,Undirected,3083,,1
+Veres béles,tészta,Undirected,3084,,1
+tészta,"Körtvély-béles, azaz körte-béles",Undirected,3085,,1
+tészta,Ostya-béles,Undirected,3086,,1
+tészta,"Piroska, azaz túróval töltött derelye",Undirected,3087,,1
+tészta,Birsalma-pástétom,Undirected,3088,,1
+tészta,"Körtvély-pástétom, azaz körte-pástétom",Undirected,3089,,1
+tészta,Borsó laskával,Undirected,3090,,1
+tészta,"Lása, azaz laskagomba",Undirected,3091,,1
+Bába-kenyér,élesztő,Undirected,3092,,1
+Bába-kenyér,fehér búzaliszt,Undirected,3093,,1
+élesztő,isoamyl acetate,Undirected,3094,,1
+élesztő,"Körtvély-fánk, azaz körte-fánk",Undirected,3095,,1
+élesztő,Kapros túrós béles,Undirected,3096,,1
+élesztő,Káposztás béles,Undirected,3097,,1
+fehér búzaliszt,Birsalma tésztát így csinálj,Undirected,3098,,1
+Rák tejföllel,rák,Undirected,3099,,1
+Rák tejföllel,borecet,Undirected,3100,,1
+rák,Hal téjfellel,Undirected,3101,,1
+rák,Rák töltve,Undirected,3102,,1
+rák,Rák-sajt,Undirected,3103,,1
+rák,Rántott rák,Undirected,3104,,1
+rák,Rák tejfellel,Undirected,3105,,1
+rák,"Szíjalt rák, azaz keskeny szeletre vágott rák",Undirected,3106,,1
+rák,Párolt rák,Undirected,3107,,1
+rák,Rák tehénhús-lévben,Undirected,3108,,1
+borecet,tartaric acid,Undirected,3109,,1
+borecet,Miskuláncia-saláta,Undirected,3110,,1
+Hal téjfellel,pisztráng,Undirected,3111,,1
+Hal téjfellel,kövi csík,Undirected,3112,,1
+Hal téjfellel,juhhúsleves,Undirected,3113,,1
+Rántott rizskása,fehér liszt,Undirected,3114,,1
+fehér liszt,Tolyó-fánk,Undirected,3115,,1
+Hajtott tejes étek,metélt tészta,Undirected,3116,,1
+metélt tészta,Metélt étek,Undirected,3117,,1
+Sûrû tejes étek,édes tej,Undirected,3118,,1
+édes tej,Tálban főtt tejes étek,Undirected,3119,,1
+édes tej,Lyukas kása,Undirected,3120,,1
+édes tej,Édes tej,Undirected,3121,,1
+édes tej,Azonban ezek is jók,Undirected,3122,,1
+Túrós étek,aludttej,Undirected,3123,,1
+aludttej,Kapros túrós béles,Undirected,3124,,1
+Borza-kása,bodzavirág,Undirected,3125,,1
+bodzavirág,Bodza-fánk,Undirected,3126,,1
+Olasz káposzta,friss káposzta,Undirected,3127,,1
+Laboda-paréj,laboda,Undirected,3128,,1
+Tök téjjel,tök,Undirected,3129,,1
+tök,"2,6-nonadienal",Undirected,3130,,1
+Boros kenyér,édes bor,Undirected,3131,,1
+Ostya-béles,ostya,Undirected,3132,,1
+ostya,"Mondola-pogácsa, azaz mandula-pogácsa",Undirected,3133,,1
+"Piroska, azaz túróval töltött derelye",túró,Undirected,3134,,1
+túró,Tejfeles túró,Undirected,3135,,1
+túró,Kapros túrós béles,Undirected,3136,,1
+túró,"Domika, azaz túróból és kenyérből készített étel",Undirected,3137,,1
+túró,Pép,Undirected,3138,,1
+túró,Azonban ezek is jók,Undirected,3139,,1
+túró,Káposzta vajjal,Undirected,3140,,1
+Szilvás béles,szilva,Undirected,3141,,1
+szilva,Nyers meggy-liktáriom,Undirected,3142,,1
+szilva,"Barack-liktáriom, azaz õszibarack-befõtt",Undirected,3143,,1
+"Daru-sása, azaz daru-mártás",mézes bor,Undirected,3144,,1
+Barack-fánk,barack,Undirected,3145,,1
+barack,γ-decalactone,Undirected,3146,,1
+γ-decalactone,őszibarack,Undirected,3147,,1
+γ-decalactone,eper,Undirected,3148,,1
+γ-decalactone,sárgabarack,Undirected,3149,,1
+Birsalma-pástétom,birsalma,Undirected,3150,,1
+birsalma,α-farnesene,Undirected,3151,,1
+birsalma,ethyl decanoate,Undirected,3152,,1
+birsalma,Fényes birsalma-liktárium,Undirected,3153,,1
+birsalma,Másféle öntött birsalma-liktáriom,Undirected,3154,,1
+birsalma,"Birsalma-liktáriom, melynek a leve fényes s megaluszik",Undirected,3155,,1
+birsalma,Más fényes birsalma-liktáriom,Undirected,3156,,1
+birsalma,Birsalma-lévbõl más fényes liktáriom,Undirected,3157,,1
+birsalma,Másféle fényes birsalma-liktáriom,Undirected,3158,,1
+birsalma,Más birsalma-liktáriom borral s fûszerszámmal,Undirected,3159,,1
+birsalma,Birsalmából piros liktáriom,Undirected,3160,,1
+birsalma,Birsalma tésztát így csinálj,Undirected,3161,,1
+birsalma,"A birsalma-julepet, azaz birsalma-szirupot így fõzd",Undirected,3162,,1
+birsalma,"A fejér bis-coctumot, azaz fehér piskótát így csináld",Undirected,3163,,1
+birsalma,A birsalma-sajtot így csináld,Undirected,3164,,1
+birsalma,Más sárga birsalma-sajt,Undirected,3165,,1
+"Körtvély-pástétom, azaz körte-pástétom",vörösbor,Undirected,3166,,1
+vörösbor,anthocyanins volatiles,Undirected,3167,,1
+Szilvás cipó,aszalt szilva,Undirected,3168,,1
+aszalt szilva,5-hydroxymethylfurfural,Undirected,3169,,1
+aszalt szilva,Borsos szilva,Undirected,3170,,1
+Tálban főtt zsemlekása,zsemlekása,Undirected,3171,,1
+Kapros túrós béles,friss kapor,Undirected,3172,,1
+"Domika, azaz túróból és kenyérből készített étel",kalács,Undirected,3173,,1
+kalács,vanillin,Undirected,3174,,1
+kalács,Édes tej,Undirected,3175,,1
+Zab-kása,zab,Undirected,3176,,1
+Édes tej,bivalytej,Undirected,3177,,1
+Azonban ezek is jók,sós tej,Undirected,3178,,1
+Azonban ezek is jók,írós vaj,Undirected,3179,,1
+Azonban ezek is jók,kemény sajt,Undirected,3180,,1
+Azonban ezek is jók,édes aludttej,Undirected,3181,,1
+Azonban ezek is jók,édes orda,Undirected,3182,,1
+Azonban ezek is jók,sós orda,Undirected,3183,,1
+Azonban ezek is jók,új édes sajt,Undirected,3184,,1
+Azonban ezek is jók,hideg tej,Undirected,3185,,1
+írós vaj,δ-octalactone (trace),Undirected,3186,,1
+írós vaj,"Tyúkfi, azaz csirke cipóban való",Undirected,3187,,1
+Ordás leves,orda,Undirected,3188,,1
+Káposzta vajjal,káposzta,Undirected,3189,,1
+káposzta,Nyers káposzta-saláta,Undirected,3190,,1
+"Bálmos, azaz puliszkaszerű étel",lágy túró,Undirected,3191,,1
+Káposzta ikrával,halikra,Undirected,3192,,1
+halikra,piperidine,Undirected,3193,,1
+halikra,pyridine,Undirected,3194,,1
+halikra,Zsákvászonnal,Undirected,3195,,1
+halikra,Ikrát főzni,Undirected,3196,,1
+piperidine,vizaikra,Undirected,3197,,1
+pyridine,vizaikra,Undirected,3198,,1
+"Mondola-perec, azaz mandula-perec",keményítő,Undirected,3199,,1
+keményítő,"A marcafántot, azaz marcipánt így csináld",Undirected,3200,,1
+Koldus-lév,csíkhal,Undirected,3201,,1
+Koldus-lév,menyhal,Undirected,3202,,1
+csíkhal,Zsákvászonnal,Undirected,3203,,1
+csíkhal,Borított lév,Undirected,3204,,1
+Zsákvászonnal,lenmagolaj,Undirected,3205,,1
+lenmagolaj,2-pentenal,Undirected,3206,,1
+lenmagolaj,2-heptenal,Undirected,3207,,1
+lenmagolaj,Hagyma rántva,Undirected,3208,,1
+"Szíjalt rák, azaz keskeny szeletre vágott rák",citromvíz,Undirected,3209,,1
+Saláta,cikória,Undirected,3210,,1
+Saláta,salátalevél,Undirected,3211,,1
+cikória,sesquiterpene lactones,Undirected,3212,,1
+cikória,lactucin,Undirected,3213,,1
+salátalevél,(Z)-3-hexenal,Undirected,3214,,1
+(Z)-3-hexenal,kerti saláta szára,Undirected,3215,,1
+(Z)-3-hexenal,saláta,Undirected,3216,,1
+Torzsa-saláta,nagy lapu szára,Undirected,3217,,1
+Torzsa-saláta,kerti saláta szára,Undirected,3218,,1
+Torzsa-saláta,kovász,Undirected,3219,,1
+kovász,lactic acid volatiles,Undirected,3220,,1
+kovász,Korpa-cibre,Undirected,3221,,1
+Ugorka-saláta,uborka,Undirected,3222,,1
+uborka,Ugorkát télre sózni,Undirected,3223,,1
+Miskuláncia-saláta,saláta,Undirected,3224,,1
+Miskuláncia-saláta,fodormentalevél,Undirected,3225,,1
+Miskuláncia-saláta,földitömjén,Undirected,3226,,1
+Miskuláncia-saláta,borrágó,Undirected,3227,,1
+Miskuláncia-saláta,köményzöld,Undirected,3228,,1
+fodormentalevél,menthol,Undirected,3229,,1
+fodormentalevél,menthone,Undirected,3230,,1
+fodormentalevél,pulegone,Undirected,3231,,1
+"Mondola-lév, azaz mandula-lé",szerecsendió,Undirected,3232,,1
+Bot-lév,sült hal,Undirected,3233,,1
+Kendermag-cibre,kendermag,Undirected,3234,,1
+Korpa-cibre,korpa,Undirected,3235,,1
+Korpa-cibre,köleskása,Undirected,3236,,1
+Borsót főzni,hamu,Undirected,3237,,1
+hamu,Görögdinnye-liktáriom,Undirected,3238,,1
+hamu,Zöld dió-liktáriom,Undirected,3239,,1
+Fenyőgombát főzni,fenyőgomba,Undirected,3240,,1
+Lencseleves,növényi olaj,Undirected,3241,,1
+Hal rizskásával,ponty,Undirected,3242,,1
+Hal rizskásával,viza,Undirected,3243,,1
+ponty,2-methylisoborneol,Undirected,3244,,1
+2-methylisoborneol,harcsa,Undirected,3245,,1
+viza,Sült hal,Undirected,3246,,1
+"Cicer, azaz bagoly-borsó",csicseriborsó,Undirected,3247,,1
+"Cicer, azaz bagoly-borsó",bab,Undirected,3248,,1
+Sült hal,harcsa,Undirected,3249,,1
+Ecetes cibre,borsikafű,Undirected,3250,,1
+borsikafű,carvacrol,Undirected,3251,,1
+borsikafű,thymol,Undirected,3252,,1
+Zuppon-lév,lenolaj,Undirected,3253,,1
+lenolaj,1-penten-3-ol,Undirected,3254,,1
+lenolaj,Lencse olajjal,Undirected,3255,,1
+lenolaj,Borsó laskával,Undirected,3256,,1
+lenolaj,Olajos lév,Undirected,3257,,1
+Vizát viza-lével,tokhal,Undirected,3258,,1
+"Lönye, azaz kenyér- vagy kalácstészta",perec,Undirected,3259,,1
+"Lönye, azaz kenyér- vagy kalácstészta",mák,Undirected,3260,,1
+"Lönye, azaz kenyér- vagy kalácstészta",kenyértészta,Undirected,3261,,1
+mák,"Lása, azaz laskagomba",Undirected,3262,,1
+Seres kenyér,pirított kenyér,Undirected,3263,,1
+Viza ikra,vizaikra,Undirected,3264,,1
+Viza ikra,vízben áztatott kenyér,Undirected,3265,,1
+Új káposzta,fejes káposzta,Undirected,3266,,1
+"Tyúkfi, azaz csirke cipóban való",kenyércipó,Undirected,3267,,1
+Báránybél édes téjjel,báránybél,Undirected,3268,,1
+Sódar gyümölcsös lével,sertéssonka (sódar),Undirected,3269,,1
+Sódar szegfüves lével,sódar (füstölt sertéssonka),Undirected,3270,,1
+Kék káposzta,kék káposzta,Undirected,3271,,1
+"Más meggy-sása, azaz meggy-mártás",viasz,Undirected,3272,,1
+"Mondola-pogácsa, azaz mandula-pogácsa",citromhéj,Undirected,3273,,1
+"Mondola-pogácsa, azaz mandula-pogácsa",nádcukorszirup,Undirected,3274,,1
+citromhéj,A birsalma-sajtot így csináld,Undirected,3275,,1
+citromhéj,Más sárga birsalma-sajt,Undirected,3276,,1
+citromhéj,A citrom-pogácsát tiszta nádcukorból így csináld,Undirected,3277,,1
+Õszibarack-torta,őszibarack,Undirected,3278,,1
+Õszibarack-torta,majoránnavíz,Undirected,3279,,1
+őszibarack,"Barack-liktáriom, azaz õszibarack-befõtt",Undirected,3280,,1
+Dinnye-torta,dinnye,Undirected,3281,,1
+dinnye,(Z)-6-nonenal,Undirected,3282,,1
+Görögdinnye-liktáriom,görögdinnyehéj,Undirected,3283,,1
+"Apró veres szõlõ-, málna-, eper-liktáriomok",apró vörös szőlő,Undirected,3284,,1
+"Apró veres szõlõ-, málna-, eper-liktáriomok",málna,Undirected,3285,,1
+"Apró veres szõlõ-, málna-, eper-liktáriomok",eper,Undirected,3286,,1
+málna,raspberry ketone,Undirected,3287,,1
+málna,α-ionone,Undirected,3288,,1
+málna,β-ionone,Undirected,3289,,1
+α-ionone,ibolyavirág,Undirected,3290,,1
+β-ionone,csipkebogyó,Undirected,3291,,1
+β-ionone,ibolyavirág,Undirected,3292,,1
+eper,ethyl hexanoate,Undirected,3293,,1
+Fényes birsalma-liktárium,birsalmalé,Undirected,3294,,1
+"Birsalma-liktáriom, melynek a leve fényes s megaluszik",birsalmamag,Undirected,3295,,1
+Más birsalma-liktáriom borral s fûszerszámmal,szőlőmust,Undirected,3296,,1
+szőlőmust,fermentation esters,Undirected,3297,,1
+Nyers meggy-liktáriom,dióbél,Undirected,3298,,1
+Rózsa-liktáriom,vörös rózsaszirom,Undirected,3299,,1
+Másképpen így főzd,rózsa,Undirected,3300,,1
+Másképpen így főzd,spiritus vitrioli,Undirected,3301,,1
+spiritus vitrioli,Másképpen így,Undirected,3302,,1
+Másképpen így,rózsaszirom,Undirected,3303,,1
+Muskotály körte-befőtt,muskotály körte,Undirected,3304,,1
+"Barack-liktáriom, azaz õszibarack-befõtt",olajmag,Undirected,3305,,1
+"Barack-liktáriom, azaz õszibarack-befõtt",mogyoró,Undirected,3306,,1
+mogyoró,filbertone,Undirected,3307,,1
+"Tengeri barack-liktáriom, azaz sárgabarack-befőtt",sárgabarack,Undirected,3308,,1
+Tört som-liktáriom,som,Undirected,3309,,1
+som,salicylic acid,Undirected,3310,,1
+"Veres csipke-liktáriom, azaz csipkebogyó-befőtt",csipkebogyó,Undirected,3311,,1
+csipkebogyó,vitamin C volatiles,Undirected,3312,,1
+Zöld dió-liktáriom,zöld dió,Undirected,3313,,1
+"A birsalma-julepet, azaz birsalma-szirupot így fõzd",meggylé,Undirected,3314,,1
+"A birsalma-julepet, azaz birsalma-szirupot így fõzd",ribizlilé,Undirected,3315,,1
+"A szederjes viola-julepet, azaz viola-szirupot így csináld",ibolyavirág,Undirected,3316,,1
+ibolyavirág,dihydro-β-ionone,Undirected,3317,,1
+A birsalma-sajtot így csináld,tetszőleges fűszerek (ízlés szerint),Undirected,3318,,1
+A birsalma-sajtot így csináld,vörös ételfesték (pl. kármin),Undirected,3319,,1
+Más sárga birsalma-sajt,mandulaolaj,Undirected,3320,,1
+mandulaolaj,oleic acid,Undirected,3321,,1
+mandulaolaj,linoleic acid,Undirected,3322,,1
+mandulaolaj,palmitic acid,Undirected,3323,,1
+mandulaolaj,stearic acid,Undirected,3324,,1
+mandulaolaj,alpha-tocopherol (vitamin E),Undirected,3325,,1
+mandulaolaj,"phytosterols (β-sitosterol, campesterol, stigmasterol)",Undirected,3326,,1
+mandulaolaj,squalene (trace),Undirected,3327,,1
+Disznófőből való sajt,sertésfej,Undirected,3328,,1
+Disznófőből való sajt,sertésfül,Undirected,3329,,1
+Disznófőből való sajt,sertésbőr,Undirected,3330,,1
+"Tengeri szõlõbõl, azaz ribizlibõl, meggybõl, sóskából is így csináld; csakhogy,",sóska,Undirected,3331,,1
+sóska,3-hexen-1-ol,Undirected,3332,,1
+sóska,oxalic acid volatiles,Undirected,3333,,1
+"A marcafántot, azaz marcipánt így csináld",cukor (nádcukor),Undirected,3334,,1
+"A marcafántot, azaz marcipánt így csináld",tragantmézga (növényi gyanta),Undirected,3335,,1
+"A marcafántot, azaz marcipánt így csináld",aranyfüst,Undirected,3336,,1
+"A marcafántot, azaz marcipánt így csináld",vörös ételfesték (skarlát),Undirected,3337,,1
+Apró fánkocskákat így csinálj,reszelt citromhéj,Undirected,3338,,1
+Apró fánkocskákat így csinálj,porcukor,Undirected,3339,,1
+Apró fánkocskákat így csinálj,cukorszirup,Undirected,3340,,1
+Apró fánkocskákat így csinálj,méhviasz,Undirected,3341,,1
+porcukor,vanillin trace,Undirected,3342,,1
