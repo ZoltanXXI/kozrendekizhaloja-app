@@ -976,7 +976,7 @@ if "gpt_search_results" in st.session_state:
                     
                     st.rerun()
     
-        if results.get("suggested_recipes"):
+    if results.get("suggested_recipes"):
         st.markdown("**📖 Releváns történeti receptek:**")
         for recipe_title in results["suggested_recipes"][:3]:
             recipe = next((r for r in historical_recipes if r.get("title", "").lower() == recipe_title.lower()), None)
@@ -1107,4 +1107,5 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+
 
