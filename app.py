@@ -1020,9 +1020,9 @@ st.markdown(f"<h3 style='text-align: center; color: white; font-family: Cinzel, 
 cols = st.columns(6)
 for i, n in enumerate(filtered_nodes[:60]):
     type_emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(n.get('node_type'), '⚪')
-clean_label = strip_icon_ligatures(n['Label'])
-if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
-    sel = n["Label"]
+    clean_label = strip_icon_ligatures(n['Label'])
+    if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
+        sel = n["Label"]
         
         related = [
             e["Target"] if e["Source"] == sel else e["Source"]
@@ -1049,7 +1049,6 @@ if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
             st.session_state["ai_recipe"] = ai_recipe
         
         st.rerun()
-
 
 
 # ===== EREDMÉNYEK =====
@@ -1107,5 +1106,6 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
