@@ -1,0 +1,3041 @@
+{
+  "Káposzta kolozsvári módon": [
+    "savanyú káposzta",
+    "tyúk",
+    "lúd",
+    "szalonna",
+    "bors",
+    "bor"
+  ],
+  "Töltött káposzta": [
+    "savanyú káposzta",
+    "káposztalevél",
+    "marhahús",
+    "szalonna",
+    "fekete bors",
+    "gyömbér",
+    "só",
+    "bor"
+  ],
+  "Káposztát közönséges módon": [
+    "savanyú káposzta",
+    "szalonna",
+    "marhahús",
+    "bárányhús",
+    "avas zsír",
+    "bor",
+    "fekete bors"
+  ],
+  "Tejfeles káposzta": [
+    "savanyú káposzta",
+    "szalonna",
+    "tejföl",
+    "marhahús",
+    "bor"
+  ],
+  "Új káposzta szalonnával": [
+    "új káposzta",
+    "szalonna",
+    "juhhús",
+    "marhahús",
+    "ecet",
+    "borkő"
+  ],
+  "Tehénhús árpa-kásával": [
+    "tehénhús",
+    "árpagyöngy",
+    "petrezselyemlevél",
+    "petrezselyemgyökér",
+    "bors",
+    "gyömbér",
+    "citromlé",
+    "víz"
+  ],
+  "Tehénhús rizskásával": [
+    "marhahús",
+    "csirkehús",
+    "petrezselyemgyökér",
+    "fekete bors",
+    "rizs",
+    "mazsola",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Tehénhús-lév": [
+    "fehér kenyér",
+    "tojás",
+    "marhahúsleves",
+    "főtt marhahús",
+    "bors"
+  ],
+  "Kukrejttel, azaz borecetes, fenyőmagvas mártással": [
+    "marhahús",
+    "vöröshagyma",
+    "zsálya",
+    "fehér kenyér",
+    "bor",
+    "ecet",
+    "víz",
+    "fenyőmag",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Tehénhús tiszta borssal": [
+    "tehénhús",
+    "só",
+    "víz",
+    "petrezselyem",
+    "fokhagyma",
+    "bors",
+    "gyömbér"
+  ],
+  "Polyékával, azaz sült marhahúsból készült étellel": [
+    "marhahús",
+    "kenyér",
+    "marha- vagy juhhúsleves",
+    "vöröshagyma"
+  ],
+  "Kaszás lév": [
+    "hús",
+    "víz",
+    "só",
+    "ecet",
+    "liszt",
+    "tojás",
+    "fokhagyma",
+    "bors",
+    "kenyér"
+  ],
+  "Vadalmával": [
+    "marhahús",
+    "víz",
+    "só",
+    "savanyú alma",
+    "vadalma",
+    "kenyér",
+    "petrezselyemlevél"
+  ],
+  "Tehénhús tormával": [
+    "tehénhús",
+    "víz",
+    "só",
+    "petrezselyemgyökér",
+    "kenyér",
+    "torma"
+  ],
+  "Tormás téjfel": [
+    "marhahús",
+    "víz",
+    "só",
+    "petrezselyemgyökér",
+    "petrezselyemlevél",
+    "tejföl",
+    "ecet",
+    "bors",
+    "kenyér"
+  ],
+  "Laska": [
+    "búzaliszt",
+    "tojás",
+    "víz",
+    "fekete bors",
+    "gyömbér",
+    "sáfrány",
+    "vaj",
+    "háj",
+    "marhahús",
+    "csirkehús"
+  ],
+  "Törött lév": [
+    "lúd",
+    "csuka",
+    "víz",
+    "só",
+    "fehér kenyér",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "sáfrány",
+    "gyömbér"
+  ],
+  "Savanyú lév": [
+    "hús",
+    "szalonna",
+    "liszt",
+    "ecet",
+    "húsleves",
+    "vaj",
+    "bor",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "tojás",
+    "kenyér"
+  ],
+  "Német lév": [
+    "hús",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "zsír",
+    "vaj",
+    "háj",
+    "szalonna",
+    "liszt",
+    "szalonnatepertő",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "ecet",
+    "bor",
+    "kenyér",
+    "tyúk"
+  ],
+  "Röstölt lév": [
+    "hús",
+    "szalonna",
+    "tepertő",
+    "liszt",
+    "ecet",
+    "bor",
+    "húslé",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "kenyér"
+  ],
+  "Lengyel lév": [
+    "petrezselyem",
+    "tyúkhús",
+    "szárnyashús",
+    "vadhús",
+    "majoránna",
+    "kenyér"
+  ],
+  "Tehénhús petrezselyemmel": [
+    "marhahús",
+    "só",
+    "víz",
+    "petrezselyem"
+  ],
+  "Murokkal, azaz sárgarépával": [
+    "hús",
+    "sárgarépa",
+    "víz",
+    "húsleves"
+  ],
+  "Répával": [
+    "sárgarépa",
+    "hús",
+    "szalonna",
+    "fekete bors",
+    "sertéshús",
+    "sertés orja (hátgerinc)",
+    "méz"
+  ],
+  "Máj rántva": [
+    "máj",
+    "víz",
+    "só",
+    "liszt",
+    "vaj",
+    "vöröshagyma",
+    "bors"
+  ],
+  "Tüdő rántva": [
+    "tüdő",
+    "kenyér",
+    "marhahúsleves",
+    "petrezselyem",
+    "fekete bors",
+    "gyömbér",
+    "vaj",
+    "bor",
+    "tojás",
+    "víz",
+    "sajt",
+    "kenyérbél"
+  ],
+  "Fokhagyma-lével": [
+    "marhahús",
+    "juhhús",
+    "fokhagyma",
+    "ecet",
+    "sárga lé",
+    "bors",
+    "gyömbér",
+    "víz"
+  ],
+  "Spékkel": [
+    "hús",
+    "víz",
+    "só",
+    "szalonna",
+    "tojás",
+    "kenyér",
+    "petrezselyemzöld",
+    "vöröshagyma",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Egressel": [
+    "hús",
+    "egres",
+    "bors",
+    "gyömbér",
+    "tejföl",
+    "tyúk",
+    "szalonna",
+    "kenyér"
+  ],
+  "Tyúk tiszta borssal": [
+    "tyúk",
+    "só",
+    "víz",
+    "petrezselyemgyökér",
+    "petrezselyemlevél",
+    "szalonna",
+    "fokhagyma",
+    "szerecsendió-virág",
+    "bors",
+    "gyömbér"
+  ],
+  "Fekete lév": [
+    "sertéshús",
+    "sertés keresztcsont",
+    "malachús",
+    "vadhús",
+    "csirkehús",
+    "víz",
+    "só",
+    "kenyér (bél)",
+    "alma",
+    "vöröshagyma",
+    "dió",
+    "ecet",
+    "cukor",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "tárkony",
+    "sertésvér",
+    "csirkevér"
+  ],
+  "Másképpen ugyanez": [
+    "disznóhús",
+    "szarvashús",
+    "őzhús",
+    "kenyér",
+    "ecet",
+    "alma",
+    "hagyma",
+    "méz",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "mandula",
+    "mazsola",
+    "füge"
+  ],
+  "Klödör, azaz gombóc": [
+    "hús",
+    "só",
+    "víz",
+    "szalonna",
+    "petrezselyemzöld",
+    "vöröshagyma",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "liszt"
+  ],
+  "Pástétom-lével": [
+    "hús",
+    "petrezselyemgyökér",
+    "majoránna",
+    "ecet",
+    "bor",
+    "bors",
+    "gyömbér",
+    "vöröshagyma",
+    "zsír",
+    "liszt",
+    "szerecsendió-virág",
+    "citromlé",
+    "hal"
+  ],
+  "Berbécsfő, azaz juhfej": [
+    "juhfej",
+    "juhláb",
+    "ürü",
+    "fokhagyma",
+    "ecet",
+    "liszt",
+    "bor"
+  ],
+  "Berbécsfő-saláta, azaz juhfej-saláta": [
+    "juhfej",
+    "juhláb",
+    "ürü",
+    "víz",
+    "só",
+    "ecet",
+    "bors",
+    "tojás",
+    "petrezselyem"
+  ],
+  "Szömörcsök-lév, azaz kucsmagomba-lé": [
+    "marhahús",
+    "juhhús",
+    "csuka",
+    "kucsmagomba",
+    "víz",
+    "só",
+    "petrezselyemgyökér",
+    "szalonna",
+    "kenyér",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "liszt",
+    "zsír"
+  ],
+  "Pikáda, azaz fűszerezett hússzelet": [
+    "tyúkhús",
+    "sertéshús",
+    "juhhús",
+    "zöld petrezselyem",
+    "majoránna",
+    "marhahúsleves",
+    "citrom",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág"
+  ],
+  "Kenyér-kása": [
+    "csirkehús",
+    "marhahúsleves",
+    "marhahús",
+    "juhhús",
+    "petrezselyemgyökér",
+    "petrezselyemlevél",
+    "fehér kenyér",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szerecsendió-virág"
+  ],
+  "Éles lév": [
+    "tyúk",
+    "malac",
+    "hús",
+    "hal",
+    "só",
+    "víz",
+    "alma",
+    "tárkony",
+    "bor",
+    "citrom",
+    "szerecsendió-virág",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "kenyér",
+    "hagyma",
+    "méz"
+  ],
+  "Tüdőkása": [
+    "tüdő",
+    "szalonna",
+    "petrezselyem",
+    "vöröshagyma",
+    "marhahúsleves",
+    "tojás",
+    "ecet",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Tyúkfi, azaz csirke sóban": [
+    "csirke",
+    "só",
+    "petrezselyemlevél",
+    "ecet",
+    "bors"
+  ],
+  "Magyar lév": [
+    "tyúk",
+    "szegfűszeg",
+    "fahéj",
+    "petrezselyemgyökér",
+    "bors",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Kocka-lév": [
+    "hús",
+    "tyúk",
+    "kenyér",
+    "vaj",
+    "bors",
+    "gyömbér",
+    "szalonna"
+  ],
+  "Ludas kása": [
+    "liba",
+    "víz",
+    "só",
+    "köles",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Hideg étek": [
+    "disznóláb",
+    "zsír",
+    "fokhagyma",
+    "főzőlé"
+  ],
+  "Sárga lév": [
+    "sárgarépa",
+    "petrezselyem",
+    "vöröshagyma",
+    "sáfrány",
+    "nádcukor",
+    "méz",
+    "ribizli",
+    "mazsola",
+    "hal",
+    "csirkehús",
+    "hús",
+    "só"
+  ],
+  "Töltött tyúk": [
+    "tyúk",
+    "galamb",
+    "szalonna",
+    "vöröshagyma",
+    "főtt tojás",
+    "petrezselyemlevél",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "só"
+  ],
+  "Tárkonnyal": [
+    "bárányhús",
+    "tárkony",
+    "ecet",
+    "szalonna",
+    "tojás",
+    "liszt",
+    "kenyér",
+    "bors",
+    "sáfrány"
+  ],
+  "Kaporral": [
+    "kapor",
+    "tárkony",
+    "szalonna",
+    "marhahús",
+    "juhhús",
+    "ecet"
+  ],
+  "Balázs-lév": [
+    "hús",
+    "víz",
+    "só",
+    "petrezselyemgyökér",
+    "vöröshagyma",
+    "ecet",
+    "bor",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág"
+  ],
+  "Zsufa, azaz savanyú mártás": [
+    "bárányhús",
+    "só",
+    "víz",
+    "szalonna",
+    "tárkony",
+    "bor",
+    "ecet",
+    "tojás",
+    "liszt",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Tyúk káposzta-lévben": [
+    "tyúk",
+    "káposztalé",
+    "torma"
+  ],
+  "Bárányfő rántva": [
+    "bárányfej",
+    "bárányláb",
+    "só",
+    "víz",
+    "bor",
+    "sör",
+    "tojás",
+    "liszt",
+    "vaj",
+    "nádcukor"
+  ],
+  "Vendég-lév": [
+    "hús",
+    "víz",
+    "só",
+    "bor",
+    "fehér kenyér",
+    "méz",
+    "mazsola",
+    "mandula",
+    "szőlő",
+    "alma",
+    "körte",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Galuska": [
+    "csirkehús",
+    "egyéb hús",
+    "víz",
+    "só",
+    "petrezselyem",
+    "kenyérbél",
+    "tojás",
+    "liszt",
+    "bors",
+    "sáfrány"
+  ],
+  "Majoránna-lév": [
+    "csirkehús vagy más húsféle",
+    "kapor",
+    "sózott citrom",
+    "majoránna",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "marhahúsleves",
+    "bor",
+    "ecet",
+    "liszt",
+    "szalonnazsír",
+    "vaj"
+  ],
+  "Tüdõ-étek": [
+    "tüdő",
+    "vaj",
+    "ribizli",
+    "cukor",
+    "fahéj",
+    "fekete bors",
+    "gyömbér",
+    "marhahúsleves",
+    "citrom",
+    "torma",
+    "ecet"
+  ],
+  "Kocsonya": [
+    "marhaláb",
+    "marha tokahús és bőr",
+    "só",
+    "víz",
+    "ecet",
+    "zsályalevél"
+  ],
+  "Kutkusa, azaz juhbélből készült étel": [
+    "juhbél",
+    "juhtüdő",
+    "szalonna",
+    "vöröshagyma",
+    "petrezselyem",
+    "juhgyomor",
+    "juh vastagbél",
+    "só",
+    "füstölt szalonna vagy sonka",
+    "torma"
+  ],
+  "Keresdi lév": [
+    "csirke",
+    "marhahús",
+    "marhahúsleves",
+    "petrezselyemgyökér",
+    "bor",
+    "citrom",
+    "citromlé",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "szegfűszeg",
+    "kenyér"
+  ],
+  "Lábból való saláta": [
+    "disznóláb",
+    "marhaláb",
+    "víz",
+    "só",
+    "petrezselyemlevél",
+    "ecet",
+    "fekete bors"
+  ],
+  "Nyelvet főzni": [
+    "marhanyelv",
+    "víz",
+    "só",
+    "gyömbér",
+    "gyümölcs",
+    "bors"
+  ],
+  "Ecettel, hagymával": [
+    "hús",
+    "víz",
+    "só",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "szalonna",
+    "tojás",
+    "liszt",
+    "zsír",
+    "kenyér"
+  ],
+  "Bárányhúst német módon": [
+    "bárányhús",
+    "víz",
+    "só",
+    "petrezselyemgyökér",
+    "szalonnazsír",
+    "liszt",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Savanyú pecsenye": [
+    "sült hús",
+    "fenyőmag",
+    "petrezselyemzöld",
+    "marha- vagy juhhúsleves",
+    "bor",
+    "ecet",
+    "citrom",
+    "majoránna",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "alma",
+    "vöröshagyma",
+    "zsír",
+    "liszt",
+    "cukor"
+  ],
+  "Bárányfő hidegen": [
+    "bárány",
+    "tojás",
+    "só",
+    "bors",
+    "ecet",
+    "turbolya",
+    "tárkony",
+    "petrezselyemlevél"
+  ],
+  "Luther-lév": [
+    "csuka",
+    "hal",
+    "szalonna",
+    "kenyér",
+    "ecet",
+    "bors",
+    "gyömbér",
+    "víz",
+    "só"
+  ],
+  "Tejes borsó": [
+    "borsó",
+    "tej",
+    "tejföl",
+    "liszt",
+    "kenyér",
+    "méz",
+    "vaj",
+    "sertéshátgerinc",
+    "füstölt sonka",
+    "szalonna"
+  ],
+  "Lapos tüdő, máj": [
+    "víz",
+    "tüdő",
+    "máj",
+    "marhahús- vagy juhhúsleves",
+    "petrezselyemlevél",
+    "petrezselyemgyökér",
+    "liszt",
+    "zsír",
+    "bors",
+    "gyömbér"
+  ],
+  "Téjfellel": [
+    "csirke",
+    "galamb",
+    "só",
+    "szalonna",
+    "petrezselyemlevél",
+    "tejföl",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "kenyér"
+  ],
+  "Orjával, azaz a sertés hátgerincével": [
+    "lencse",
+    "borsó",
+    "kása",
+    "sertés hátgerinc (orja)",
+    "szalonna",
+    "marhahús",
+    "juhhús",
+    "víz",
+    "só",
+    "liszt",
+    "zsír"
+  ],
+  "Szürke lév": [
+    "fekete kenyér",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "hús",
+    "hal",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "olívaolaj",
+    "ecet",
+    "bor",
+    "citromlé"
+  ],
+  "Gombát fõzni": [
+    "laskagomba",
+    "csiperke gomba",
+    "víz",
+    "szalonna",
+    "petrezselyem",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág"
+  ],
+  "Mustos pecsenye": [
+    "marhahús",
+    "juhhús",
+    "must",
+    "torma",
+    "méz",
+    "bor"
+  ],
+  "Sült lév": [
+    "sült hús",
+    "bor",
+    "víz",
+    "vaj",
+    "bors",
+    "szegfűszeg",
+    "szerecsendió-virág",
+    "marhahúsleves",
+    "ecet",
+    "citrom"
+  ],
+  "Karbonáta": [
+    "borjúmáj",
+    "báránymáj",
+    "tojás",
+    "fehér kenyérbél",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "sertésháló (faggyúhártya)",
+    "vaj",
+    "borjúhús",
+    "apró madarak",
+    "mandula",
+    "bor",
+    "ecet",
+    "nádcukor",
+    "méz",
+    "szegfűszeg",
+    "mazsola",
+    "ribizli",
+    "citrom",
+    "sáfrány"
+  ],
+  "Kappan-lév, azaz ivartalanított kakas-lé": [
+    "kappan",
+    "tyúk",
+    "kenyér",
+    "vaj",
+    "körte",
+    "alma",
+    "méz",
+    "citrom",
+    "füge",
+    "mandula",
+    "mazsola",
+    "gyömbér",
+    "bors",
+    "szerecsendió-virág",
+    "sáfrány",
+    "szegfűszeg",
+    "bor",
+    "ecet",
+    "nádcukor",
+    "fahéj"
+  ],
+  "Madár-lév": [
+    "tyúkhús",
+    "vaj",
+    "szalonna",
+    "zsír",
+    "vöröshagyma",
+    "sózott citrom",
+    "mazsola",
+    "marhahúsleves",
+    "bor",
+    "ecet",
+    "méz",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szegfűszeg",
+    "citromlé"
+  ],
+  "Sült": [
+    "csirkehús",
+    "marhahús",
+    "juhhús",
+    "sertéshús",
+    "kolbász",
+    "máj",
+    "savanyú káposzta",
+    "szegfűszeg",
+    "köménymag"
+  ],
+  "Vadhús sülve": [
+    "vadhús",
+    "szalonna",
+    "bors",
+    "víz"
+  ],
+  "Lúd sülve": [
+    "lúd",
+    "fenyőmag",
+    "zsálya",
+    "majoránna"
+  ],
+  "Citrom-lév": [
+    "szárnyashús",
+    "marhahúsleves",
+    "petrezselyem",
+    "citromlé",
+    "vaj",
+    "szalonnazsír",
+    "háj",
+    "bor",
+    "ecet",
+    "gyömbér"
+  ],
+  "Gyümölcs-lév": [
+    "bor",
+    "fehér kenyér",
+    "méz",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "alma",
+    "körte",
+    "mazsola",
+    "mandula"
+  ],
+  "Szegfüves lév": [
+    "bor",
+    "kenyér",
+    "méz",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "mazsola",
+    "mandula"
+  ],
+  "Bors-porral": [
+    "fokhagyma",
+    "kenyér",
+    "olaj",
+    "ecet",
+    "méz",
+    "bors",
+    "gyömbér",
+    "hal"
+  ],
+  "Deszpot-lév": [
+    "szalonna",
+    "fokhagyma",
+    "bor",
+    "víz",
+    "bors",
+    "sült hús"
+  ],
+  "Gyömbéres lév": [
+    "alma",
+    "körte",
+    "gyömbér",
+    "sült hús"
+  ],
+  "Mikó-lév": [
+    "marhahúsleves",
+    "vaj",
+    "víz",
+    "petrezselyemlevél",
+    "bors",
+    "gyömbér",
+    "sült hús"
+  ],
+  "Leány-sarjával, azaz friss tormahajtással": [
+    "friss tormahajtás",
+    "zöld fokhagyma",
+    "víz",
+    "bor",
+    "ecet",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "só",
+    "fiatal lúd",
+    "fiatal kacsa",
+    "liba- vagy kacsaaprólék"
+  ],
+  "Meggy-sása, azaz meggy-mártás, sült alá": [
+    "meggy",
+    "bor",
+    "fehér kenyér",
+    "citrom",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "fahéj",
+    "szegfűszeg",
+    "méz",
+    "mandula"
+  ],
+  "Cifra lév": [
+    "lúd",
+    "kappan",
+    "víz",
+    "só",
+    "mandula",
+    "rózsavíz",
+    "tojásfehérje",
+    "nádcukor",
+    "ribizli",
+    "bor",
+    "gyömbér",
+    "szerecsendió-virág",
+    "ecet",
+    "méz",
+    "citrom"
+  ],
+  "Váradi lév": [
+    "tyúk",
+    "fahéj",
+    "szegfűszeg",
+    "vaj",
+    "szalonna",
+    "kenyér",
+    "méz",
+    "bor",
+    "aszúbor",
+    "gyömbér"
+  ],
+  "Töltött malac": [
+    "malac",
+    "malactüdő",
+    "malacmáj",
+    "szalonna",
+    "hagyma",
+    "petrezselyem",
+    "majoránna",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "tojás",
+    "zsír"
+  ],
+  "Füstölt pecsenye": [
+    "marhahús",
+    "sertéshús"
+  ],
+  "Fokhagymás pecsenye": [
+    "fokhagyma",
+    "víz",
+    "sütnivaló hús"
+  ],
+  "Dió-sása, azaz dió-mártás": [
+    "dió",
+    "fehér kenyér",
+    "fokhagyma",
+    "ecet",
+    "sült hús"
+  ],
+  "Bárányhús pirítva": [
+    "bárányhús",
+    "só",
+    "kömény",
+    "bors",
+    "liszt",
+    "sáfrány",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Zsályás pecsenye": [
+    "marhahús",
+    "borjúhús",
+    "zsálya",
+    "szalonna",
+    "zsír",
+    "bors"
+  ],
+  "Töltelék": [
+    "csirkehús vagy más szárnyas",
+    "tojás",
+    "vaj",
+    "petrezselyemlevél",
+    "kenyérbél",
+    "vöröshagyma",
+    "majoránna",
+    "szalonna",
+    "fekete bors",
+    "gyömbér",
+    "sáfrány",
+    "méz"
+  ],
+  "Vetrece, azaz hosszúra vágott főtt marhahús": [
+    "marhahús",
+    "szalonna",
+    "vöröshagyma",
+    "bors",
+    "gyömbér",
+    "ecet"
+  ],
+  "Sült pástétom": [
+    "vadhús",
+    "só",
+    "szalonna",
+    "bors",
+    "szegfűszeg",
+    "gyömbér",
+    "zsálya",
+    "rozsliszt",
+    "búzaliszt",
+    "víz",
+    "tojás"
+  ],
+  "Fürjhús sülve": [
+    "fürjhús",
+    "kenyérmorzsa",
+    "zsír"
+  ],
+  "Malozsa-lév, azaz mazsola-mártás sült alá": [
+    "bor",
+    "mandula",
+    "füge",
+    "mazsola",
+    "méz",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szegfűszeg",
+    "vaj",
+    "kenyér",
+    "sült hús"
+  ],
+  "Húst bésózni": [
+    "fokhagyma",
+    "víz",
+    "só",
+    "hús",
+    "ecet",
+    "fenyőmag"
+  ],
+  "Mandula-torta": [
+    "mandula",
+    "rózsavíz",
+    "rózsaolaj",
+    "víz",
+    "nádcukor",
+    "liszt",
+    "tojássárgája",
+    "vaj"
+  ],
+  "Téjfel-kenyér": [
+    "tejföl",
+    "tojássárgája",
+    "rózsavíz",
+    "fehér kenyér",
+    "vaj",
+    "nádcukor",
+    "méz"
+  ],
+  "Tálban főtt": [
+    "fehér kenyér",
+    "tej",
+    "vaj",
+    "nádcukor",
+    "méz",
+    "rózsavíz",
+    "tojás"
+  ],
+  "Töltött tyúkmony, azaz töltött tojás": [
+    "tyúktojás",
+    "lúdtojás",
+    "petrezselyem",
+    "méz",
+    "bors"
+  ],
+  "Vajas klödör, azaz vajas gombóc": [
+    "petrezselyemlevél",
+    "vöröshagyma",
+    "főtt tojás",
+    "liszt",
+    "nyers tojás",
+    "bors",
+    "gyömbér"
+  ],
+  "Új káposzta tejben": [
+    "új káposzta",
+    "tej",
+    "tojás"
+  ],
+  "Zsemlye-kása": [
+    "tej",
+    "zsemlemorzsa",
+    "vaj",
+    "tojás",
+    "cukor",
+    "rózsavíz"
+  ],
+  "Alma-étek": [
+    "alma",
+    "cukor",
+    "méz",
+    "tojás"
+  ],
+  "Makaróni": [
+    "vaj",
+    "tojás",
+    "tej",
+    "fehér kenyér",
+    "búzaliszt",
+    "víz",
+    "sajt"
+  ],
+  "Olasz makaróni": [
+    "búzaliszt",
+    "tojás",
+    "víz",
+    "sajt",
+    "zsemlemorzsa",
+    "vaj"
+  ],
+  "Egész alma": [
+    "alma",
+    "vaj",
+    "bor",
+    "nádcukor",
+    "méz"
+  ],
+  "Töltött cipó": [
+    "cipó",
+    "tojás",
+    "nádcukor",
+    "méz",
+    "ribizli",
+    "sáfrány",
+    "mandula",
+    "mazsola",
+    "füge",
+    "fahéj",
+    "vaj"
+  ],
+  "Spanior lév, azaz spanyol lé": [
+    "alma",
+    "vaj",
+    "mandula",
+    "ribizli",
+    "bor",
+    "víz",
+    "méz",
+    "bors",
+    "sáfrány"
+  ],
+  "Cseh rántott": [
+    "alma",
+    "vaj",
+    "méz",
+    "tojássárgája",
+    "tejföl",
+    "nádcukor",
+    "fahéj"
+  ],
+  "Bába-fánk": [
+    "kenyér",
+    "tej",
+    "tojás",
+    "méz",
+    "mazsola",
+    "vaj"
+  ],
+  "Paláta": [
+    "tej",
+    "tojásfehérje",
+    "nádcukor",
+    "rózsavíz",
+    "mazsola",
+    "mandula"
+  ],
+  "Írós lév": [
+    "hal",
+    "víz",
+    "só",
+    "ecet",
+    "petrezselyem",
+    "bor",
+    "citromlé",
+    "tej",
+    "kenyér",
+    "gyömbér",
+    "szerecsendió-virág",
+    "vaj"
+  ],
+  "Zólnai lév": [
+    "hal",
+    "só",
+    "víz",
+    "petrezselyemlevél",
+    "petrezselyemgyökér",
+    "vaj",
+    "finomliszt",
+    "méz",
+    "bors",
+    "gyömbér",
+    "olívaolaj"
+  ],
+  "Veres béles": [
+    "vörös ribizli",
+    "rózsavíz",
+    "nádcukor",
+    "fekete bors",
+    "fahéj",
+    "gyömbér",
+    "szegfűszeg",
+    "mandula",
+    "citrom",
+    "tészta",
+    "vaj"
+  ],
+  "Körtvély-béles, azaz körte-béles": [
+    "körte",
+    "vaj",
+    "mazsola",
+    "mandula",
+    "tészta",
+    "tojás",
+    "fahéj",
+    "nádcukor",
+    "szegfűszeg"
+  ],
+  "Egres-béles": [
+    "egres",
+    "cukor",
+    "rózsavíz",
+    "sáfrány",
+    "szegfűszeg",
+    "fahéj"
+  ],
+  "Kenyér-torta": [
+    "kenyér",
+    "tojás",
+    "bor",
+    "méz",
+    "tejföl",
+    "mazsola",
+    "füge",
+    "mandula",
+    "víz",
+    "bors",
+    "sáfrány",
+    "gyömbér",
+    "tej",
+    "só"
+  ],
+  "Bába-kenyér": [
+    "tejföl",
+    "tojás",
+    "sáfrány",
+    "élesztő",
+    "nádcukor",
+    "méz",
+    "ribizli",
+    "só",
+    "fehér búzaliszt",
+    "vaj"
+  ],
+  "Rák tejföllel": [
+    "rák",
+    "víz",
+    "só",
+    "vaj",
+    "fehér kenyérbél",
+    "szerecsendió-virág",
+    "citrom",
+    "petrezselyemgyökér",
+    "tejföl",
+    "borecet",
+    "petrezselyemlevél"
+  ],
+  "Hal téjfellel": [
+    "pisztráng",
+    "rák",
+    "kövi csík",
+    "csuka",
+    "csirke",
+    "tyúk",
+    "víz",
+    "só",
+    "ecet",
+    "petrezselyemlevél",
+    "tejföl",
+    "vaj",
+    "fehér kenyérbél",
+    "citrom",
+    "bor",
+    "szerecsendió-virág",
+    "gyömbér",
+    "petrezselyemgyökér",
+    "marhahúsleves",
+    "juhhúsleves"
+  ],
+  "Rántott rizskása": [
+    "rizs",
+    "tej",
+    "mazsola",
+    "nádcukor",
+    "méz",
+    "tojás",
+    "fehér liszt",
+    "vaj"
+  ],
+  "Olasz kolbász": [
+    "tojás",
+    "vaj",
+    "bors",
+    "sáfrány",
+    "méz",
+    "liszt",
+    "bor",
+    "mazsola",
+    "gyömbér",
+    "szegfűszeg",
+    "mandula"
+  ],
+  "Boros szérdék, azaz boros aludttej": [
+    "tejföl",
+    "tojás",
+    "méz",
+    "bor",
+    "vaj",
+    "kenyér"
+  ],
+  "Tyúkmony-zsufa, azaz tojásos savanyú mártás": [
+    "ecet",
+    "bor",
+    "tojás",
+    "liszt",
+    "bors",
+    "gyömbér"
+  ],
+  "Tejes klödör, azaz tejes gombóc": [
+    "búzaliszt",
+    "tojás",
+    "vöröshagyma",
+    "vaj",
+    "méz",
+    "fekete bors",
+    "gyömbér",
+    "sáfrány",
+    "tej",
+    "só"
+  ],
+  "Hajtott tejes étek": [
+    "metélt tészta",
+    "vaj",
+    "tej",
+    "sáfrány",
+    "gyömbér"
+  ],
+  "Metélt étek": [
+    "metélt tészta",
+    "tej",
+    "vaj"
+  ],
+  "Sûrû tejes étek": [
+    "édes tej",
+    "tojás",
+    "kenyér",
+    "vaj"
+  ],
+  "Lábbogó, azaz lebegő tejes étek": [
+    "tojás",
+    "tej",
+    "kenyér",
+    "vaj"
+  ],
+  "Vagdalt étek": [
+    "liszt",
+    "tojás",
+    "tej",
+    "só",
+    "vaj"
+  ],
+  "Túrós étek": [
+    "aludttej",
+    "tejföl",
+    "tojás",
+    "kapor",
+    "víz",
+    "kenyér",
+    "vaj"
+  ],
+  "Tálban főtt tejes étek": [
+    "édes tej",
+    "tejföl",
+    "tojás",
+    "liszt",
+    "rózsavíz",
+    "só",
+    "méz",
+    "nádcukor",
+    "szőlő"
+  ],
+  "Borza-kása": [
+    "tej",
+    "bodzavirág",
+    "tojás",
+    "liszt",
+    "só"
+  ],
+  "Vereshagymát fõzni": [
+    "vöröshagyma",
+    "só",
+    "marhahúsleves",
+    "petrezselyemlevél",
+    "fekete bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "vaj",
+    "liszt",
+    "olaj"
+  ],
+  "Olasz káposzta": [
+    "friss káposzta",
+    "víz",
+    "só",
+    "vaj",
+    "olívaolaj",
+    "bors"
+  ],
+  "Laboda-paréj": [
+    "laboda",
+    "tej",
+    "tojás",
+    "vaj"
+  ],
+  "Hüvelyes borsó": [
+    "borsó",
+    "víz",
+    "só",
+    "vaj",
+    "olívaolaj"
+  ],
+  "Murok, azaz sárgarépa tejjel": [
+    "sárgarépa",
+    "víz",
+    "só",
+    "tej",
+    "kenyér"
+  ],
+  "Alma-kása": [
+    "alma",
+    "víz",
+    "vaj",
+    "tojás",
+    "fahéj",
+    "nádcukor",
+    "méz",
+    "rózsavíz"
+  ],
+  "Tök téjjel": [
+    "tök",
+    "víz",
+    "tej",
+    "tojás"
+  ],
+  "Boros kenyér": [
+    "fehér kenyér",
+    "édes bor",
+    "vaj",
+    "nádcukor",
+    "gyömbér"
+  ],
+  "Tyúkmony-lév, azaz tojás-lé": [
+    "tojás",
+    "bors",
+    "sáfrány",
+    "gyömbér",
+    "víz",
+    "vaj",
+    "szerecsendió-virág",
+    "kenyér"
+  ],
+  "Német rántott": [
+    "vaj",
+    "tojás",
+    "só",
+    "gyömbér",
+    "bors",
+    "fahéj",
+    "nádcukor"
+  ],
+  "Serleves": [
+    "sör",
+    "tojás",
+    "só",
+    "kenyér",
+    "vaj",
+    "tejföl",
+    "víz"
+  ],
+  "Boros leves": [
+    "bor",
+    "méz",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "mazsola",
+    "füge",
+    "kenyér",
+    "tojás",
+    "mandula"
+  ],
+  "Rák töltve": [
+    "rák",
+    "petrezselyemlevél",
+    "majoránna",
+    "kenyérbél",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "tojás",
+    "vaj",
+    "méz"
+  ],
+  "Lapos tészta": [
+    "tojás",
+    "víz",
+    "só",
+    "zsemlemorzsa",
+    "vaj"
+  ],
+  "Ostya-béles": [
+    "tészta",
+    "mazsola",
+    "mandula",
+    "vaj",
+    "liszt",
+    "tojás",
+    "ostya"
+  ],
+  "Alma-fánk": [
+    "liszt",
+    "tojás",
+    "bor",
+    "alma",
+    "vaj",
+    "nádcukor",
+    "gyömbér"
+  ],
+  "Pila, azaz rizskásából készült étel": [
+    "rizs",
+    "víz",
+    "mazsola",
+    "vaj",
+    "méz",
+    "fahéj",
+    "nádcukor"
+  ],
+  "Tolyó-fánk": [
+    "fehér liszt",
+    "tojássárgája",
+    "vaj",
+    "só",
+    "nádcukor"
+  ],
+  "Árpa-kása": [
+    "árpagyöngy",
+    "tej",
+    "vaj"
+  ],
+  "Palacsinta": [
+    "tojás",
+    "víz",
+    "tej",
+    "liszt",
+    "só",
+    "vaj"
+  ],
+  "Disilber, azaz tojásétel": [
+    "víz",
+    "tojás",
+    "só",
+    "vaj",
+    "bors"
+  ],
+  "Körtvély-fánk, azaz körte-fánk": [
+    "tej",
+    "tojássárgája",
+    "tojásfehérje",
+    "búzaliszt",
+    "élesztő",
+    "vaj",
+    "nádcukor",
+    "méz"
+  ],
+  "Piroska, azaz túróval töltött derelye": [
+    "túró",
+    "tojás",
+    "kapor",
+    "tészta",
+    "víz",
+    "vaj",
+    "kenyérmorzsa"
+  ],
+  "Süveg-fánk": [
+    "tojás",
+    "liszt",
+    "víz",
+    "vaj"
+  ],
+  "Dió-béles": [
+    "tojás",
+    "dió",
+    "méz",
+    "vaj"
+  ],
+  "Szilvás béles": [
+    "szilva",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "liszt",
+    "tojás",
+    "vaj"
+  ],
+  "Rák-sajt": [
+    "rák",
+    "víz",
+    "só",
+    "tej",
+    "tojás",
+    "nádcukor",
+    "fahéj",
+    "mazsola",
+    "bor",
+    "méz",
+    "sáfrány",
+    "bors",
+    "gyömbér",
+    "ribizli"
+  ],
+  "Rántott rák": [
+    "rák",
+    "só",
+    "víz",
+    "tojás",
+    "liszt",
+    "vaj"
+  ],
+  "Rák tejfellel": [
+    "rák",
+    "tejföl",
+    "tárkony",
+    "sáfrány",
+    "só",
+    "kenyér"
+  ],
+  "Német tejes étek": [
+    "tojás",
+    "liszt",
+    "vaj",
+    "tej",
+    "sáfrány"
+  ],
+  "Tejfeles túró": [
+    "túró",
+    "kapor",
+    "tojás",
+    "tejföl"
+  ],
+  "Mondola-sása, azaz mandula-mártás": [
+    "mandula",
+    "víz",
+    "kenyérbél",
+    "bor",
+    "fokhagyma",
+    "ecet",
+    "méz",
+    "só"
+  ],
+  "Daru-sása, azaz daru-mártás": [
+    "mandula",
+    "mézes bor",
+    "kenyér",
+    "méz",
+    "vaj",
+    "rózsavíz",
+    "ribizli"
+  ],
+  "Főkötős fánk": [
+    "liszt",
+    "tojás",
+    "vaj",
+    "nádcukor"
+  ],
+  "Tölcséres fánk": [
+    "tej",
+    "tojásfehérje",
+    "liszt",
+    "méz",
+    "só",
+    "vaj",
+    "nádcukor"
+  ],
+  "Barack-fánk": [
+    "barack",
+    "tojás",
+    "liszt",
+    "zsír",
+    "só",
+    "sáfrány",
+    "nádcukor"
+  ],
+  "Birsalma-pástétom": [
+    "tészta",
+    "sáfrány",
+    "birsalma",
+    "víz",
+    "vaj",
+    "méz",
+    "szegfűszeg"
+  ],
+  "Körtvély-pástétom, azaz körte-pástétom": [
+    "alma",
+    "körte",
+    "víz",
+    "vörösbor",
+    "cukor",
+    "méz",
+    "fahéj",
+    "szegfűszeg",
+    "tészta"
+  ],
+  "Tyúkmony-sajt, azaz tojás-sajt": [
+    "tej",
+    "tojás",
+    "só",
+    "cukor",
+    "mazsola",
+    "tejföl"
+  ],
+  "Szilvás cipó": [
+    "aszalt szilva",
+    "szegfűszeg",
+    "gyömbér",
+    "cipó",
+    "liszt",
+    "tojás",
+    "vaj",
+    "nádcukor"
+  ],
+  "Tálban főtt zsemlekása": [
+    "zsemlekása",
+    "tej",
+    "vaj",
+    "tojás",
+    "nádcukor",
+    "méz",
+    "rózsavíz"
+  ],
+  "Mondola-klödör, azaz mandula-gombóc": [
+    "mandula",
+    "rózsavíz",
+    "cukor",
+    "fehér kenyér",
+    "tej",
+    "tojás"
+  ],
+  "Kapros túrós béles": [
+    "aludttej",
+    "túró",
+    "friss kapor",
+    "víz",
+    "élesztő",
+    "vaj"
+  ],
+  "Vízleves": [
+    "víz",
+    "só",
+    "kenyér",
+    "vöröshagyma",
+    "vaj"
+  ],
+  "Domika, azaz túróból és kenyérből készített étel": [
+    "kenyér",
+    "túró",
+    "víz",
+    "só",
+    "vaj",
+    "kalács"
+  ],
+  "Pép": [
+    "túró",
+    "liszt",
+    "víz",
+    "só",
+    "kenyér",
+    "vaj"
+  ],
+  "Lyukas kása": [
+    "köles",
+    "víz",
+    "só",
+    "édes tej"
+  ],
+  "Palástos rizskása": [
+    "rizs",
+    "tej",
+    "nádcukor",
+    "gyömbér"
+  ],
+  "Köles-kása": [
+    "köles",
+    "víz",
+    "tej",
+    "liszt",
+    "vaj"
+  ],
+  "Zab-kása": [
+    "zab",
+    "víz",
+    "tej",
+    "vaj"
+  ],
+  "Édes tej": [
+    "kenyér",
+    "kalács",
+    "édes tej",
+    "bivalytej"
+  ],
+  "Azonban ezek is jók": [
+    "sós tej",
+    "tejföl",
+    "írós vaj",
+    "cukor",
+    "kemény sajt",
+    "édes aludttej",
+    "édes orda",
+    "sós orda",
+    "sajt",
+    "túró",
+    "új édes sajt",
+    "édes tej",
+    "hideg tej"
+  ],
+  "Ordás leves": [
+    "orda",
+    "víz",
+    "kapor",
+    "kenyér"
+  ],
+  "Káposzta vajjal": [
+    "káposzta",
+    "túró",
+    "vaj",
+    "bor"
+  ],
+  "Bálmos, azaz puliszkaszerű étel": [
+    "lágy túró",
+    "tej",
+    "liszt"
+  ],
+  "Zuppon": [
+    "petrezselyemgyökér",
+    "víz",
+    "vaj",
+    "kenyérbél",
+    "tojás",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág"
+  ],
+  "Bodza-fánk": [
+    "bodzavirág",
+    "tojás",
+    "liszt",
+    "vaj"
+  ],
+  "Zsálya-fánk": [
+    "zsályalevél",
+    "víz",
+    "tojás",
+    "liszt",
+    "vaj"
+  ],
+  "Káposzta ikrával": [
+    "savanyú káposzta",
+    "halikra",
+    "káposztalé",
+    "bors",
+    "sáfrány"
+  ],
+  "Alma-lév": [
+    "alma",
+    "méz",
+    "bor",
+    "mandula",
+    "szegfűszeg",
+    "kenyér"
+  ],
+  "Mondola-perec, azaz mandula-perec": [
+    "mandula",
+    "cukor",
+    "rózsavíz",
+    "keményítő"
+  ],
+  "Koldus-lév": [
+    "csíkhal",
+    "menyhal",
+    "káposztalé",
+    "vöröshagyma",
+    "olaj",
+    "liszt",
+    "fekete bors",
+    "gyömbér",
+    "sáfrány",
+    "kenyér"
+  ],
+  "Ég-lév": [
+    "hagyma",
+    "alma",
+    "hal",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Zsákvászonnal": [
+    "savanyú káposzta",
+    "káposztalé",
+    "csíkhal",
+    "halikra",
+    "vöröshagyma",
+    "lenmagolaj",
+    "fekete bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Gutta-lév": [
+    "csuka",
+    "só",
+    "víz",
+    "vöröshagyma",
+    "bor",
+    "ecet",
+    "cukor",
+    "méz",
+    "liszt",
+    "sáfrány",
+    "bors",
+    "fahéj",
+    "gyömbér",
+    "citrom",
+    "füge",
+    "mazsola"
+  ],
+  "Szíjalt rák, azaz keskeny szeletre vágott rák": [
+    "rák",
+    "só",
+    "víz",
+    "tárkony",
+    "kenyér",
+    "bor",
+    "ecet",
+    "citrom",
+    "hagyma",
+    "citromvíz",
+    "bors",
+    "sáfrány",
+    "szerecsendió-virág"
+  ],
+  "Lengyel cibre": [
+    "bor",
+    "kenyér",
+    "méz",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Körtvély fõve, azaz körte fõzve": [
+    "körte",
+    "víz",
+    "bor",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "méz",
+    "kenyér"
+  ],
+  "Saláta": [
+    "turbolya",
+    "cikória",
+    "salátalevél",
+    "ecet",
+    "olívaolaj",
+    "nádcukor"
+  ],
+  "Torzsa-saláta": [
+    "nagy lapu szára",
+    "kerti saláta szára",
+    "víz",
+    "só",
+    "ecet",
+    "kapor",
+    "kovász"
+  ],
+  "Ugorka-saláta": [
+    "uborka",
+    "só",
+    "fokhagyma",
+    "ecet",
+    "bors",
+    "olívaolaj"
+  ],
+  "Miskuláncia-saláta": [
+    "saláta",
+    "zsályalevél",
+    "fodormentalevél",
+    "földitömjén",
+    "borrágó",
+    "petrezselyemlevél",
+    "turbolya",
+    "tárkony",
+    "köményzöld",
+    "borecet",
+    "olívaolaj",
+    "só",
+    "nádcukor"
+  ],
+  "Mondola-lév, azaz mandula-lé": [
+    "mandula",
+    "víz",
+    "fehér kenyér",
+    "nádcukor",
+    "só",
+    "rózsavíz",
+    "szerecsendió",
+    "fahéj",
+    "hal"
+  ],
+  "Bot-lév": [
+    "bor",
+    "víz",
+    "méz",
+    "mazsola",
+    "ribizli",
+    "vaj",
+    "olívaolaj",
+    "bors",
+    "sáfrány",
+    "gyömbér",
+    "kenyér",
+    "tojás",
+    "liszt",
+    "sült hal"
+  ],
+  "Kendermag-cibre": [
+    "kendermag",
+    "víz",
+    "kenyér",
+    "ecet",
+    "vöröshagyma",
+    "só"
+  ],
+  "Ikrát főzni": [
+    "halikra",
+    "víz",
+    "só",
+    "liszt",
+    "vaj",
+    "olaj",
+    "bors",
+    "gyömbér"
+  ],
+  "Nyers káposzta-saláta": [
+    "káposzta",
+    "víz",
+    "ecet",
+    "szalonna",
+    "olívaolaj",
+    "só"
+  ],
+  "Borsóleves": [
+    "borsó",
+    "víz",
+    "kenyér",
+    "petrezselyemgyökér",
+    "vöröshagyma",
+    "gyömbér",
+    "zsályalevél",
+    "olaj"
+  ],
+  "Párolt rák": [
+    "rák",
+    "só",
+    "víz",
+    "bor",
+    "olívaolaj",
+    "petrezselyemlevél",
+    "bors",
+    "méz"
+  ],
+  "Korpa-cibre": [
+    "korpa",
+    "liszt",
+    "kovász",
+    "víz",
+    "köleskása",
+    "kenyér",
+    "olaj",
+    "torma"
+  ],
+  "Borsót főzni": [
+    "borsó",
+    "víz",
+    "vaj",
+    "méz",
+    "kenyér",
+    "olaj",
+    "hamu"
+  ],
+  "Ugorkát télre sózni": [
+    "uborka",
+    "kapor",
+    "só",
+    "ecet",
+    "víz"
+  ],
+  "Fenyőgombát főzni": [
+    "fenyőgomba",
+    "víz",
+    "só",
+    "fokhagyma",
+    "ecet"
+  ],
+  "Kínzott kása": [
+    "kása",
+    "víz",
+    "só",
+    "dió",
+    "tej"
+  ],
+  "Lencseleves": [
+    "lencse",
+    "víz",
+    "vöröshagyma",
+    "zsálya",
+    "majoránna",
+    "növényi olaj",
+    "gyömbér",
+    "petrezselyemgyökér",
+    "ecet",
+    "kenyér"
+  ],
+  "Hal rizskásával": [
+    "rizs",
+    "petrezselyemgyökér",
+    "hal",
+    "ponty",
+    "viza",
+    "bors",
+    "olívaolaj",
+    "szerecsendió-virág",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Olaj-spék": [
+    "hal",
+    "csuka",
+    "víz",
+    "só",
+    "kenyér",
+    "petrezselyem",
+    "olaj",
+    "ecet",
+    "bors",
+    "gyömbér",
+    "bor"
+  ],
+  "Cicer, azaz bagoly-borsó": [
+    "csicseriborsó",
+    "bab",
+    "víz",
+    "petrezselyemlevél",
+    "petrezselyemgyökér",
+    "zsálya",
+    "vaj",
+    "olaj",
+    "szalonna",
+    "liszt",
+    "bors",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Sült hal": [
+    "hal",
+    "harcsa",
+    "viza",
+    "dió"
+  ],
+  "Lémonyával, azaz citrommal": [
+    "hal",
+    "só",
+    "víz",
+    "petrezselyem",
+    "citrom",
+    "kenyér",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szerecsendió-virág",
+    "fahéj"
+  ],
+  "Törött lével hal": [
+    "csuka",
+    "só",
+    "víz",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "petrezselyem",
+    "kenyér",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szerecsendió-virág"
+  ],
+  "Csukát csuka-lével": [
+    "csuka",
+    "víz",
+    "só",
+    "ecet",
+    "olaj",
+    "bors",
+    "gyömbér"
+  ],
+  "Olajos domika, azaz túróból és kenyérbõl készített étel": [
+    "bor",
+    "víz",
+    "méz",
+    "olívaolaj",
+    "ribizli",
+    "vöröshagyma",
+    "kenyér",
+    "só"
+  ],
+  "Kozák-lével": [
+    "hal",
+    "kenyérbél",
+    "alma",
+    "hagyma",
+    "olaj",
+    "bors",
+    "gyömbér"
+  ],
+  "Zöld lével": [
+    "hal",
+    "víz",
+    "petrezselyemlevél",
+    "só",
+    "bors",
+    "gyömbér"
+  ],
+  "Borsos szilva": [
+    "aszalt szilva",
+    "víz",
+    "méz",
+    "bors"
+  ],
+  "Ecetes cibre": [
+    "víz",
+    "liszt",
+    "ecet",
+    "borsikafű",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "só",
+    "kenyér",
+    "tojás"
+  ],
+  "Hal fekete lével": [
+    "hal",
+    "kenyér",
+    "víz",
+    "bor",
+    "ecet",
+    "alma",
+    "hagyma",
+    "méz",
+    "dió",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "só"
+  ],
+  "Zuppon-lév": [
+    "hal",
+    "víz",
+    "só",
+    "vöröshagyma",
+    "lenolaj",
+    "liszt",
+    "ecet",
+    "bors",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Tiszta borssal": [
+    "petrezselyemgyökér",
+    "vöröshagyma",
+    "víz",
+    "hal",
+    "olívaolaj",
+    "liszt",
+    "bors",
+    "gyömbér",
+    "szerecsendió-virág",
+    "só",
+    "kenyér"
+  ],
+  "Vizát viza-lével": [
+    "tokhal",
+    "víz",
+    "bor",
+    "fehér kenyér",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "méz",
+    "só"
+  ],
+  "Szömörcsök-gomba, azaz kucsmagomba főve": [
+    "rizs",
+    "petrezselyemzöld",
+    "kucsmagomba",
+    "bors",
+    "gyömbér",
+    "ecet",
+    "só"
+  ],
+  "Borított lév": [
+    "csíkhal",
+    "káposztalé",
+    "vöröshagyma",
+    "petrezselyemgyökér",
+    "petrezselyemzöld",
+    "víz",
+    "olívaolaj",
+    "bors",
+    "gyömbér"
+  ],
+  "Kása olajjal": [
+    "kása",
+    "liszt",
+    "olaj",
+    "só",
+    "káposztalé"
+  ],
+  "Lencse olajjal": [
+    "lencse",
+    "vöröshagyma",
+    "liszt",
+    "kenyér",
+    "lenolaj"
+  ],
+  "Borsó laskával": [
+    "borsó",
+    "víz",
+    "tészta",
+    "liszt",
+    "só",
+    "kenyér",
+    "lenolaj"
+  ],
+  "Káposztás béles": [
+    "savanyú káposzta",
+    "olaj",
+    "vöröshagyma",
+    "víz",
+    "élesztő"
+  ],
+  "Hagyma rántva": [
+    "vöröshagyma",
+    "víz",
+    "só",
+    "vaj",
+    "olívaolaj",
+    "lenmagolaj",
+    "bors"
+  ],
+  "Káposzta-lév cibre": [
+    "káposztalé",
+    "víz",
+    "liszt",
+    "bors",
+    "kenyér"
+  ],
+  "Lönye, azaz kenyér- vagy kalácstészta": [
+    "perec",
+    "méz",
+    "víz",
+    "mák",
+    "kenyértészta"
+  ],
+  "Lása, azaz laskagomba": [
+    "tészta",
+    "víz",
+    "só",
+    "olaj",
+    "mák"
+  ],
+  "Sós víz": [
+    "kenyér",
+    "víz",
+    "só"
+  ],
+  "Seres kenyér": [
+    "sör",
+    "méz",
+    "bors",
+    "pirított kenyér"
+  ],
+  "Olajos lév": [
+    "hal",
+    "káposztalé",
+    "víz",
+    "lenolaj",
+    "vöröshagyma",
+    "liszt",
+    "bors",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Viza ikra": [
+    "vizaikra",
+    "vízben áztatott kenyér",
+    "ecet",
+    "vöröshagyma"
+  ],
+  "Új káposzta": [
+    "fejes káposzta",
+    "víz",
+    "ecet",
+    "borkő",
+    "olaj"
+  ],
+  "Rák tehénhús-lévben": [
+    "rák",
+    "víz",
+    "marhahúsleves",
+    "fehér kenyérbél",
+    "bor",
+    "vaj",
+    "petrezselyem",
+    "szerecsendió-virág",
+    "gyömbér",
+    "bors"
+  ],
+  "Tyúkfi, azaz csirke cipóban való": [
+    "csirke",
+    "marhahúsleves",
+    "írós vaj",
+    "vaj",
+    "citromlé",
+    "szerecsendió-virág",
+    "bors",
+    "gyömbér",
+    "kenyércipó"
+  ],
+  "Tyúkfi, azaz csirke borkőben való": [
+    "csirke",
+    "víz",
+    "szalonna",
+    "kenyérbél",
+    "petrezselyem",
+    "borkő"
+  ],
+  "Báránybél édes téjjel": [
+    "báránybél",
+    "víz",
+    "só",
+    "tej",
+    "vöröshagyma",
+    "vaj",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "tejföl"
+  ],
+  "Sódar gyümölcsös lével": [
+    "sertéssonka (sódar)",
+    "víz",
+    "bor",
+    "fehér kenyérbél",
+    "ecet",
+    "marhahúsleves",
+    "méz",
+    "mandula",
+    "körte",
+    "bors",
+    "gyömbér",
+    "sáfrány"
+  ],
+  "Sódar szegfüves lével": [
+    "sódar (füstölt sertéssonka)",
+    "víz",
+    "bor",
+    "kenyér",
+    "méz",
+    "bors",
+    "gyömbér",
+    "szegfűszeg",
+    "mazsola",
+    "mandula"
+  ],
+  "Malac hidegen": [
+    "malac",
+    "víz",
+    "só",
+    "alma",
+    "vöröshagyma",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "méz",
+    "citrom",
+    "mandula",
+    "szőlő",
+    "ecet"
+  ],
+  "Tyúk-saláta": [
+    "csirke",
+    "tojás",
+    "bor",
+    "ecet",
+    "petrezselyem",
+    "bors"
+  ],
+  "Hagyma lével": [
+    "szalonna",
+    "vöröshagyma",
+    "ecet",
+    "bor",
+    "bors",
+    "gyömbér",
+    "sült hús"
+  ],
+  "Tehénbél spékkelTehénbél téjjelGömböc tormávalDisznófõ, torma melléje": [],
+  "Kolbász, lévre": [
+    "kolbász",
+    "káposztalé",
+    "petrezselyemlevél",
+    "petrezselyemgyökér",
+    "vöröshagyma",
+    "liszt",
+    "víz",
+    "bors",
+    "gyömbér",
+    "kenyér"
+  ],
+  "Másképpen": [
+    "kenyér",
+    "tej",
+    "tojás",
+    "vaj"
+  ],
+  "Rántott körte": [
+    "körte",
+    "vaj",
+    "méz",
+    "alma"
+  ],
+  "Rizskása tejben": [
+    "rizs",
+    "tej",
+    "só",
+    "gyömbér"
+  ],
+  "Rántott kenyér": [
+    "tojás",
+    "kenyér",
+    "vaj"
+  ],
+  "Kék káposzta": [
+    "kék káposzta",
+    "sertéshátgerinc",
+    "zsír",
+    "cukor"
+  ],
+  "Tyúkmony-saláta, azaz tojás-saláta": [
+    "tojás",
+    "víz",
+    "só",
+    "bors",
+    "ecet",
+    "tárkony",
+    "petrezselyem"
+  ],
+  "Más meggy-sása, azaz meggy-mártás": [
+    "meggy",
+    "víz",
+    "bor",
+    "méz",
+    "viasz"
+  ],
+  "Rózsa-kása": [
+    "tojás",
+    "rózsavíz",
+    "nádcukor",
+    "liszt",
+    "vaj"
+  ],
+  "Mondola-pogácsa, azaz mandula-pogácsa": [
+    "mandula",
+    "rózsavíz",
+    "nádcukor",
+    "citromlé",
+    "citromhéj",
+    "ostya",
+    "nádcukorszirup"
+  ],
+  "Szegfüves sása, azaz szegfüves mártás": [
+    "bor",
+    "méz",
+    "ecet",
+    "bors",
+    "szegfűszeg"
+  ],
+  "Gyömbéres sása, azaz gyömbéres mártás": [
+    "sáfrány",
+    "szegfűszeg",
+    "gyömbér"
+  ],
+  "Õszibarack-torta": [
+    "őszibarack",
+    "fahéj",
+    "cukor",
+    "rózsavíz",
+    "majoránnavíz",
+    "bor"
+  ],
+  "Dinnye-torta": [
+    "dinnye",
+    "méz",
+    "tojás",
+    "sáfrány",
+    "bors",
+    "gyömbér",
+    "szőlő"
+  ],
+  "Mozsár-fánk": [
+    "tojás",
+    "vaj",
+    "tej",
+    "ribizli",
+    "víz"
+  ],
+  "Liktáriomok, azaz befőzöttek csinálásához megkívánt méz készítés": [
+    "nádcukor",
+    "méz",
+    "víz",
+    "tojásfehérje"
+  ],
+  "Görögdinnye-liktáriom": [
+    "görögdinnyehéj",
+    "víz",
+    "méz",
+    "hamu"
+  ],
+  "Apró veres szõlõ-, málna-, eper-liktáriomok": [
+    "apró vörös szőlő",
+    "málna",
+    "eper",
+    "nádcukor",
+    "tojásfehérje",
+    "citromlé"
+  ],
+  "Fényes birsalma-liktárium": [
+    "birsalma",
+    "víz",
+    "cukor",
+    "tojásfehérje",
+    "citromlé",
+    "birsalmalé"
+  ],
+  "Másféle öntött birsalma-liktáriom": [
+    "birsalma",
+    "víz",
+    "nádcukor",
+    "bor"
+  ],
+  "Birsalma-liktáriom, melynek a leve fényes s megaluszik": [
+    "birsalma",
+    "víz",
+    "nádcukor",
+    "birsalmamag",
+    "tojásfehérje",
+    "citromlé",
+    "bor"
+  ],
+  "Más fényes birsalma-liktáriom": [
+    "birsalma",
+    "víz",
+    "nádcukor",
+    "tojásfehérje"
+  ],
+  "Birsalma-lévbõl más fényes liktáriom": [
+    "birsalma",
+    "savanyú alma",
+    "nádcukor"
+  ],
+  "Másféle fényes birsalma-liktáriom": [
+    "birsalma",
+    "víz",
+    "cukor"
+  ],
+  "Más birsalma-liktáriom borral s fûszerszámmal": [
+    "birsalma",
+    "cukor",
+    "szőlőmust",
+    "gyömbér",
+    "szegfűszeg",
+    "fahéj"
+  ],
+  "Birsalmából piros liktáriom": [
+    "birsalma",
+    "víz",
+    "nádcukor"
+  ],
+  "Nyers meggy-liktáriom": [
+    "meggy",
+    "méz",
+    "szilva",
+    "dióbél"
+  ],
+  "Más egész meggy-liktáriom": [
+    "meggy",
+    "víz",
+    "tojás",
+    "méz"
+  ],
+  "Más egész meggybõl liktáriom": [
+    "meggy",
+    "nádcukor",
+    "méz",
+    "víz"
+  ],
+  "Más meggy-liktáriom": [
+    "meggy",
+    "víz"
+  ],
+  "Fényes meggy-liktáriom": [
+    "meggy",
+    "víz"
+  ],
+  "Rózsa-liktáriom": [
+    "vörös rózsaszirom",
+    "rózsavíz",
+    "nádcukor",
+    "citromlé"
+  ],
+  "Másképpen így főzd": [
+    "rózsa",
+    "víz",
+    "nádcukor",
+    "tojásfehérje",
+    "citromlé",
+    "spiritus vitrioli"
+  ],
+  "Másképpen így": [
+    "rózsaszirom",
+    "nádcukor",
+    "spiritus vitrioli"
+  ],
+  "Muskotály körte-befőtt": [
+    "muskotály körte",
+    "méz"
+  ],
+  "Barack-liktáriom, azaz õszibarack-befõtt": [
+    "őszibarack",
+    "méz",
+    "olajmag",
+    "mogyoró",
+    "szilva"
+  ],
+  "Tengeri barack-liktáriom, azaz sárgabarack-befőtt": [
+    "sárgabarack",
+    "cukor",
+    "víz",
+    "tojásfehérje"
+  ],
+  "Tört som-liktáriom": [
+    "som",
+    "méz"
+  ],
+  "Veres csipke-liktáriom, azaz csipkebogyó-befőtt": [
+    "csipkebogyó",
+    "bor",
+    "méz"
+  ],
+  "Zöld dió-liktáriom": [
+    "zöld dió",
+    "víz",
+    "méz",
+    "szegfűszeg",
+    "fahéj",
+    "hamu"
+  ],
+  "Birsalma tésztát így csinálj": [
+    "birsalma",
+    "víz",
+    "cukor",
+    "fehér búzaliszt"
+  ],
+  "A birsalma-julepet, azaz birsalma-szirupot így fõzd": [
+    "birsalma",
+    "cukor",
+    "víz",
+    "tojásfehérje",
+    "citromlé",
+    "meggylé",
+    "ribizlilé",
+    "egres"
+  ],
+  "A szederjes viola-julepet, azaz viola-szirupot így csináld": [
+    "ibolyavirág",
+    "víz",
+    "nádcukor"
+  ],
+  "Eleven gyömbért így csinálj": [
+    "gyömbér",
+    "víz",
+    "nádcukor"
+  ],
+  "A mandula-olajat így csináld": [
+    "mandula"
+  ],
+  "A fejér bis-coctumot, azaz fehér piskótát így csináld": [
+    "birsalma",
+    "nádcukor",
+    "citrom",
+    "tojásfehérje"
+  ],
+  "A birsalma-sajtot így csináld": [
+    "birsalma",
+    "víz",
+    "cukor",
+    "tetszőleges fűszerek (ízlés szerint)",
+    "citromhéj",
+    "fahéj",
+    "vörös ételfesték (pl. kármin)"
+  ],
+  "Más sárga birsalma-sajt": [
+    "birsalma",
+    "cukor",
+    "mandulaolaj",
+    "citromhéj"
+  ],
+  "Disznófőből való sajt": [
+    "sertésfej",
+    "sertésfül",
+    "sertésbőr",
+    "sertéshús",
+    "szegfűszeg",
+    "fekete bors",
+    "gyömbér"
+  ],
+  "A citrom-pogácsát tiszta nádcukorból így csináld": [
+    "nádcukor",
+    "citromlé",
+    "citromhéj"
+  ],
+  "Tengeri szõlõbõl, azaz ribizlibõl, meggybõl, sóskából is így csináld; csakhogy,": [
+    "ribizli",
+    "meggy",
+    "sóska",
+    "citromlé"
+  ],
+  "Zsemlye-galuska": [
+    "vaj",
+    "tojás",
+    "zsemlemorzsa",
+    "só",
+    "víz",
+    "bors",
+    "gyömbér",
+    "sáfrány",
+    "szerecsendió-virág",
+    "marhahúsleves"
+  ],
+  "A marcafántot, azaz marcipánt így csináld": [
+    "mandula",
+    "víz",
+    "rózsavíz",
+    "cukor (nádcukor)",
+    "tragantmézga (növényi gyanta)",
+    "keményítő",
+    "aranyfüst",
+    "tojásfehérje",
+    "vörös ételfesték (skarlát)"
+  ],
+  "Apró fánkocskákat így csinálj": [
+    "tojásfehérje",
+    "reszelt citromhéj",
+    "porcukor",
+    "cukorszirup",
+    "méhviasz"
+  ],
+  "Mondola-téj, azaz mandula-tej": [
+    "mandula",
+    "rózsavíz"
+  ]
+}

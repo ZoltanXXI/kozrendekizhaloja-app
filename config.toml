@@ -1,0 +1,10 @@
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+
+# Default port (cloud platforms usually override PORT env var)
+port = 8501
+
+[browser]
+.gatherUsageStats = false

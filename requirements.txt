@@ -1,0 +1,7 @@
+streamlit>=1.26.0
+openai>=1.0.0
+pandas
+networkx
+plotly
+python-dotenv
+unicodedata2
