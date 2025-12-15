@@ -222,10 +222,21 @@ st.markdown("""
 # ENV + OPENAI
 # ===============================
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+# Prefer Streamlit secrets (for deployed apps) then environment variable fallback.
+# This allows Streamlit Cloud / local `.streamlit/secrets.toml` use while keeping
+# the option to run locally with an env var or .env file.
+api_key = None
+try:
+    api_key = st.secrets.get("OPENAI_API_KEY")
+except Exception:
+    # st.secrets may be unavailable in some environments, fall back to env var
+    api_key = None
 
 if not api_key:
-    st.error("❌ Hiányzik az OPENAI_API_KEY!")
+    api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    st.error("❌ Hiányzik az OPENAI_API_KEY! Add it to `.streamlit/secrets.toml` or set the OPENAI_API_KEY environment variable.")
     st.stop()
 
 client = OpenAI(api_key=api_key)
