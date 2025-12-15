@@ -292,9 +292,9 @@ def load_data():
     perfect_ings = []
     try:
         # perfect ingredients file may live under `Data/` or `data/` — try both via resolver
-        perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
+        perfect_candidate = _resolve(os.path.join('recept_alapanyagok_TÖKÉLETES.json'))
         if isinstance(perfect_candidate, list):
-            perfect_candidate = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
+            perfect_candidate = _resolve(os.path.join('recept_alapanyagok_TÖKÉLETES.json'))
 
         if not isinstance(perfect_candidate, list) and os.path.exists(perfect_candidate):
             with open(perfect_candidate, encoding='utf-8') as f:
@@ -1074,3 +1074,4 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+
