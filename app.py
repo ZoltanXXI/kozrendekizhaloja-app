@@ -12,6 +12,31 @@ import random
 import unicodedata
 import re
 
+def resolve_csv_path(filename):
+    """Megpróbálja megtalálni a CSV fájlt több lehetséges helyen."""
+    script_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(script_dir, 'data', filename),
+        os.path.join(script_dir, '..', 'data', filename),
+        os.path.join(os.getcwd(), 'data', filename),
+        os.path.join(os.getcwd(), filename)
+    ]
+    
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    
+    st.error(f"❌ Hiányzik a fájl: {filename}. Ellenőrizd az elérési útját!")
+    st.stop()
+    return None
+
+# Példa használat
+csv_path = resolve_csv_path('Recept_halo__molekula_tripartit.csv')
+tripartit_df = pd.read_csv(csv_path, delimiter=';', encoding='utf-8')
+
+st.success(f"✅ Fájl betöltve: {csv_path}")
+st.write(tripartit_df.head())
+
 # ===============================
 # STREAMLIT KONFIG
 # ===============================
@@ -1074,4 +1099,5 @@ st.markdown(textwrap.dedent("""
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+
 
