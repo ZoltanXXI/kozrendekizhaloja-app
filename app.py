@@ -178,6 +178,20 @@ st.markdown("""
         color: #ffffff !important;
     }
 
+    /* Material Icons font kizárása */
+    .stButton button,
+    .stExpander,
+    [data-testid="stMarkdownContainer"] {
+        font-family: 'Crimson Text', serif !important;
+    }
+    
+    /* Ligature rendering kikapcsolása */
+    * {
+        font-variant-ligatures: none !important;
+        -webkit-font-variant-ligatures: none !important;
+        text-rendering: optimizeLegibility !important;
+    }
+
     /* Hide Streamlit branding */
     #MainMenu { visibility: hidden; }
     footer[data-testid="stFooter"] { visibility: hidden; }
@@ -222,14 +236,10 @@ st.markdown("""
 # ENV + OPENAI
 # ===============================
 load_dotenv()
-# Prefer Streamlit secrets (for deployed apps) then environment variable fallback.
-# This allows Streamlit Cloud / local `.streamlit/secrets.toml` use while keeping
-# the option to run locally with an env var or .env file.
 api_key = None
 try:
     api_key = st.secrets.get("OPENAI_API_KEY")
 except Exception:
-    # st.secrets may be unavailable in some environments, fall back to env var
     api_key = None
 
 if not api_key:
@@ -240,31 +250,25 @@ if not api_key:
     st.stop()
 
 client = OpenAI(api_key=api_key)
-# Optional deterministic seeding for reproducible GPT-context sampling
 random.seed(42)
 
 # ===============================
-# ADATBETÖLTÉS – DATA MAPPA TELJES EGÉSZE
+# ADATBETÖLTÉS
 # ===============================
 @st.cache_data
 def load_data():
-    # Resolve data paths relative to this script so Streamlit can run from any CWD
     script_dir = os.path.dirname(__file__)
 
-    # Helper: try several candidate bases so app works when run from different CWDs
     def _resolve(rel_path):
         candidates = []
-        # common bases to try
         bases = [script_dir, os.getcwd(), os.path.abspath(os.path.join(script_dir, '..'))]
         for b in bases:
             candidates.append(os.path.normpath(os.path.join(b, rel_path)))
-        # also try the relative path as-is
         candidates.append(os.path.normpath(rel_path))
 
         for p in candidates:
             if os.path.exists(p):
                 return p
-        # return list of attempted candidates for diagnostics if not found
         return candidates
 
     alapanyag_path = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
@@ -272,7 +276,6 @@ def load_data():
     edges_path = _resolve(os.path.join('data', 'recept_halo_edges.csv'))
     historical_path = _resolve(os.path.join('data', 'HistoricalRecipe_export.csv'))
 
-    # If resolution returned a list, the file wasn't found; surface clear error
     def _ensure_found(res, logical_name):
         if isinstance(res, list):
             st.error(f"❌ Hiányzik a fájl: {logical_name}. Próbált elérési utak:")
@@ -285,24 +288,19 @@ def load_data():
     edges_path = _ensure_found(edges_path, 'data/recept_halo_edges.csv')
     historical_path = _ensure_found(historical_path, 'data/HistoricalRecipe_export.csv')
 
-    # Robust CSV reader: try common encodings/separators and fall back to a
-    # human-readable error with a small file preview to help debugging on Cloud.
     def safe_read_csv(path, name, default_sep=';'):
         try:
             return pd.read_csv(path, delimiter=default_sep, encoding='utf-8', on_bad_lines='skip')
         except Exception as e1:
-            # Try inferring separator using python engine
             try:
                 return pd.read_csv(path, sep=None, engine='python', encoding='utf-8', on_bad_lines='skip')
             except Exception:
-                # Try latin1 in case of encoding issues
                 try:
                     return pd.read_csv(path, delimiter=default_sep, encoding='latin1', on_bad_lines='skip')
                 except Exception:
                     try:
                         return pd.read_csv(path, sep=None, engine='python', encoding='latin1', on_bad_lines='skip')
                     except Exception as final_e:
-                        # If still failing, show a concise preview and stop so the user can inspect file
                         try:
                             with open(path, 'r', encoding='utf-8', errors='replace') as fh:
                                 preview = fh.read(5000)
@@ -318,10 +316,9 @@ def load_data():
     tripartit_df = safe_read_csv(tripartit_path, 'data/Recept_halo__molekula_tripartit.csv', default_sep=';')
     edges_df = safe_read_csv(edges_path, 'data/recept_halo_edges.csv', default_sep=',')
     historical_df = safe_read_csv(historical_path, 'data/HistoricalRecipe_export.csv', default_sep=',')
-    # Try to load an optional "perfect" ingredients JSON
+    
     perfect_ings = []
     try:
-        # perfect ingredients file may live under `Data/` or `data/` — try both via resolver
         perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
         if isinstance(perfect_candidate, list):
             perfect_candidate = _resolve(os.path.join('data', 'recept_alapanyagok_TÖKÉLETES.json'))
@@ -329,7 +326,6 @@ def load_data():
         if not isinstance(perfect_candidate, list) and os.path.exists(perfect_candidate):
             with open(perfect_candidate, encoding='utf-8') as f:
                 raw = json.load(f)
-                # Normalize into a flat list of unique ingredient labels.
                 ingredients = set()
                 if isinstance(raw, dict):
                     for v in raw.values():
@@ -351,7 +347,6 @@ def load_data():
                                             ingredients.add(item)
                                 elif isinstance(v, str):
                                     ingredients.add(v)
-                # store as sorted list for deterministic ordering
                 perfect_ings = sorted(ingredients)
     except Exception:
         perfect_ings = []
@@ -360,76 +355,27 @@ def load_data():
 
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
 
-# ===== Canonical fasting recipes (source-based) =====
-
+# ===== FASTING RECIPES =====
 FASTING_RECIPE_TITLES = {
-    "Káposzta ikrával",
-    "Alma-lév",
-    "Mondola-perec",
-    "Koldus-lév",
-    "Ég-lév",
-    "Zsákvászonnal",
-    "Gutta-lév",
-    "Szíjalt rák",
-    "Lengyel cibre",
-    "Körtvély főve",
-    "Saláta",
-    "Torzsa-saláta",
-    "Ugorka-saláta",
-    "Miskuláncia-saláta",
-    "Mondola-lév",
-    "Bot-lév",
-    "Kendermag-cibre",
-    "Ikrát főzni",
-    "Nyers káposzta-saláta",
-    "Borsóleves",
-    "Párolt rák",
-    "Korpa-cibre",
-    "Borsót főzni",
-    "Ugorkát télre sózni",
-    "Fenyőgombát főzni",
-    "Kínzott kása",
-    "Lencseleves",
-    "Hal rizskásával",
-    "Olaj-spék",
-    "Cicer",
-    "Sült hal",
-    "Lémonyával",
-    "Törött lével hal",
-    "Csukát csuka-lével",
-    "Olajos domika",
-    "Kozák-lével",
-    "Zöld lével",
-    "Borsos szilva",
-    "Ecetes cibre",
-    "Hal fekete lével",
-    "Zuppon-lév",
-    "Tiszta borssal",
-    "Bors-porral",
-    "Vizát viza-lével",
-    "Szömörcsök-gomba",
-    "Borított lév",
-    "Kása olajjal",
-    "Lencse olajjal",
-    "Borsó laskával",
-    "Káposztás béles",
-    "Hagyma rántva",
-    "Káposzta-lév cibre",
-    "Lönye",
-    "Lása",
-    "Sós víz",
-    "Seres kenyér",
-    "Olajos lév",
-    "Viza ikra",
-    "Új káposzta"
+    "Káposzta ikrával", "Alma-lév", "Mondola-perec", "Koldus-lév", "Ég-lév",
+    "Zsákvászonnal", "Gutta-lév", "Szíjalt rák", "Lengyel cibre", "Körtvély főve",
+    "Saláta", "Torzsa-saláta", "Ugorka-saláta", "Miskuláncia-saláta", "Mondola-lév",
+    "Bot-lév", "Kendermag-cibre", "Ikrát főzni", "Nyers káposzta-saláta", "Borsóleves",
+    "Párolt rák", "Korpa-cibre", "Borsót főzni", "Ugorkát télre sózni", "Fenyőgombát főzni",
+    "Kínzott kása", "Lencseleves", "Hal rizskásával", "Olaj-spék", "Cicer",
+    "Sült hal", "Lémonyával", "Törött lével hal", "Csukát csuka-lével", "Olajos domika",
+    "Kozák-lével", "Zöld lével", "Borsos szilva", "Ecetes cibre", "Hal fekete lével",
+    "Zuppon-lév", "Tiszta borssal", "Bors-porral", "Vizát viza-lével", "Szömörcsök-gomba",
+    "Borított lév", "Kása olajjal", "Lencse olajjal", "Borsó laskával", "Káposztás béles",
+    "Hagyma rántva", "Káposzta-lév cibre", "Lönye", "Lása", "Sós víz",
+    "Seres kenyér", "Olajos lév", "Viza ikra", "Új káposzta"
 }
 
 def is_fasting_recipe(recipe):
     title = (recipe.get("title") or "").strip()
     return title in FASTING_RECIPE_TITLES
 
-
-# ===== HÁLÓZATI VIZUALIZÁCIÓ (NAGYOBB) =====
+# ===== HÁLÓZATI VIZUALIZÁCIÓ =====
 def create_network_graph(center_node, connected_nodes):
     if not center_node or not connected_nodes:
         return None
@@ -515,8 +461,6 @@ def create_network_graph(center_node, connected_nodes):
     
     return fig
 
-
-
 # ===============================
 # NODE TÍPUS NORMALIZÁLÁS
 # ===============================
@@ -544,18 +488,47 @@ all_nodes = tripartit_df.to_dict("records")
 all_edges = edges_df.to_dict("records")
 historical_recipes = historical_df.to_dict("records")
 
-# Compute fasting recipes after historical_recipes exists
 fasting_recipes = [r for r in historical_recipes if is_fasting_recipe(r)]
 fasting_ratio = len(fasting_recipes) / max(len(historical_recipes), 1)
 
 # ===============================
-# GPT-ALAPÚ INTELLIGENS KERESÉS
+# UTILITY FUNCTIONS
 # ===============================
+def strip_icon_ligatures(s: str) -> str:
+    """Eltávolítja a Material Icons ligature-öket és HTML entitásokat"""
+    if not isinstance(s, str):
+        return s
+    
+    # HTML entitások dekódolása
+    s = _html.unescape(s)
+    
+    # HTML tagek eltávolítása
+    s = re.sub(r"<[^>]+>", '', s)
+    
+    # Material Icons specifikus pattern-ek eltávolítása
+    icon_patterns = [
+        r'keyboard_arrow_right', r'keyboard_arrow_left', r'keyboard_arrow_up', 
+        r'keyboard_arrow_down', r'arrow_right', r'arrow_left', r'arrow_forward',
+        r'arrow_back', r'check_circle', r'check_box', r'radio_button',
+        r'menu', r'close', r'settings', r'search', r'favorite', r'share',
+        r'more_vert', r'more_horiz',
+    ]
+    
+    for pattern in icon_patterns:
+        s = re.sub(pattern, '', s, flags=re.IGNORECASE)
+    
+    # Általános pattern: bármilyen szó_szó vagy szó-szó ami icon lehet
+    s = re.sub(r'\b[a-z]+_[a-z]+(_[a-z]+)?\b', '', s, flags=re.IGNORECASE)
+    
+    # Zero-width és control karakterek eltávolítása
+    s = re.sub(r"[\u200B-\u200F\uFEFF\u0000-\u001F]", '', s)
+    
+    # Whitespace normalizálás
+    s = re.sub(r"\s{2,}", ' ', s).strip()
+    
+    return s
+
 def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_nodes=120, max_recipes=40):
-    """
-    TELJES data mappa → kontrollált reprezentáció
-    """
-    # típusonként mintázunk
     grouped = {}
     for n in nodes:
         grouped.setdefault(n["node_type"], []).append(n)
@@ -568,19 +541,15 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
                 min(len(group), max_nodes // len(grouped))
             ))
     else:
-        # fallback: take the first N nodes
         sampled_nodes = nodes[:max_nodes]
 
-    # If the user query mentions specific terms, prefer to include matching nodes
     if user_query:
-        # Normalize query and node labels (strip diacritics, punctuation, lower)
         def _normalize(s):
             if not isinstance(s, str):
                 return ""
             s = s.lower()
             s = unicodedata.normalize('NFKD', s)
             s = ''.join(ch for ch in s if not unicodedata.combining(ch))
-            import re
             s = re.sub(r"[^a-z0-9]+", ' ', s)
             s = ' '.join(s.split())
             return s
@@ -589,7 +558,6 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
         q_tokens = [t for t in q_norm.split() if len(t) > 1]
         if q_tokens:
             matched = [n for n in nodes if any(tok in _normalize(n.get("Label", "")) for tok in q_tokens)]
-            # Also check the perfect ingredients JSON for matches and convert to node-like dicts
             matched_perfect = []
             if perfect_ings:
                 for p in (perfect_ings if isinstance(perfect_ings, list) else [perfect_ings]):
@@ -597,13 +565,11 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
                     if isinstance(p, str):
                         label = p
                     elif isinstance(p, dict):
-                        # pick a likely human label from common keys
                         for key in ("label", "name", "ingredient", "term", "alapanyag"):
                             if key in p and isinstance(p[key], str):
                                 label = p[key]
                                 break
                         if not label:
-                            # fallback: take first string value
                             for v in p.values():
                                 if isinstance(v, str):
                                     label = v
@@ -611,7 +577,6 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
                     if label and any(tok in _normalize(label) for tok in q_tokens):
                         matched_perfect.append({"Label": label, "node_type": "Alapanyag", "Degree": 0})
 
-            # Prepend matched nodes (deduplicate by normalized Label, not by object identity)
             seen_labels = {_normalize(n.get("Label", "")) for n in sampled_nodes}
             for m in matched + matched_perfect:
                 m_label = _normalize(m.get("Label", ""))
@@ -642,40 +607,6 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
     ]
 
     return simplified_nodes, simplified_recipes
-
-
-# Utility: remove Material icon ligature tokens (e.g. "keyboard_arrow_right")
-def strip_icon_ligatures(s: str) -> str:
-    if not isinstance(s, str):
-        return s
-    # decode HTML entities and strip HTML tags first
-    s = _html.unescape(s)
-    s = re.sub(r"<[^>]+>", '', s)
-
-    # Patterns to catch common ligature tokens in many formats:
-    # - keyboard_arrow_right
-    # - keyboard-arrow-right
-    # - keyboard arrow right
-    # - arrow_right
-    prefixes = r"(?:keyboard|arrow|check|close|menu|settings|search|favorite|share)"
-    # catch prefix + separator + token (underscore, hyphen, space) + word
-    pattern1 = rf"\b{prefixes}[ _\-][A-Za-z0-9_\-]+\b"
-    # catch prefix followed by up to 3 words (e.g. 'keyboard arrow right')
-    pattern2 = rf"\b{prefixes}(?:[ \-_]+[A-Za-z0-9_\-]+){{1,3}}\b"
-
-    out = re.sub(pattern1, '', s, flags=re.IGNORECASE)
-    out = re.sub(pattern2, '', out, flags=re.IGNORECASE)
-
-    # remove stray zero-width / control chars that may overlap text
-    out = re.sub(r"[\u200B-\u200F\uFEFF]", '', out)
-
-    # remove any remaining isolated words like 'keyboard' or 'arrow' when adjacent to icon markers
-    out = re.sub(rf"\b{prefixes}\b", '', out, flags=re.IGNORECASE)
-
-    # collapse whitespace and trim
-    out = re.sub(r"\s{2,}", ' ', out).strip()
-    return out
-
 
 def gpt_search_recipes(user_query):
     nodes_ctx, recipes_ctx = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
@@ -710,7 +641,6 @@ Történeti receptek:
 {json.dumps(recipes_ctx, ensure_ascii=False)}
 """
 
-    # Include a full list of node labels so the model can see every element in the DB
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes})
         full_labels_preview = json.dumps(full_labels, ensure_ascii=False)
@@ -719,7 +649,6 @@ Történeti receptek:
 
     user_prompt = user_prompt + f"\nTeljes csomópontlista (labels):\n{full_labels_preview}\n"
 
-    # Include a compact preview of the curated perfect-ingredients JSON to help the model
     try:
         perfect_preview = json.dumps(perfect_ings[:50], ensure_ascii=False) if isinstance(perfect_ings, list) else json.dumps(perfect_ings, ensure_ascii=False)
     except Exception:
@@ -727,66 +656,18 @@ Történeti receptek:
 
     user_prompt = user_prompt + f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
-    response = client.responses.create(
-        model="gpt-5.2-2025-12-11",
-        input=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ],
-        temperature=0.3,
-        max_output_tokens=600
-    )
-
-    try:
-        return json.loads(response.output_text)
-    except Exception:
-        return {
-            "suggested_nodes": [],
-            "suggested_recipes": [],
-            "reasoning": "JSON parsing hiba"
-        }
-    
-# ==============================
-# AI RECEPTGENERÁLÁS (megelőző definíció)
-# ==============================
-def generate_ai_recipe(selected, connected, historical):
-    system_prompt = """
-Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
-
-SZABÁLYOK:
-- 70–110 szó
-- archaikus nyelvezet
-- CSAK a kapott kapcsolatokból dolgozz
-- JSON válasz:
-{
-  "title": "",
-  "archaic_recipe": "",
-  "confidence": "low|medium|high"
-}
-"""
-
-    user_prompt = f"""
-Központi alapanyag: {selected}
-
-Kapcsolódó node-ok:
-{json.dumps(connected, ensure_ascii=False)}
-
-Történeti példák:
-{json.dumps(historical, ensure_ascii=False)}
-"""
-
-    response = client.responses.create(
-        model="gpt-5.2-2025-12-11",
-        input=[
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
         temperature=0.7,
-        max_output_tokens=900
+        max_tokens=900
     )
 
     try:
-        result = json.loads(response.output_text)
+        result = json.loads(response.choices[0].message.content)
     except Exception:
         return {
             "title": "Hibás válasz",
@@ -797,8 +678,8 @@ Történeti példák:
 
     result["word_count"] = len(result.get("archaic_recipe", "").split())
     return result
-    
-# ===== HERO SECTION - KOMPAKT BANNER =====
+
+# ===== HERO SECTION =====
 import base64
 banner_path = "83076027-f357-4e82-8716-933911048498.png"
 
@@ -881,7 +762,6 @@ with col_search:
     query = st.text_input("Keresés", placeholder="🔍 pl. 'valami fűszeres hal', 'édes sütemény mandulával', 'boros leves'...", key="search_input", label_visibility="collapsed")
     
     if query and st.button("🤖 AI Keresés", key="gpt_search"):
-        # Clear previous search state to allow new searches
         if "gpt_search_results" in st.session_state:
             del st.session_state["gpt_search_results"]
         if "selected" in st.session_state:
@@ -897,18 +777,17 @@ with col_search:
             search_results = gpt_search_recipes(query)
             st.session_state["gpt_search_results"] = search_results
             st.session_state["search_query"] = query
-            # Automatically generate an AI recipe for the top suggested node (if any)
+            
             try:
                 suggested = search_results.get("suggested_nodes", []) or []
                 if suggested:
-                    top_name = suggested[0]
-                    # find the node object case-insensitively
-                    node_obj = next((n for n in all_nodes if n.get("Label", "").lower() == str(top_name).lower()), None)
+                    top_name = strip_icon_ligatures(str(suggested[0]))
+                    node_obj = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == top_name.lower()), None)
                     if node_obj:
                         sel = node_obj["Label"]
                         related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
                         connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
-                        historical_examples = [{"title": r.get("title", "Névtelen"), "text": r.get("original_text", "")[:300]} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                        historical_examples = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
 
                         st.session_state["selected"] = sel
                         st.session_state["connected"] = connected
@@ -918,12 +797,7 @@ with col_search:
                             ai_recipe = generate_ai_recipe(sel, connected, historical_examples)
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
-                # don't break the search UI if auto-generation fails
                 pass
- # 3. Recept megjelenítése
-        title = strip_icon_ligatures(ai_recipe['title'])
-        text = strip_icon_ligatures(ai_recipe['archaic_recipe'])
-        st.markdown(f"<h3>{title}</h3><p>{text}</p>", unsafe_allow_html=True)
         
 with col_sort:
     sort_by = st.selectbox(
@@ -941,14 +815,15 @@ with col_sort:
 # GPT keresési eredmények megjelenítése
 if "gpt_search_results" in st.session_state:
     results = st.session_state["gpt_search_results"]
+    reasoning = strip_icon_ligatures(results.get('reasoning', ''))
     
     st.markdown(f"""
     <div style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a); border: 2px solid #ccaa77; border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
         <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">
-            💡 AI Ajánlás: "{st.session_state.get('search_query', '')}"
+            💡 AI Ajánlás: "{strip_icon_ligatures(st.session_state.get('search_query', ''))}"
         </h4>
         <p style="color: #e8dcc8; font-family: 'Crimson Text', serif; font-style: italic;">
-            {results.get('reasoning', '')}
+            {reasoning}
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -957,10 +832,12 @@ if "gpt_search_results" in st.session_state:
         st.markdown("**🎯 Ajánlott alapanyagok/csomópontok (nodes):**")
         cols_suggested = st.columns(min(len(results["suggested_nodes"]), 5))
         for i, node_name in enumerate(results["suggested_nodes"][:5]):
-            node = next((n for n in all_nodes if n["Label"].lower() == node_name.lower()), None)
+            clean_node_name = strip_icon_ligatures(str(node_name))
+            node = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == clean_node_name.lower()), None)
             if node and i < len(cols_suggested):
                 type_emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
-                if cols_suggested[i].button(f"{type_emoji} {node['Label']}", key=f"suggested_{i}"):
+                clean_label = strip_icon_ligatures(node['Label'])
+                if cols_suggested[i].button(f"{type_emoji} {clean_label}", key=f"suggested_{i}"):
                     sel = node["Label"]
                     related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
                     connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
@@ -979,13 +856,13 @@ if "gpt_search_results" in st.session_state:
     if results.get("suggested_recipes"):
         st.markdown("**📖 Releváns történeti receptek:**")
         for recipe_title in results["suggested_recipes"][:3]:
-            recipe = next((r for r in historical_recipes if r.get("title", "").lower() == recipe_title.lower()), None)
+            clean_recipe_title = strip_icon_ligatures(str(recipe_title))
+            recipe = next((r for r in historical_recipes if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()), None)
             if recipe:
                 clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
                 clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
                 with st.expander(f"📜 {clean_title}"):
                     st.markdown(clean_text + "...")
-
 
 # Node szűrés
 if "gpt_search_results" not in st.session_state or not query:
@@ -1035,14 +912,13 @@ for i, n in enumerate(filtered_nodes[:60]):
         ]
         
         historical_examples = [
-            {"title": r.get("title", "Névtelen"), "text": r.get("original_text", "")[:300]}
+            {"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])}
             for r in historical_recipes if sel.lower() in str(r).lower()
         ][:5]
         
         st.session_state["selected"] = sel
         st.session_state["connected"] = connected
-        # sanitize titles/text for display
-        st.session_state["historical_examples"] = [{"title": strip_icon_ligatures(x["title"]), "text": strip_icon_ligatures(x["text"])} for x in historical_examples]
+        st.session_state["historical_examples"] = historical_examples
         
         with st.spinner("⏳ AI receptgenerálás..."):
             ai_recipe = generate_ai_recipe(sel, connected, historical_examples)
@@ -1050,11 +926,10 @@ for i, n in enumerate(filtered_nodes[:60]):
         
         st.rerun()
 
-
 # ===== EREDMÉNYEK =====
 if "selected" in st.session_state:
     st.markdown("---")
-    st.markdown(f"<h2 style='text-align: center;'>🎯 {st.session_state['selected']}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center;'>🎯 {strip_icon_ligatures(st.session_state['selected'])}</h2>", unsafe_allow_html=True)
     
     st.markdown("### 🗺️ Hálózati Térkép")
     fig = create_network_graph(st.session_state["selected"], st.session_state["connected"])
@@ -1081,13 +956,15 @@ if "selected" in st.session_state:
         st.markdown("### 🤖 AI Generált Recept")
         ai_recipe = st.session_state.get("ai_recipe")
         if ai_recipe:
+            clean_ai_title = strip_icon_ligatures(ai_recipe.get('title', 'Cím nélkül'))
+            clean_ai_text = strip_icon_ligatures(ai_recipe.get('archaic_recipe', ''))
             st.markdown(f"""
             <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);">
-                <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem;">{ai_recipe['title']}</h3>
-                <p style="color: #e8dcc8; font-family: 'Crimson Text', serif; line-height: 1.8; font-size: 1.1rem;">{ai_recipe['archaic_recipe']}</p>
+                <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem;">{clean_ai_title}</h3>
+                <p style="color: #e8dcc8; font-family: 'Crimson Text', serif; line-height: 1.8; font-size: 1.1rem;">{clean_ai_text}</p>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                    <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">✓ {ai_recipe['confidence']}</span>
-                    <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">📝 {ai_recipe['word_count']} szó</span>
+                    <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">✓ {ai_recipe.get('confidence', 'unknown')}</span>
+                    <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">📝 {ai_recipe.get('word_count', 0)} szó</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -1101,11 +978,73 @@ st.markdown(textwrap.dedent("""
     <div style="width: 120px; height: 2px; background: linear-gradient(90deg, transparent, #ccaa77, transparent); margin: 0.8rem auto 1.2rem auto;"></div>
     <p style="font-family: 'Crimson Text', serif; font-size: 1.05rem; opacity: 0.9; margin: 0.2rem 0 1.6rem 0; letter-spacing: 0.04em;">Hálózatelemzés • Történeti források • AI-alapú generálás</p>
     <p style="font-size: 0.95rem; line-height: 1.7; max-width: 820px; margin: 0 auto; opacity: 0.85; color: #efe6d8;">A projekt Barabási Albert-László hálózatkutatásaira és a <em>„Szakácsmesterségnek könyvecskéje"</em> (Tótfalusi Kis Miklós, 1698) című szakácskönyv digitális elemzésére épül.<br>Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár</p>
-    <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">Felhasznált Technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-5.2 • Claude • Grok</p>
+    <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">Felhasznált Technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-4o • Claude • Grok</p>
     <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
 """), unsafe_allow_html=True)
+        temperature=0.3,
+        max_tokens=600
+    )
 
+    try:
+        return json.loads(response.choices[0].message.content)
+    except Exception:
+        return {
+            "suggested_nodes": [],
+            "suggested_recipes": [],
+            "reasoning": "JSON parsing hiba"
+        }
 
+def generate_ai_recipe(selected, connected, historical):
+    system_prompt = """
+Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
 
+SZABÁLYOK:
+- 70–110 szó
+- archaikus nyelvezet
+- CSAK a kapott kapcsolatokból dolgozz
+- JSON válasz:
+{
+  "title": "",
+  "archaic_recipe": "",
+  "confidence": "low|medium|high"
+}
+"""
+
+    user_prompt = f"""
+Központi alapanyag: {selected}
+
+Kapcsolódó node-ok:
+{json.dumps(connected, ensure_ascii=False)}
+
+Történeti példák:
+{json.dumps(historical, ensure_ascii=False)}
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0.3,
+        max_tokens=600
+    )
+
+    content = response.choices[0].message.content
+
+    try:
+        result = json.loads(content)
+    except json.JSONDecodeError:
+        return {
+            "title": "Hibás recept",
+            "archaic_recipe": content,
+            "confidence": "low",
+            "word_count": len(content.split())
+        }
+
+    result["word_count"] = len(result.get("archaic_recipe", "").split())
+    return result
+    
+        
