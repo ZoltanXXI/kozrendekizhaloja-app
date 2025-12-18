@@ -192,13 +192,20 @@ st.markdown("""
         text-rendering: optimizeLegibility !important;
     }
 
-        /* Streamlit branding elrejtése, de header (menü) megmarad */
-    #MainMenu { visibility: hidden; }
-    footer[data-testid="stFooter"] { visibility: hidden; }
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
+        /* Header megjelenítése a menüért */
+header[data-testid="stHeader"] {
+    visibility: visible !important;
+    background-color: rgba(26, 26, 26, 0.95) !important;
+}
+
+/* MainMenu (Deploy gomb stb.) elrejtése */
+#MainMenu {
+    visibility: hidden !important;
+}
+
+footer[data-testid="stFooter"] {
+    visibility: hidden !important;
+}
 
     ::-webkit-scrollbar-track {
         background: #1a1a1a;
@@ -1111,6 +1118,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
