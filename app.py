@@ -1070,39 +1070,11 @@ nav_col1, nav_col2 = st.columns(2)
 
 with nav_col1:
     if st.button("📖 A Projektről - Történet és módszertan", use_container_width=True, key="nav_about"):
-        st.switch_page("Pages/About.py")
+        st.switch_page("pages/About.py")
 
 with nav_col2:
     if st.button("📊 Analitika Dashboard - Részletes statisztikák", use_container_width=True, key="nav_analytics"):
-        st.switch_page("Pages/Analytics.py")
-```
-
-## 4. Ellenőrző lista
-
-✅ **Mappastruktúra:**
-```
-kozrendekizhaloja-app/
-├── app.py
-├── Pages/
-│   ├── About.py
-│   └── Analytics.py
-├── data/
-│   ├── Recept_halo__molekula_tripartit.csv
-│   ├── recept_halo_edges.csv
-│   └── HistoricalRecipe_export.csv
-└── requirements.txt
-```
-
-✅ **requirements.txt tartalmazza:**
-```
-streamlit
-pandas
-plotly
-networkx
-scipy
-numpy
-python-dotenv
-openai
+        st.switch_page("pages/Analytics.py")
 
 # ===== FOOTER =====
 st.markdown(textwrap.dedent("""
@@ -1125,5 +1097,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
