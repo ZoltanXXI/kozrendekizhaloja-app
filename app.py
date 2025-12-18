@@ -192,11 +192,15 @@ st.markdown("""
         text-rendering: optimizeLegibility !important;
     }
 
-    /* Hide Streamlit branding (de a header/menü marad) */
-    #MainMenu { visibility: hidden; }
-    footer[data-testid="stFooter"] { visibility: hidden; }
-    /* header { visibility: hidden; } */ /* ← Ne rejtsd el! */
+    /* Header láthatóvá tétele, de más elemek elrejtése */
+header[data-testid="stHeader"] {
+    visibility: visible !important;
+}
 
+/* Streamlit logó és egyéb elemek elrejtése, csak a menü marad */
+header[data-testid="stHeader"] > div:not(:first-child) {
+    display: none;
+}
     /* Scrollbar */
     ::-webkit-scrollbar {
         width: 10px;
@@ -1113,6 +1117,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
