@@ -1119,6 +1119,8 @@ st.markdown(textwrap.dedent("""
 </div>
 """), unsafe_allow_html=True)
 
+st.page_link("Pages/About.py", label="📖 A Projektről")
+st.page_link("Pages/analytics.py", label="📊 Analitika Dashboard")
 
 
 
