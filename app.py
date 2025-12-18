@@ -1005,11 +1005,9 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-# ===============================
-# AI RECEPT GENERÁLÁS
-# ===============================
+------------
+AI RECIPE GENERATOR
+------------
 def generate_ai_recipe(selected, connected, historical):
     system_prompt = """
 Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
@@ -1040,40 +1038,47 @@ Történeti példák:
 {json.dumps(historical, ensure_ascii=False)}
 """
 
-    response = client.responses.create(
-        model="gpt-5.2-pro-2025-12-11",
-        input=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ],
-        max_output_tokens=700
-    )
-
-    ai_text = response.output_text.strip()
-
-    # Próbáljuk direkt JSON‑ként parse‑olni
     try:
-    response = client.responses.create(
-        model="gpt-5.2-pro-2025-12-11",
-        input=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ],
-        max_output_tokens=700
-    )
-    ai_text = response.output_text.strip()
-except Exception as e:
-    return {
-        "title": None,
-        "archaic_recipe": None,
-        "confidence": "low",
-        "word_count": 0,
-        "raw_text": f"AI hiba: {e}"
-    }
-
-    # Ha sikerült parse‑olni, kiszámoljuk a wc = len(result.get("archaic_recipe", "").split())
-result["word_count"] = wc
-if wc >= 70 and wc <= 110:
-    result["confidence"] = "medium"
-else:
-    result["confidence"] = "low"
+        response = client.responses.create(
+            model="gpt-5.2-pro-2025-12-11",
+            input=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            max_output_tokens=700
+        )
+        ai_text = response.output_text.strip()
+        
+        # Remove markdown code blocks if present
+        if ai_text.startswith("```json"):
+            ai_text = ai_text[7:]
+        if ai_text.startswith("```"):
+            ai_text = ai_text[3:]
+        if ai_text.endswith("```"):
+            ai_text = ai_text[:-3]
+        ai_text = ai_text.strip()
+        
+        # Parse JSON
+        result = json.loads(ai_text)
+        
+        # Calculate word count and confidence
+        wc = len(result.get("archaic_recipe", "").split())
+        result["word_count"] = wc
+        
+        if 70 <= wc <= 110:
+            result["confidence"] = "high"
+        elif 50 <= wc <= 130:
+            result["confidence"] = "medium"
+        else:
+            result["confidence"] = "low"
+            
+        return result
+        
+    except Exception as e:
+        return {
+            "title": "Hiba történt",
+            "archaic_recipe": f"A recept generálása sikertelen volt: {str(e)}",
+            "confidence": "low",
+            "word_count": 0,
+            "raw_text": ai_text if 'ai_text' in locals() else ""
+        }
