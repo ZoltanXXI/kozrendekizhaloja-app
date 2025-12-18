@@ -1061,7 +1061,6 @@ if "selected" in st.session_state:
         else:
             st.error("❌ Hiba történt a generálás során")
 
-
 # ===== NAVIGÁCIÓS GOMBOK =====
 st.markdown("---")
 st.markdown("<h3 style='text-align: center; color: white; font-family: Cinzel, serif;'>🧭 Fedezd fel többet!</h3>", unsafe_allow_html=True)
@@ -1069,20 +1068,10 @@ st.markdown("<h3 style='text-align: center; color: white; font-family: Cinzel, s
 nav_col1, nav_col2 = st.columns(2)
 
 with nav_col1:
-    st.page_link("pages/About.py", label="📖 A Projektről - Történet és módszertan", use_container_width=True)
+    st.page_link("pages/About.py", label="📖 A Projektről - Történet és módszertan")
 
 with nav_col2:
-    st.page_link("pages/Analytics.py", label="📊 Analitika Dashboard - Részletes statisztikák", use_container_width=True)
-```
-
-## Legjobb megoldás: Hagyatkozz a beépített navigációra
-
-Valójában **nem is kell kézi navigációs gomb**, mert a Streamlit automatikusan létrehoz egy szép navigációs menüt a sidebarban! 
-
-
-🏠 App (vagy Home ha átnevezted)
-📖 About
-📊 Analytics
+    st.page_link("pages/Analytics.py", label="📊 Analitika Dashboard - Részletes statisztikák")
 
 # ===== FOOTER =====
 st.markdown(textwrap.dedent("""
@@ -1105,5 +1094,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
