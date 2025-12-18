@@ -192,10 +192,10 @@ st.markdown("""
         text-rendering: optimizeLegibility !important;
     }
 
-    /* Hide Streamlit branding */
+    /* Hide Streamlit branding (de a header/menü marad) */
     #MainMenu { visibility: hidden; }
     footer[data-testid="stFooter"] { visibility: hidden; }
-    header { visibility: hidden; }
+    /* header { visibility: hidden; } */ /* ← Ne rejtsd el! */
 
     /* Scrollbar */
     ::-webkit-scrollbar {
@@ -1113,6 +1113,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
