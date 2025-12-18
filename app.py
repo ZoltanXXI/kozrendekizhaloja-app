@@ -669,9 +669,9 @@ Történeti receptek:
 
     user_prompt += f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
-    # 🔑 HELYES GPT-5.2 PRO HÍVÁS (Responses API)
+    # 🔑 HELYES GPT-5-NANO HÍVÁS (Responses API)
     response = client.responses.create(
-        model="gpt-5.2-pro-2025-12-11",
+        model="gpt-5-nano",
         input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -725,7 +725,7 @@ Történeti példák:
 
     try:
         response = client.responses.create(
-            model="gpt-5.2-pro-2025-12-11",
+            model="gpt-5.1",
             input=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
@@ -1063,6 +1063,7 @@ if "selected" in st.session_state:
 
 
 
+
 # ===== FOOTER =====
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
@@ -1076,7 +1077,7 @@ st.markdown(textwrap.dedent("""
         Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár
     </p>
     <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">
-        Felhasznált technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-5.2 Pro • Claude • Grok
+        Felhasznált technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-5.1; 5-nano; 5-mini • Claude • Grok
     </p>
     <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">
