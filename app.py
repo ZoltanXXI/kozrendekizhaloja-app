@@ -1061,18 +1061,6 @@ if "selected" in st.session_state:
         else:
             st.error("❌ Hiba történt a generálás során")
 
-# ===== NAVIGÁCIÓS GOMBOK =====
-st.markdown("---")
-st.markdown("<h3 style='text-align: center; color: white; font-family: Cinzel, serif;'>🧭 Fedezd fel többet!</h3>", unsafe_allow_html=True)
-
-nav_col1, nav_col2 = st.columns(2)
-
-with nav_col1:
-    st.page_link("pages/About.py", label="📖 A Projektről - Történet és módszertan")
-
-with nav_col2:
-    st.page_link("pages/Analytics.py", label="📊 Analitika Dashboard - Részletes statisztikák")
-
 # ===== FOOTER =====
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
@@ -1094,3 +1082,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
