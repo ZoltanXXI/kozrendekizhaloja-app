@@ -609,7 +609,12 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
     return simplified_nodes, simplified_recipes
 
 def gpt_search_recipes(user_query):
-    nodes_ctx, recipes_ctx = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
+    nodes_ctx, recipes_ctx = build_gpt_context(
+        all_nodes,
+        historical_recipes,
+        perfect_ings,
+        user_query=user_query
+    )
 
     system_prompt = """
 Te egy XVII. századi magyar gasztronómia szakértő asszisztens vagy.
@@ -619,9 +624,13 @@ Feladat:
   - max 5 releváns node-ot
   - max 3 releváns történeti receptet
 
-Fontosabb alapanyagok és fűszerek a XVII. századi magyar konyhamüvészetben: szerecsendió, szerecsendió-virág, sáfrány, fahéj, gyömbér, szegfűszeg, bors, só, cukor, méz, ecet, olaj, vaj, tejföl, hús, hal, baromfi, gabonanemű, lencse, borsó, bab, káposzta, répa, hagyma, fokhagyma.
+Fontosabb alapanyagok és fűszerek a XVII. századi magyar konyhaművészetben:
+szerecsendió, szerecsendió-virág, sáfrány, fahéj, gyömbér, szegfűszeg,
+bors, só, cukor, méz, ecet, olaj, vaj, tejföl, hús, hal, baromfi,
+gabonanemű, lencse, borsó, bab, káposzta, répa, hagyma, fokhagyma.
 
-Ha a felhasználó keresésében olyan fűszert vagy alapanyagot említ, ami elterjedten használatban volt (szerecsendió, sáfrány, fahéj, stb.), akkor azokat előnyben részesítsd a node-választásnál.
+Ha a felhasználó keresésében ilyen alapanyag vagy fűszer szerepel,
+azokat részesítsd előnyben a node-választásnál.
 
 Válasz KIZÁRÓLAG JSON:
 {
@@ -647,36 +656,38 @@ Történeti receptek:
     except Exception:
         full_labels_preview = "[]"
 
-    user_prompt = user_prompt + f"\nTeljes csomópontlista (labels):\n{full_labels_preview}\n"
+    user_prompt += f"\nTeljes csomópontlista (labels):\n{full_labels_preview}\n"
 
     try:
-        perfect_preview = json.dumps(perfect_ings[:50], ensure_ascii=False) if isinstance(perfect_ings, list) else json.dumps(perfect_ings, ensure_ascii=False)
+        perfect_preview = (
+            json.dumps(perfect_ings[:50], ensure_ascii=False)
+            if isinstance(perfect_ings, list)
+            else json.dumps(perfect_ings, ensure_ascii=False)
+        )
     except Exception:
         perfect_preview = "[]"
 
-    user_prompt = user_prompt + f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
+    user_prompt += f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
-    response = client.chat.completions.create(
+    # 🔑 HELYES GPT-5.2 HÍVÁS (Responses API)
+    response = client.responses.create(
         model="gpt-5.2-2025-12-11",
-        messages=[
+        input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        temperature=0.7,
-        max_tokens=900
+        max_output_tokens=900
     )
 
     try:
-        result = json.loads(response.choices[0].message.content)
+        result = json.loads(response.output_text)
     except Exception:
         return {
-            "title": "Hibás válasz",
-            "archaic_recipe": "A generálás nem sikerült.",
-            "confidence": "low",
-            "word_count": 0
+            "suggested_nodes": [],
+            "suggested_recipes": [],
+            "reasoning": "Az AI válasza nem volt értelmezhető JSON formátumban."
         }
 
-    result["word_count"] = len(result.get("archaic_recipe", "").split())
     return result
 
 # ===== HERO SECTION =====
@@ -1004,9 +1015,11 @@ Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
 
 SZABÁLYOK:
 - 70–110 szó
-- archaikus nyelvezet
+- archaikus, régies magyar nyelvezet
 - CSAK a kapott kapcsolatokból dolgozz
-- JSON válasz:
+- ne használj modern alapanyagokat, csak azokat, amiket az adatbázisban találsz 
+- a válasz JSON legyen, pontosan ebben a struktúrában:
+
 {
   "title": "",
   "archaic_recipe": "",
@@ -1018,29 +1031,28 @@ SZABÁLYOK:
 Központi alapanyag:
 {selected}
 
-Kapcsolódó node-ok:
+Kapcsolódó alapanyagok:
 {json.dumps(connected, ensure_ascii=False)}
 
 Történeti példák:
 {json.dumps(historical, ensure_ascii=False)}
 """
 
-    response = client.chat.completions.create(
+    response = client.responses.create(
         model="gpt-5.2-2025-12-11",
-        messages=[
+        input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        temperature=0.3,
-        max_tokens=600
+        max_output_tokens=600
     )
 
     try:
-        result = json.loads(response.choices[0].message.content)
+        result = json.loads(response.output_text)
     except Exception:
         return {
             "title": "Hibás válasz",
-            "archaic_recipe": "A generált válasz nem volt értelmezhető.",
+            "archaic_recipe": "A generált recept nem volt értelmezhető.",
             "confidence": "low",
             "word_count": 0
         }
