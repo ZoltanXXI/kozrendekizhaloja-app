@@ -1062,7 +1062,47 @@ if "selected" in st.session_state:
             st.error("❌ Hiba történt a generálás során")
 
 
+# ===== NAVIGÁCIÓS GOMBOK =====
+st.markdown("---")
+st.markdown("<h3 style='text-align: center; color: white; font-family: Cinzel, serif;'>🧭 Fedezz fel többet!</h3>", unsafe_allow_html=True)
 
+nav_col1, nav_col2 = st.columns(2)
+
+with nav_col1:
+    if st.button("📖 A Projektről - Történet és módszertan", use_container_width=True, key="nav_about"):
+        st.switch_page("pages/About.py")
+
+with nav_col2:
+    if st.button("📊 Analitika Dashboard - Részletes statisztikák", use_container_width=True, key="nav_analytics"):
+        st.switch_page("pages/Analytics.py")
+```
+
+## 4. Ellenőrző lista
+
+✅ **Mappastruktúra:**
+```
+kozrendekizhaloja-app/
+├── Home.py (vagy app.py átnevezve)
+├── pages/
+│   ├── About.py
+│   └── Analytics.py
+├── data/
+│   ├── Recept_halo__molekula_tripartit.csv
+│   ├── recept_halo_edges.csv
+│   └── HistoricalRecipe_export.csv
+└── requirements.txt
+```
+
+✅ **requirements.txt tartalmazza:**
+```
+streamlit
+pandas
+plotly
+networkx
+scipy
+numpy
+python-dotenv
+openai
 
 # ===== FOOTER =====
 st.markdown(textwrap.dedent("""
@@ -1085,3 +1125,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
