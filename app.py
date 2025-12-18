@@ -1053,18 +1053,27 @@ Történeti példák:
 
     # Próbáljuk direkt JSON‑ként parse‑olni
     try:
-        result = json.loads(ai_text)
-    except Exception:
-        # Ha nem parse‑olható, akkor küldjük vissza strukturált fallbackben
-        return {
-            "title": None,
-            "archaic_recipe": None,
-            "confidence": "low",
-            "word_count": 0,
-            "raw_text": ai_text
-        }
+    response = client.responses.create(
+        model="gpt-5.2-pro-2025-12-11",
+        input=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        max_output_tokens=700
+    )
+    ai_text = response.output_text.strip()
+except Exception as e:
+    return {
+        "title": None,
+        "archaic_recipe": None,
+        "confidence": "low",
+        "word_count": 0,
+        "raw_text": f"AI hiba: {e}"
+    }
 
-    # Ha sikerült parse‑olni, kiszámoljuk a word_count‑ot
-    result["word_count"] = len(result.get("archaic_recipe", "").split())
-    return result
-
+    # Ha sikerült parse‑olni, kiszámoljuk a wc = len(result.get("archaic_recipe", "").split())
+result["word_count"] = wc
+if wc >= 70 and wc <= 110:
+    result["confidence"] = "medium"
+else:
+    result["confidence"] = "low"
