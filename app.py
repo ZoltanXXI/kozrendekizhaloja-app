@@ -1017,14 +1017,15 @@ SZABÁLYOK:
 - 70–110 szó
 - archaikus, régies magyar nyelvezet
 - CSAK a kapott kapcsolatokból dolgozz
-- ne használj modern alapanyagokat, csak azokat, amiket az adatbázisban találsz 
-- a válasz JSON legyen, pontosan ebben a struktúrában:
+- ne használj modern alapanyagokat, csak azokat, amiket az adatbázisban találsz
+- **Válasz KIZÁRÓLAG JSON formátumban**, tartalmazza pontosan ezt a szerkezetet:
 
 {
   "title": "",
   "archaic_recipe": "",
   "confidence": "low|medium|high"
 }
+Csak a JSON‑választ add vissza, semmi egyebet!
 """
 
     user_prompt = f"""
@@ -1039,23 +1040,29 @@ Történeti példák:
 """
 
     response = client.responses.create(
-        model="gpt-5.2-2025-12-11",
+        model="gpt-5.2-pro",
         input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        max_output_tokens=600
+        max_output_tokens=700
     )
 
+    ai_text = response.output_text.strip()
+
+    # Próbáljuk direkt JSON‑ként parse‑olni
     try:
-        result = json.loads(response.output_text)
+        result = json.loads(ai_text)
     except Exception:
+        # Ha nem parse‑olható, akkor küldjük vissza strukturált fallbackben
         return {
-            "title": "Hibás válasz",
-            "archaic_recipe": "A generált recept nem volt értelmezhető.",
+            "title": None,
+            "archaic_recipe": None,
             "confidence": "low",
-            "word_count": 0
+            "word_count": 0,
+            "raw_text": ai_text
         }
 
+    # Ha sikerült parse‑olni, kiszámoljuk a word_count‑ot
     result["word_count"] = len(result.get("archaic_recipe", "").split())
     return result
