@@ -1070,11 +1070,11 @@ nav_col1, nav_col2 = st.columns(2)
 
 with nav_col1:
     if st.button("📖 A Projektről - Történet és módszertan", use_container_width=True, key="nav_about"):
-        st.switch_page("pages/About.py")
+        st.switch_page("Pages/About.py")
 
 with nav_col2:
     if st.button("📊 Analitika Dashboard - Részletes statisztikák", use_container_width=True, key="nav_analytics"):
-        st.switch_page("pages/Analytics.py")
+        st.switch_page("Pages/Analytics.py")
 ```
 
 ## 4. Ellenőrző lista
@@ -1082,8 +1082,8 @@ with nav_col2:
 ✅ **Mappastruktúra:**
 ```
 kozrendekizhaloja-app/
-├── Home.py (vagy app.py átnevezve)
-├── pages/
+├── app.py
+├── Pages/
 │   ├── About.py
 │   └── Analytics.py
 ├── data/
@@ -1125,4 +1125,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
