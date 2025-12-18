@@ -779,8 +779,8 @@ with col_search:
             del st.session_state["selected"]
         if "connected" in st.session_state:
             del st.session_state["connected"]
-        if "historical_examples" in st.session_state:
-            del st.session_state["historical_examples"]
+        if "historical_recipe" in st.session_state:
+            del st.session_state["historical_recipe"]
         if "ai_recipe" in st.session_state:
             del st.session_state["ai_recipe"]
         
@@ -798,14 +798,14 @@ with col_search:
                         sel = node_obj["Label"]
                         related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
                         connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
-                        historical_examples = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
 
                         st.session_state["selected"] = sel
                         st.session_state["connected"] = connected
-                        st.session_state["historical_examples"] = historical_examples
+                        st.session_state["historical_recipe"] = historical_recipe
 
                         with st.spinner("⏳ AI receptgenerálás..."):
-                            ai_recipe = generate_ai_recipe(sel, connected, historical_examples)
+                            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
                 pass
@@ -852,14 +852,14 @@ if "gpt_search_results" in st.session_state:
                     sel = node["Label"]
                     related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
                     connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
-                    historical_examples = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                    historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
 
                     st.session_state["selected"] = sel
                     st.session_state["connected"] = connected
-                    st.session_state["historical_examples"] = historical_examples
+                    st.session_state["historical_recipe"] = historical_recipe
 
                     with st.spinner("⏳ AI receptgenerálás..."):
-                        ai_recipe = generate_ai_recipe(sel, connected, historical_examples)
+                        ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
                         st.session_state["ai_recipe"] = ai_recipe
                     
                     st.rerun()
@@ -922,17 +922,17 @@ for i, n in enumerate(filtered_nodes[:60]):
             for x in all_nodes if x["Label"] in related
         ]
         
-        historical_examples = [
+        historical_recipe = [
             {"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])}
             for r in historical_recipes if sel.lower() in str(r).lower()
         ][:5]
         
         st.session_state["selected"] = sel
         st.session_state["connected"] = connected
-        st.session_state["historical_examples"] = historical_examples
+        st.session_state["historical_recipe"] = historical_recipe
         
         with st.spinner("⏳ AI receptgenerálás..."):
-            ai_recipe = generate_ai_recipe(sel, connected, historical_examples)
+            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
             st.session_state["ai_recipe"] = ai_recipe
         
         st.rerun()
@@ -953,9 +953,9 @@ if "selected" in st.session_state:
     
     with col1:
         st.markdown("### 📚 Történeti Példák")
-        examples = st.session_state.get("historical_examples", [])
-        if examples:
-            for ex in examples[:3]:
+        recipe = st.session_state.get("historical_recipe", [])
+        if recipe:
+            for ex in recipe[:3]:
                 clean_title = strip_icon_ligatures(ex.get('title', 'Névtelen'))
                 clean_text = strip_icon_ligatures(ex.get('text', ''))
                 with st.expander(f"📖 {clean_title}"):
@@ -1067,3 +1067,4 @@ Történeti példák:
     # Ha sikerült parse‑olni, kiszámoljuk a word_count‑ot
     result["word_count"] = len(result.get("archaic_recipe", "").split())
     return result
+
