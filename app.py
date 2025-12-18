@@ -657,7 +657,7 @@ Történeti receptek:
     user_prompt = user_prompt + f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.2-2025-12-11",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -978,7 +978,7 @@ st.markdown(textwrap.dedent("""
     <div style="width: 120px; height: 2px; background: linear-gradient(90deg, transparent, #ccaa77, transparent); margin: 0.8rem auto 1.2rem auto;"></div>
     <p style="font-family: 'Crimson Text', serif; font-size: 1.05rem; opacity: 0.9; margin: 0.2rem 0 1.6rem 0; letter-spacing: 0.04em;">Hálózatelemzés • Történeti források • AI-alapú generálás</p>
     <p style="font-size: 0.95rem; line-height: 1.7; max-width: 820px; margin: 0 auto; opacity: 0.85; color: #efe6d8;">A projekt Barabási Albert-László hálózatkutatásaira és a <em>„Szakácsmesterségnek könyvecskéje"</em> (Tótfalusi Kis Miklós, 1698) című szakácskönyv digitális elemzésére épül.<br>Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár</p>
-    <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">Felhasznált Technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-4o • Claude • Grok</p>
+    <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">Felhasznált Technológiák: Streamlit • NetworkX • Plotly • SciPy • OpenAI GPT-5.2 • Claude • Grok</p>
     <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">© 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt</p>
 </div>
@@ -1023,7 +1023,7 @@ Történeti példák:
 """
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.2-2025-12-11",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -1046,5 +1046,3 @@ Történeti példák:
 
     result["word_count"] = len(result.get("archaic_recipe", "").split())
     return result
-    
-        
