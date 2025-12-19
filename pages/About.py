@@ -361,8 +361,8 @@ st.markdown("""
 st.markdown("---")
 st.markdown("""
 <div class="highlight-box" style="text-align: center; font-size: 1.3rem;">
-    "Cooking is the art of instantly transforming historical products into pleasure.
-– Guy Savoy"
+    "Cooking is the art of instantly transforming historical products into pleasure."
+– Guy Savoy
 </div>
 """, unsafe_allow_html=True)
 
@@ -381,6 +381,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
