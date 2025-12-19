@@ -1110,7 +1110,7 @@ with nav_col2:
     """, unsafe_allow_html=True)
     
     if st.button("📊 Tovább az Analitika oldalra", key="nav_analytics", use_container_width=True):
-        st.switch_page("pages/analytics.py")
+    st.switch_page("pages/analytics.py")
 
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1139,6 +1139,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
