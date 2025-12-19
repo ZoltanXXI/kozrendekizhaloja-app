@@ -597,8 +597,8 @@ def strip_icon_ligatures(s: str) -> str:
     s = ' '.join(tokens)
     s = re.sub(r'\s{2,}', ' ', s).strip()
     return s
-    
-    for r in historical_recipes[:20]:
+
+for r in historical_recipes[:20]:
     orig = r.get('title','')
     cleaned = strip_icon_ligatures(orig)
     print(repr(orig), "->", repr(cleaned))
@@ -1253,6 +1253,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
