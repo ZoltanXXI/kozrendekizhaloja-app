@@ -857,6 +857,48 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# ===== INFÓ-BOXOK =====
+info_boxes = [
+    (
+        "Csomópontok (Nodes)",
+        f"{len(all_nodes)}",
+        "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."
+    ),
+    (
+        "Kapcsolatok",
+        f"{len(all_edges)}",
+        "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."
+    ),
+    (
+        "Receptek",
+        f"{len(historical_recipes)}",
+        "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."
+    ),
+    (
+        "Átlag Degree",
+        f"{tripartit_df['Degree'].mean():.1f}",
+        "Az átlagos degree azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."
+    ),
+]
+
+desc_cols = st.columns(len(info_boxes))
+for col, (title, value, desc) in zip(desc_cols, info_boxes):
+    with col:
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
+                    border: 2px solid #ccaa77; 
+                    border-radius: 16px; 
+                    padding: 1.25rem; 
+                    min-height: 150px;
+                    box-shadow: 0 6px 18px rgba(0,0,0,0.5);">
+            <h4 style="font-family: 'Cinzel', serif; color: #ccaa77; margin-bottom: 0.3rem;">{title}</h4>
+            <p style="font-family: 'Cinzel', serif; font-size: 2rem; margin: 0; color: #ffffff;">{value}</p>
+            <p style="font-family: 'Crimson Text', serif; color: #e8dcc8; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.4;">
+                {desc}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
 # ===== KATEGÓRIA VÁLASZTÓ =====
 category = st.radio(
     "Kategória",
@@ -1171,6 +1213,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
