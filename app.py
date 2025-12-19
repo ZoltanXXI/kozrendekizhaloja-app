@@ -24,6 +24,8 @@ st.set_page_config(
 #---------------------------------
 #               CSS
 #---------------------------------
+
+st.markdown("""
 <style>
 /* === RENDEZÉSI SELECTBOX === */
 
@@ -59,6 +61,7 @@ div[data-baseweb="option"]:hover {
     color: #ffffff !important;
 }
 </style>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
@@ -1282,6 +1285,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
