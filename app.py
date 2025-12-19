@@ -896,78 +896,43 @@ for col, info in zip(cols, data):
 # ===== KAPSZULA STÍLUS =====
 st.markdown("""
 <style>
-.animated-pill-row {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-    flex-wrap: wrap;
-}
-.animated-pill {
-    border-radius: 999px;
-    padding: 12px 32px;
-    background: linear-gradient(90deg, #4f2f1a, #1c0f06);
-    border: 1px solid #b38f5b;
-    color: #fef7e7;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
+.pill-button {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    margin: 0.2rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #800000 0%, #5c1a1a 100%);
+    color: white;
+    font-family: 'Cinzel', serif;
     font-weight: 600;
-    text-align: center;
+    cursor: pointer;
+    border: none;
 }
-.animated-pill:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-    filter: brightness(1.2);
-}
-.animated-pill.selected {
-    background: linear-gradient(90deg, #b38f5b, #f4d27a);
-    color: #1c0f06;
-    border-color: #f4d27a;
-    box-shadow: 0 10px 30px rgba(255, 213, 121, 0.4);
-}
-.animated-pill .icon {
-    font-size: 1.5rem;
+.pill-button:hover {
+    background: linear-gradient(135deg, #a52a2a 0%, #722828 100%);
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== KATEGÓRIA OPCIÓK =====
-options = [
-    ("all", "🌐", "Összes"),
-    ("molecules", "🧪", "Molekulák"),
-    ("recipes", "🍽️", "Receptek"),
-    ("ingredients", "🧱", "Alapanyagok"),
-]
+# Gombok
+col1, col2, col3 = st.columns(3)
 
-# session_state alapértelmezett
-if "selected_pill" not in st.session_state:
-    st.session_state.selected_pill = "all"
+with col1:
+    if st.button("🧪 Molekulák", key="molecules"):
+        st.session_state.section = "molecules"
 
-# Funkció kattintásra
-def select_pill(key):
-    st.session_state.selected_pill = key
+with col2:
+    if st.button("🍽️ Receptek", key="recipes"):
+        st.session_state.section = "recipes"
 
-# Kapszulák renderelése
-pill_markup = ""
-for key, icon, label in options:
-    classes = "animated-pill"
-    if st.session_state.selected_pill == key:
-        classes += " selected"
-    # Streamlit gombként: onclick frissíti a session state-et
-    pill_markup += f'''
-    <div class="{classes}" onclick="window.location.href='#{key}'">
-        <span class="icon">{icon}</span>
-        <span>{label}</span>
-    </div>
-    '''
+with col3:
+    if st.button("🧱 Alapanyagok", key="ingredients"):
+        st.session_state.section = "ingredients"
 
-st.markdown(f'<div class="animated-pill-row">{pill_markup}</div>', unsafe_allow_html=True)
+# Navigáció logika
+section = st.session_state.get("section", "molecules")
 
-st.write(f"**Kiválasztott kategória:** {st.session_state.selected_pill}")
+st.write(f"**Jelenlegi szekció:** {section}")
 
 
 # ===== KERESÉS ÉS SZŰRÉS =====
@@ -1269,6 +1234,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
