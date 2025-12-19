@@ -896,10 +896,10 @@ st.markdown("""
 
 cols = st.columns(4)
 data = [
-    {"title": "Csomópontok", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
-    {"title": "Kapcsolatok", "value": "3343", "desc": "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."},
+    {"title": "Csomópontok / Nodes", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
+    {"title": "Élek / Edges", "value": "3343", "desc": "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."},
     {"title": "Receptek", "value": "330", "desc": "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."},
-    {"title": "Átlag Degree", "value": "8.0", "desc": "Az átlagos degree azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."}
+    {"title": "Átlag Fokszám / Degree", "value": "8.0", "desc": "Az átlag fokszám azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."}
 ]
 for col, info in zip(cols, data):
     with col:
@@ -912,13 +912,67 @@ for col, info in zip(cols, data):
         """, unsafe_allow_html=True)
 
 st.markdown("""
-<div style="display:flex; gap: 12px; margin-top:24px;">
-    <div class="selector-pill selected">🌐 Összes</div>
-    <div class="selector-pill">🧪 Molekulák</div>
-    <div class="selector-pill">🍽️ Receptek</div>
-    <div class="selector-pill">🧱 Alapanyagok</div>
-</div>
+<style>
+.animated-pill-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+.animated-pill {
+    border-radius: 999px;
+    padding: 12px 32px;
+    background: linear-gradient(90deg, #4f2f1a, #1c0f06);
+    border: 1px solid #b38f5b;
+    color: #fef7e7;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+.animated-pill:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    filter: brightness(1.2);
+}
+.animated-pill.selected {
+    background: linear-gradient(90deg, #b38f5b, #f4d27a);
+    color: #1c0f06;
+    border-color: #f4d27a;
+    box-shadow: 0 10px 30px rgba(255, 213, 121, 0.4);
+}
+.animated-pill .icon {
+    font-size: 1.5rem;
+}
+</style>
 """, unsafe_allow_html=True)
+
+options = [
+    ("all", "🌐", "Összes"),
+    ("molecules", "🧪", "Molekulák"),
+    ("recipes", "🍽️", "Receptek"),
+    ("ingredients", "🧱", "Alapanyagok"),
+]
+params = st.experimental_get_query_params()
+selected = params.get("pill", ["all"])[0]
+if st.experimental_set_query_params:
+    st.experimental_set_query_params(pill=selected)
+
+pill_markup = ""
+for key, icon, label in options:
+    is_selected = key == selected
+    pill_markup += f'''
+    <a class="animated-pill{' selected' if is_selected else ''}" href="?pill={key}">
+        <span class="icon">{icon}</span>
+        <span>{label}</span>
+    </a>
+    '''
+
+st.markdown(f'<div class="animated-pill-row">{pill_markup}</div>', unsafe_allow_html=True)
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
@@ -1218,6 +1272,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
