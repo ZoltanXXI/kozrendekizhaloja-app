@@ -27,6 +27,20 @@ st.markdown("""
 <style>
 [data-testid="stSidebar"] > div:first-child {
     background-color: #5c1a1a !important;
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
+}
+
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] .st-expander {
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
+}
+
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div[data-testid$="-label"] {
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -1100,6 +1114,8 @@ with nav_col1:
     </div>
     """, unsafe_allow_html=True)
     
+    if st.button("📖 Kezdőlap", key="nav_home", use_container_width=True):
+    st.switch_page("app.py")
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
         st.switch_page("pages/About.py")
 
@@ -1148,4 +1164,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
