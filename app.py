@@ -844,119 +844,81 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== INFÓ-BOXOK =====
-info_boxes = [
-    (
-        "Csomópontok (Nodes)",
-        f"{len(all_nodes)}",
-        "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."
-    ),
-    (
-        "Kapcsolatok",
-        f"{len(all_edges)}",
-        "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."
-    ),
-    (
-        "Receptek",
-        f"{len(historical_recipes)}",
-        "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."
-    ),
-    (
-        "Átlag Degree",
-        f"{tripartit_df['Degree'].mean():.1f}",
-        "Az átlagos degree azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."
-    ),
-]
-
-desc_cols = st.columns(len(info_boxes))
-for col, (title, value, desc) in zip(desc_cols, info_boxes):
-    with col:
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
-                    border: 2px solid #ccaa77; 
-                    border-radius: 16px; 
-                    padding: 1.25rem; 
-                    min-height: 150px;
-                    box-shadow: 0 6px 18px rgba(0,0,0,0.5);">
-            <h4 style="font-family: 'Cinzel', serif; color: #ccaa77; margin-bottom: 0.3rem;">{title}</h4>
-            <p style="font-family: 'Cinzel', serif; font-size: 2rem; margin: 0; color: #ffffff;">{value}</p>
-            <p style="font-family: 'Crimson Text', serif; color: #e8dcc8; font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.4;">
-                {desc}
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+# ===== INFÓ-BOXOK ÉS KATEGÓRIA-VÁLASZTÓ =====
+import streamlit as st
 
 st.markdown("""
 <style>
-div[role="radiogroup"] {
-    display: flex;
-    justify-content: center;
-    gap: 0.85rem;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-}
-
-div[role="radiogroup"] > label {
-    position: relative;
-    flex: 1 1 180px;
-    max-width: 230px;
-    min-width: 170px;
+.carousell-card {
+    background: linear-gradient(135deg, #1a1a1a, #1f1f1f);
     border-radius: 18px;
-    padding: 0;
-    border: 2px solid rgba(204,170,119,0.3);
-    background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(40,12,12,0.8));
-    box-shadow: 0 12px 30px rgba(0,0,0,0.65);
-    overflow: hidden;
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-    cursor: pointer;
+    border: 1px solid #d4af37;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    padding: 24px;
+    color: #f9f3e8;
+    font-family: 'Playfair Display', serif;
 }
-
-div[role="radiogroup"] > label span {
-    display: block;
-    text-align: center;
-    padding: 1.1rem 0.8rem;
-    font-family: 'Cinzel', serif;
-    color: #f4efe6;
-    font-size: 1rem;
-    letter-spacing: 0.03em;
+.card-title {
+    font-size: 26px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
-
-div[role="radiogroup"] > label span:first-child {
-    font-size: 1.8rem;
+.card-value {
+    font-size: 42px;
+    margin: 0;
+    font-weight: 600;
 }
-
-div[role="radiogroup"] > label input {
-    display: none;
+.card-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 12px;
+    color: #e7dac5;
 }
-
-div[role="radiogroup"] > label:has(input:checked) {
-    border-color: #ccaa77;
-    background: linear-gradient(135deg, rgba(204,170,119,0.95), rgba(83,17,17,0.95));
-    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-    transform: translateY(-5px) scale(1.02);
+.selector-pill {
+    border-radius: 999px;
+    padding: 10px 28px;
+    background: linear-gradient(90deg, #4f2f1a, #1c0f06);
+    border: 1px solid #b38f5b;
+    color: #fef7e7;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
 }
-
-div[role="radiogroup"] > label:has(input:checked) span {
-    color: #120d0d;
-    font-weight: 700;
-    letter-spacing: 0.05em;
+.selector-pill.selected {
+    background: linear-gradient(90deg, #b38f5b, #f4d27a);
+    color: #1c0f06;
+    border-color: #f4d27a;
 }
 </style>
 """, unsafe_allow_html=True)
 
-category = st.radio(
-    "Kategória",
-    ["🌐 Összes", "⚗️ Molekulák", "🥘 Alapanyagok", "📖 Receptek"],
-    horizontal=True,
-    label_visibility="collapsed"
-)
+cols = st.columns(4)
+data = [
+    {"title": "Csomópontok", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
+    {"title": "Kapcsolatok", "value": "3343", "desc": "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."},
+    {"title": "Receptek", "value": "330", "desc": "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."},
+    {"title": "Átlag Degree", "value": "8.0", "desc": "Az átlagos degree azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."}
+]
+for col, info in zip(cols, data):
+    with col:
+        st.markdown(f"""
+        <div class="carousell-card">
+            <div class="card-title">{info["title"]}</div>
+            <div class="card-value">{info["value"]}</div>
+            <div class="card-desc">{info["desc"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-node_type_filter = {
-    "🌐 Összes": ['Alapanyag', 'Molekula', 'Recept'],
-    "⚗️ Molekulák": ['Molekula'],
-    "🥘 Alapanyagok": ['Alapanyag'],
-    "📖 Receptek": ['Recept']
-}[category]
+st.markdown("""
+<div style="display:flex; gap: 12px; margin-top:24px;">
+    <div class="selector-pill selected">🌐 Összes</div>
+    <div class="selector-pill">🧪 Molekulák</div>
+    <div class="selector-pill">🍽️ Receptek</div>
+    <div class="selector-pill">🧱 Alapanyagok</div>
+</div>
+""", unsafe_allow_html=True)
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
@@ -1256,6 +1218,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
