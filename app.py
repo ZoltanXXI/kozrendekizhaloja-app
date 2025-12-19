@@ -415,7 +415,7 @@ def create_network_graph(center_node, connected_nodes):
         x1, y1 = pos[edge[1]]
         edge_trace.append(
             go.Scatter(x=[x0, x1, None], y=[y0, y1, None], mode='lines',
-                       line=dict(width=1, color='rgba(204, 170, 119, 0.3)'), hoverinfo='none', showlegend=False)
+                       line=dict(width=1, color='rgba(255,255,255,0.9)'), hoverinfo='none', showlegend=False)
         )
     node_colors = {'center': '#ccaa77', 'Alapanyag': '#8b5a2b', 'Molekula': '#808080', 'Recept': '#800000', 'unknown': '#999999'}
     node_x, node_y, node_text, node_size, node_color = [], [], [], [], []
@@ -1057,3 +1057,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
