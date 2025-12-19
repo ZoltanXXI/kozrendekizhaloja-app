@@ -5,3 +5,5 @@ networkx
 plotly
 python-dotenv
 unicodedata2
+numpy
+scipy
