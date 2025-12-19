@@ -25,21 +25,8 @@ st.set_page_config(
 # ===== MODERN CSS - SÖTÉT TÉMA =====
 st.markdown("""
 <style>
-button[aria-label="Show keyboard shortcuts"],
-button[aria-label="Show keyboard navigation"],
-[data-testid="stKeyboardShortcutButton"],
-.stKeyboardShortcut {
-    display: none !important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 
-[data-testid^="stTooltip"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
 [data-testid="stSidebar"] > div:first-child {
     background-color: #5c1a1a !important;
     font-family: 'Cinzel', serif !important;
@@ -47,15 +34,23 @@ st.markdown("""
 }
 
 [data-testid="stSidebar"] button,
-[data-testid="stSidebar"] .st-expander {
-    font-family: 'Cinzel', serif !important;
-    color: #ffffff !important;
-}
-
+[data-testid="stSidebar"] .st-expander,
 [data-testid="stSidebar"] span,
 [data-testid="stSidebar"] div[data-testid$="-label"] {
     font-family: 'Cinzel', serif !important;
     color: #ffffff !important;
+}
+
+[data-testid="stSidebar"] span[data-testid="stIconMaterial"],
+.span[data-testid="stIconMaterial"] {
+    display: none !important;
+}
+
+[data-testid="stKeyboardShortcutButton"],
+button[aria-label="Show keyboard shortcuts"],
+button[aria-label="Show keyboard navigation"],
+[data-testid^="stTooltip"] {
+    display: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -1176,6 +1171,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
