@@ -217,10 +217,11 @@ def load_data():
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
 
 SYNONYM_MAP = {
-    "rózsabors": ["rózsabors", "pink pepper", "schinus", "schinus molle"],
+    "rózsabors": ["rózsabors", "pink pepper", "schinus", "schinus molle", "rózsás bors"],
     "avokádó": ["avokádó", "avokado", "avokádós", "avocado"],
     "avokádós": ["avokádó", "avokado", "avokádós", "avocado"],
-    "kaja": ["kaja", "étel", "fogás", "meal", "dish", "food"]
+    "kaja": ["kaja", "étel", "fogás", "meal", "dish", "food"],
+    "mandula": ["mandula", "almond"]
 }
 GENERIC_TOKENS = {"kaja", "étel", "fogás", "recept", "food", "dish", "meal"}
 
@@ -743,7 +744,7 @@ def gpt_search_recipes(user_query):
                 break
     nodes_ctx, _ = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
     system_prompt = """
-You are an expert in 17th-century Hungarian gastronomy. When given a user query, you MUST reply only with valid JSON (no surrounding text), with the keys "suggested_nodes", "suggested_recipes", and "reasoning". If the user mentions terms not in the provided node list, map them to the closest known ingredient/molecule/recipe and say so inside "reasoning". Use the provided node list and recipe excerpts to choose up to 5 relevant nodes and up to 3 relevant historical recipes. Be concise in reasoning.
+Te egy 17. századi magyar gasztronómiai szakértő és stílusmester vagy. Amikor felhasználói lekérdezést kapsz, VISSZA KELL ADJ CSAK ÉS KIZÁRÓLAG érvényes JSON-t (nincs semmilyen bevezető vagy magyarázó szöveg). A JSON-nak tartalmaznia kell a következő kulcsokat: "suggested_nodes" (legfeljebb 5 node-címke), "suggested_recipes" (legfeljebb 3 történeti receptcím), és "reasoning" (részletes, magyar nyelvű indoklás). Legyél beszédes és okos: írj választékos, összetett mondatokat magyarul, és mutasd be röviden, hogyan térképezted a felhasználó kifejezéseit a node-okra (minden tokenre adj mapping-érvelést a "reasoning"-ben). Használd a rendelkezésre álló node-listát és recept-részleteket. Ha egy kifejezés nincs az adatbázisban, térképezd a legközelebbi ismert fogalomra és indokold a választást. Legyél következetes a magyar nyelv és a történeti kontextus használatában.
 """
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
@@ -757,24 +758,26 @@ You are an expert in 17th-century Hungarian gastronomy. When given a user query,
     except Exception:
         perfect_preview = "[]"
     user_prompt = f"""
-User query: "{user_query}"
+Nyelv: magyar
 
-Available nodes (sample):
+Felhasználói lekérdezés: "{user_query}"
+
+Elérhető csomópontok (rövid mintavétel):
 {json.dumps(nodes_ctx[:40], ensure_ascii=False)}
 
-Matched recipe excerpts:
+Található történeti recept-részletek:
 {json.dumps(matched_preview, ensure_ascii=False)}
 
-Full node labels (short preview):
+Teljes node-címek (rövid előnézet):
 {full_labels_preview}
 
-Perfect ingredient list (short):
+Tökéletes alapanyagok (rövid):
 {perfect_preview}
 
-Instructions: Return JSON only. If a user term is not in the node list, try to map it to the closest known node and note the mapping in "reasoning". Provide up to 5 suggested node labels and up to 3 recipe titles.
+Utasítások: Adj vissza csak JSON-t. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
 """
     try:
-        response = client.responses.create(model="gpt-5-nano", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
+        response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
         raw = response.output_text if hasattr(response, "output_text") else (response.get("output_text") if isinstance(response, dict) else str(response))
         parsed = extract_json_from_text(raw)
         if parsed and isinstance(parsed, dict):
@@ -797,7 +800,7 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
                 mapped_display = ", ".join([str(m) for m in mapped if m])
             else:
                 mapped_display = str(mapped) if mapped else "—"
-            reasoning_parts.append(f'"{tok}" → status: {status}; strategy: {strat}; mapped: {mapped_display}; confidence: {conf:.2f}')
+            reasoning_parts.append(f'"{tok}" → státusz: {status}; stratégia: {strat}; leképezés: {mapped_display}; bizalom: {conf:.2f}')
             if item.get("mapped_to"):
                 if isinstance(item["mapped_to"], list):
                     for m in item["mapped_to"]:
@@ -852,25 +855,26 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
 
 def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
     system_prompt = """
-You are to write a 17th-century Hungarian style recipe. Follow rules:
-- 70–110 words
-- archaic Hungarian style
-- use only ingredients/connections provided where possible; if user query provides extra info, incorporate it but map to historically plausible ingredients
-- avoid copying any provided historical example; if >60% similar to any historical example, regenerate
-- output MUST be valid JSON with at least: title, archaic_recipe, confidence, novelty_score
+Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok:
+- 70–110 szó között
+- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel
+- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden
+- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat
+- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count'
+- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt
 """
     user_prompt = f"""
-User search: {user_query}
+Felhasználói keresés: {user_query}
 
-Center ingredient/term: {selected}
+Központi elem: {selected}
 
-Connected items (name,type,degree):
+Kapcsolódó elemek (name,type,degree):
 {json.dumps(connected, ensure_ascii=False)}
 
-Historical examples (short):
+Történeti példák (rövid):
 {json.dumps(historical, ensure_ascii=False)}
 
-If a connected item is unknown, map to nearest plausible historical ingredient. Produce JSON only.
+Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra. Adj vissza csak JSON-t.
 """
     candidates = []
     raw_texts = []
