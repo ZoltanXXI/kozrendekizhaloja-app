@@ -1093,7 +1093,7 @@ with nav_col1:
     """, unsafe_allow_html=True)
     
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
-        st.switch_page("About.py")
+        st.switch_page("About")
         st.write(st.runtime.scriptrunner.get_pages(""))
 
 with nav_col2:
@@ -1111,7 +1111,7 @@ with nav_col2:
     """, unsafe_allow_html=True)
     
     if st.button("📖 Tovább az elemzői oldalra", key="nav_about", use_container_width=True):
-        st.switch_page("analytics.py")
+        st.switch_page("analytics")
         st.write(st.runtime.scriptrunner.get_pages(""))
 
 
@@ -1142,6 +1142,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
