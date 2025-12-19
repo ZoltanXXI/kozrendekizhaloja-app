@@ -844,19 +844,6 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== METRIKÁK =====
-col1, col2, col3, col4 = st.columns(4)
-with col1:
-    st.metric("Csomópontok (Nodes)", f"{len(all_nodes)}")
-with col2:
-    st.metric("Kapcsolatok", f"{len(all_edges)}")
-with col3:
-    st.metric("Receptek", f"{len(historical_recipes)}")
-with col4:
-    st.metric("Átlag Degree", f"{tripartit_df['Degree'].mean():.1f}")
-
-st.markdown("<br>", unsafe_allow_html=True)
-
 # ===== INFÓ-BOXOK =====
 info_boxes = [
     (
@@ -1213,6 +1200,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
