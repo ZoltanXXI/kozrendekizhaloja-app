@@ -1114,12 +1114,9 @@ with nav_col1:
     </div>
     """, unsafe_allow_html=True)
     
-    if st.button("📖 Kezdőlap", key="nav_home", use_container_width=True):
-        st.switch_page("app.py")
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
         st.switch_page("pages/About.py")
 
-       
 with nav_col2:
     st.markdown("""
     <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
@@ -1164,6 +1161,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
