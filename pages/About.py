@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="A Projektről", page_icon="📜", layout="wide")
+st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
 # Custom CSS - Történelmi stílus
 st.markdown("""
@@ -176,9 +176,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<h1 class="main-title" style="font-family: Georgia, serif; color:#2c1810;">A Projektről</h1>', unsafe_allow_html=True)
-st.markdown('<div class="divider" style="width: 100px; height: 4px; background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37); margin: 0 auto 3rem auto; border-radius: 2px;"></div>', unsafe_allow_html=True)
+st.markdown("""
+<div style="
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    background: linear-gradient(to right, #840a13, #5c070d);
+    border-radius: 8px;
+    text-align: center;
+">
+    <h1 style="font-family: Cinzel, serif; color: #ffffff; margin: 0;">A PROJEKTRŐL</h1>
+</div>
 
+<div style="
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37);
+    margin: 1.5rem auto 3rem auto;
+    border-radius: 2px;
+"></div>
+""", unsafe_allow_html=True)
 
 # ===== AZ OLVASÓHOZ IDÉZET =====
 st.markdown("""
@@ -434,6 +450,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
