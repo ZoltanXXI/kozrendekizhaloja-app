@@ -225,8 +225,17 @@ def analyze_distribution(data):
         'std': std
     }
 
-# ===== HEADER =====
-    📊 Receptadatok Mélyelemzése
+st.markdown("""
+<div style="
+    text-align: center;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff8e0;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    margin-bottom: 1rem;
+">
+📊 Receptadatok Mélyelemzése
 </div>
 <div style="
     text-align: center;
@@ -237,9 +246,10 @@ def analyze_distribution(data):
     text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
     margin-bottom: 2rem;
 ">
-    Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák
+Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák
 </div>
 """, unsafe_allow_html=True)
+
 
 # Dekoratív elválasztó
 st.markdown("""
@@ -677,6 +687,7 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
 
