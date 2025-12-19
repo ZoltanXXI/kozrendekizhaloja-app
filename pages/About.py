@@ -182,7 +182,7 @@ st.markdown("""
     width: fit-content;
     margin: 0 auto;  /* középre helyezés */
     padding: 0.5rem 2rem;
-    background: linear-gradient(to right, #840a13, #5c070d);
+    background: linear-gradient(to right, #5c070d, #840a13);
     border-radius: 8px;
     text-align: center;
 ">
@@ -453,6 +453,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
