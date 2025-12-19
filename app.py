@@ -13,6 +13,7 @@ import random
 import unicodedata
 import re
 import base64
+import difflib
 
 st.set_page_config(
     page_title="Közrendek Ízhálója",
@@ -798,7 +799,26 @@ Történeti receptek:
 
     return result
 
-def generate_ai_recipe(selected, connected, historical):
+def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
+    if not candidate or not historical_list:
+        return 0.0
+    candidate_norm = re.sub(r'\s+', ' ', candidate.strip().lower())
+    max_sim = 0.0
+    for h in historical_list:
+        text = ""
+        if isinstance(h, dict):
+            text = h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", "")
+        else:
+            text = str(h)
+        text_norm = re.sub(r'\s+', ' ', strip_icon_ligatures(text).strip().lower())
+        if not text_norm:
+            continue
+        sim = difflib.SequenceMatcher(None, candidate_norm, text_norm).ratio()
+        if sim > max_sim:
+            max_sim = sim
+    return float(max_sim)
+
+def generate_ai_recipe(selected, connected, historical, samples=4, temperature=0.7):
     system_prompt = """
 Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
 
@@ -807,12 +827,14 @@ SZABÁLYOK:
 - archaikus, régies magyar nyelvezet
 - CSAK a kapott kapcsolatokból dolgozz
 - ne használj modern alapanyagokat, csak azokat, amiket az adatbázisban találsz
-- **Válasz KIZÁRÓLAG JSON formátumban**, tartalmazza pontosan ezt a szerkezetet:
-
+- NEM SZABAD szó szerint lemásolni semelyik megadott történeti receptet; ha a generált szöveg 60% feletti hasonlóságot mutat bármely történeti példával, újrafogalmazd, vagy generálj másikat
+- Törekedj kreatív, de történetileg hiteles megoldásra: kombinálj alapanyagokat, használj archaikus kifejezéseket, de ne idézz szó szerint
+- Válasz KIZÁRÓLAG JSON formátumban, oly módon, hogy további mezőket is adhatsz meg (pl. novelty_score), de legalább a következő mezők szerepeljenek:
 {
   "title": "",
   "archaic_recipe": "",
-  "confidence": "low|medium|high"
+  "confidence": "low|medium|high",
+  "novelty_score": 0.0
 }
 Csak a JSON‑választ add vissza, semmi egyebet!
 """
@@ -824,51 +846,87 @@ Központi alapanyag:
 Kapcsolódó alapanyagok:
 {json.dumps(connected, ensure_ascii=False)}
 
-Történeti példák:
+Történeti példák (tiltva a szó szerinti másolásra):
 {json.dumps(historical, ensure_ascii=False)}
 """
 
-    try:
-        response = client.responses.create(
-            model="gpt-5.1",
-            input=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            max_output_tokens=700
-        )
-        ai_text = response.output_text.strip()
+    candidates = []
+    raw_texts = []
+    for i in range(samples):
+        try:
+            response = client.responses.create(
+                model="gpt-5.1",
+                input=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                temperature=temperature,
+                max_output_tokens=700
+            )
+            ai_text = response.output_text.strip()
+            if ai_text.startswith("```json"):
+                ai_text = ai_text[7:]
+            if ai_text.startswith("```"):
+                ai_text = ai_text[3:]
+            if ai_text.endswith("```"):
+                ai_text = ai_text[:-3]
+            ai_text = ai_text.strip()
+            try:
+                parsed = json.loads(ai_text)
+                candidates.append(parsed)
+                raw_texts.append(parsed.get("archaic_recipe", "") or parsed.get("text", "") or "")
+            except Exception:
+                raw_texts.append(ai_text)
+        except Exception as e:
+            continue
 
-        if ai_text.startswith("```json"):
-            ai_text = ai_text[7:]
-        if ai_text.startswith("```"):
-            ai_text = ai_text[3:]
-        if ai_text.endswith("```"):
-            ai_text = ai_text[:-3]
-        ai_text = ai_text.strip()
-
-        result = json.loads(ai_text)
-
-        wc = len(result.get("archaic_recipe", "").split())
-        result["word_count"] = wc
-
-        if 70 <= wc <= 110:
-            result["confidence"] = "high"
-        elif 50 <= wc <= 130:
-            result["confidence"] = "medium"
-        else:
-            result["confidence"] = "low"
-
-        return result
-
-    except Exception as e:
+    if not candidates and not raw_texts:
         return {
             "title": "Hiba történt",
-            "archaic_recipe": f"A recept generálása sikertelen volt: {str(e)}",
+            "archaic_recipe": "A recept generálása sikertelen volt: nincs érvényes válasz.",
             "confidence": "low",
             "word_count": 0,
-            "raw_text": ai_text if 'ai_text' in locals() else ""
+            "novelty_score": 0.0
         }
+
+    hist_texts = []
+    for h in historical:
+        if isinstance(h, dict):
+            hist_texts.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
+        else:
+            hist_texts.append(str(h))
+
+    best = None
+    best_novelty = -1.0
+    for idx, cand in enumerate(candidates):
+        recipe_text = cand.get("archaic_recipe", "") or cand.get("text", "") or ""
+        sim = max_similarity_to_historical(recipe_text, hist_texts)
+        novelty = 1.0 - sim
+        cand["novelty_score"] = round(novelty, 4)
+        wc = len(recipe_text.split())
+        cand["word_count"] = wc
+        if 70 <= wc <= 110:
+            cand["confidence"] = "high"
+        elif 50 <= wc <= 130:
+            cand["confidence"] = "medium"
+        else:
+            cand["confidence"] = "low"
+        if novelty > best_novelty:
+            best_novelty = novelty
+            best = cand
+
+    if not best:
+        fallback_text = raw_texts[0] if raw_texts else ""
+        wc = len(fallback_text.split())
+        return {
+            "title": selected,
+            "archaic_recipe": fallback_text,
+            "confidence": "low",
+            "word_count": wc,
+            "novelty_score": 0.0
+        }
+
+    return best
 
 banner_path = "83076027-f357-4e82-8716-933911048498.png"
 
@@ -1230,6 +1288,7 @@ if "selected" in st.session_state:
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                     <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">✓ {ai_recipe.get('confidence', 'unknown')}</span>
                     <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">📝 {ai_recipe.get('word_count', 0)} szó</span>
+                    <span style="background: #800000; padding: 0.6rem 1rem; border-radius: 8px; color: #ccaa77; font-weight: 600;">✨ {int(ai_recipe.get('novelty_score', 0.0)*100)}% új</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -1315,5 +1374,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
