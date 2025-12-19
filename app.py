@@ -198,7 +198,16 @@ st.markdown("""
         color: #f5efe6 !important;
         z-index: 99999 !important;
     }
-
+    div[data-testid="stSelectbox"] input,
+    div[data-testid="stSelectbox"] [role="combobox"],
+    div[data-testid="stSelectbox"] [role="button"] {
+        color: #f5efe6 !important;
+        background-color: #840A13 !important;
+    }
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div > span {
+        color: #f5efe6 !important;
+    }
+    
     @media (max-width: 800px) {
         div[data-testid="stSelectbox"] div[role="listbox"],
         div[role="listbox"] {
@@ -1158,5 +1167,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
