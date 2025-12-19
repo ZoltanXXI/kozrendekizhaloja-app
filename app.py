@@ -565,26 +565,36 @@ def strip_icon_ligatures(s: str) -> str:
         return s
     s = _html.unescape(s)
     s = re.sub(r"<[^>]+>", "", s)
-    icon_patterns = [
-        r'keyboard[_\-\s]?arrow[_\-\s]?(right|left|up|down)?',
-        r'arrow[_\-\s]?(right|left|up|down)?',
-        r'check[_\-\s]?(circle|box)?',
-        r'radio[_\-\s]?(button)?',
-        r'menu',
-        r'close',
-        r'settings',
-        r'search',
-        r'favorite',
-        r'share',
-        r'more[_\-\s]?(vert|horiz)?',
-        r'material[_\-\s]?icons?',
-        r'icon[_\-\s]?\w*'
-    ]
-    for pattern in icon_patterns:
-        s = re.sub(pattern, '', s, flags=re.IGNORECASE)
-    s = re.sub(r'\bkeyb\w*\b', '', s, flags=re.IGNORECASE)
-    s = re.sub(r'[\uFFFD\u200B-\u200F\uFEFF\u0000-\u001F]', '', s)
-    s = re.sub(r'[_\-\s]{1,}', ' ', s)
+    s = unicodedata.normalize('NFKC', s)
+
+    filtered_chars = []
+    for ch in s:
+        cat = unicodedata.category(ch)
+        o = ord(ch)
+        if cat.startswith('C'):
+            continue
+        if 0xE000 <= o <= 0xF8FF:
+            continue
+        if 0xF0000 <= o <= 0xFFFFD:
+            continue
+        filtered_chars.append(ch)
+    s = ''.join(filtered_chars)
+
+    s = re.sub(r'[_\-\s]+', ' ', s).strip()
+
+    icon_keywords = {
+        'keyboard', 'keyb', 'arrow', 'check', 'radio', 'menu', 'close',
+        'settings', 'search', 'favorite', 'share', 'more', 'material',
+        'icon', 'icons', 'vert', 'horiz'
+    }
+
+    def token_clean(t: str) -> str:
+        t_norm = re.sub(r'[^a-z0-9]+', '', t.lower())
+        return t_norm
+
+    tokens = [t for t in s.split() if not any(kw in token_clean(t) for kw in icon_keywords)]
+
+    s = ' '.join(tokens)
     s = re.sub(r'\s{2,}', ' ', s).strip()
     return s
     
@@ -1235,4 +1245,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
