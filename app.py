@@ -11,10 +11,8 @@ import textwrap
 import random
 import unicodedata
 import re
+import base64
 
-# ===============================
-# STREAMLIT KONFIG
-# ===============================
 st.set_page_config(
     page_title="Közrendek Ízhálója",
     page_icon="📜",
@@ -22,47 +20,40 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ===============================
-# MODERN CSS - SÖTÉT TÉMA
-# ===============================
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
-    
-    /* Reset & Base */
+
     .main {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%) !important;
         background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png") !important;
         padding: 0 !important;
     }
-    
+
     .block-container {
         padding: 2rem 3rem !important;
         max-width: 1400px !important;
         background: rgba(0, 0, 0, 0.3);
     }
-    
-    /* Typography */
+
     h1, h2, h3 {
         font-family: 'Cinzel', serif !important;
         color: white !important;
         font-weight: 700 !important;
     }
-    
+
     h1 {
         font-size: 2.5rem !important;
         text-align: center;
         margin-bottom: 1rem !important;
     }
-    
-    /* Scope the body serif font to the main content container so icon ligatures are preserved */
+
     .block-container p, .block-container div, .block-container span, .block-container li {
         font-family: 'Crimson Text', serif !important;
         color: white !important;
         font-size: 1.05rem;
     }
-    
-    /* Buttons */
+
     .stButton > button {
         background: linear-gradient(135deg, #800000 0%, #5c1a1a 100%);
         color: white !important;
@@ -77,14 +68,13 @@ st.markdown("""
         width: 100%;
         text-align: left;
     }
-    
+
     .stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(204, 170, 119, 0.3);
         background: linear-gradient(135deg, #a52a2a 0%, #722828 100%);
     }
-    
-    /* Cards */
+
     div[data-testid="stMetric"] {
         background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
         padding: 1.5rem;
@@ -92,14 +82,14 @@ st.markdown("""
         border: 2px solid #ccaa77;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     }
-    
+
     [data-testid="stMetricValue"] {
         font-family: 'Cinzel', serif !important;
         color: white !important;
         font-size: 2.5rem !important;
         font-weight: 700 !important;
     }
-    
+
     [data-testid="stMetricLabel"] {
         font-family: 'Crimson Text', serif !important;
         color: white !important;
@@ -107,77 +97,31 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 1px;
     }
-    
-<style>
-.stTextInput input, .stTextInput div[role="textbox"] input {
-    background-color: #840A13 !important;
-    color: #f5efe6 !important;
-}
-.stTextInput input::placeholder {
-    color: #f5efe6 !important;
-    opacity: 0.9 !important;
-    font-style: italic;
-}
 
-div[data-testid="stSelectbox"] div[data-baseweb="popover"],
-div[data-baseweb="popover"],
-div[data-testid="stSelectbox"] [data-baseweb="popover"],
-div[data-testid="stSelectbox"] .stSelectbox {
-    position: fixed !important;
-    z-index: 100000 !important;
-    background: transparent !important;
-    pointer-events: auto !important;
-}
+    .stTextInput input, .stTextInput div[role="textbox"] input {
+        background-color: #840A13 !important;
+        color: #f5efe6 !important;
+    }
+    .stTextInput input::placeholder {
+        color: #f5efe6 !important;
+        opacity: 0.9 !important;
+        font-style: italic;
+    }
 
-div[data-testid="stSelectbox"] div[role="listbox"],
-div[data-baseweb="menu"] [role="listbox"],
-div[role="listbox"],
-div[role="presentation"] > div[role="listbox"],
-div[role="menu"] {
-    background-color: #840A13 !important;
-    color: #f5efe6 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
-    max-height: 360px !important;
-    overflow-y: auto !important;
-    min-width: 260px !important;
-    width: auto !important;
-    padding: 0.2rem !important;
-    z-index: 100001 !important;
-}
+    div[data-testid="stSelectbox"] div[data-baseweb="popover"],
+    div[data-baseweb="popover"],
+    div[data-testid="stSelectbox"] [data-baseweb="popover"],
+    div[data-testid="stSelectbox"] .stSelectbox {
+        position: absolute !important;
+        z-index: 100000 !important;
+        pointer-events: auto !important;
+    }
 
-div[role="option"] {
-    background-color: transparent !important;
-    color: #f5efe6 !important;
-    padding: 0.6rem 0.9rem !important;
-    font-family: 'Crimson Text', serif !important;
-    font-size: 1rem !important;
-    cursor: pointer !important;
-    border-radius: 6px !important;
-    margin: 0.12rem 0 !important;
-}
-
-div[role="option"]:hover,
-div[role="option"][data-highlighted="true"],
-div[role="option"][aria-selected="true"] {
-    background-color: #FF2400 !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-}
-
-div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
-    background-color: #840A13 !important;
-    border: 2px solid #FF2400 !important;
-    border-radius: 8px !important;
-    color: #f5efe6 !important;
-    z-index: 99999 !important;
-}
-</style>
-
-    /* A tényleges legördülő doboz */
     div[data-testid="stSelectbox"] div[role="listbox"],
     div[data-baseweb="menu"] [role="listbox"],
-    div[role="listbox"] {
+    div[role="listbox"],
+    div[role="presentation"] > div[role="listbox"],
+    div[role="menu"] {
         background-color: #840A13 !important;
         color: #f5efe6 !important;
         border-radius: 10px !important;
@@ -187,9 +131,9 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         min-width: 260px !important;
         width: auto !important;
         padding: 0.2rem !important;
+        z-index: 100001 !important;
     }
 
-    /* Egyes opciók */
     div[role="option"] {
         background-color: transparent !important;
         color: #f5efe6 !important;
@@ -201,7 +145,6 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         margin: 0.12rem 0 !important;
     }
 
-    /* hover / kiválasztott */
     div[role="option"]:hover,
     div[role="option"][data-highlighted="true"],
     div[role="option"][aria-selected="true"] {
@@ -210,15 +153,14 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         font-weight: 600 !important;
     }
 
-    /* A select fő mező stílusa (ha kell) */
     div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         background-color: #840A13 !important;
         border: 2px solid #FF2400 !important;
         border-radius: 8px !important;
         color: #f5efe6 !important;
+        z-index: 99999 !important;
     }
 
-    /* mobil / kisebb képernyőn a popover ne lógjon túl */
     @media (max-width: 800px) {
         div[data-testid="stSelectbox"] div[role="listbox"],
         div[role="listbox"] {
@@ -229,7 +171,6 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
         }
     }
 
-    /* Sidebar és utilitások (ha szükséges) */
     [data-testid="stSidebar"] > div:first-child {
         background-color: #5c1a1a !important;
         font-family: 'Cinzel', serif !important;
@@ -255,12 +196,36 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
     [data-testid^="stTooltip"] {
         display: none !important;
     }
+
+    .carousell-card {
+        background: linear-gradient(135deg, #1a1a1a, #1f1f1f);
+        border-radius: 18px;
+        border: 1px solid #d4af37;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        padding: 24px;
+        color: #f9f3e8;
+        font-family: 'Playfair Display', serif;
+    }
+    .card-title {
+        font-size: 26px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+    .card-value {
+        font-size: 42px;
+        margin: 0;
+        font-weight: 600;
+    }
+    .card-desc {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-top: 12px;
+        color: #e7dac5;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# ===============================
-# ENV + OPENAI
-# ===============================
 load_dotenv()
 api_key = None
 try:
@@ -278,9 +243,6 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 random.seed(42)
 
-# ===============================
-# ADATBETÖLTÉS
-# ===============================
 @st.cache_data
 def load_data():
     script_dir = os.path.dirname(__file__)
@@ -326,7 +288,7 @@ def load_data():
                 except Exception:
                     try:
                         return pd.read_csv(path, sep=None, engine='python', encoding='latin1', on_bad_lines='skip')
-                    except Exception as final_e:
+                    except Exception:
                         try:
                             with open(path, 'r', encoding='utf-8', errors='replace') as fh:
                                 preview = fh.read(5000)
@@ -342,7 +304,7 @@ def load_data():
     tripartit_df = safe_read_csv(tripartit_path, 'data/Recept_halo__molekula_tripartit.csv', default_sep=';')
     edges_df = safe_read_csv(edges_path, 'data/recept_halo_edges.csv', default_sep=',')
     historical_df = safe_read_csv(historical_path, 'data/HistoricalRecipe_export.csv', default_sep=',')
-    
+
     perfect_ings = []
     try:
         perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
@@ -381,7 +343,6 @@ def load_data():
 
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
 
-# ===== FASTING RECIPES =====
 FASTING_RECIPE_TITLES = {
     "Káposzta ikrával", "Alma-lév", "Mondola-perec", "Koldus-lév", "Ég-lév",
     "Zsákvászonnal", "Gutta-lév", "Szíjalt rák", "Lengyel cibre", "Körtvély főve",
@@ -401,20 +362,19 @@ def is_fasting_recipe(recipe):
     title = (recipe.get("title") or "").strip()
     return title in FASTING_RECIPE_TITLES
 
-# ===== HÁLÓZATI VIZUALIZÁCIÓ =====
 def create_network_graph(center_node, connected_nodes):
     if not center_node or not connected_nodes:
         return None
 
     G = nx.Graph()
     G.add_node(center_node, node_type='center')
-    
+
     for n in connected_nodes:
         G.add_node(n["name"], degree=n["degree"], node_type=n.get("type", "unknown"))
         G.add_edge(center_node, n["name"], weight=n["degree"])
 
     pos = nx.spring_layout(G, k=2.5, iterations=100, seed=42)
-    
+
     edge_trace = []
     for edge in G.edges():
         x0, y0 = pos[edge[0]]
@@ -439,12 +399,12 @@ def create_network_graph(center_node, connected_nodes):
 
     node_x, node_y, node_text, node_size, node_color = [], [], [], [], []
     max_degree = max([n["degree"] for n in connected_nodes], default=1)
-    
+
     for node in G.nodes():
         x, y = pos[node]
         node_x.append(x)
         node_y.append(y)
-        
+
         if node == center_node:
             node_text.append(f"<b style='font-size: 14px'>{node}</b><br><i>(központi)</i>")
             node_size.append(40)
@@ -484,12 +444,9 @@ def create_network_graph(center_node, connected_nodes):
         template='plotly_dark',
         height=800
     )
-    
+
     return fig
 
-# ===============================
-# NODE TÍPUS NORMALIZÁLÁS
-# ===============================
 type_mapping = {
     "dish": "Recept",
     "ingredient": "Alapanyag",
@@ -517,54 +474,36 @@ historical_recipes = historical_df.to_dict("records")
 fasting_recipes = [r for r in historical_recipes if is_fasting_recipe(r)]
 fasting_ratio = len(fasting_recipes) / max(len(historical_recipes), 1)
 
-# ===============================
-# UTILITY FUNCTIONS
-# ===============================
 def strip_icon_ligatures(s: str) -> str:
-    """Eltávolítja a Material Icons ligature-öket és HTML entitásokat"""
     if not isinstance(s, str):
         return s
-    
-    # HTML entitások dekódolása
     s = _html.unescape(s)
-    
-    # HTML tagek eltávolítása
     s = re.sub(r"<[^>]+>", '', s)
-    
-    # Material Icons specifikus pattern-ek eltávolítása
     icon_patterns = [
-        r'keyboard_arrow_right', r'keyboard_arrow_left', r'keyboard_arrow_up', 
+        r'keyboard_arrow_right', r'keyboard_arrow_left', r'keyboard_arrow_up',
         r'keyboard_arrow_down', r'arrow_right', r'arrow_left', r'arrow_forward',
         r'arrow_back', r'check_circle', r'check_box', r'radio_button',
         r'menu', r'close', r'settings', r'search', r'favorite', r'share',
         r'more_vert', r'more_horiz',
     ]
-    
     for pattern in icon_patterns:
         s = re.sub(pattern, '', s, flags=re.IGNORECASE)
-    
-    # Általános pattern: bármilyen szó_szó vagy szó-szó ami icon lehet
     s = re.sub(r'\b[a-z]+_[a-z]+(_[a-z]+)?\b', '', s, flags=re.IGNORECASE)
-    
-    # Zero-width és control karakterek eltávolítása
     s = re.sub(r"[\u200B-\u200F\uFEFF\u0000-\u001F]", '', s)
-    
-    # Whitespace normalizálás
     s = re.sub(r"\s{2,}", ' ', s).strip()
-    
     return s
 
 def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_nodes=120, max_recipes=40):
     grouped = {}
     for n in nodes:
-        grouped.setdefault(n["node_type"], []).append(n)
+        grouped.setdefault(n.get("node_type", "Egyéb"), []).append(n)
 
     sampled_nodes = []
     if grouped:
         for group in grouped.values():
             sampled_nodes.extend(random.sample(
                 group,
-                min(len(group), max_nodes // len(grouped))
+                min(len(group), max_nodes // max(1, len(grouped)))
             ))
     else:
         sampled_nodes = nodes[:max_nodes]
@@ -612,9 +551,9 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
 
     simplified_nodes = [
         {
-            "name": n["Label"],
-            "type": n["node_type"],
-            "degree": int(n.get("Degree", 0))
+            "name": n.get("Label"),
+            "type": n.get("node_type"),
+            "degree": int(n.get("Degree", 0) or 0)
         }
         for n in sampled_nodes
     ]
@@ -695,7 +634,6 @@ Történeti receptek:
 
     user_prompt += f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
-    # 🔑 HELYES GPT-5-NANO HÍVÁS (Responses API)
     response = client.responses.create(
         model="gpt-5-nano",
         input=[
@@ -716,9 +654,6 @@ Történeti receptek:
 
     return result
 
-# ===============================
-# AI RECIPE GENERATOR
-# ===============================
 def generate_ai_recipe(selected, connected, historical):
     system_prompt = """
 Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
@@ -760,7 +695,6 @@ Történeti példák:
         )
         ai_text = response.output_text.strip()
 
-        # Remove markdown code blocks if present
         if ai_text.startswith("```json"):
             ai_text = ai_text[7:]
         if ai_text.startswith("```"):
@@ -769,10 +703,8 @@ Történeti példák:
             ai_text = ai_text[:-3]
         ai_text = ai_text.strip()
 
-        # Parse JSON
         result = json.loads(ai_text)
 
-        # Calculate word count and confidence
         wc = len(result.get("archaic_recipe", "").split())
         result["word_count"] = wc
 
@@ -794,15 +726,12 @@ Történeti példák:
             "raw_text": ai_text if 'ai_text' in locals() else ""
         }
 
-
-# ===== HERO SECTION =====
-import base64
 banner_path = "83076027-f357-4e82-8716-933911048498.png"
 
 if os.path.exists(banner_path):
     with open(banner_path, "rb") as f:
         img_data = base64.b64encode(f.read()).decode()
-    
+
     st.markdown(f"""
     <div style="position: relative; text-align: center; margin-bottom: 3rem; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7); height: 300px;">
         <img src="data:image/png;base64,{img_data}" style="width: 100%; height: 300px; object-fit: cover; display: block;">
@@ -833,38 +762,6 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== INFO BOXOK =====
-st.markdown("""
-<style>
-.carousell-card {
-    background: linear-gradient(135deg, #1a1a1a, #1f1f1f);
-    border-radius: 18px;
-    border: 1px solid #d4af37;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    padding: 24px;
-    color: #f9f3e8;
-    font-family: 'Playfair Display', serif;
-}
-.card-title {
-    font-size: 26px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-.card-value {
-    font-size: 42px;
-    margin: 0;
-    font-weight: 600;
-}
-.card-desc {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-top: 12px;
-    color: #e7dac5;
-}
-</style>
-""", unsafe_allow_html=True)
-
 cols = st.columns(4)
 data = [
     {"title": "Csomópontok / Nodes", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
@@ -882,7 +779,6 @@ for col, info in zip(cols, data):
         </div>
         """, unsafe_allow_html=True)
 
-# ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem; text-align: center;">
@@ -897,7 +793,7 @@ st.markdown("""
 col_search, col_sort = st.columns([3, 1])
 with col_search:
     query = st.text_input("Keresés", placeholder="🔍 pl. 'valami fűszeres hal', 'édes sütemény mandulával', 'boros leves'...", key="search_input", label_visibility="collapsed")
-    
+
     if query and st.button("🤖 AI Keresés", key="gpt_search"):
         if "gpt_search_results" in st.session_state:
             del st.session_state["gpt_search_results"]
@@ -909,12 +805,12 @@ with col_search:
             del st.session_state["historical_recipe"]
         if "ai_recipe" in st.session_state:
             del st.session_state["ai_recipe"]
-        
+
         with st.spinner("🔍 AI elemzi a kérést..."):
             search_results = gpt_search_recipes(query)
             st.session_state["gpt_search_results"] = search_results
             st.session_state["search_query"] = query
-            
+
             try:
                 suggested = search_results.get("suggested_nodes", []) or []
                 if suggested:
@@ -923,7 +819,7 @@ with col_search:
                     if node_obj:
                         sel = node_obj["Label"]
                         related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
-                        connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
+                        connected = [{"name": x["Label"], "degree": int(x.get("Degree", 1) or 0), "type": x.get("node_type", "unknown")} for x in all_nodes if x.get("Label") in related]
                         historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
 
                         st.session_state["selected"] = sel
@@ -935,9 +831,9 @@ with col_search:
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
                 pass
-        
+
 with col_sort:
-    node_type_options = sorted({n.get("node_type", "Egyéb") for n in all_nodes})
+    node_type_options = sorted({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])})
     node_type_filter = st.multiselect(
         "Típus szűrő",
         options=node_type_options,
@@ -973,65 +869,17 @@ with col_sort:
         label_visibility="collapsed"
     )
 
-# GPT keresési eredmények megjelenítése
-if "gpt_search_results" in st.session_state:
-    results = st.session_state["gpt_search_results"]
-    reasoning = strip_icon_ligatures(results.get('reasoning', ''))
-    
-    st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a); border: 2px solid #ccaa77; border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
-        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">
-            💡 AI Ajánlás: "{strip_icon_ligatures(st.session_state.get('search_query', ''))}"
-        </h4>
-        <p style="color: #e8dcc8; font-family: 'Crimson Text', serif; font-style: italic;">
-            {reasoning}
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if results.get("suggested_nodes"):
-        st.markdown("**🎯 Ajánlott alapanyagok/csomópontok (nodes):**")
-        cols_suggested = st.columns(min(len(results["suggested_nodes"]), 5))
-        for i, node_name in enumerate(results["suggested_nodes"][:5]):
-            clean_node_name = strip_icon_ligatures(str(node_name))
-            node = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == clean_node_name.lower()), None)
-            if node and i < len(cols_suggested):
-                type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
-                clean_label = strip_icon_ligatures(node['Label'])
-                if cols_suggested[i].button(f"{type_emoji} {clean_label}", key=f"suggested_{i}"):
-                    sel = node["Label"]
-                    related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
-                    connected = [{"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")} for x in all_nodes if x["Label"] in related]
-                    historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
-
-                    st.session_state["selected"] = sel
-                    st.session_state["connected"] = connected
-                    st.session_state["historical_recipe"] = historical_recipe
-
-                    with st.spinner("⏳ AI receptgenerálás..."):
-                        ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
-                        st.session_state["ai_recipe"] = ai_recipe
-                    
-                    st.rerun()
-    
-    if results.get("suggested_recipes"):
-        st.markdown("**📖 Releváns történeti receptek:**")
-        for recipe_title in results["suggested_recipes"][:3]:
-            clean_recipe_title = strip_icon_ligatures(str(recipe_title))
-            recipe = next((r for r in historical_recipes if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()), None)
-            if recipe:
-                clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
-                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
-                with st.expander(f"📜 {clean_title}"):
-                    st.markdown(clean_text + "...")
-
 node_type_filter_set = set(node_type_filter or [])
 filtered_nodes = []
 
 def _node_type(n):
+    if not isinstance(n, dict):
+        return "Egyéb"
     return n.get("node_type") or n.get("Type") or n.get("type") or "Egyéb"
 
 def _node_label(n):
+    if not isinstance(n, dict):
+        return ""
     return strip_icon_ligatures(n.get("Label") or n.get("label") or "")
 
 def _node_degree(n):
@@ -1074,53 +922,102 @@ elif sort_by == "📊 Degree ↓":
 elif sort_by == "📈 Degree ↑":
     filtered_nodes.sort(key=lambda x: _node_degree(x))
 
-# ===== NODE GOMBOK =====
 cols = st.columns(6)
 for i, n in enumerate(filtered_nodes[:60]):
     type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(n.get('node_type'), '⚪')
-    clean_label = strip_icon_ligatures(n['Label'])
+    clean_label = strip_icon_ligatures(n.get('Label', ''))
     if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
-        sel = n["Label"]
-        
+        sel = n.get("Label", "")
+
         related = [
             e["Target"] if e["Source"] == sel else e["Source"]
-            for e in all_edges if sel in [e["Source"], e["Target"]]
+            for e in all_edges if sel in [e.get("Source"), e.get("Target")]
         ]
-        
+
         connected = [
-            {"name": x["Label"], "degree": x.get("Degree", 1), "type": x.get("node_type", "unknown")}
-            for x in all_nodes if x["Label"] in related
+            {"name": x.get("Label"), "degree": int(x.get("Degree", 1) or 0), "type": x.get("node_type", "unknown")}
+            for x in all_nodes if x.get("Label") in related
         ]
-        
+
         historical_recipe = [
             {"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])}
             for r in historical_recipes if sel.lower() in str(r).lower()
         ][:5]
-        
+
         st.session_state["selected"] = sel
         st.session_state["connected"] = connected
         st.session_state["historical_recipe"] = historical_recipe
-        
+
         with st.spinner("⏳ AI receptgenerálás..."):
             ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
             st.session_state["ai_recipe"] = ai_recipe
-        
+
         st.rerun()
-        
-# ===== EREDMÉNYEK =====
+
+if "gpt_search_results" in st.session_state:
+    results = st.session_state["gpt_search_results"]
+    reasoning = strip_icon_ligatures(results.get('reasoning', ''))
+
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a); border: 2px solid #ccaa77; border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
+        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">
+            💡 AI Ajánlás: "{strip_icon_ligatures(st.session_state.get('search_query', ''))}"
+        </h4>
+        <p style="color: #e8dcc8; font-family: 'Crimson Text', serif; font-style: italic;">
+            {reasoning}
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if results.get("suggested_nodes"):
+        st.markdown("**🎯 Ajánlott alapanyagok/csomópontok (nodes):**")
+        cols_suggested = st.columns(min(len(results["suggested_nodes"]), 5))
+        for i, node_name in enumerate(results["suggested_nodes"][:5]):
+            clean_node_name = strip_icon_ligatures(str(node_name))
+            node = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == clean_node_name.lower()), None)
+            if node and i < len(cols_suggested):
+                type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
+                clean_label = strip_icon_ligatures(node.get('Label', ''))
+                if cols_suggested[i].button(f"{type_emoji} {clean_label}", key=f"suggested_{i}"):
+                    sel = node.get("Label", "")
+                    related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e.get("Source"), e.get("Target")]]
+                    connected = [{"name": x.get("Label"), "degree": int(x.get("Degree", 1) or 0), "type": x.get("node_type", "unknown")} for x in all_nodes if x.get("Label") in related]
+                    historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+
+                    st.session_state["selected"] = sel
+                    st.session_state["connected"] = connected
+                    st.session_state["historical_recipe"] = historical_recipe
+
+                    with st.spinner("⏳ AI receptgenerálás..."):
+                        ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
+                        st.session_state["ai_recipe"] = ai_recipe
+
+                    st.rerun()
+
+    if results.get("suggested_recipes"):
+        st.markdown("**📖 Releváns történeti receptek:**")
+        for recipe_title in results["suggested_recipes"][:3]:
+            clean_recipe_title = strip_icon_ligatures(str(recipe_title))
+            recipe = next((r for r in historical_recipes if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()), None)
+            if recipe:
+                clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
+                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
+                with st.expander(f"📜 {clean_title}"):
+                    st.markdown(clean_text + "...")
+
 if "selected" in st.session_state:
     st.markdown("---")
     st.markdown(f"<h2 style='text-align: center;'>🎯 {strip_icon_ligatures(st.session_state['selected'])}</h2>", unsafe_allow_html=True)
-    
+
     st.markdown("### 🗺️ Hálózati Térkép")
     fig = create_network_graph(st.session_state["selected"], st.session_state["connected"])
     if fig:
         st.plotly_chart(fig, use_container_width=True)
-    
+
     st.markdown("<br>", unsafe_allow_html=True)
-    
+
     col1, col2 = st.columns([1, 1])
-    
+
     with col1:
         st.markdown("### 📚 Történeti Példák")
         recipe = st.session_state.get("historical_recipe", [])
@@ -1132,7 +1029,7 @@ if "selected" in st.session_state:
                     st.markdown(clean_text)
         else:
             st.info("Nincs történeti példa")
-    
+
     with col2:
         st.markdown("### 🤖 AI Generált Recept")
         ai_recipe = st.session_state.get("ai_recipe")
@@ -1152,7 +1049,6 @@ if "selected" in st.session_state:
         else:
             st.error("❌ Hiba történt a generálás során")
 
-# ===== NAVIGÁCIÓS TÁJÉKOZTATÓ =====
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; margin: 3rem 0 2rem 0;">
@@ -1177,7 +1073,7 @@ with nav_col1:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
     """, unsafe_allow_html=True)
-    
+
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
         st.switch_page("pages/About.py")
 
@@ -1194,17 +1090,16 @@ with nav_col2:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
     </div>
     """, unsafe_allow_html=True)
-    
+
     if st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True):
         st.switch_page("pages/analytics.py")
-        
+
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
     💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
 </p>
 """, unsafe_allow_html=True)
 
-# ===== FOOTER =====
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
     <p style="font-family: 'Cinzel', serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.3rem; color: #e8c896; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">Közrendek Ízhálója</p>
@@ -1225,25 +1120,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
