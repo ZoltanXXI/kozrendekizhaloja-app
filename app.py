@@ -879,7 +879,9 @@ with col_search:
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
                 pass
-
+if "sort_option" not in st.session_state:
+    st.session_state.sort_option = "📝 Név (A–Z)"
+    
 with col_sort:
     html = f"""
     <div class="custom-dropdown">
@@ -1233,4 +1235,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
