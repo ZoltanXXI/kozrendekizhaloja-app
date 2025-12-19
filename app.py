@@ -217,12 +217,31 @@ def load_data():
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
 
 SYNONYM_MAP = {
-    "rózsabors": ["rózsabors", "rózsabors", "pink pepper", "schinus", "schinus molle"],
+    "rózsabors": ["rózsabors", "pink pepper", "schinus", "schinus molle"],
     "avokádó": ["avokádó", "avokado", "avokádós", "avocado"],
     "avokádós": ["avokádó", "avokado", "avokádós", "avocado"],
-    "kaja": ["kaja", "étel", "fogás", "ételke", "meal", "dish", "food"]
+    "kaja": ["kaja", "étel", "fogás", "meal", "dish", "food"]
 }
 GENERIC_TOKENS = {"kaja", "étel", "fogás", "recept", "food", "dish", "meal"}
+
+TOKEN_ROLE = {
+  "ingredient": [],
+  "flavour_descriptor": [],
+  "preparation_style": [],
+  "generic_food": [],
+  "metaphorical": [],
+}
+
+ANACHRONISTIC_INGREDIENTS = {
+  "avokádó", "paradicsom", "burgonya", "csili", "vanília", "kakaó", "paprika", "ananász"
+}
+
+HISTORICAL_ANALOGY_MAP = {
+    "avokádó": ["mandula", "olaj-spék", "tört hüvelyes"],
+    "avokádós": ["mandula", "olaj-spék", "tört hüvelyes"],
+    "rózsabors": ["tiszta borssal", "rózsaszirom infúzió (illatosító)", "borsos szilva"],
+    "pink pepper": ["tiszta borssal", "rózsaszirom infúzió (illatosító)"]
+}
 
 def detect_label_col(df):
     candidates = [c for c in df.columns if c.lower() in ('label','name','title','node','node_name')]
@@ -582,6 +601,131 @@ def search_recipes_by_query(query: str, max_results: int = 3):
     matches.sort(key=lambda x: x[0], reverse=True)
     return [ {"title": m[1].get("title",""), "excerpt": (m[1].get("full_text","")[:400])} for m in matches[:max_results] ]
 
+def analyze_query_tokens(user_query: str):
+    tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
+    analysis = []
+    for tok in tokens:
+        item = {"token": tok, "base": tok, "role": None, "status": None, "strategy": None, "mapped_to": None, "confidence": 0.0}
+        if tok in GENERIC_TOKENS:
+            item["role"] = "generic_food"
+            item["status"] = "generic"
+            item["strategy"] = "ignore_for_node_selection"
+            item["confidence"] = 0.2
+            analysis.append(item)
+            continue
+        if tok in ANACHRONISTIC_INGREDIENTS:
+            item["role"] = "ingredient"
+            item["status"] = "anachronistic"
+            mapped = HISTORICAL_ANALOGY_MAP.get(tok)
+            if mapped:
+                item["mapped_to"] = mapped
+                item["strategy"] = "historical_analogy"
+                item["confidence"] = 0.6
+            else:
+                item["mapped_to"] = None
+                item["strategy"] = "analogy_required_manual"
+                item["confidence"] = 0.3
+            analysis.append(item)
+            continue
+        if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és') or tok.endswith('i'):
+            base = tok
+            if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és'):
+                base = tok[:-2]
+            elif tok.endswith('i') and len(tok) > 3:
+                base = tok[:-1]
+            item["base"] = base
+            item["role"] = "flavour_descriptor"
+            item["status"] = "descriptor"
+            mapped_label = None
+            norm_base = normalize_label(base)
+            if norm_base in SYNONYM_MAP:
+                for s in SYNONYM_MAP[norm_base]:
+                    if normalize_label(s) in node_norm_map:
+                        mapped_label = node_norm_map[normalize_label(s)].get("Label")
+                        item["mapped_to"] = [mapped_label]
+                        item["strategy"] = "synonym_map"
+                        item["confidence"] = 0.8
+                        break
+            if not mapped_label and norm_base in node_norm_map:
+                item["mapped_to"] = [node_norm_map[norm_base].get("Label")]
+                item["strategy"] = "direct_node_match"
+                item["confidence"] = 0.85
+            if not item.get("mapped_to"):
+                analogs = HISTORICAL_ANALOGY_MAP.get(norm_base) or HISTORICAL_ANALOGY_MAP.get(tok)
+                if analogs:
+                    item["mapped_to"] = analogs
+                    item["strategy"] = "historical_analogy_for_descriptor"
+                    item["confidence"] = 0.55
+                else:
+                    fuzzy = fuzzy_suggest_nodes(base, max_suggestions=1)
+                    if fuzzy:
+                        item["mapped_to"] = fuzzy
+                        item["strategy"] = "fuzzy_fallback"
+                        item["confidence"] = 0.4
+                    else:
+                        item["mapped_to"] = None
+                        item["strategy"] = "no_mapping"
+                        item["confidence"] = 0.25
+            analysis.append(item)
+            continue
+        norm_tok = normalize_label(tok)
+        if norm_tok in SYNONYM_MAP:
+            for s in SYNONYM_MAP[norm_tok]:
+                if normalize_label(s) in node_norm_map:
+                    item["role"] = "ingredient"
+                    item["status"] = "direct_synonym"
+                    item["mapped_to"] = [node_norm_map[normalize_label(s)].get("Label")]
+                    item["strategy"] = "synonym_map"
+                    item["confidence"] = 0.9
+                    break
+            if item["mapped_to"]:
+                analysis.append(item)
+                continue
+        if norm_tok in node_norm_map:
+            item["role"] = "ingredient"
+            item["status"] = "direct_node"
+            item["mapped_to"] = [node_norm_map[norm_tok].get("Label")]
+            item["strategy"] = "direct_node_match"
+            item["confidence"] = 0.95
+            analysis.append(item)
+            continue
+        close = difflib.get_close_matches(norm_tok, list(node_norm_map.keys()), n=1, cutoff=0.75)
+        if close:
+            item["role"] = "ingredient"
+            item["status"] = "close_match"
+            item["mapped_to"] = [node_norm_map[close[0]].get("Label")]
+            item["strategy"] = "close_string_match"
+            item["confidence"] = 0.75
+            analysis.append(item)
+            continue
+        if 'bors' in norm_tok or 'pepper' in norm_tok or 'pink' in norm_tok:
+            b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'tiszta borssal' in k or 'rózsabors' in k]
+            if b_candidates:
+                cand = difflib.get_close_matches(norm_tok, b_candidates, n=1, cutoff=0.35)
+                if cand:
+                    item["role"] = "ingredient"
+                    item["status"] = "pepper_family"
+                    item["mapped_to"] = [node_norm_map[cand[0]].get("Label")]
+                    item["strategy"] = "special_pepper_rules"
+                    item["confidence"] = 0.85
+                    analysis.append(item)
+                    continue
+        fuzzy = fuzzy_suggest_nodes(tok, max_suggestions=1)
+        if fuzzy:
+            item["role"] = "ingredient"
+            item["status"] = "fuzzy_suggest"
+            item["mapped_to"] = fuzzy
+            item["strategy"] = "fuzzy"
+            item["confidence"] = 0.35
+            analysis.append(item)
+            continue
+        item["role"] = "unknown"
+        item["status"] = "no_mapping"
+        item["strategy"] = "no_mapping"
+        item["confidence"] = 0.0
+        analysis.append(item)
+    return analysis
+
 def gpt_search_recipes(user_query):
     query_lower = (user_query or "").strip()
     matched_recipes = []
@@ -640,115 +784,53 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
     except Exception:
         suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
         suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
+        analysis = analyze_query_tokens(user_query)
         reasoning_parts = []
-        tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
-
-        def base_from_adjective(tok):
-            if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és'):
-                return tok[:-2]
-            if tok.endswith('i') and len(tok) > 3:
-                return tok[:-1]
-            return tok
-
-        def lookup_synonym(tok):
-            for key, syns in SYNONYM_MAP.items():
-                for s in syns:
-                    if normalize_label(s) == tok:
-                        k_norm = normalize_label(key)
-                        if k_norm in node_norm_map:
-                            return node_norm_map[k_norm].get("Label"), "high"
-                        if normalize_label(key) in node_norm_map:
-                            return node_norm_map[normalize_label(key)].get("Label"), "high"
-            return None, None
-
-        def best_map_token(tok):
-            if not tok or tok in GENERIC_TOKENS:
-                return None, "none"
-            tok0 = base_from_adjective(tok)
-            syn_label, syn_conf = lookup_synonym(tok0)
-            if syn_label:
-                return syn_label, syn_conf
-            if tok0 in node_norm_map:
-                return node_norm_map[tok0].get("Label"), "high"
-            exact = difflib.get_close_matches(tok0, list(node_norm_map.keys()), n=1, cutoff=0.85)
-            if exact:
-                return node_norm_map[exact[0]].get("Label"), "high"
-            if len(tok0) >= 3:
-                medium = difflib.get_close_matches(tok0, list(node_norm_map.keys()), n=1, cutoff=0.65)
-                if medium:
-                    return node_norm_map[medium[0]].get("Label"), "medium"
-            candidates_bors = None
-            if 'bors' in tok0 or 'pepper' in tok0 or 'pink' in tok0:
-                b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'pink' in k or 'borssal' in k or 'tiszta borssal' in k]
-                if b_candidates:
-                    cand = difflib.get_close_matches(tok0, b_candidates, n=1, cutoff=0.4)
-                    if cand:
-                        return node_norm_map[cand[0]].get("Label"), "high"
-            suggestions = fuzzy_suggest_nodes(tok0, max_suggestions=1)
-            if suggestions:
-                return suggestions[0], "low"
-            return None, "none"
-
-        mapped = []
-        for tok in tokens:
-            if not tok:
-                continue
-            mapped_label, confidence = best_map_token(tok)
-            mapped.append((tok, mapped_label, confidence))
-
-        for orig, mapped_label, conf in mapped:
-            if mapped_label:
-                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" (confidence: {conf})')
+        mapped_nodes = []
+        for item in analysis:
+            tok = item["token"]
+            status = item.get("status", "unknown")
+            strat = item.get("strategy", "none")
+            conf = item.get("confidence", 0.0)
+            mapped = item.get("mapped_to")
+            if isinstance(mapped, list):
+                mapped_display = ", ".join([str(m) for m in mapped if m])
             else:
-                reasoning_parts.append(f'"{orig}" -> not mappable; marked as generic/unknown (confidence: none)')
-
+                mapped_display = str(mapped) if mapped else "—"
+            reasoning_parts.append(f'"{tok}" → status: {status}; strategy: {strat}; mapped: {mapped_display}; confidence: {conf:.2f}')
+            if item.get("mapped_to"):
+                if isinstance(item["mapped_to"], list):
+                    for m in item["mapped_to"]:
+                        if isinstance(m, str) and normalize_label(m) in node_norm_map:
+                            mapped_nodes.append(node_norm_map[normalize_label(m)].get("Label"))
+                        elif isinstance(m, str):
+                            mapped_nodes.append(m)
+                else:
+                    m = item["mapped_to"]
+                    if isinstance(m, str) and normalize_label(m) in node_norm_map:
+                        mapped_nodes.append(node_norm_map[normalize_label(m)].get("Label"))
+                    elif isinstance(m, str):
+                        mapped_nodes.append(m)
+        mapped_nodes = [m for m in mapped_nodes if m]
+        combined_suggestions = []
+        seen = set()
+        for n in mapped_nodes + suggested_nodes:
+            if n and n not in seen:
+                combined_suggestions.append(n)
+                seen.add(n)
+            if len(combined_suggestions) >= 5:
+                break
+        if not combined_suggestions:
+            combined_suggestions = suggested_nodes[:5]
         reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
         result = {
-            "suggested_nodes": suggested_nodes,
+            "suggested_nodes": combined_suggestions,
             "suggested_recipes": suggested_recipes,
-            "reasoning": reasoning
+            "reasoning": reasoning,
+            "mapping": analysis
         }
         return result
-        
-        def best_map_token(tok):
-            tok_norm = tok
-            if 'bors' in tok_norm or 'pepper' in tok_norm or 'pep' in tok_norm:
-                b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'paprika' in k]
-                if b_candidates:
-                    best = difflib.get_close_matches(tok_norm, b_candidates, n=1, cutoff=0.4)
-                    if best:
-                        return node_norm_map[best[0]].get("Label"), "high"
-            candidates = difflib.get_close_matches(tok_norm, list(node_norm_map.keys()), n=1, cutoff=0.65)
-            if candidates:
-                return node_norm_map[candidates[0]].get("Label"), "medium"
-            substring = [k for k in node_norm_map.keys() if tok_norm in k]
-            if substring:
-                return node_norm_map[substring[0]].get("Label"), "medium"
-            suggestions = fuzzy_suggest_nodes(tok_norm, max_suggestions=1)
-            if suggestions:
-                return suggestions[0], "low"
-            return None, "none"
 
-        mapped = []
-        for tok in tokens:
-            if not tok:
-                continue
-            mapped_label, confidence = best_map_token(tok)
-            mapped.append((tok, mapped_label, confidence))
-
-        for orig, mapped_label, conf in mapped:
-            if mapped_label:
-                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" (confidence: {conf})')
-            else:
-                reasoning_parts.append(f'"{orig}" -> not in DB; using AI knowledge / fuzzy fallback (confidence: low)')
-
-        reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
-        result = {
-            "suggested_nodes": suggested_nodes,
-            "suggested_recipes": suggested_recipes,
-            "reasoning": reasoning
-        }
-        return result
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
         return 0.0
@@ -1246,6 +1328,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
