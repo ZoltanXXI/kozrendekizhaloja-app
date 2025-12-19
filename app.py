@@ -1042,34 +1042,28 @@ if "gpt_search_results" in st.session_state:
                 with st.expander(f"📜 {clean_title}"):
                     st.markdown(clean_text + "...")
 
-# Node szűrés
+node_type_filter_set = set(node_type_filter or [])
+filtered_nodes = []
+
 if "gpt_search_results" not in st.session_state or not query:
-    filtered_nodes = [
-        n for n in all_nodes
-        if (not query or query.lower() in n["Label"].lower())
-        and n.get("node_type") in node_type_filter
-    ]
+    for n in (all_nodes or []):
+        if not isinstance(n, dict):
+            continue
+        label = n.get("Label", "")
+        if query and query.lower() not in str(label).lower():
+            continue
+        if n.get("node_type") in node_type_filter_set:
+            filtered_nodes.append(n)
 else:
     suggested = st.session_state["gpt_search_results"].get("suggested_nodes", [])
-    filtered_nodes = [
-        n for n in all_nodes
-        if n.get("node_type") in node_type_filter and (
-            not query or 
-            query.lower() in n["Label"].lower() or 
-            n["Label"] in suggested
-        )
-    ]
-
-if sort_by == "📊 Degree ↓":
-    filtered_nodes = sorted(filtered_nodes, key=lambda x: x.get("Degree", 0), reverse=True)
-elif sort_by == "📈 Degree ↑":
-    filtered_nodes = sorted(filtered_nodes, key=lambda x: x.get("Degree", 0))
-elif sort_by == "🔁 Név (Z–A)":
-    filtered_nodes = sorted(filtered_nodes, key=lambda x: x["Label"], reverse=True)
-else:
-    filtered_nodes = sorted(filtered_nodes, key=lambda x: x["Label"])
-
-st.markdown(f"<h3 style='text-align: center; color: white; font-family: Cinzel, serif; font-weight: 700; margin: 2rem 0 1.5rem 0;'>Elérhető csomópontok (nodes) ({len(filtered_nodes)} db)</h3>", unsafe_allow_html=True)
+    for n in (all_nodes or []):
+        if not isinstance(n, dict):
+            continue
+        if n.get("node_type") not in node_type_filter_set:
+            continue
+        label = n.get("Label", "")
+        if not query or query.lower() in str(label).lower() or label in suggested:
+            filtered_nodes.append(n)
 
 # ===== NODE GOMBOK =====
 cols = st.columns(6)
@@ -1222,6 +1216,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
