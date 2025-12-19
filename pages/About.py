@@ -176,7 +176,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<h1 class="main-title">A Projektről</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title" style="color:#8b5a2b;">A Projektről</h1>', unsafe_allow_html=True)
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
 # ===== AZ OLVASÓHOZ IDÉZET =====
@@ -433,6 +433,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
