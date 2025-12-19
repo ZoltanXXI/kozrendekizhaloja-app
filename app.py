@@ -22,7 +22,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-st.markdown("""
+st.markdown(""" 
 <style>
 /* === RENDEZÉSI SELECTBOX === */
 
@@ -60,7 +60,7 @@ div[data-baseweb="option"]:hover {
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
+st.markdown(""" 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
@@ -84,7 +84,7 @@ st.markdown("""
 
     h1 {
         font-size: 2.5rem !important;
-        text-align: center;
+        text-align: center !important;
         margin-bottom: 1rem !important;
     }
 
@@ -430,7 +430,6 @@ def load_data():
     edges_df = safe_read_csv(edges_path, 'data/recept_halo_edges.csv', default_sep=',')
     historical_df = safe_read_csv(historical_path, 'data/HistoricalRecipe_export.csv', default_sep=',')
 
-    # ✨ ÚJ: Tisztítsd meg az ikonokat a historical_df-ből
     for col in ['title', 'original_text', 'ingredients']:
         if col in historical_df.columns:
             historical_df[col] = historical_df[col].apply(
@@ -474,6 +473,35 @@ def load_data():
     return tripartit_df, edges_df, historical_df, perfect_ings
 
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
+
+@st.cache_data
+def load_full_recipe_corpus():
+    recipes_full = []
+    for recipe in historical_recipes:
+        full_text = recipe.get('original_text', '') or ''
+        title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
+        ingredients = recipe.get('ingredients', '') or ''
+        context = f"""
+RECEPT CÍM: {title}
+
+ALAPANYAGOK: {ingredients}
+
+TELJES SZÖVEG:
+{full_text}
+        """.strip()
+        recipes_full.append({
+            'title': title,
+            'ingredients': ingredients,
+            'full_text': full_text,
+            'context': context,
+            'word_count': len(full_text.split())
+        })
+    return recipes_full
+
+all_nodes = tripartit_df.to_dict("records")
+all_edges = edges_df.to_dict("records")
+historical_recipes = historical_df.to_dict("records")
+full_recipe_corpus = load_full_recipe_corpus()
 
 FASTING_RECIPE_TITLES = {
     "Káposzta ikrával", "Alma-lév", "Mondola-perec", "Koldus-lév", "Ég-lév",
@@ -607,7 +635,6 @@ def normalize_label(s):
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
-# Normalizált címkék a tripartit_df-ben (ha létezik 'Label' oszlop)
 if "Label" in tripartit_df.columns:
     tripartit_df["norm_label"] = tripartit_df["Label"].apply(normalize_label)
 elif "label" in tripartit_df.columns:
@@ -615,7 +642,6 @@ elif "label" in tripartit_df.columns:
 else:
     tripartit_df["norm_label"] = ""
 
-# Normalizált forrás/cél az edges_df-ben (Source/Target oszlopokra alapozva)
 src_col = "Source" if "Source" in edges_df.columns else ("source" if "source" in edges_df.columns else None)
 tgt_col = "Target" if "Target" in edges_df.columns else ("target" if "target" in edges_df.columns else None)
 
@@ -625,10 +651,6 @@ if src_col and tgt_col:
 else:
     edges_df["norm_source"] = edges_df.apply(lambda r: normalize_label(str(r.get("Source", r.get("source", "")))), axis=1)
     edges_df["norm_target"] = edges_df.apply(lambda r: normalize_label(str(r.get("Target", r.get("target", "")))), axis=1)
-
-all_nodes = tripartit_df.to_dict("records")
-all_edges = edges_df.to_dict("records")
-historical_recipes = historical_df.to_dict("records")
 
 for r in historical_recipes[:20]:
     orig = r.get('title','')
@@ -719,7 +741,22 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
     return simplified_nodes, simplified_recipes
 
 def gpt_search_recipes(user_query):
-    nodes_ctx, recipes_ctx = build_gpt_context(
+    query_lower = (user_query or "").lower().strip()
+    matched_recipes = []
+    if query_lower:
+        q_tokens = [t for t in re.sub(r'[^a-z0-9\s]', ' ', query_lower).split() if len(t) > 1]
+    else:
+        q_tokens = []
+    for recipe in full_recipe_corpus:
+        text = (recipe.get('full_text') or "").lower()
+        if not text:
+            continue
+        if q_tokens and any(tok in text for tok in q_tokens):
+            matched_recipes.append(recipe)
+        if len(matched_recipes) >= 10:
+            break
+
+    nodes_ctx, _ = build_gpt_context(
         all_nodes,
         historical_recipes,
         perfect_ings,
@@ -730,17 +767,8 @@ def gpt_search_recipes(user_query):
 Te egy XVII. századi magyar gasztronómia szakértő asszisztens vagy.
 
 Feladat:
-- a felhasználó leírása alapján válaszd ki
-  - max 5 releváns node-ot
-  - max 3 releváns történeti receptet
-
-Fontosabb alapanyagok és fűszerek a XVII. századi magyar konyhaművészetben:
-szerecsendió, szerecsendió-virág, sáfrány, fahéj, gyömbér, szegfűszeg,
-bors, só, cukor, méz, ecet, olaj, vaj, tejföl, hús, hal, baromfi,
-gabonanemű, lencse, borsó, bab, káposzta, répa, hagyma, fokhagyma.
-
-Ha a felhasználó keresésében ilyen alapanyag vagy fűszer szerepel,
-azokat részesítsd előnyben a node-választásnál.
+- max 5 releváns node-ot
+- max 3 releváns történeti receptet
 
 Válasz KIZÁRÓLAG JSON:
 {
@@ -750,23 +778,17 @@ Válasz KIZÁRÓLAG JSON:
 }
 """
 
-    user_prompt = f"""
-Felhasználó keresése: "{user_query}"
-
-Elérhető node-ok:
-{json.dumps(nodes_ctx, ensure_ascii=False)}
-
-Történeti receptek:
-{json.dumps(recipes_ctx, ensure_ascii=False)}
-"""
+    top_matched = matched_recipes[:5]
+    matched_preview = [
+        {"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]}
+        for r in top_matched
+    ]
 
     try:
-        full_labels = sorted({n.get("Label", "") for n in all_nodes})
-        full_labels_preview = json.dumps(full_labels, ensure_ascii=False)
+        full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
+        full_labels_preview = json.dumps(full_labels[:300], ensure_ascii=False)
     except Exception:
         full_labels_preview = "[]"
-
-    user_prompt += f"\nTeljes csomópontlista (labels):\n{full_labels_preview}\n"
 
     try:
         perfect_preview = (
@@ -776,28 +798,40 @@ Történeti receptek:
         )
     except Exception:
         perfect_preview = "[]"
-        
-    user_prompt += f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
-    response = client.responses.create(
-        model="gpt-5-nano",
-        input=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ],
-        max_output_tokens=900
-    )
+    user_prompt = f"""
+Felhasználó keresése: "{user_query}"
+
+Elérhető node-ok:
+{json.dumps(nodes_ctx[:30], ensure_ascii=False)}
+
+Releváns teljes receptek (kivonatok):
+{json.dumps(matched_preview, ensure_ascii=False)}
+
+Teljes csomópontlista (labels):
+{full_labels_preview}
+
+Tökéletes alapanyaglista (rövid):
+{perfect_preview}
+"""
 
     try:
+        response = client.responses.create(
+            model="gpt-5-nano",
+            input=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            max_output_tokens=900
+        )
         result = json.loads(response.output_text)
+        return result
     except Exception:
         return {
             "suggested_nodes": [],
             "suggested_recipes": [],
             "reasoning": "Az AI válasza nem volt értelmezhető JSON formátumban."
         }
-
-    return result
 
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
@@ -877,7 +911,7 @@ Történeti példák (tiltva a szó szerinti másolásra):
                 raw_texts.append(parsed.get("archaic_recipe", "") or parsed.get("text", "") or "")
             except Exception:
                 raw_texts.append(ai_text)
-        except Exception as e:
+        except Exception:
             continue
 
     if not candidates and not raw_texts:
@@ -1374,6 +1408,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
