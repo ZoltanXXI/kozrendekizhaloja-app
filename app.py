@@ -24,7 +24,6 @@ st.set_page_config(
 
 st.markdown(""" 
 <style>
-/* === RENDEZÉSI SELECTBOX === */
 div[data-baseweb="select"] > div {
     background-color: #7a0f0f !important;
     color: #f5f5f5 !important;
@@ -415,7 +414,7 @@ def create_network_graph(center_node, connected_nodes):
         x1, y1 = pos[edge[1]]
         edge_trace.append(
             go.Scatter(x=[x0, x1, None], y=[y0, y1, None], mode='lines',
-                       line=dict(width=1, color='rgba(255,255,255,0.9)'), hoverinfo='none', showlegend=False)
+                       line=dict(width=1.5, color='rgba(255,255,255,0.95)'), hoverinfo='none', showlegend=False)
         )
     node_colors = {'center': '#ccaa77', 'Alapanyag': '#8b5a2b', 'Molekula': '#808080', 'Recept': '#800000', 'unknown': '#999999'}
     node_x, node_y, node_text, node_size, node_color = [], [], [], [], []
@@ -426,13 +425,13 @@ def create_network_graph(center_node, connected_nodes):
         node_y.append(y)
         if node == center_node:
             node_text.append(f"<b style='font-size: 14px'>{node}</b><br><i>(központi)</i>")
-            node_size.append(40)
+            node_size.append(44)
             node_color.append(node_colors['center'])
         else:
             degree = next((n["degree"] for n in connected_nodes if n["name"] == node), 1)
             node_type = next((n.get("type", "unknown") for n in connected_nodes if n["name"] == node), "unknown")
             node_text.append(f"<b>{node}</b><br>Degree: {degree}<br>Típus: {node_type}")
-            node_size.append(15 + (degree / max_degree) * 30)
+            node_size.append(16 + (degree / max_degree) * 34)
             node_color.append(node_colors.get(node_type, node_colors['unknown']))
     node_trace = go.Scatter(
         x=node_x, y=node_y, mode='markers+text', hovertemplate='%{text}<extra></extra>',
@@ -496,15 +495,90 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
                     sampled_nodes.insert(0, m)
                     seen_labels.add(m_label)
     simplified_nodes = [{"name": n.get("Label"), "type": n.get("node_type"), "degree": int(n.get("Degree", 0) or 0)} for n in sampled_nodes]
-    sampled_recipes = random.sample(recipes, min(len(recipes), max_recipes))
+    sampled_recipes = random.sample(recipes, min(len(recipes), max_recipes)) if recipes else []
     simplified_recipes = [{"title": r.get("title", ""), "excerpt": r.get("original_text", "")[:150]} for r in sampled_recipes]
     return simplified_nodes, simplified_recipes
 
+def extract_json_from_text(text: str):
+    if not isinstance(text, str):
+        return None
+    text = text.strip()
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+    m = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, flags=re.S)
+    if m:
+        try:
+            return json.loads(m.group(1))
+        except Exception:
+            pass
+    start = text.find('{')
+    end = text.rfind('}')
+    if start != -1 and end != -1 and end > start:
+        candidate = text[start:end+1]
+        try:
+            return json.loads(candidate)
+        except Exception:
+            pass
+    return None
+
+def fuzzy_suggest_nodes(query: str, max_suggestions: int = 5):
+    if not query:
+        return []
+    q_norm = normalize_label(query)
+    tokens = [t for t in re.split(r'[\s,;:()"\']+', q_norm) if t]
+    full_labels = [n.get("Label","") for n in all_nodes if n.get("Label")]
+    full_norms = [normalize_label(l) for l in full_labels]
+    suggestions = []
+    seen = set()
+    for tok in tokens:
+        if not tok:
+            continue
+        matches = difflib.get_close_matches(tok, full_norms, n=max_suggestions, cutoff=0.6)
+        for m in matches:
+            if m not in seen:
+                seen.add(m)
+                suggestions.append(node_norm_map.get(m, {}).get("Label", m))
+    if len(suggestions) < max_suggestions:
+        for tok in tokens:
+            for i, n in enumerate(full_norms):
+                if tok in n and full_labels[i] not in suggestions:
+                    suggestions.append(full_labels[i])
+                    if len(suggestions) >= max_suggestions:
+                        break
+            if len(suggestions) >= max_suggestions:
+                break
+    if len(suggestions) < max_suggestions:
+        extra = [l for l in full_labels if l not in suggestions][:max_suggestions - len(suggestions)]
+        suggestions.extend(extra)
+    return suggestions[:max_suggestions]
+
+def search_recipes_by_query(query: str, max_results: int = 3):
+    if not query:
+        return []
+    q_norm = query.lower()
+    q_tokens = [t for t in re.sub(r'[^a-z0-9\s]', ' ', q_norm).split() if len(t) > 1]
+    matches = []
+    for r in full_recipe_corpus:
+        text = (r.get('full_text') or "").lower()
+        title = (r.get('title') or "").lower()
+        score = 0
+        for tok in q_tokens:
+            if tok in text:
+                score += 2
+            if tok in title:
+                score += 3
+        if score > 0:
+            matches.append((score, r))
+    matches.sort(key=lambda x: x[0], reverse=True)
+    return [ {"title": m[1].get("title",""), "excerpt": (m[1].get("full_text","")[:400])} for m in matches[:max_results] ]
+
 def gpt_search_recipes(user_query):
-    query_lower = (user_query or "").lower().strip()
+    query_lower = (user_query or "").strip()
     matched_recipes = []
     if query_lower:
-        q_tokens = [t for t in re.sub(r'[^a-z0-9\s]', ' ', query_lower).split() if len(t) > 1]
+        q_tokens = [t for t in re.sub(r'[^a-z0-9\s]', ' ', query_lower.lower()).split() if len(t) > 1]
     else:
         q_tokens = []
     for recipe in full_recipe_corpus:
@@ -513,20 +587,11 @@ def gpt_search_recipes(user_query):
             continue
         if q_tokens and any(tok in text for tok in q_tokens):
             matched_recipes.append(recipe)
-        if len(matched_recipes) >= 10:
-            break
+            if len(matched_recipes) >= 10:
+                break
     nodes_ctx, _ = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
     system_prompt = """
-Te egy XVII. századi magyar gasztronómia szakértő asszisztens vagy.
-Feladat:
-- max 5 releváns node-ot
-- max 3 releváns történeti receptet
-Válasz KIZÁRÓLAG JSON:
-{
-  "suggested_nodes": [string],
-  "suggested_recipes": [string],
-  "reasoning": string
-}
+You are an expert in 17th-century Hungarian gastronomy. When given a user query, you MUST reply only with valid JSON (no surrounding text), with the keys "suggested_nodes", "suggested_recipes", and "reasoning". If the user mentions terms not in the provided node list, map them to the closest known ingredient/molecule/recipe and say so inside "reasoning". Use the provided node list and recipe excerpts to choose up to 5 relevant nodes and up to 3 relevant historical recipes. Be concise in reasoning.
 """
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
@@ -540,22 +605,59 @@ Válasz KIZÁRÓLAG JSON:
     except Exception:
         perfect_preview = "[]"
     user_prompt = f"""
-Felhasználó keresése: "{user_query}"
-Elérhető node-ok:
-{json.dumps(nodes_ctx[:30], ensure_ascii=False)}
-Releváns teljes receptek (kivonatok):
+User query: "{user_query}"
+
+Available nodes (sample):
+{json.dumps(nodes_ctx[:40], ensure_ascii=False)}
+
+Matched recipe excerpts:
 {json.dumps(matched_preview, ensure_ascii=False)}
-Teljes csomópontlista (labels):
+
+Full node labels (short preview):
 {full_labels_preview}
-Tökéletes alapanyaglista (rövid):
+
+Perfect ingredient list (short):
 {perfect_preview}
+
+Instructions: Return JSON only. If a user term is not in the node list, try to map it to the closest known node and note the mapping in "reasoning". Provide up to 5 suggested node labels and up to 3 recipe titles.
 """
     try:
         response = client.responses.create(model="gpt-5-nano", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
-        result = json.loads(response.output_text)
-        return result
+        raw = response.output_text if hasattr(response, "output_text") else (response.get("output_text") if isinstance(response, dict) else str(response))
+        parsed = extract_json_from_text(raw)
+        if parsed and isinstance(parsed, dict):
+            if "suggested_nodes" in parsed and "suggested_recipes" in parsed:
+                return parsed
+        raise ValueError("Invalid JSON from model")
     except Exception:
-        return {"suggested_nodes": [], "suggested_recipes": [], "reasoning": "Az AI válasza nem volt értelmezhető JSON formátumban."}
+        suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
+        suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
+        reasoning_parts = []
+        tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
+        mapped = []
+        for tok in tokens:
+            if not tok:
+                continue
+            if tok in node_norm_map:
+                mapped.append((tok, node_norm_map[tok].get("Label")))
+            else:
+                close = difflib.get_close_matches(tok, list(node_norm_map.keys()), n=1, cutoff=0.6)
+                if close:
+                    mapped.append((tok, node_norm_map[close[0]].get("Label")))
+                else:
+                    mapped.append((tok, None))
+        for orig, mapped_label in mapped:
+            if mapped_label:
+                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" from DB')
+            else:
+                reasoning_parts.append(f'"{orig}" -> not in DB; using AI knowledge to suggest similar known ingredients')
+        reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
+        result = {
+            "suggested_nodes": suggested_nodes,
+            "suggested_recipes": suggested_recipes,
+            "reasoning": reasoning
+        }
+        return result
 
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
@@ -576,52 +678,41 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
             max_sim = sim
     return float(max_sim)
 
-def generate_ai_recipe(selected, connected, historical, samples=4, temperature=0.7):
+def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
     system_prompt = """
-Te egy XVII. századi magyar szakácskönyv stílusában írsz receptet.
-SZABÁLYOK:
-- 70–110 szó
-- archaikus, régies magyar nyelvezet
-- CSAK a kapott kapcsolatokból dolgozz
-- ne használj modern alapanyagokat, csak azokat, amiket az adatbázisban találsz
-- NEM SZABAD szó szerint lemásolni semelyik megadott történeti receptet; ha a generált szöveg 60% feletti hasonlóságot mutat bármely történeti példával, újrafogalmazd, vagy generálj másikat
-- Törekedj kreatív, de történetileg hiteles megoldásra: kombinálj alapanyagokat, használj archaikus kifejezéseket, de ne idézz szó szerint
-- Válasz KIZÁRÓLAG JSON formátumban, oly módon, hogy további mezőket is adhatsz meg (pl. novelty_score), de legalább a következő mezők szerepeljenek:
-{
-  "title": "",
-  "archaic_recipe": "",
-  "confidence": "low|medium|high",
-  "novelty_score": 0.0
-}
-Csak a JSON‑választ add vissza, semmi egyebet!
+You are to write a 17th-century Hungarian style recipe. Follow rules:
+- 70–110 words
+- archaic Hungarian style
+- use only ingredients/connections provided where possible; if user query provides extra info, incorporate it but map to historically plausible ingredients
+- avoid copying any provided historical example; if >60% similar to any historical example, regenerate
+- output MUST be valid JSON with at least: title, archaic_recipe, confidence, novelty_score
 """
     user_prompt = f"""
-Központi alapanyag:
-{selected}
-Kapcsolódó alapanyagok:
+User search: {user_query}
+
+Center ingredient/term: {selected}
+
+Connected items (name,type,degree):
 {json.dumps(connected, ensure_ascii=False)}
-Történeti példák (tiltva a szó szerinti másolásra):
+
+Historical examples (short):
 {json.dumps(historical, ensure_ascii=False)}
+
+If a connected item is unknown, map to nearest plausible historical ingredient. Produce JSON only.
 """
     candidates = []
     raw_texts = []
     for i in range(samples):
         try:
             response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], temperature=temperature, max_output_tokens=700)
-            ai_text = response.output_text.strip()
-            if ai_text.startswith("```json"):
-                ai_text = ai_text[7:]
-            if ai_text.startswith("```"):
-                ai_text = ai_text[3:]
-            if ai_text.endswith("```"):
-                ai_text = ai_text[:-3]
-            ai_text = ai_text.strip()
-            try:
-                parsed = json.loads(ai_text)
+            ai_text = response.output_text.strip() if hasattr(response, "output_text") else str(response)
+            parsed = extract_json_from_text(ai_text)
+            if parsed and isinstance(parsed, dict):
                 candidates.append(parsed)
                 raw_texts.append(parsed.get("archaic_recipe", "") or parsed.get("text", "") or "")
-            except Exception:
-                raw_texts.append(ai_text)
+            else:
+                if ai_text:
+                    raw_texts.append(ai_text)
         except Exception:
             continue
     if not candidates and not raw_texts:
@@ -634,7 +725,7 @@ Történeti példák (tiltva a szó szerinti másolásra):
             hist_texts.append(str(h))
     best = None
     best_novelty = -1.0
-    for idx, cand in enumerate(candidates):
+    for cand in candidates:
         recipe_text = cand.get("archaic_recipe", "") or cand.get("text", "") or ""
         sim = max_similarity_to_historical(recipe_text, hist_texts)
         novelty = 1.0 - sim
@@ -722,7 +813,7 @@ st.markdown("<div style='height: 1cm;'></div>", unsafe_allow_html=True)
 
 col_search, col_sort = st.columns([3, 1])
 with col_search:
-    query = st.text_input("Keresés", placeholder="🔍 pl. 'valami fűszeres hal', 'édes sütemény mandulával', 'boros leves'...", key="search_input", label_visibility="collapsed")
+    query = st.text_input("Keresés", placeholder="🔍 pl. 'rózsabors', 'édes sütemény mandulával', 'boros leves'...", key="search_input", label_visibility="collapsed")
 
     if query and st.button("🤖 AI Keresés", key="gpt_search"):
         if "gpt_search_results" in st.session_state:
@@ -745,6 +836,10 @@ with col_search:
                     top_name = str(suggested[0])
                     top_norm = normalize_label(top_name)
                     node_obj = node_norm_map.get(top_norm)
+                    if not node_obj:
+                        possible = fuzzy_suggest_nodes(top_name, max_suggestions=1)
+                        node_label = possible[0] if possible else top_name
+                        node_obj = node_norm_map.get(normalize_label(node_label))
                     if node_obj:
                         sel = node_obj.get("Label")
                         sel_norm = normalize_label(sel)
@@ -767,7 +862,7 @@ with col_search:
                         st.session_state["connected"] = connected
                         st.session_state["historical_recipe"] = historical_recipe
                         with st.spinner("⏳ AI receptgenerálás..."):
-                            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
+                            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe, user_query=query)
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
                 pass
@@ -879,7 +974,7 @@ for i, n in enumerate(filtered_nodes[:60]):
         st.session_state["connected"] = connected
         st.session_state["historical_recipe"] = historical_recipe
         with st.spinner("⏳ AI receptgenerálás..."):
-            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
+            ai_recipe = generate_ai_recipe(sel, connected, historical_recipe, user_query=st.session_state.get("search_query"))
             st.session_state["ai_recipe"] = ai_recipe
         st.rerun()
 
@@ -902,6 +997,10 @@ if "gpt_search_results" in st.session_state:
         for i, node_name in enumerate(results["suggested_nodes"][:5]):
             clean_node_name = strip_icon_ligatures(str(node_name))
             node = node_norm_map.get(normalize_label(clean_node_name))
+            if not node:
+                poss = fuzzy_suggest_nodes(clean_node_name, max_suggestions=1)
+                if poss:
+                    node = node_norm_map.get(normalize_label(poss[0]))
             if node and i < len(cols_suggested):
                 type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
                 clean_label = strip_icon_ligatures(node.get('Label', ''))
@@ -927,7 +1026,7 @@ if "gpt_search_results" in st.session_state:
                     st.session_state["connected"] = connected
                     st.session_state["historical_recipe"] = historical_recipe
                     with st.spinner("⏳ AI receptgenerálás..."):
-                        ai_recipe = generate_ai_recipe(sel, connected, historical_recipe)
+                        ai_recipe = generate_ai_recipe(sel, connected, historical_recipe, user_query=st.session_state.get("search_query"))
                         st.session_state["ai_recipe"] = ai_recipe
                     st.rerun()
     if results.get("suggested_recipes"):
@@ -1057,4 +1156,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
