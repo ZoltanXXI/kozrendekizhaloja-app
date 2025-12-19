@@ -1094,8 +1094,7 @@ with nav_col1:
     
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
         st.switch_page("About")
-        st.write(st.runtime.scriptrunner.get_pages(""))
-
+       
 with nav_col2:
     st.markdown("""
     <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
@@ -1112,9 +1111,7 @@ with nav_col2:
     
     if st.button("📖 Tovább az elemzői oldalra", key="nav_about", use_container_width=True):
         st.switch_page("analytics")
-        st.write(st.runtime.scriptrunner.get_pages(""))
-
-
+        
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
     💡 <em>Vagy használd a bal felső sarokban lévő menüt (☰) a navigáláshoz!</em>
@@ -1142,6 +1139,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
