@@ -7,6 +7,9 @@ import numpy as np
 from scipy import stats
 
 st.set_page_config(page_title="Analitika", page_icon="📊", layout="wide")
+st.title("Elemzői háttér")
+st.write("Ez az oldal betöltődött.")
+
 
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
 st.markdown("""
@@ -611,4 +614,5 @@ st.markdown(
     f"Analytics Dashboard © 2025 | Korpusz: {len(historical_df)} recept, {historical_df['word_count'].mean():.1f} szó átlag"
     "</div>",
     unsafe_allow_html=True
+
 )
