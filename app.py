@@ -833,7 +833,7 @@ with col_search:
                 pass
 
 with col_sort:
-    node_type_options = sorted({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])})
+    node_type_options = sorted(list({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])}))
     node_type_filter = st.multiselect(
         "Típus szűrő",
         options=node_type_options,
@@ -842,10 +842,10 @@ with col_sort:
         label_visibility="collapsed"
     )
 
-    if "node_type_filter" in st.session_state:
-        node_type_filter = st.session_state.get("node_type_filter", None)
+    if "node_type_filter" in st.session_state and st.session_state.get("node_type_filter") is not None:
+        node_type_filter = st.session_state.get("node_type_filter")
     else:
-        node_type_filter = node_type_options
+        node_type_filter = node_type_filter
 
     if not node_type_filter:
         node_type_filter = node_type_options
@@ -1120,3 +1120,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
