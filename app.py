@@ -743,9 +743,15 @@ def gpt_search_recipes(user_query):
             if len(matched_recipes) >= 10:
                 break
     nodes_ctx, _ = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
-    system_prompt = """
-Az AI Ajánlás szöveg nem technikai riport, hanem magyarázó esszé, amely bemutatja, hogyan és miért értelmezte az AI a felhasználói kifejezéseket történeti gasztronómiai logika mentén. Nem listáz, hanem folyékony prózában indokol, kulturális és érzéki szempontokat kapcsol össze. A cél nem a szó szerinti megfeleltetés, hanem az ízélmény, textúra és jelentés történeti rekonstrukciójának bemutatása.Legyél beszédes és okos: írj választékos, összetett mondatokat magyarul, és mutasd be röviden, hogyan térképezted a felhasználó kifejezéseit a node-okra (minden tokenre adj mapping-érvelést a "reasoning"-ben). Használd a rendelkezésre álló node-listát és recept-részleteket. Ha egy kifejezés nincs az adatbázisban, térképezd a legközelebbi ismert fogalomra és indokold a választást. Legyél következetes a magyar nyelv és a történeti kontextus használatában.
-"""
+    system_prompt = f"""
+    Te egy XVII. századi magyar szakácskönyv stílusában írsz AI Ajánlást.
+    Feladat: a felhasználói kifejezéseket esszészerűen értelmezd, kulturális és érzéki szempontokat összekapcsolva.
+    Ne listázz, hanem folyékony prózában indokold, miért és hogyan értelmezted a szavakat történeti gasztronómiai logika mentén.
+    A cél: az ízélmény, textúra és jelentés történeti rekonstrukciója.
+    Felhasználói query: {user_query}
+    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}
+    Kapcsolódó történeti analógiák: {', '.join(HISTORICAL_ANALOGY_MAP.get(n['name'], []) for n in simplified_nodes)}
+    """
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
     try:
@@ -1332,4 +1338,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
