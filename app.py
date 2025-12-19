@@ -637,7 +637,7 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
             if "suggested_nodes" in parsed and "suggested_recipes" in parsed:
                 return parsed
         raise ValueError("Invalid JSON from model")
-        except Exception:
+    except Exception:
         suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
         suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
         reasoning_parts = []
@@ -1246,5 +1246,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
