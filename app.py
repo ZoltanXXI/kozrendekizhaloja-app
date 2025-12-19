@@ -21,6 +21,45 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+#---------------------------------
+#               CSS
+#---------------------------------
+<style>
+/* === RENDEZÉSI SELECTBOX === */
+
+/* Kiválasztott érték (zárt állapot) */
+div[data-baseweb="select"] > div {
+    background-color: #7a0f0f !important;
+    color: #f5f5f5 !important;
+    border-radius: 10px;
+    border: 1px solid #cfa34a;
+}
+
+/* Lenýíló lista (popover) */
+div[data-baseweb="popover"] {
+    background-color: #2a0c0c !important;
+    border-radius: 12px;
+    border: 1px solid #cfa34a;
+}
+
+/* Opciók */
+div[data-baseweb="menu"] {
+    background-color: #2a0c0c !important;
+}
+
+/* Egyes opciók */
+div[data-baseweb="option"] {
+    color: #f0e6d2 !important;
+    background-color: transparent !important;
+}
+
+/* Hover */
+div[data-baseweb="option"]:hover {
+    background-color: #7a0f0f !important;
+    color: #ffffff !important;
+}
+</style>
+
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
@@ -837,6 +876,11 @@ for col, info in zip(cols, data):
             <div class="card-desc">{info["desc"]}</div>
         </div>
         """, unsafe_allow_html=True)
+        
+st.markdown(
+    "<div style='height: 1cm;'></div>",
+    unsafe_allow_html=True
+)
 
 col_search, col_sort = st.columns([3, 1])
 with col_search:
@@ -1238,6 +1282,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
