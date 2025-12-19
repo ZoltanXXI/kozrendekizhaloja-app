@@ -228,7 +228,7 @@ def analyze_distribution(data):
     }
 
 # ===== HEADER =====
-st.title("📊 Korpusz Analitika Dashboard")
+st.title("📊 Receptadatok Mélyelemzése")
 st.markdown('<div class="subtitle">Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák</div>', unsafe_allow_html=True)
 
 # Dekoratív elválasztó
@@ -667,6 +667,7 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
 
