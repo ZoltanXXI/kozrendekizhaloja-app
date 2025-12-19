@@ -936,104 +936,31 @@ OPTIONS = [
     "📈 Degree ↑"
 ]
     
+if "sort_mode" not in st.session_state:
+    st.session_state.sort_mode = "name_asc"
 with col_sort:
-    html = f"""
-    <div class="custom-dropdown">
-      <div class="header">{st.session_state.sort_option} <span>▾</span></div>
-      <ul>
-        {''.join(f'<li data-value="{opt}">{opt}</li>' for opt in OPTIONS)}
-      </ul>
-    </div>
-    <style>
-      .custom-dropdown {{
-        position: relative;
-        width: 280px;
-        font-family: 'Crimson Text', serif;
-      }}
-      .custom-dropdown .header {{
-        background: linear-gradient(135deg, #5a0101, #760d0d);
-        color: #f5efe6;
-        padding: 0.9rem 1rem;
-        border-radius: 12px;
-        cursor: pointer;
-        border: 2px solid #ff2400;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }}
-      .custom-dropdown ul {{
-        list-style: none;
-        padding: 0;
-        margin: 0.5rem 0 0 0;
-        background: #4a0d0d;
-        border-radius: 12px;
-        max-height: 200px;
-        overflow-y: auto;
-        border: 2px solid rgba(255, 36, 0, 0.3);
-      }}
-      .custom-dropdown li {{
-        padding: 0.8rem 1rem;
-        color: #f5efe6;
-        cursor: pointer;
-      }}
-      .custom-dropdown li:hover {{
-        background: #ff2400;
-        font-weight: 600;
-      }}
-    </style>
-    <script>
-      const dropdown = document.querySelector('.custom-dropdown');
-      const header = dropdown.querySelector('.header');
-      const list = dropdown.querySelector('ul');
+    st.markdown("#### Rendezés")
 
-      header.addEventListener('click', () => {{
-        list.style.display = list.style.display === 'block' ? 'none' : 'block';
-      }});
+    c1, c2 = st.columns(2)
+    c3, c4 = st.columns(2)
 
-      list.querySelectorAll('li').forEach(item => {{
-        item.addEventListener('click', () => {{
-          const value = item.getAttribute('data-value');
-          window.parent.postMessage({{ type: 'sort-option', value }}, '*');
-        }});
-      }});
-    </script>
-    """
-    node_type_options = sorted(list({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])}))
-    node_type_filter = st.multiselect(
-        "Típus szűrő",
-        options=node_type_options,
-        default=node_type_options,
-        key="node_type_filter",
-        label_visibility="collapsed"
-    )
+    with c1:
+        if st.button("📝 Név A–Z", use_container_width=True):
+            st.session_state.sort_mode = "name_asc"
 
-    if "node_type_filter" in st.session_state and st.session_state.get("node_type_filter") is not None:
-        node_type_filter = st.session_state.get("node_type_filter")
-    else:
-        node_type_filter = node_type_filter
+    with c2:
+        if st.button("🔁 Név Z–A", use_container_width=True):
+            st.session_state.sort_mode = "name_desc"
 
-    if not node_type_filter:
-        node_type_filter = node_type_options
-    elif isinstance(node_type_filter, str):
-        node_type_filter = [node_type_filter]
-    elif not isinstance(node_type_filter, list):
-        try:
-            node_type_filter = list(node_type_filter)
-        except Exception:
-            node_type_filter = node_type_options
+    with c3:
+        if st.button("📊 Degree ↓", use_container_width=True):
+            st.session_state.sort_mode = "deg_desc"
 
-    sort_by = st.selectbox(
-        "Rendezés",
-        [
-            "📝 Név (A–Z)",
-            "🔁 Név (Z–A)",
-            "📊 Degree ↓",
-            "📈 Degree ↑"
-        ],
-        key="sort_select",
-        label_visibility="collapsed"
-    )
+    with c4:
+        if st.button("📈 Degree ↑", use_container_width=True):
+            st.session_state.sort_mode = "deg_asc"
 
+node_type_filter = []
 node_type_filter_set = set(node_type_filter or [])
 filtered_nodes = []
 
@@ -1078,13 +1005,18 @@ if "gpt_search_results" not in st.session_state or not query:
 else:
     filtered_nodes = candidates
 
-if sort_by == "📝 Név (A–Z)":
+mode = st.session_state.sort_mode
+
+if mode == "name_asc":
     filtered_nodes.sort(key=lambda x: _node_label(x).lower())
-elif sort_by == "🔁 Név (Z–A)":
+
+elif mode == "name_desc":
     filtered_nodes.sort(key=lambda x: _node_label(x).lower(), reverse=True)
-elif sort_by == "📊 Degree ↓":
+
+elif mode == "deg_desc":
     filtered_nodes.sort(key=lambda x: _node_degree(x), reverse=True)
-elif sort_by == "📈 Degree ↑":
+
+elif mode == "deg_asc":
     filtered_nodes.sort(key=lambda x: _node_degree(x))
 
 cols = st.columns(6)
@@ -1285,6 +1217,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
