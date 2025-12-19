@@ -959,9 +959,17 @@ with col_sort:
     with c4:
         if st.button("📈 Degree ↑", use_container_width=True):
             st.session_state.sort_mode = "deg_asc"
+            
+#LABEL MAP
+label_map = {t: f"🧱 {t}" if t=="Alapanyag" else ("🧪 "+t if t=="Molekula" else ("📖 "+t if t=="Recept" else t)) for t in node_types}
+choices = [label_map[t] for t in node_types]
+sel = st.multiselect("Kategória", options=choices, default=choices)
+# majd visszamappolás szükséges a belső típusokra
 
-node_type_filter = []
-node_type_filter_set = set(node_type_filter or [])
+# Kategória-választó: alapértelmezésben az összes típus ki van választva
+node_types = sorted({ _node_type(n) for n in all_nodes if isinstance(n, dict) })
+node_type_filter = st.multiselect("Kategória", options=node_types, default=node_types, key="node_type_filter", help="Szűrés csomópont-típus szerint")
+node_type_filter_set = set(node_type_filter) if node_type_filter else set(node_types)
 filtered_nodes = []
 
 def _node_type(n):
@@ -1217,6 +1225,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
