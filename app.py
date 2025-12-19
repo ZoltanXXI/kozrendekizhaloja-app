@@ -108,26 +108,71 @@ st.markdown("""
         letter-spacing: 1px;
     }
     
-    /* Kereső input */
-    .stTextInput input {
-        background-color: #840A13 !important;
-        color: #ffffff !important;
-    }
+<style>
+.stTextInput input, .stTextInput div[role="textbox"] input {
+    background-color: #840A13 !important;
+    color: #f5efe6 !important;
+}
+.stTextInput input::placeholder {
+    color: #f5efe6 !important;
+    opacity: 0.9 !important;
+    font-style: italic;
+}
 
-    .stTextInput input::placeholder {
-        color: #840A13 !important;
-        opacity: 1 !important;
-        font-style: italic;
-    }
+div[data-testid="stSelectbox"] div[data-baseweb="popover"],
+div[data-baseweb="popover"],
+div[data-testid="stSelectbox"] [data-baseweb="popover"],
+div[data-testid="stSelectbox"] .stSelectbox {
+    position: fixed !important;
+    z-index: 100000 !important;
+    background: transparent !important;
+    pointer-events: auto !important;
+}
 
-    /* SELECTBOX / POPOVER - javított */
-    div[data-testid="stSelectbox"] div[data-baseweb="popover"],
-    div[data-baseweb="popover"] {
-        position: fixed !important;
-        z-index: 99999 !important;
-        background: transparent !important;
-        pointer-events: auto !important;
-    }
+div[data-testid="stSelectbox"] div[role="listbox"],
+div[data-baseweb="menu"] [role="listbox"],
+div[role="listbox"],
+div[role="presentation"] > div[role="listbox"],
+div[role="menu"] {
+    background-color: #840A13 !important;
+    color: #f5efe6 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+    max-height: 360px !important;
+    overflow-y: auto !important;
+    min-width: 260px !important;
+    width: auto !important;
+    padding: 0.2rem !important;
+    z-index: 100001 !important;
+}
+
+div[role="option"] {
+    background-color: transparent !important;
+    color: #f5efe6 !important;
+    padding: 0.6rem 0.9rem !important;
+    font-family: 'Crimson Text', serif !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    border-radius: 6px !important;
+    margin: 0.12rem 0 !important;
+}
+
+div[role="option"]:hover,
+div[role="option"][data-highlighted="true"],
+div[role="option"][aria-selected="true"] {
+    background-color: #FF2400 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+    background-color: #840A13 !important;
+    border: 2px solid #FF2400 !important;
+    border-radius: 8px !important;
+    color: #f5efe6 !important;
+    z-index: 99999 !important;
+}
+</style>
 
     /* A tényleges legördülő doboz */
     div[data-testid="stSelectbox"] div[role="listbox"],
@@ -1180,6 +1225,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
