@@ -178,7 +178,9 @@ st.markdown("""
 # ===== HEADER =====
 st.markdown("""
 <div style="
-    display: inline-block;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;  /* középre helyezés */
     padding: 0.5rem 2rem;
     background: linear-gradient(to right, #840a13, #5c070d);
     border-radius: 8px;
@@ -195,6 +197,7 @@ st.markdown("""
     border-radius: 2px;
 "></div>
 """, unsafe_allow_html=True)
+
 
 # ===== AZ OLVASÓHOZ IDÉZET =====
 st.markdown("""
@@ -450,6 +453,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
