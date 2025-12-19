@@ -11,8 +11,7 @@ import textwrap
 import random
 import unicodedata
 import re
-st.write("Registered pages:")
-st.write(st.get_pages(""))
+
 # ===============================
 # STREAMLIT KONFIG
 # ===============================
@@ -1140,6 +1139,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
