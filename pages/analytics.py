@@ -227,7 +227,7 @@ def analyze_distribution(data):
 
 st.markdown("""
 <div style="
-    background: linear-gradient(135deg, #840A13, #a30f1a);
+    background: linear-gradient(135deg, #840A13, #5c070d);
     padding: 20px 40px;
     border-radius: 50px;
     text-align: center;
@@ -679,14 +679,3 @@ st.markdown(
     unsafe_allow_html=True
 
 )
-
-
-
-
-
-
-
-
-
-
-
