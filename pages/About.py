@@ -176,8 +176,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<h1 class="main-title" style="color:#8b5a2b;">A Projektről</h1>', unsafe_allow_html=True)
-st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title" style="font-family: Georgia, serif; color:#2c1810;">A Projektről</h1>', unsafe_allow_html=True)
+st.markdown('<div class="divider" style="width: 100px; height: 4px; background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37); margin: 0 auto 3rem auto; border-radius: 2px;"></div>', unsafe_allow_html=True)
+
 
 # ===== AZ OLVASÓHOZ IDÉZET =====
 st.markdown("""
@@ -433,6 +434,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
