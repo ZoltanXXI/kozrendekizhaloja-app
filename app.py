@@ -391,6 +391,13 @@ def load_data():
     edges_df = safe_read_csv(edges_path, 'data/recept_halo_edges.csv', default_sep=',')
     historical_df = safe_read_csv(historical_path, 'data/HistoricalRecipe_export.csv', default_sep=',')
 
+    # ✨ ÚJ: Tisztítsd meg az ikonokat a historical_df-ből
+    for col in ['title', 'original_text', 'ingredients']:
+        if col in historical_df.columns:
+            historical_df[col] = historical_df[col].apply(
+                lambda x: strip_icon_ligatures(x) if isinstance(x, str) else x
+            )
+
     perfect_ings = []
     try:
         perfect_candidate = _resolve(os.path.join('Data', 'recept_alapanyagok_TÖKÉLETES.json'))
@@ -1308,3 +1315,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
