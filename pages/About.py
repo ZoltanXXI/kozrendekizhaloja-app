@@ -376,11 +376,12 @@ st.markdown("""
         Hálózatelemzés + Történeti Források + AI Generálás
     </div>
     <div style="color: #8b5a2b; font-size: 0.9rem;">
-        © 2025 | Built with Streamlit, NetworkX, Plotly & OpenAI GPTs
+        © 2025 | Built with Streamlit, NetworkX, Plotly, Anthropic's Claude, GrokAI & OpenAI GPTs
     </div>
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
