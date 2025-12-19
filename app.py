@@ -1115,7 +1115,7 @@ with nav_col1:
     """, unsafe_allow_html=True)
     
     if st.button("📖 Kezdőlap", key="nav_home", use_container_width=True):
-    st.switch_page("app.py")
+        st.switch_page("app.py")
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
         st.switch_page("pages/About.py")
 
@@ -1164,5 +1164,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
