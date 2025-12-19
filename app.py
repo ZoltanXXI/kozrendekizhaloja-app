@@ -858,47 +858,6 @@ for col, info in zip(cols, data):
         </div>
         """, unsafe_allow_html=True)
 
-# ===== KAPSZULA STÍLUS =====
-st.markdown("""
-<style>
-.pill-button {
-    display: inline-block;
-    padding: 0.5rem 1.2rem;
-    margin: 0.2rem;
-    border-radius: 50px;
-    background: linear-gradient(135deg, #800000 0%, #5c1a1a 100%);
-    color: white;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-}
-.pill-button:hover {
-    background: linear-gradient(135deg, #a52a2a 0%, #722828 100%);
-}
-</style>
-""", unsafe_allow_html=True)
-
-# Gombok
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("🧪 Molekulák", key="molecules"):
-        st.session_state.section = "molecules"
-
-with col2:
-    if st.button("📖 Receptek", key="recipes"):
-        st.session_state.section = "recipes"
-
-with col3:
-    if st.button("🧱 Alapanyagok", key="ingredients"):
-        st.session_state.section = "ingredients"
-
-# Navigáció logika
-section = st.session_state.get("section", "molecules")
-
-st.write(f"**Jelenlegi szekció:** {section}")
-
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
@@ -1045,25 +1004,51 @@ if "gpt_search_results" in st.session_state:
 node_type_filter_set = set(node_type_filter or [])
 filtered_nodes = []
 
+def _node_type(n):
+    return n.get("node_type") or n.get("Type") or n.get("type") or "Egyéb"
+
+def _node_label(n):
+    return strip_icon_ligatures(n.get("Label") or n.get("label") or "")
+
+def _node_degree(n):
+    try:
+        return int(n.get("Degree", n.get("degree", 0) or 0))
+    except Exception:
+        return 0
+
 if "gpt_search_results" not in st.session_state or not query:
-    for n in (all_nodes or []):
-        if not isinstance(n, dict):
-            continue
-        label = n.get("Label", "")
-        if query and query.lower() not in str(label).lower():
-            continue
-        if n.get("node_type") in node_type_filter_set:
-            filtered_nodes.append(n)
+    candidates = (all_nodes or [])
 else:
     suggested = st.session_state["gpt_search_results"].get("suggested_nodes", [])
+    candidates = []
     for n in (all_nodes or []):
         if not isinstance(n, dict):
             continue
-        if n.get("node_type") not in node_type_filter_set:
+        if _node_type(n) not in node_type_filter_set:
             continue
         label = n.get("Label", "")
         if not query or query.lower() in str(label).lower() or label in suggested:
-            filtered_nodes.append(n)
+            candidates.append(n)
+
+if "gpt_search_results" not in st.session_state or not query:
+    for n in candidates:
+        if not isinstance(n, dict):
+            continue
+        if _node_type(n) in node_type_filter_set:
+            label = n.get("Label", "")
+            if not query or query.lower() in str(label).lower():
+                filtered_nodes.append(n)
+else:
+    filtered_nodes = candidates
+
+if sort_by == "📝 Név (A–Z)":
+    filtered_nodes.sort(key=lambda x: _node_label(x).lower())
+elif sort_by == "🔁 Név (Z–A)":
+    filtered_nodes.sort(key=lambda x: _node_label(x).lower(), reverse=True)
+elif sort_by == "📊 Degree ↓":
+    filtered_nodes.sort(key=lambda x: _node_degree(x), reverse=True)
+elif sort_by == "📈 Degree ↑":
+    filtered_nodes.sort(key=lambda x: _node_degree(x))
 
 # ===== NODE GOMBOK =====
 cols = st.columns(6)
@@ -1216,6 +1201,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
