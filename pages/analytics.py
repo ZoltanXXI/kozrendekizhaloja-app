@@ -13,6 +13,26 @@ st.set_page_config(page_title="Statisztika")
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
+
+[data-testid="stSidebar"] > div:first-child {
+    background-color: #5c1a1a !important;
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
+}
+
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] .st-expander,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div[data-testid$="-label"] {
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
     .main {
         background: linear-gradient(to bottom, #fffbf0, #fff9e6);
     }
@@ -615,5 +635,6 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
