@@ -1,6 +1,8 @@
 import streamlit as st
 
 st.set_page_config(page_title="A Projektről", page_icon="📜", layout="wide")
+st.title("A Projektről")
+st.write("Ez az oldal betöltődött.")
 
 # Custom CSS - Történelmi stílus
 st.markdown("""
@@ -380,4 +382,5 @@ st.markdown("""
         © 2025 | Built with Streamlit, NetworkX, Plotly & OpenAI GPT-5.2
     </div>
 </div>
+
 """, unsafe_allow_html=True)
