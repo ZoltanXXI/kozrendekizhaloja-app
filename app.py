@@ -893,7 +893,7 @@ for col, info in zip(cols, data):
         </div>
         """, unsafe_allow_html=True)
 
-# ===== KATEGÓRIA VÁLASZTÓ =====
+# ===== KAPSZULA STÍLUS =====
 st.markdown("""
 <style>
 .animated-pill-row {
@@ -916,6 +916,7 @@ st.markdown("""
     cursor: pointer;
     text-decoration: none;
     font-weight: 600;
+    text-align: center;
 }
 .animated-pill:hover {
     transform: translateY(-6px);
@@ -934,7 +935,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Kategória opciók
+# ===== KATEGÓRIA OPCIÓK =====
 options = [
     ("all", "🌐", "Összes"),
     ("molecules", "🧪", "Molekulák"),
@@ -942,28 +943,32 @@ options = [
     ("ingredients", "🧱", "Alapanyagok"),
 ]
 
-# Lekérdezzük a pill státuszt query param alapján
-params = st.experimental_get_query_params()
-selected = params.get("pill", ["all"])[0]
+# session_state alapértelmezett
+if "selected_pill" not in st.session_state:
+    st.session_state.selected_pill = "all"
 
-# Kijelölt kategória session-ben is
-st.session_state.selected_pill = selected
+# Funkció kattintásra
+def select_pill(key):
+    st.session_state.selected_pill = key
 
-# Pill markup generálása
+# Kapszulák renderelése
 pill_markup = ""
 for key, icon, label in options:
-    is_selected = key == st.session_state.selected_pill
+    classes = "animated-pill"
+    if st.session_state.selected_pill == key:
+        classes += " selected"
+    # Streamlit gombként: onclick frissíti a session state-et
     pill_markup += f'''
-    <a class="animated-pill{' selected' if is_selected else ''}" href="?pill={key}">
+    <div class="{classes}" onclick="window.location.href='#{key}'">
         <span class="icon">{icon}</span>
         <span>{label}</span>
-    </a>
+    </div>
     '''
 
-# Render
 st.markdown(f'<div class="animated-pill-row">{pill_markup}</div>', unsafe_allow_html=True)
 
 st.write(f"**Kiválasztott kategória:** {st.session_state.selected_pill}")
+
 
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
@@ -1264,6 +1269,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
