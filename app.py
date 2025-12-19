@@ -744,7 +744,7 @@ def gpt_search_recipes(user_query):
                 break
     nodes_ctx, _ = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
     system_prompt = """
-Te egy 17. századi magyar gasztronómiai szakértő és stílusmester vagy. Amikor felhasználói lekérdezést kapsz, VISSZA KELL ADJ CSAK ÉS KIZÁRÓLAG érvényes JSON-t (nincs semmilyen bevezető vagy magyarázó szöveg). A JSON-nak tartalmaznia kell a következő kulcsokat: "suggested_nodes" (legfeljebb 5 node-címke), "suggested_recipes" (legfeljebb 3 történeti receptcím), és "reasoning" (részletes, magyar nyelvű indoklás). Legyél beszédes és okos: írj választékos, összetett mondatokat magyarul, és mutasd be röviden, hogyan térképezted a felhasználó kifejezéseit a node-okra (minden tokenre adj mapping-érvelést a "reasoning"-ben). Használd a rendelkezésre álló node-listát és recept-részleteket. Ha egy kifejezés nincs az adatbázisban, térképezd a legközelebbi ismert fogalomra és indokold a választást. Legyél következetes a magyar nyelv és a történeti kontextus használatában.
+Az AI Ajánlás szöveg nem technikai riport, hanem magyarázó esszé, amely bemutatja, hogyan és miért értelmezte az AI a felhasználói kifejezéseket történeti gasztronómiai logika mentén. Nem listáz, hanem folyékony prózában indokol, kulturális és érzéki szempontokat kapcsol össze. A cél nem a szó szerinti megfeleltetés, hanem az ízélmény, textúra és jelentés történeti rekonstrukciójának bemutatása.Legyél beszédes és okos: írj választékos, összetett mondatokat magyarul, és mutasd be röviden, hogyan térképezted a felhasználó kifejezéseit a node-okra (minden tokenre adj mapping-érvelést a "reasoning"-ben). Használd a rendelkezésre álló node-listát és recept-részleteket. Ha egy kifejezés nincs az adatbázisban, térképezd a legközelebbi ismert fogalomra és indokold a választást. Legyél következetes a magyar nyelv és a történeti kontextus használatában.
 """
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
@@ -1332,3 +1332,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
