@@ -679,7 +679,7 @@ Történeti receptek:
         )
     except Exception:
         perfect_preview = "[]"
-
+        
     user_prompt += f"\nTökéletes alapanyaglista (rövid):\n{perfect_preview}\n"
 
     response = client.responses.create(
@@ -1242,6 +1242,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
