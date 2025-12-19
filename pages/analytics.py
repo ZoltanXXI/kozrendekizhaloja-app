@@ -497,7 +497,7 @@ with tab2:
 
 # ===== TAB 3: AI STRATÉGIÁK =====
 with tab3:
-    st.markdown("### 🤖 AI Generálási Stratégiák (GPT-5.2 Best Practices)")
+    st.markdown("### 🤖 AI Generálási Stratégiák (GPT-5.1 & GPT-5-mini Best Practices)")
     
     strategies = [
         {
@@ -558,7 +558,7 @@ with tab3:
                 )
     
     st.markdown("---")
-    st.markdown("### 📖 GPT-5.2 Prompt Engineering Principles")
+    st.markdown("### 📖 GPT-5-mini Prompt Engineering Principles")
     
     principles = [
         ("🎯 Grounding & Accuracy", "SOHA ne találj ki adatokat - csak hálózati kapcsolatok alapján"),
@@ -616,3 +616,4 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
