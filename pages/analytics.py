@@ -227,29 +227,21 @@ def analyze_distribution(data):
 
 st.markdown("""
 <div style="
+    background: linear-gradient(135deg, #840A13, #a30f1a);
+    padding: 20px 40px;
+    border-radius: 50px;
     text-align: center;
-    font-family: 'Crimson Text', serif;
+    color: #fff8e0;
+    font-family: 'Cinzel', serif;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #fff8e0;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    margin-bottom: 1rem;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.4);
+    margin-bottom: 1.5rem;
 ">
-📊 Receptadatok Mélyelemzése
-</div>
-<div style="
-    text-align: center;
-    font-family: 'Crimson Text', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #fff8e0;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    margin-bottom: 2rem;
-">
-Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák
+📊 Receptadatok Mélyelemzése<br>
+<span style='font-size:1rem; font-style:italic; color:#f5e1d1;'>Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák</span>
 </div>
 """, unsafe_allow_html=True)
-
 
 # Dekoratív elválasztó
 st.markdown("""
@@ -687,6 +679,7 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
 
