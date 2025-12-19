@@ -21,10 +21,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-#---------------------------------
-#               CSS
-#---------------------------------
-
 st.markdown("""
 <style>
 /* === RENDEZÉSI SELECTBOX === */
@@ -865,10 +861,10 @@ st.markdown("""
 
 cols = st.columns(4)
 data = [
-    {"title": "Csomópontok / Nodes", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
-    {"title": "Élek / Edges", "value": "3343", "desc": "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."},
-    {"title": "Receptek", "value": "330", "desc": "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."},
-    {"title": "Átlag Fokszám / Degree", "value": "8.0", "desc": "Az átlag fokszám azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."}
+    {"title": "Csomópontok / Nodes", "value": str(len(all_nodes)), "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
+    {"title": "Élek / Edges", "value": str(len(all_edges)), "desc": "A kapcsolatok az összefüggéseket mutatják: ki milyen alapanyaggal, molekulával vagy recepttel van összekötve."},
+    {"title": "Receptek", "value": str(len(historical_recipes)), "desc": "Történeti receptek száma; ezek adnak kulcsot a node-ok jelentéséhez a XVII. századi kontextusban."},
+    {"title": "Átlag Fokszám / Degree", "value": f"{(sum([int(n.get('Degree', 0) or 0) for n in all_nodes]) / max(len(all_nodes),1)):.1f}", "desc": "Az átlag fokszám azt mutatja, mennyi kapcsolat jut egy csomópontra — a magasabb érték gazdagabb hálózati integrációt jelent."}
 ]
 for col, info in zip(cols, data):
     with col:
@@ -926,6 +922,7 @@ with col_search:
                             st.session_state["ai_recipe"] = ai_recipe
             except Exception:
                 pass
+
 if "sort_option" not in st.session_state:
     st.session_state.sort_option = "📝 Név (A–Z)"
 
@@ -959,18 +956,6 @@ with col_sort:
     with c4:
         if st.button("📈 Degree ↑", use_container_width=True):
             st.session_state.sort_mode = "deg_asc"
-            
-#LABEL MAP
-label_map = {t: f"🧱 {t}" if t=="Alapanyag" else ("🧪 "+t if t=="Molekula" else ("📖 "+t if t=="Recept" else t)) for t in node_types}
-choices = [label_map[t] for t in node_types]
-sel = st.multiselect("Kategória", options=choices, default=choices)
-# majd visszamappolás szükséges a belső típusokra
-
-# Kategória-választó: alapértelmezésben az összes típus ki van választva
-node_types = sorted({ _node_type(n) for n in all_nodes if isinstance(n, dict) })
-node_type_filter = st.multiselect("Kategória", options=node_types, default=node_types, key="node_type_filter", help="Szűrés csomópont-típus szerint")
-node_type_filter_set = set(node_type_filter) if node_type_filter else set(node_types)
-filtered_nodes = []
 
 def _node_type(n):
     if not isinstance(n, dict):
@@ -987,6 +972,14 @@ def _node_degree(n):
         return int(n.get("Degree", n.get("degree", 0) or 0))
     except Exception:
         return 0
+
+node_types = sorted({ _node_type(n) for n in all_nodes if isinstance(n, dict) })
+label_map = {t: f"🧱 {t}" if t=="Alapanyag" else ("🧪 "+t if t=="Molekula" else ("📖 "+t if t=="Recept" else t)) for t in node_types}
+choices = [label_map[t] for t in node_types]
+
+node_type_filter = st.multiselect("Kategória", options=node_types, default=node_types, key="node_type_filter", help="Szűrés csomópont-típus szerint")
+node_type_filter_set = set(node_type_filter) if node_type_filter else set(node_types)
+filtered_nodes = []
 
 if "gpt_search_results" not in st.session_state or not query:
     candidates = (all_nodes or [])
@@ -1180,7 +1173,11 @@ with nav_col1:
     """, unsafe_allow_html=True)
 
     if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
-        st.switch_page("pages/About.py")
+        try:
+            st.experimental_set_query_params(page="About")
+            st.experimental_rerun()
+        except Exception:
+            pass
 
 with nav_col2:
     st.markdown("""
@@ -1197,7 +1194,11 @@ with nav_col2:
     """, unsafe_allow_html=True)
 
     if st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True):
-        st.switch_page("pages/analytics.py")
+        try:
+            st.experimental_set_query_params(page="analytics")
+            st.experimental_rerun()
+        except Exception:
+            pass
 
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1225,12 +1226,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
