@@ -361,8 +361,8 @@ st.markdown("""
 st.markdown("---")
 st.markdown("""
 <div class="highlight-box" style="text-align: center; font-size: 1.3rem;">
-    „A hagyomány nem egy statikus dolog, hanem az innováció sikeres formája, amely az idők során fennmaradt. 
-    A konyhában a múltat kritikus szemmel kell néznünk, nem nosztalgiával, hogy a legjobb részeit átmentsük a jövőbe.”
+    "Cooking is the art of instantly transforming historical products into pleasure.
+– Guy Savoy"
 </div>
 """, unsafe_allow_html=True)
 
@@ -381,6 +381,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
