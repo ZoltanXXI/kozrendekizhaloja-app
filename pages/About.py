@@ -350,7 +350,6 @@ st.markdown("""
 <div class="body-text">                    
     <p><strong>Jövőbeli irányok:</strong></p>
     <ol style="line-height: 2;">
-        <li><strong>Multimodal:</strong> Kódex-képek feldolgozása (illusztrációk, margójelek)</li>
         <li><strong>Temporal:</strong> Időbeli változások (XVI. vs. XVIII. század)</li>
         <li><strong>Regionális:</strong> Földrajzi különbségek (Erdély, Dunántúl, Felvidék)</li>
         <li><strong>Evaluation:</strong> AI minőségellenőrzés human evaluátorokkal</li>
@@ -362,8 +361,8 @@ st.markdown("""
 st.markdown("---")
 st.markdown("""
 <div class="highlight-box" style="text-align: center; font-size: 1.3rem;">
-    "A múlt ízeit megérteni egyet jelent azzal, hogy a jelen számára új utakat nyitunk 
-    a gasztronómia művészetében."
+    „A hagyomány nem egy statikus dolog, hanem az innováció sikeres formája, amely az idők során fennmaradt. 
+    A konyhában a múltat kritikus szemmel kell néznünk, nem nosztalgiával, hogy a legjobb részeit átmentsük a jövőbe.”
 </div>
 """, unsafe_allow_html=True)
 
@@ -382,5 +381,6 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
