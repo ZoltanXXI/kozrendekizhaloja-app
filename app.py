@@ -25,6 +25,21 @@ st.set_page_config(
 # ===== MODERN CSS - SÖTÉT TÉMA =====
 st.markdown("""
 <style>
+button[aria-label="Show keyboard shortcuts"],
+button[aria-label="Show keyboard navigation"],
+[data-testid="stKeyboardShortcutButton"],
+.stKeyboardShortcut {
+    display: none !important;
+}
+
+[data-testid^="stTooltip"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
 [data-testid="stSidebar"] > div:first-child {
     background-color: #5c1a1a !important;
     font-family: 'Cinzel', serif !important;
@@ -1161,6 +1176,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
