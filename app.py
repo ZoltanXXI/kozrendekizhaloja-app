@@ -206,13 +206,15 @@ div[role="listbox"] li > div:hover {
     color: #ffffff !important;
 }
 
-div[role="option"][aria-selected="true"],
-div[role="listbox"] li > div[aria-selected="true"] {
-    background-color: #FF2400 !important;
-    font-weight: 600 !important;
-    color: #ffffff !important;
-}
+    ...
+    div[role="option"][aria-selected="true"],
+    div[role="listbox"] li > div[aria-selected="true"] {
+        background-color: #FF2400 !important;
+        font-weight: 600 !important;
+        color: #ffffff !important;
+    }
 </style>
+""", unsafe_allow_html=True)
 
 # ===== FOOTER CSS =====
 st.markdown("""
@@ -231,7 +233,6 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 # ===============================
 # ENV + OPENAI
@@ -1221,6 +1222,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
