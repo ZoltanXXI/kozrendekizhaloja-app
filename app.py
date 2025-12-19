@@ -598,6 +598,14 @@ def strip_icon_ligatures(s: str) -> str:
     s = re.sub(r'\s{2,}', ' ', s).strip()
     return s
     
+    for r in historical_recipes[:20]:
+    orig = r.get('title','')
+    cleaned = strip_icon_ligatures(orig)
+    print(repr(orig), "->", repr(cleaned))
+    if orig and orig != cleaned:
+        first = orig[0]
+        print("first char ord:", ord(first), "category:", unicodedata.category(first))
+        
 def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_nodes=120, max_recipes=40):
     grouped = {}
     for n in nodes:
@@ -1245,5 +1253,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
