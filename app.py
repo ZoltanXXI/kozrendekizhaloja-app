@@ -881,6 +881,13 @@ with col_search:
                 pass
 if "sort_option" not in st.session_state:
     st.session_state.sort_option = "📝 Név (A–Z)"
+
+OPTIONS = [
+    "📝 Név (A–Z)",
+    "🔁 Név (Z–A)",
+    "📊 Degree ↓",
+    "📈 Degree ↑"
+]
     
 with col_sort:
     html = f"""
@@ -1235,5 +1242,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
