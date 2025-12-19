@@ -1073,28 +1073,49 @@ st.markdown("""
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
         🧭 További oldalak
     </h3>
+</div>
+""", unsafe_allow_html=True)
+
+nav_col1, nav_col2 = st.columns(2)
+
+with nav_col1:
+    st.markdown("""
     <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
                 border: 2px solid #ccaa77; 
                 border-radius: 12px; 
                 padding: 2rem; 
-                max-width: 600px; 
-                margin: 0 auto;">
-        <p style="color: #e8dcc8; font-size: 1.1rem; line-height: 1.8;">
-            📖 <strong style="color: #ccaa77;">A Projektről</strong><br>
-            <span style="font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</span>
-        </p>
-        <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, #ccaa77, transparent); margin: 1.5rem 0;">
-        <p style="color: #e8dcc8; font-size: 1.1rem; line-height: 1.8;">
-            📊 <strong style="color: #ccaa77;">Analitika Dashboard</strong><br>
-            <span style="font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</span>
-        </p>
-        <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, #ccaa77, transparent); margin: 1.5rem 0 1rem 0;">
-        <p style="color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
-            👈 Nyisd ki a <strong>menüt</strong> a bal felső sarokban!<br>
-            <span style="font-size: 0.85rem;">(A &#9776; ikon mellett)</span>
-        </p>
+                text-align: center;
+                margin-bottom: 1rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
+        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">A Projektről</h4>
+        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
-</div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
+        st.switch_page("pages/About.py")
+
+with nav_col2:
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
+                border: 2px solid #ccaa77; 
+                border-radius: 12px; 
+                padding: 2rem; 
+                text-align: center;
+                margin-bottom: 1rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">Analitika Dashboard</h4>
+        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("📊 Tovább az Analitika oldalra", key="nav_analytics", use_container_width=True):
+        st.switch_page("pages/Analytics.py")
+
+st.markdown("""
+<p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
+    💡 <em>Vagy használd a bal felső sarokban lévő menüt (☰) a navigáláshoz!</em>
+</p>
 """, unsafe_allow_html=True)
 
 # ===== FOOTER =====
@@ -1121,6 +1142,7 @@ st.markdown(textwrap.dedent("""
 
 st.page_link("Pages/About.py", label="📖 A Projektről")
 st.page_link("Pages/analytics.py", label="📊 Analitika Dashboard")
+
 
 
 
