@@ -1115,7 +1115,7 @@ with nav_col2:
         
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
-    💡 <em>Vagy használd a bal felső sarokban lévő menüt (☰) a navigáláshoz!</em>
+    💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
 </p>
 """, unsafe_allow_html=True)
 
@@ -1136,28 +1136,7 @@ st.markdown(textwrap.dedent("""
     </p>
     <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">
-        © 2025 • Digitális bölcsészeti-, társadalom- és hálózattudományi projekt
+        © 2025 • Digitális bölcsészet-, társadalom- és hálózattudományi projekt
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
