@@ -230,6 +230,31 @@ def analyze_distribution(data):
 # ===== HEADER =====
 st.title("📊 Receptadatok Mélyelemzése")
 st.markdown('<div class="subtitle">Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák</div>', unsafe_allow_html=True)
+st.markdown(f"""
+<div style="
+    text-align: center; 
+    font-family: 'Cinzel', serif; 
+    font-size: 3rem; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    color: #ffffff; 
+    text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
+    margin-bottom: 1rem;
+">
+    📊 Receptadatok Mélyelemzése
+</div>
+<div style="
+    text-align: center;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #fff8e0;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    margin-bottom: 2rem;
+">
+    Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák
+</div>
+""", unsafe_allow_html=True)
 
 # Dekoratív elválasztó
 st.markdown("""
@@ -667,6 +692,7 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
 
