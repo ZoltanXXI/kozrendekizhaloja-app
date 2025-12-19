@@ -810,6 +810,17 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
+st.markdown("""
+<div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+    <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem; text-align: center;">
+        🔍 Intelligens Keresés
+    </h3>
+    <p style="text-align: center; color: #e8dcc8; font-family: 'Crimson Text', serif; margin-bottom: 1.5rem;">
+        Írj le egy ételt vagy alapanyagot, és az AI megtalálja a kapcsolódó node-okat és történeti recepteket!
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 cols = st.columns(4)
 data = [
     {"title": "Csomópontok / Nodes", "value": "838", "desc": "Minden egyes node egy alapanyagot, molekulát vagy receptet jelöl a hálózatban; ezek alkotják az összefüggő ízhálózat vázát."},
@@ -826,17 +837,6 @@ for col, info in zip(cols, data):
             <div class="card-desc">{info["desc"]}</div>
         </div>
         """, unsafe_allow_html=True)
-
-st.markdown("""
-<div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
-    <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem; text-align: center;">
-        🔍 Intelligens Keresés
-    </h3>
-    <p style="text-align: center; color: #e8dcc8; font-family: 'Crimson Text', serif; margin-bottom: 1.5rem;">
-        Írj le egy ételt vagy alapanyagot, és az AI megtalálja a kapcsolódó node-okat és történeti recepteket!
-    </p>
-</div>
-""", unsafe_allow_html=True)
 
 col_search, col_sort = st.columns([3, 1])
 with col_search:
@@ -951,10 +951,6 @@ with col_sort:
       }});
     </script>
     """
-
-    components.html(html, height=200, scrolling=False)
-
-    msg = st.experimental_get_query_params().get("sort_option")
     node_type_options = sorted(list({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])}))
     node_type_filter = st.multiselect(
         "Típus szűrő",
@@ -1242,6 +1238,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
