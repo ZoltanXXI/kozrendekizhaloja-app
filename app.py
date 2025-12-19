@@ -329,6 +329,44 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 random.seed(42)
 
+def strip_icon_ligatures(s: str) -> str:
+    if not isinstance(s, str):
+        return s
+    s = _html.unescape(s)
+    s = re.sub(r"<[^>]+>", "", s)
+    s = unicodedata.normalize('NFKC', s)
+
+    filtered_chars = []
+    for ch in s:
+        cat = unicodedata.category(ch)
+        o = ord(ch)
+        if cat.startswith('C'):
+            continue
+        if 0xE000 <= o <= 0xF8FF:
+            continue
+        if 0xF0000 <= o <= 0xFFFFD:
+            continue
+        filtered_chars.append(ch)
+    s = ''.join(filtered_chars)
+
+    s = re.sub(r'[_\-\s]+', ' ', s).strip()
+
+    icon_keywords = {
+        'keyboard', 'keyb', 'arrow', 'check', 'radio', 'menu', 'close',
+        'settings', 'search', 'favorite', 'share', 'more', 'material',
+        'icon', 'icons', 'vert', 'horiz'
+    }
+
+    def token_clean(t: str) -> str:
+        t_norm = re.sub(r'[^a-z0-9]+', '', t.lower())
+        return t_norm
+
+    tokens = [t for t in s.split() if not any(kw in token_clean(t) for kw in icon_keywords)]
+
+    s = ' '.join(tokens)
+    s = re.sub(r'\s{2,}', ' ', s).strip()
+    return s
+
 @st.cache_data
 def load_data():
     script_dir = os.path.dirname(__file__)
@@ -559,45 +597,7 @@ if type_column:
     )
 else:
     tripartit_df["node_type"] = "Egyéb"
-
-def strip_icon_ligatures(s: str) -> str:
-    if not isinstance(s, str):
-        return s
-    s = _html.unescape(s)
-    s = re.sub(r"<[^>]+>", "", s)
-    s = unicodedata.normalize('NFKC', s)
-
-    filtered_chars = []
-    for ch in s:
-        cat = unicodedata.category(ch)
-        o = ord(ch)
-        if cat.startswith('C'):
-            continue
-        if 0xE000 <= o <= 0xF8FF:
-            continue
-        if 0xF0000 <= o <= 0xFFFFD:
-            continue
-        filtered_chars.append(ch)
-    s = ''.join(filtered_chars)
-
-    s = re.sub(r'[_\-\s]+', ' ', s).strip()
-
-    icon_keywords = {
-        'keyboard', 'keyb', 'arrow', 'check', 'radio', 'menu', 'close',
-        'settings', 'search', 'favorite', 'share', 'more', 'material',
-        'icon', 'icons', 'vert', 'horiz'
-    }
-
-    def token_clean(t: str) -> str:
-        t_norm = re.sub(r'[^a-z0-9]+', '', t.lower())
-        return t_norm
-
-    tokens = [t for t in s.split() if not any(kw in token_clean(t) for kw in icon_keywords)]
-
-    s = ' '.join(tokens)
-    s = re.sub(r'\s{2,}', ' ', s).strip()
-    return s
-
+    
 def normalize_label(s):
     if not isinstance(s, str):
         return ""
@@ -1315,4 +1315,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
