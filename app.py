@@ -150,105 +150,69 @@ st.markdown("""
         font-style: italic;
     }
 
-    /* ================================
-       SELECTBOX – BASEWEB FIX
-    ================================ */
+<style>
+/* ================================
+   SELECTBOX – BASEWEB FIX (CSERE)
+   ================================ */
 
-    .stSelectbox div[data-baseweb="select"] > div {
-        background-color: #840A13 !important;
-        border: 2px solid #FF2400 !important;
-        border-radius: 8px !important;
-    }
-
-    .stSelectbox div[data-baseweb="select"] span {
-        color: #f5efe6 !important;
-        font-weight: 500;
-    }
-
-    div[data-baseweb="popover"] {
-        background-color: #840A13 !important;
-        border: 2px solid #FF2400 !important;
-        border-radius: 12px !important;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.75) !important;
-    }
-
-    div[role="listbox"] {
-        background-color: #840A13 !important;
-        padding: 0.4rem 0 !important;
-    }
-
-    div[role="listbox"] ul,
-    div[role="listbox"] li,
-    div[role="listbox"] li > div {
-        background-color: #840A13 !important;
-    }
-
-    div[role="option"] {
-        background-color: #840A13 !important;
-        color: #f5efe6 !important;
-        font-family: 'Crimson Text', serif !important;
-        font-size: 1rem !important;
-        padding: 0.8rem 1.2rem !important;
-        cursor: pointer !important;
-    }
-
-    div[role="option"] span {
-        color: #f5efe6 !important;
-    }
-
-    div[role="option"]:hover,
-    div[role="option"][data-highlighted="true"],
-    div[role="listbox"] li > div:hover {
-        background-color: #FF2400 !important;
-        color: #ffffff !important;
-    }
-
-    div[role="option"][aria-selected="true"],
-    div[role="listbox"] li > div[aria-selected="true"] {
-        background-color: #FF2400 !important;
-        font-weight: 600 !important;
-        color: #ffffff !important;
-    }
-
-    /* Material Icons font kizárása */
-    .stButton button,
-    .stExpander,
-    [data-testid="stMarkdownContainer"] {
-        font-family: 'Crimson Text', serif !important;
-    }
-    
-    /* Ligature rendering kikapcsolása */
-    * {
-        font-variant-ligatures: none !important;
-        -webkit-font-variant-ligatures: none !important;
-        text-rendering: optimizeLegibility !important;
-    }
-
-        /* Header megjelenítése a menüért */
-header[data-testid="stHeader"] {
-    visibility: visible !important;
-    background-color: rgba(26, 26, 26, 0.95) !important;
+div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+    background-color: #840A13 !important;
+    border: 2px solid #FF2400 !important;
+    border-radius: 8px !important;
+    color: #f5efe6 !important;
 }
 
-/* MainMenu (Deploy gomb stb.) elrejtése */
-#MainMenu {
-    visibility: hidden !important;
+div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+div[data-testid="stSelectbox"] div[data-baseweb="select"] input {
+    color: #f5efe6 !important;
+    font-weight: 500 !important;
+    font-family: 'Crimson Text', serif !important;
 }
 
-footer[data-testid="stFooter"] {
-    visibility: hidden !important;
+div[data-testid="stSelectbox"] div[data-baseweb="popover"],
+div[data-baseweb="popover"] {
+    background-color: transparent !important;
+    z-index: 99999 !important;
+    position: relative !important;
 }
 
-    ::-webkit-scrollbar-track {
-        background: #1a1a1a;
-    }
+div[data-testid="stSelectbox"] div[role="listbox"],
+div[role="listbox"] ul,
+div[role="listbox"] li,
+div[role="option"] {
+    background-color: #840A13 !important;
+    color: #f5efe6 !important;
+    padding: 0.4rem 0 !important;
+    z-index: 99999 !important;
+}
 
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(to bottom, #ccaa77, #800000);
-        border-radius: 5px;
-    }
+div[role="option"] {
+    background-color: #840A13 !important;
+    color: #f5efe6 !important;
+    font-family: 'Crimson Text', serif !important;
+    font-size: 1rem !important;
+    padding: 0.8rem 1.2rem !important;
+    cursor: pointer !important;
+}
+
+div[role="option"] span {
+    color: #f5efe6 !important;
+}
+
+div[role="option"]:hover,
+div[role="option"][data-highlighted="true"],
+div[role="listbox"] li > div:hover {
+    background-color: #FF2400 !important;
+    color: #ffffff !important;
+}
+
+div[role="option"][aria-selected="true"],
+div[role="listbox"] li > div[aria-selected="true"] {
+    background-color: #FF2400 !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+}
 </style>
-""", unsafe_allow_html=True)
 
 # ===== FOOTER CSS =====
 st.markdown("""
@@ -922,7 +886,7 @@ with col1:
         st.session_state.section = "molecules"
 
 with col2:
-    if st.button("🍽️ Receptek", key="recipes"):
+    if st.button("📖 Receptek", key="recipes"):
         st.session_state.section = "recipes"
 
 with col3:
@@ -933,7 +897,6 @@ with col3:
 section = st.session_state.get("section", "molecules")
 
 st.write(f"**Jelenlegi szekció:** {section}")
-
 
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
@@ -990,6 +953,30 @@ with col_search:
                 pass
         
 with col_sort:
+    node_type_options = sorted({n.get("node_type", "Egyéb") for n in all_nodes})
+    node_type_filter = st.multiselect(
+        "Típus szűrő",
+        options=node_type_options,
+        default=node_type_options,
+        key="node_type_filter",
+        label_visibility="collapsed"
+    )
+
+    if "node_type_filter" in st.session_state:
+        node_type_filter = st.session_state.get("node_type_filter", None)
+    else:
+        node_type_filter = node_type_options
+
+    if not node_type_filter:
+        node_type_filter = node_type_options
+    elif isinstance(node_type_filter, str):
+        node_type_filter = [node_type_filter]
+    elif not isinstance(node_type_filter, list):
+        try:
+            node_type_filter = list(node_type_filter)
+        except Exception:
+            node_type_filter = node_type_options
+
     sort_by = st.selectbox(
         "Rendezés",
         [
@@ -1025,7 +1012,7 @@ if "gpt_search_results" in st.session_state:
             clean_node_name = strip_icon_ligatures(str(node_name))
             node = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == clean_node_name.lower()), None)
             if node and i < len(cols_suggested):
-                type_emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
+                type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(node.get('node_type'), '⚪')
                 clean_label = strip_icon_ligatures(node['Label'])
                 if cols_suggested[i].button(f"{type_emoji} {clean_label}", key=f"suggested_{i}"):
                     sel = node["Label"]
@@ -1086,7 +1073,7 @@ st.markdown(f"<h3 style='text-align: center; color: white; font-family: Cinzel, 
 # ===== NODE GOMBOK =====
 cols = st.columns(6)
 for i, n in enumerate(filtered_nodes[:60]):
-    type_emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(n.get('node_type'), '⚪')
+    type_emoji = {'Alapanyag': '🧱', 'Molekula': '🧪', 'Recept': '📖', 'Egyéb': '⚪'}.get(n.get('node_type'), '⚪')
     clean_label = strip_icon_ligatures(n['Label'])
     if cols[i % 6].button(f"{type_emoji} {clean_label}", key=f"node_{i}"):
         sel = n["Label"]
@@ -1115,7 +1102,7 @@ for i, n in enumerate(filtered_nodes[:60]):
             st.session_state["ai_recipe"] = ai_recipe
         
         st.rerun()
-
+        
 # ===== EREDMÉNYEK =====
 if "selected" in st.session_state:
     st.markdown("---")
@@ -1234,6 +1221,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
