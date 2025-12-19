@@ -844,9 +844,7 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== INFÓ-BOXOK ÉS KATEGÓRIA-VÁLASZTÓ =====
-import streamlit as st
-
+# ===== INFO BOXOK =====
 st.markdown("""
 <style>
 .carousell-card {
@@ -875,22 +873,6 @@ st.markdown("""
     margin-top: 12px;
     color: #e7dac5;
 }
-.selector-pill {
-    border-radius: 999px;
-    padding: 10px 28px;
-    background: linear-gradient(90deg, #4f2f1a, #1c0f06);
-    border: 1px solid #b38f5b;
-    color: #fef7e7;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
-}
-.selector-pill.selected {
-    background: linear-gradient(90deg, #b38f5b, #f4d27a);
-    color: #1c0f06;
-    border-color: #f4d27a;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -911,6 +893,7 @@ for col, info in zip(cols, data):
         </div>
         """, unsafe_allow_html=True)
 
+# ===== KATEGÓRIA VÁLASZTÓ =====
 st.markdown("""
 <style>
 .animated-pill-row {
@@ -951,20 +934,25 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# Kategória opciók
 options = [
     ("all", "🌐", "Összes"),
     ("molecules", "🧪", "Molekulák"),
     ("recipes", "🍽️", "Receptek"),
     ("ingredients", "🧱", "Alapanyagok"),
 ]
+
+# Lekérdezzük a pill státuszt query param alapján
 params = st.experimental_get_query_params()
 selected = params.get("pill", ["all"])[0]
-if st.experimental_set_query_params:
-    st.experimental_set_query_params(pill=selected)
 
+# Kijelölt kategória session-ben is
+st.session_state.selected_pill = selected
+
+# Pill markup generálása
 pill_markup = ""
 for key, icon, label in options:
-    is_selected = key == selected
+    is_selected = key == st.session_state.selected_pill
     pill_markup += f'''
     <a class="animated-pill{' selected' if is_selected else ''}" href="?pill={key}">
         <span class="icon">{icon}</span>
@@ -972,7 +960,11 @@ for key, icon, label in options:
     </a>
     '''
 
+# Render
 st.markdown(f'<div class="animated-pill-row">{pill_markup}</div>', unsafe_allow_html=True)
+
+st.write(f"**Kiválasztott kategória:** {st.session_state.selected_pill}")
+
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
@@ -1272,6 +1264,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
