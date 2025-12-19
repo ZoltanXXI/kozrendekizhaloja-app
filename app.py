@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import networkx as nx
 import plotly.graph_objects as go
 import json
@@ -880,6 +881,79 @@ with col_search:
                 pass
 
 with col_sort:
+    import streamlit as st
+import streamlit.components.v1 as components
+
+OPTIONS = ["📝 Név (A–Z)", "🔁 Név (Z–A)", "📊 Degree ↓", "📈 Degree ↑"]
+
+if "sort_option" not in st.session_state:
+    st.session_state.sort_option = OPTIONS[0]
+
+html = f"""
+<div class="custom-dropdown">
+  <div class="header">{st.session_state.sort_option} <span>▾</span></div>
+  <ul>
+    {''.join(f'<li data-value="{opt}">{opt}</li>' for opt in OPTIONS)}
+  </ul>
+</div>
+<style>
+  .custom-dropdown {{
+    position: relative;
+    width: 280px;
+    font-family: 'Crimson Text', serif;
+  }}
+  .custom-dropdown .header {{
+    background: linear-gradient(135deg, #5a0101, #760d0d);
+    color: #f5efe6;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 2px solid #ff2400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }}
+  .custom-dropdown ul {{
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    background: #4a0d0d;
+    border-radius: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 36, 0, 0.3);
+  }}
+  .custom-dropdown li {{
+    padding: 0.8rem 1rem;
+    color: #f5efe6;
+    cursor: pointer;
+  }}
+  .custom-dropdown li:hover {{
+    background: #ff2400;
+    font-weight: 600;
+  }}
+</style>
+<script>
+  const dropdown = document.querySelector('.custom-dropdown');
+  const header = dropdown.querySelector('.header');
+  const list = dropdown.querySelector('ul');
+
+  header.addEventListener('click', () => {{
+    list.style.display = list.style.display === 'block' ? 'none' : 'block';
+  }});
+
+  list.querySelectorAll('li').forEach(item => {{
+    item.addEventListener('click', () => {{
+      const value = item.getAttribute('data-value');
+      window.parent.postMessage({{ type: 'sort-option', value }}, '*');
+    }});
+  }});
+</script>
+"""
+
+components.html(html, height=200, scrolling=False)
+
+msg = st.experimental_get_query_params().get("sort_option")
     node_type_options = sorted(list({(n.get("node_type") if isinstance(n, dict) and n.get("node_type") else "Egyéb") for n in (all_nodes or [])}))
     node_type_filter = st.multiselect(
         "Típus szűrő",
@@ -1167,6 +1241,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
