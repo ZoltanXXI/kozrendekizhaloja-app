@@ -216,6 +216,14 @@ def load_data():
 
 tripartit_df, edges_df, historical_df, perfect_ings = load_data()
 
+SYNONYM_MAP = {
+    "rózsabors": ["rózsabors", "rózsabors", "pink pepper", "schinus", "schinus molle"],
+    "avokádó": ["avokádó", "avokado", "avokádós", "avocado"],
+    "avokádós": ["avokádó", "avokado", "avokádós", "avocado"],
+    "kaja": ["kaja", "étel", "fogás", "ételke", "meal", "dish", "food"]
+}
+GENERIC_TOKENS = {"kaja", "étel", "fogás", "recept", "food", "dish", "meal"}
+
 def detect_label_col(df):
     candidates = [c for c in df.columns if c.lower() in ('label','name','title','node','node_name')]
     if candidates:
@@ -629,12 +637,79 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
             if "suggested_nodes" in parsed and "suggested_recipes" in parsed:
                 return parsed
         raise ValueError("Invalid JSON from model")
-    except Exception:
+        except Exception:
         suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
         suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
         reasoning_parts = []
         tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
 
+        def base_from_adjective(tok):
+            if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és'):
+                return tok[:-2]
+            if tok.endswith('i') and len(tok) > 3:
+                return tok[:-1]
+            return tok
+
+        def lookup_synonym(tok):
+            for key, syns in SYNONYM_MAP.items():
+                for s in syns:
+                    if normalize_label(s) == tok:
+                        k_norm = normalize_label(key)
+                        if k_norm in node_norm_map:
+                            return node_norm_map[k_norm].get("Label"), "high"
+                        if normalize_label(key) in node_norm_map:
+                            return node_norm_map[normalize_label(key)].get("Label"), "high"
+            return None, None
+
+        def best_map_token(tok):
+            if not tok or tok in GENERIC_TOKENS:
+                return None, "none"
+            tok0 = base_from_adjective(tok)
+            syn_label, syn_conf = lookup_synonym(tok0)
+            if syn_label:
+                return syn_label, syn_conf
+            if tok0 in node_norm_map:
+                return node_norm_map[tok0].get("Label"), "high"
+            exact = difflib.get_close_matches(tok0, list(node_norm_map.keys()), n=1, cutoff=0.85)
+            if exact:
+                return node_norm_map[exact[0]].get("Label"), "high"
+            if len(tok0) >= 3:
+                medium = difflib.get_close_matches(tok0, list(node_norm_map.keys()), n=1, cutoff=0.65)
+                if medium:
+                    return node_norm_map[medium[0]].get("Label"), "medium"
+            candidates_bors = None
+            if 'bors' in tok0 or 'pepper' in tok0 or 'pink' in tok0:
+                b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'pink' in k or 'borssal' in k or 'tiszta borssal' in k]
+                if b_candidates:
+                    cand = difflib.get_close_matches(tok0, b_candidates, n=1, cutoff=0.4)
+                    if cand:
+                        return node_norm_map[cand[0]].get("Label"), "high"
+            suggestions = fuzzy_suggest_nodes(tok0, max_suggestions=1)
+            if suggestions:
+                return suggestions[0], "low"
+            return None, "none"
+
+        mapped = []
+        for tok in tokens:
+            if not tok:
+                continue
+            mapped_label, confidence = best_map_token(tok)
+            mapped.append((tok, mapped_label, confidence))
+
+        for orig, mapped_label, conf in mapped:
+            if mapped_label:
+                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" (confidence: {conf})')
+            else:
+                reasoning_parts.append(f'"{orig}" -> not mappable; marked as generic/unknown (confidence: none)')
+
+        reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
+        result = {
+            "suggested_nodes": suggested_nodes,
+            "suggested_recipes": suggested_recipes,
+            "reasoning": reasoning
+        }
+        return result
+        
         def best_map_token(tok):
             tok_norm = tok
             if 'bors' in tok_norm or 'pepper' in tok_norm or 'pep' in tok_norm:
@@ -1171,4 +1246,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
