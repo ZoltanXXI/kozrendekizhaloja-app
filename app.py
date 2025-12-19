@@ -605,7 +605,15 @@ for r in historical_recipes[:20]:
     if orig and orig != cleaned:
         first = orig[0]
         print("first char ord:", ord(first), "category:", unicodedata.category(first))
-        
+
+def normalize_label(s):
+    if not isinstance(s, str):
+        return ""
+    cleaned = strip_icon_ligatures(s)
+    cleaned = cleaned.lower()
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
+    
 def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_nodes=120, max_recipes=40):
     grouped = {}
     for n in nodes:
@@ -932,12 +940,27 @@ with col_search:
             try:
                 suggested = search_results.get("suggested_nodes", []) or []
                 if suggested:
-                    top_name = strip_icon_ligatures(str(suggested[0]))
-                    node_obj = next((n for n in all_nodes if strip_icon_ligatures(n.get("Label", "")).lower() == top_name.lower()), None)
+                    top_name = str(suggested[0])
+                    top_norm = normalize_label(top_name)
+                    node_obj = next((n for n in all_nodes if normalize_label(n.get("Label", "")) == top_norm), None)
                     if node_obj:
                         sel = node_obj["Label"]
-                        related = [e["Target"] if e["Source"] == sel else e["Source"] for e in all_edges if sel in [e["Source"], e["Target"]]]
-                        connected = [{"name": x["Label"], "degree": int(x.get("Degree", 1) or 0), "type": x.get("node_type", "unknown")} for x in all_nodes if x.get("Label") in related]
+                        sel_norm = normalize_label(sel)
+                        related_norms = []
+for e in all_edges:
+    es = e.get("norm_source", normalize_label(e.get("Source", "")))
+    et = e.get("norm_target", normalize_label(e.get("Target", "")))
+    if sel_norm == es:
+        related_norms.append(et)
+    elif sel_norm == et:
+        related_norms.append(es)
+
+related_norms = set(related_norms)
+connected = [
+    {"name": x.get("Label"), "degree": int(x.get("Degree", 1) or 0), "type": x.get("node_type", "unknown")}
+    for x in all_nodes
+    if normalize_label(x.get("Label", "")) in related_norms
+]
                         historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
 
                         st.session_state["selected"] = sel
@@ -1118,6 +1141,26 @@ if "gpt_search_results" in st.session_state:
                         st.session_state["ai_recipe"] = ai_recipe
 
                     st.rerun()
+                    
+# Normalizált címkék a tripartit_df-ben (ha létezik 'Label' oszlop)
+if "Label" in tripartit_df.columns:
+    tripartit_df["norm_label"] = tripartit_df["Label"].apply(normalize_label)
+else:
+    tripartit_df["norm_label"] = tripartit_df.get("label", "").apply(normalize_label)
+
+# Normalizált forrás/cél az edges_df-ben (Source/Target oszlopokra alapozva)
+src_col = "Source" if "Source" in edges_df.columns else ("source" if "source" in edges_df.columns else None)
+tgt_col = "Target" if "Target" in edges_df.columns else ("target" if "target" in edges_df.columns else None)
+
+if src_col and tgt_col:
+    edges_df["norm_source"] = edges_df[src_col].astype(str).apply(normalize_label)
+    edges_df["norm_target"] = edges_df[tgt_col].astype(str).apply(normalize_label)
+else:
+    edges_df["norm_source"] = edges_df.apply(lambda r: normalize_label(str(r.get("Source", r.get("source", "")))), axis=1)
+    edges_df["norm_target"] = edges_df.apply(lambda r: normalize_label(str(r.get("Target", r.get("target", "")))), axis=1)
+
+all_nodes = tripartit_df.to_dict("records")
+all_edges = edges_df.to_dict("records")
 
     if results.get("suggested_recipes"):
         st.markdown("**📖 Releváns történeti receptek:**")
@@ -1253,6 +1296,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
