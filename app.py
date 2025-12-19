@@ -25,38 +25,6 @@ st.set_page_config(
 # ===== MODERN CSS - SÖTÉT TÉMA =====
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
-
-[data-testid="stSidebar"] > div:first-child {
-    background-color: #5c1a1a !important;
-    font-family: 'Cinzel', serif !important;
-    color: #ffffff !important;
-}
-
-[data-testid="stSidebar"] button,
-[data-testid="stSidebar"] .st-expander,
-[data-testid="stSidebar"] span,
-[data-testid="stSidebar"] div[data-testid$="-label"] {
-    font-family: 'Cinzel', serif !important;
-    color: #ffffff !important;
-}
-
-[data-testid="stSidebar"] span[data-testid="stIconMaterial"],
-.span[data-testid="stIconMaterial"] {
-    display: none !important;
-}
-
-[data-testid="stKeyboardShortcutButton"],
-button[aria-label="Show keyboard shortcuts"],
-button[aria-label="Show keyboard navigation"],
-[data-testid^="stTooltip"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
     
     /* Reset & Base */
@@ -150,86 +118,69 @@ st.markdown("""
         font-style: italic;
     }
 
-<style>
-/* SELECTBOX / POPOVER - javított */
-div[data-testid="stSelectbox"] div[data-baseweb="popover"],
-div[data-baseweb="popover"] {
-    position: fixed !important;
-    z-index: 99999 !important;
-    background: transparent !important;
-    pointer-events: auto !important;
-}
-
-/* A tényleges legördülő doboz */
-div[data-testid="stSelectbox"] div[role="listbox"],
-div[data-baseweb="menu"] [role="listbox"],
-div[role="listbox"] {
-    background-color: #840A13 !important;
-    color: #f5efe6 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
-    max-height: 360px !important;
-    overflow-y: auto !important;
-    min-width: 260px !important;
-    width: auto !important;
-    padding: 0.2rem !important;
-}
-
-/* Egyes opciók */
-div[role="option"] {
-    background-color: transparent !important;
-    color: #f5efe6 !important;
-    padding: 0.6rem 0.9rem !important;
-    font-family: 'Crimson Text', serif !important;
-    font-size: 1rem !important;
-    cursor: pointer !important;
-    border-radius: 6px !important;
-    margin: 0.12rem 0 !important;
-}
-
-/* hover / kiválasztott */
-div[role="option"]:hover,
-div[role="option"][data-highlighted="true"],
-div[role="option"][aria-selected="true"] {
-    background-color: #FF2400 !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-}
-
-/* A select fő mező stílusa (ha kell) */
-div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
-    background-color: #840A13 !important;
-    border: 2px solid #FF2400 !important;
-    border-radius: 8px !important;
-    color: #f5efe6 !important;
-}
-
-/* mobil / kisebb képernyőn a popover ne lógjon túl */
-@media (max-width: 800px) {
-    div[data-testid="stSelectbox"] div[role="listbox"],
-    div[role="listbox"] {
-        left: 1rem !important;
-        right: 1rem !important;
-        width: auto !important;
-        min-width: unset !important;
+    /* SELECTBOX / POPOVER - javított */
+    div[data-testid="stSelectbox"] div[data-baseweb="popover"],
+    div[data-baseweb="popover"] {
+        position: fixed !important;
+        z-index: 99999 !important;
+        background: transparent !important;
+        pointer-events: auto !important;
     }
-}
 
-# ===== FOOTER CSS =====
-st.markdown("""
-<style>
-.custom-footer {
-    max-width: 1100px;
-    margin: 4rem auto 2rem auto;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    background: linear-gradient(135deg, #2b0f12 0%, #1a0d0d 100%);
-    border: 2.5px solid #ccaa77;
-    border-radius: 999px;
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.55),
-        inset 0 0 0 1px rgba(204,170,119,0.15);
-}
+    /* A tényleges legördülő doboz */
+    div[data-testid="stSelectbox"] div[role="listbox"],
+    div[data-baseweb="menu"] [role="listbox"],
+    div[role="listbox"] {
+        background-color: #840A13 !important;
+        color: #f5efe6 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+        max-height: 360px !important;
+        overflow-y: auto !important;
+        min-width: 260px !important;
+        width: auto !important;
+        padding: 0.2rem !important;
+    }
+
+    /* Egyes opciók */
+    div[role="option"] {
+        background-color: transparent !important;
+        color: #f5efe6 !important;
+        padding: 0.6rem 0.9rem !important;
+        font-family: 'Crimson Text', serif !important;
+        font-size: 1rem !important;
+        cursor: pointer !important;
+        border-radius: 6px !important;
+        margin: 0.12rem 0 !important;
+    }
+
+    /* hover / kiválasztott */
+    div[role="option"]:hover,
+    div[role="option"][data-highlighted="true"],
+    div[role="option"][aria-selected="true"] {
+        background-color: #FF2400 !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+
+    /* A select fő mező stílusa (ha kell) */
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+        background-color: #840A13 !important;
+        border: 2px solid #FF2400 !important;
+        border-radius: 8px !important;
+        color: #f5efe6 !important;
+    }
+
+    /* mobil / kisebb képernyőn a popover ne lógjon túl */
+    @media (max-width: 800px) {
+        div[data-testid="stSelectbox"] div[role="listbox"],
+        div[role="listbox"] {
+            left: 1rem !important;
+            right: 1rem !important;
+            width: auto !important;
+            min-width: unset !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1200,6 +1151,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
