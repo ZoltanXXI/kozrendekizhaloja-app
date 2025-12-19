@@ -634,23 +634,39 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
         suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
         reasoning_parts = []
         tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
+
+        def best_map_token(tok):
+            tok_norm = tok
+            if 'bors' in tok_norm or 'pepper' in tok_norm or 'pep' in tok_norm:
+                b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'paprika' in k]
+                if b_candidates:
+                    best = difflib.get_close_matches(tok_norm, b_candidates, n=1, cutoff=0.4)
+                    if best:
+                        return node_norm_map[best[0]].get("Label"), "high"
+            candidates = difflib.get_close_matches(tok_norm, list(node_norm_map.keys()), n=1, cutoff=0.65)
+            if candidates:
+                return node_norm_map[candidates[0]].get("Label"), "medium"
+            substring = [k for k in node_norm_map.keys() if tok_norm in k]
+            if substring:
+                return node_norm_map[substring[0]].get("Label"), "medium"
+            suggestions = fuzzy_suggest_nodes(tok_norm, max_suggestions=1)
+            if suggestions:
+                return suggestions[0], "low"
+            return None, "none"
+
         mapped = []
         for tok in tokens:
             if not tok:
                 continue
-            if tok in node_norm_map:
-                mapped.append((tok, node_norm_map[tok].get("Label")))
-            else:
-                close = difflib.get_close_matches(tok, list(node_norm_map.keys()), n=1, cutoff=0.6)
-                if close:
-                    mapped.append((tok, node_norm_map[close[0]].get("Label")))
-                else:
-                    mapped.append((tok, None))
-        for orig, mapped_label in mapped:
+            mapped_label, confidence = best_map_token(tok)
+            mapped.append((tok, mapped_label, confidence))
+
+        for orig, mapped_label, conf in mapped:
             if mapped_label:
-                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" from DB')
+                reasoning_parts.append(f'"{orig}" -> mapped to "{mapped_label}" (confidence: {conf})')
             else:
-                reasoning_parts.append(f'"{orig}" -> not in DB; using AI knowledge to suggest similar known ingredients')
+                reasoning_parts.append(f'"{orig}" -> not in DB; using AI knowledge / fuzzy fallback (confidence: low)')
+
         reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
         result = {
             "suggested_nodes": suggested_nodes,
@@ -658,7 +674,6 @@ Instructions: Return JSON only. If a user term is not in the node list, try to m
             "reasoning": reasoning
         }
         return result
-
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
         return 0.0
@@ -1156,3 +1171,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
