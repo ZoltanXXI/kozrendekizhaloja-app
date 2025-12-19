@@ -7,8 +7,6 @@ import numpy as np
 from scipy import stats
 
 st.set_page_config(page_title="Statisztika", page_icon="📊", layout="wide")
-st.set_page_config(page_title="Statisztika")
-
 
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
 st.markdown("""
@@ -66,8 +64,8 @@ st.markdown("""
 st.markdown("""
 <style>
     .main {
-        background: linear-gradient(to bottom, #fffbf0, #fff9e6);
-    }
+        background: linear-gradient(to bottom, #5c1a1a, #7b1f1f); /* sötét bordó árnyalatok */
+}
     
     h1, h2, h3 {
         color: #2c1810 !important;
@@ -692,6 +690,7 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
 
 
