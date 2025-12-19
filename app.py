@@ -564,21 +564,30 @@ def strip_icon_ligatures(s: str) -> str:
     if not isinstance(s, str):
         return s
     s = _html.unescape(s)
-    s = re.sub(r"<[^>]+>", '', s)
+    s = re.sub(r"<[^>]+>", "", s)
     icon_patterns = [
-        r'keyboard_arrow_right', r'keyboard_arrow_left', r'keyboard_arrow_up',
-        r'keyboard_arrow_down', r'arrow_right', r'arrow_left', r'arrow_forward',
-        r'arrow_back', r'check_circle', r'check_box', r'radio_button',
-        r'menu', r'close', r'settings', r'search', r'favorite', r'share',
-        r'more_vert', r'more_horiz',
+        r'keyboard[_\-\s]?arrow[_\-\s]?(right|left|up|down)?',
+        r'arrow[_\-\s]?(right|left|up|down)?',
+        r'check[_\-\s]?(circle|box)?',
+        r'radio[_\-\s]?(button)?',
+        r'menu',
+        r'close',
+        r'settings',
+        r'search',
+        r'favorite',
+        r'share',
+        r'more[_\-\s]?(vert|horiz)?',
+        r'material[_\-\s]?icons?',
+        r'icon[_\-\s]?\w*'
     ]
     for pattern in icon_patterns:
         s = re.sub(pattern, '', s, flags=re.IGNORECASE)
-    s = re.sub(r'\b[a-z]+_[a-z]+(_[a-z]+)?\b', '', s, flags=re.IGNORECASE)
-    s = re.sub(r"[\u200B-\u200F\uFEFF\u0000-\u001F]", '', s)
-    s = re.sub(r"\s{2,}", ' ', s).strip()
+    s = re.sub(r'\bkeyb\w*\b', '', s, flags=re.IGNORECASE)
+    s = re.sub(r'[\uFFFD\u200B-\u200F\uFEFF\u0000-\u001F]', '', s)
+    s = re.sub(r'[_\-\s]{1,}', ' ', s)
+    s = re.sub(r'\s{2,}', ' ', s).strip()
     return s
-
+    
 def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_nodes=120, max_recipes=40):
     grouped = {}
     for n in nodes:
@@ -1226,3 +1235,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
