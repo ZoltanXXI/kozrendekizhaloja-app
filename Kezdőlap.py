@@ -25,6 +25,14 @@ st.set_page_config(
 # ===== MODERN CSS - SÖTÉT TÉMA =====
 st.markdown("""
 <style>
+[data-testid="stSidebar"] > div:first-child {
+    background-color: #5c1a1a !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
     
     /* Reset & Base */
@@ -1140,3 +1148,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
