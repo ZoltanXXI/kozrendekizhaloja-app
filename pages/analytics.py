@@ -6,9 +6,8 @@ from collections import Counter
 import numpy as np
 from scipy import stats
 
-st.set_page_config(page_title="Analitika", page_icon="📊", layout="wide")
-st.title("Elemzői háttér")
-st.write("Ez az oldal betöltődött.")
+st.set_page_config(page_title="Statisztika", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Statisztika")
 
 
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
@@ -616,4 +615,5 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
 
