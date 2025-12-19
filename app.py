@@ -886,7 +886,64 @@ for col, (title, value, desc) in zip(desc_cols, info_boxes):
         </div>
         """, unsafe_allow_html=True)
 
-# ===== KATEGÓRIA VÁLASZTÓ =====
+st.markdown("""
+<style>
+div[role="radiogroup"] {
+    display: flex;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+div[role="radiogroup"] > label {
+    position: relative;
+    flex: 1 1 180px;
+    max-width: 230px;
+    min-width: 170px;
+    border-radius: 18px;
+    padding: 0;
+    border: 2px solid rgba(204,170,119,0.3);
+    background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(40,12,12,0.8));
+    box-shadow: 0 12px 30px rgba(0,0,0,0.65);
+    overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+}
+
+div[role="radiogroup"] > label span {
+    display: block;
+    text-align: center;
+    padding: 1.1rem 0.8rem;
+    font-family: 'Cinzel', serif;
+    color: #f4efe6;
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+}
+
+div[role="radiogroup"] > label span:first-child {
+    font-size: 1.8rem;
+}
+
+div[role="radiogroup"] > label input {
+    display: none;
+}
+
+div[role="radiogroup"] > label:has(input:checked) {
+    border-color: #ccaa77;
+    background: linear-gradient(135deg, rgba(204,170,119,0.95), rgba(83,17,17,0.95));
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    transform: translateY(-5px) scale(1.02);
+}
+
+div[role="radiogroup"] > label:has(input:checked) span {
+    color: #120d0d;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+</style>
+""", unsafe_allow_html=True)
+
 category = st.radio(
     "Kategória",
     ["🌐 Összes", "⚗️ Molekulák", "🥘 Alapanyagok", "📖 Receptek"],
@@ -900,7 +957,6 @@ node_type_filter = {
     "🥘 Alapanyagok": ['Alapanyag'],
     "📖 Receptek": ['Recept']
 }[category]
-
 # ===== KERESÉS ÉS SZŰRÉS =====
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
@@ -1200,6 +1256,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
