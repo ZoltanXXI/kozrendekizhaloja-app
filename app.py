@@ -108,13 +108,51 @@ st.markdown("""
         font-style: italic;
     }
 
-    div[data-testid="stSelectbox"] div[data-baseweb="popover"],
-    div[data-baseweb="popover"],
-    div[data-testid="stSelectbox"] [data-baseweb="popover"],
-    div[data-testid="stSelectbox"] .stSelectbox {
-        position: absolute !important;
-        z-index: 100000 !important;
-        pointer-events: auto !important;
+    div[data-testid="stSelectbox"] div[role="listbox"],
+    div[data-baseweb="menu"] [role="listbox"],
+    div[role="listbox"],
+    div[role="presentation"] > div[role="listbox"],
+    div[role="menu"],
+    div[data-testid="stSelectbox"] .baseweb-popover-content,
+    .rc-virtual-list,
+    .baseweb-popover-content {
+        background-color: #4a0d0d !important;
+        color: #f5efe6 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+        max-height: 360px !important;
+        overflow-y: auto !important;
+        min-width: 260px !important;
+        width: auto !important;
+        padding: 0.2rem !important;
+        z-index: 100001 !important;
+        border: 1px solid rgba(255,36,0,0.12) !important;
+    }
+
+    div[data-testid="stSelectbox"] div[role="listbox"] *,
+    div[data-testid="stSelectbox"] .baseweb-popover-content * {
+        background-color: transparent !important;
+        color: inherit !important;
+    }
+
+    div[data-testid="stSelectbox"] div[role="listbox"] [role="option"],
+    .baseweb-popover-content [role="option"],
+    div[role="option"] {
+        background-color: transparent !important;
+        color: #f5efe6 !important;
+        padding: 0.6rem 0.9rem !important;
+    }
+
+    div[data-testid="stSelectbox"] div[role="listbox"]::-webkit-scrollbar,
+    .baseweb-popover-content::-webkit-scrollbar {
+        width: 10px !important;
+        height: 10px !important;
+    }
+    div[data-testid="stSelectbox"] div[role="listbox"]::-webkit-scrollbar-thumb,
+    .baseweb-popover-content::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.35) !important;
+        border-radius: 8px !important;
+        border: 2px solid rgba(255,255,255,0.02) !important;
     }
 
     div[data-testid="stSelectbox"] div[role="listbox"],
@@ -1120,4 +1158,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
