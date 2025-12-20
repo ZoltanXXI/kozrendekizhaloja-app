@@ -100,15 +100,15 @@ footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
+# Top anchor for scroll-to-top functionality - MOVED BEFORE HEADER
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
+
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
     <h1 style="font-family:Cinzel, serif; color:#ffffff; margin:0;">A PROJEKTRŐL</h1>
 </div>
 <div style="width:100px; height:4px; background:linear-gradient(to right,#d4af37,#f0d98d,#d4af37); margin:1rem auto 1.5rem auto; border-radius:2px;"></div>
 """, unsafe_allow_html=True)
-
-# Top anchor for scroll-to-top functionality
-st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="reader-quote">
