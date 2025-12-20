@@ -244,6 +244,20 @@ HISTORICAL_ANALOGY_MAP = {
     "pink pepper": ["tiszta borssal", "rózsaszirom infúzió (illatosító)"]
 }
 
+HISTORICAL_DISH_STRUCTURE_MAP = {
+    "pite": {
+        "interpreted_as": "töltött vagy rétegezett tésztás étel",
+        "historical_equivalents": [
+            "túrós tészta",
+            "almás tészta",
+            "mákos tészta",
+            "káposztás tészta"
+        ],
+        "confidence": 0.75,
+        "source": "MEK történeti receptgyűjtemény"
+    }
+}
+
 def detect_label_col(df):
     candidates = [c for c in df.columns if c.lower() in ('label','name','title','node','node_name')]
     if candidates:
@@ -767,7 +781,45 @@ def analyze_query_tokens(user_query: str):
         item["strategy"] = "no_mapping"
         item["confidence"] = 0.0
         analysis.append(item)
+        if tok in HISTORICAL_DISH_STRUCTURE_MAP:
+            item["role"] = "dish_structure"
+            item["status"] = "historically_interpretable"
+            item["mapped_to"] = HISTORICAL_DISH_STRUCTURE_MAP[tok]["historical_equivalents"]
+            item["strategy"] = "source_based_structural_mapping"
+            item["confidence"] = HISTORICAL_DISH_STRUCTURE_MAP[tok]["confidence"]
+            analysis.append(item)
+            continue
     return analysis
+
+def build_reasoning_paragraph(token_analysis: list) -> str:
+    """
+    A token-analízisből folyó szöveges, narratív reasoning-et készít.
+    """
+    sentences = []
+
+    for item in token_analysis:
+        tok = item["token"]
+        role = item["role"]
+        status = item["status"]
+        strategy = item["strategy"]
+        mapped = item.get("mapped_to")
+
+        if role == "flavour_descriptor":
+            s = f"A „{tok}” kifejezés ízleíróként jelenik meg, amely nem önálló alapanyagot, hanem érzékszervi irányt jelöl."
+        elif status == "anachronistic":
+            s = f"A „{tok}” modern alapanyagnak számít, ezért történeti analógiával került értelmezésre."
+        elif strategy == "historical_analogy" and mapped:
+            s = f"A „{tok}” esetében a történeti források alapján a következő analóg összetevők jöhetnek szóba: {', '.join(mapped)}."
+        elif strategy == "direct_node_match":
+            s = f"A „{tok}” egyértelműen azonosítható a történeti adatbázisban szereplő alapanyagként."
+        elif strategy == "fuzzy_fallback":
+            s = f"A „{tok}” pontos megfelelője nem szerepel az adatbázisban, ezért hangalaki hasonlóság alapján történt becslés."
+        else:
+            s = f"A „{tok}” értelmezése bizonytalan, ezért csak korlátozottan befolyásolta a keresést."
+
+        sentences.append(s)
+
+    return " ".join(sentences)
 
 def gpt_search_recipes(user_query):
     query_lower = (user_query or "").strip()
@@ -824,7 +876,8 @@ Teljes node-címek (rövid előnézet):
 Tökéletes alapanyagok (rövid):
 {perfect_preview}
 
-Utasítások: Adj vissza csak JSON-t. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
+Utasítások: system_prompt = """
+Először folyó, magyar (vagy a felhasználó által írt bármilyen nyelven) nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó kérdését történeti-gasztronómiai szempontból. Ezután – külön blokkban – add meg a strukturált adatokat JSON formátumban. A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
 """
     try:
         response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
@@ -875,7 +928,8 @@ Utasítások: Adj vissza csak JSON-t. Ha a felhasználó olyan kifejezést emlí
                 break
         if not combined_suggestions:
             combined_suggestions = suggested_nodes[:5]
-        reasoning = "; ".join(reasoning_parts) if reasoning_parts else "Autonomikus javaslat a lekérdezés és a rendelkezésre álló csomópontok alapján."
+        analysis = analyze_query_tokens(user_query)
+        reasoning_text = build_reasoning_paragraph(analysis)
         result = {
             "suggested_nodes": combined_suggestions,
             "suggested_recipes": suggested_recipes,
@@ -1382,4 +1436,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
