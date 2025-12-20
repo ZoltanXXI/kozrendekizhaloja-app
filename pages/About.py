@@ -316,7 +316,7 @@ with col2:
     <div style="background: #fffbf0; padding: 1.5rem; border-radius: 8px; border: 2px solid #d4af37;">
         <h4 style="color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">🧠 AI Receptgenerálás</h4>
         <ul style="color: #4a3728; line-height: 1.8;">
-            <li><strong>GPT-5.2 Prompting:</strong> Strukturált, grounding-alapú</li>
+            <li><strong>GPT-5.1 Prompting:</strong> Strukturált, grounding-alapú</li>
             <li><strong>Adaptív hosszúság:</strong> Korpusz-vezérelt (40-160 szó)</li>
             <li><strong>Network-informed:</strong> Degree-súlyozott döntések</li>
             <li><strong>Confidence score:</strong> Transzparens megbízhatóság</li>
@@ -486,4 +486,5 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
