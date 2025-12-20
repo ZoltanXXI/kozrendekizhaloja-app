@@ -5,6 +5,8 @@ import unicodedata
 from html import unescape
 from pathlib import Path
 from difflib import SequenceMatcher
+import random
+import textwrap
 
 import pandas as pd
 import networkx as nx
@@ -165,6 +167,7 @@ else:
     top_deg = top_for(deg, ingredient_nodes, 10)
     top_pr = top_for(pr, ingredient_nodes, 10)
     top_bet = top_for(bet, ingredient_nodes, 10)
+    top_eig = top_for(eig, ingredient_nodes, 10)
 
     def readable(norm):
         return G.nodes[norm].get('label') if norm in G.nodes else norm
@@ -369,18 +372,176 @@ else:
                 st.success("A generált recept elég eltérőnek tűnik a korpusz tipikus elemeihez képest (novelty magas).")
             st.markdown("---")
 
-    st.markdown('<div class="highlight-box" style="text-align:center; font-size:1.1rem;">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.” – Guy Savoy</div>', unsafe_allow_html=True)
+    st.markdown("---")
+    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét? (Szimulált 100 recept-generálás és eredményei)")
 
-    st.markdown("""
-    <div style="text-align: center; margin-top: 2rem; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
-        <div style="font-size: 1.1rem; font-weight: bold; color: #2c1810; font-family: Georgia, serif; margin-bottom: 0.5rem;">
-            Közrendek Ízhálója
-        </div>
-        <div style="color: #5c4033; font-size: 0.95rem; margin-bottom: 0.2rem;">
-            Hálózatelemzés + Történeti Források + AI Generálás
-        </div>
-        <div style="color: #8b5a2b; font-size: 0.85rem;">
-            © 2025 | Built with Streamlit, NetworkX, SciPy & Open-source tools
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    @st.cache_data
+    def build_generation_pool(all_nodes_df, edges_df, historical_df):
+        nodes = []
+        for _, r in all_nodes_df.iterrows():
+            nodes.append({
+                "Label": strip_icon_ligatures(r.get("Label","")),
+                "norm": normalize_label(r.get("Label","")),
+                "node_type": r.get("node_type","Egyéb"),
+                "Degree": int(r.get("Degree", 0) or 0) if "Degree" in r else 0
+            })
+        edge_map = {}
+        for _, e in edges_df.iterrows():
+            s = e.get("norm_source","")
+            t = e.get("norm_target","")
+            if s and t:
+                edge_map.setdefault(s, set()).add(t)
+                edge_map.setdefault(t, set()).add(s)
+        hist_texts = []
+        for _, hr in historical_df.iterrows():
+            txt = ""
+            for c in ('original_text','text','instructions','description','ingredients'):
+                if c in historical_df.columns and isinstance(hr.get(c,''), str):
+                    txt += " " + hr.get(c,'')
+            txt = txt.strip() or hr.get("title","")
+            hist_texts.append(strip_icon_ligatures(txt))
+        return nodes, edge_map, hist_texts
+
+    nodes_pool, edge_map, historical_texts = build_generation_pool(tripartit, edges, historical)
+
+    def local_generate_recipe(selected_label, connected_list, historical_snippets, seed_val=None):
+        rnd = random.Random(seed_val)
+        title_terms = []
+        if selected_label:
+            title_terms.append(selected_label)
+        for c in connected_list[:3]:
+            title_terms.append(c.get("name") if isinstance(c, dict) else str(c))
+        title = " és ".join([t for t in title_terms if t])[:60].strip()
+        archaic_phrases = [
+            "vévén meg", "szerént", "módra készíttetvén", "fordítandó mód", "porrá törvén", "olyan módon főztetvén",
+            "hagymával és ecettel", "forró zsírban pirítva", "mérsékelten sózva", "vízzel párolva", "édesítvén mézzel"
+        ]
+        connectors = ["aztán", "majd", "közben", "végül"]
+        parts = []
+        parts.append(f"Vegyünk {selected_label}ot és {len(connected_list)} vele kapcsolatos alapanyagot.")
+        k = rnd.randint(3, 6)
+        for i in range(k):
+            ing = connected_list[rnd.randrange(len(connected_list))]["name"] if connected_list else (rnd.choice([n["Label"] for n in nodes_pool]) if nodes_pool else "valami")
+            phrase = rnd.choice(archaic_phrases)
+            parts.append(f"{connectors[rnd.randrange(len(connectors))]} {ing} {phrase}.")
+        if historical_snippets:
+            sample = rnd.choice(historical_snippets)
+            sample_fragment = strip_icon_ligatures(sample)[:140]
+            parts.append(f"Korabeli minta: „{sample_fragment}…”")
+        body = " ".join(parts).strip()
+        words = body.split()
+        if len(words) < 70:
+            add_words = 70 - len(words)
+            filler = " ".join([rnd.choice(archaic_phrases) for _ in range(add_words//2 + 1)])
+            body = body + " " + filler
+        elif len(words) > 130:
+            body = " ".join(words[:110])
+        body = re.sub(r'\s+', ' ', body).strip()
+        wc = len(body.split())
+        if 70 <= wc <= 110:
+            confidence = "high"
+        elif 50 <= wc <= 130:
+            confidence = "medium"
+        else:
+            confidence = "low"
+        return {
+            "title": title or "Cím nélküli",
+            "archaic_recipe": body,
+            "word_count": wc,
+            "confidence": confidence
+        }
+
+    def max_similarity_to_historical_local(candidate: str, hist_list: list):
+        if not candidate or not hist_list:
+            return 0.0
+        cand = re.sub(r'\s+', ' ', candidate.strip().lower())
+        best = 0.0
+        for h in hist_list:
+            txt = re.sub(r'\s+', ' ', strip_icon_ligatures(h).strip().lower())
+            if not txt:
+                continue
+            sim = SequenceMatcher(None, cand, txt).ratio()
+            if sim > best:
+                best = sim
+        return float(best)
+
+    n_generate = st.number_input("Generálandó receptek száma (szimulált, helyi):", min_value=10, max_value=500, value=100, step=10)
+    seed_input = st.number_input("Random seed (deterministic futtatáshoz):", min_value=0, max_value=999999, value=42, step=1)
+    run_button = st.button("Generálj és elemezz (szimulált, offline)")
+
+    @st.cache_data
+    def run_batch_generation(nodes_pool, edge_map, historical_texts, n, seed):
+        rnd = random.Random(seed)
+        generated = []
+        node_labels = [n["Label"] for n in nodes_pool if n.get("Label")]
+        for i in range(n):
+            sel = rnd.choice(node_labels) if node_labels else f"alapanyag_{i}"
+            sel_norm = normalize_label(sel)
+            connected_norms = list(edge_map.get(sel_norm, []))
+            connected = []
+            for cn in connected_norms:
+                node_record = next((x for x in nodes_pool if normalize_label(x.get("Label","")) == cn), None)
+                if node_record:
+                    connected.append({"name": node_record.get("Label"), "degree": int(node_record.get("Degree", 0) or 0), "type": node_record.get("node_type","Egyéb")})
+            sample_hist = [h for h in historical_texts if h]
+            seed_val = seed + i
+            rec = local_generate_recipe(sel, connected if connected else [{"name": rnd.choice(node_labels)}], sample_hist, seed_val=seed_val)
+            rec_text = rec.get("archaic_recipe","")
+            sim = max_similarity_to_historical_local(rec_text, sample_hist)
+            rec["max_similarity"] = sim
+            rec["novelty"] = 1.0 - sim
+            rec["selected"] = sel
+            rec["connected_sample_count"] = len(connected)
+            generated.append(rec)
+        return generated
+
+    if run_button:
+        with st.spinner("Generálás fut (offline szimuláció, egyszer lefuttatva és cache-elve)..."):
+            batch = run_batch_generation(nodes_pool, edge_map, historical_texts, int(n_generate), int(seed_input))
+            st.session_state["simulated_ai_batch"] = batch
+
+    if "simulated_ai_batch" in st.session_state:
+        batch = st.session_state["simulated_ai_batch"]
+        sims = [b.get("max_similarity", 0.0) for b in batch]
+        novelties = [b.get("novelty", 0.0) for b in batch]
+        mean_max_sim = sum(sims)/len(sims) if sims else 0.0
+        mean_novelty = sum(novelties)/len(novelties) if novelties else 0.0
+        exceed60 = sum(1 for s in sims if s > 0.6)
+        st.markdown(f"- Összes generált recept: **{len(batch)}**")
+        st.markdown(f"- Átlag legnagyobb similarity a korpusszal: **{mean_max_sim:.3f}**")
+        st.markdown(f"- Átlag novelty (1 - max_similarity): **{mean_novelty:.3f}**")
+        st.markdown(f"- Hány recept haladja meg a similarity > 0.6 küszöböt: **{exceed60}** ({(exceed60/len(batch))*100:.1f}%)")
+        top_similar = sorted(batch, key=lambda x: x.get("max_similarity",0), reverse=True)[:6]
+        st.markdown("**Leginkább a korpusszal megegyező/hasonsző generált példák (top 6)**")
+        for i, t in enumerate(top_similar, start=1):
+            st.markdown(f"{i}. **{strip_icon_ligatures(t.get('title','(nincs cím)'))}** — max_similarity: **{t.get('max_similarity',0):.3f}**, novelty: **{t.get('novelty',0):.3f}**, szavak: **{t.get('word_count',0)}**")
+            excerpt = t.get("archaic_recipe","")[:300]
+            st.markdown(f"> {excerpt}...")
+        st.markdown("---")
+        st.markdown("**Módszertan röviden (ami történt):**")
+        st.markdown(textwrap.dedent("""
+        - Lokális, offline szimulációt futtattunk: az `app.py`-ban található node/edge/historical adatok alapján véletlenszerűen választottunk központi csomópontokat és azok kapcsolatait.
+        - Minden generált recept rövid, archaizáló sablonokból összeállított szöveg volt (70–110 szó körül), amelyek tartalmaztak kapcsolódó alapanyagokat és rövid korabeli részlet-hivatkozást.
+        - Minden generátumra kiszámoltuk a legnagyobb lineáris hasonlóságot (SequenceMatcher ratio) a történeti receptek teljes szövegéhez, ez a `max_similarity`.
+        - Novelty = 1 - max_similarity. Javasolt küszöb: ha `max_similarity` > 0.6, akkor gyanítható a forrásokhoz túl közel álló (kevésbé „eredeti”) generálás — ilyenkor érdemes erősebb groundingot alkalmazni.
+        - A futtatás determinisztikus seed mellett ismételhető; az eredményeket a session-ben cache-eljük, így egyszer generálva, többször elemezhetőek.
+        """), unsafe_allow_html=True)
+
+        st.markdown("**Javaslat a valós AI-hívásos protokollra (ha később valódi modell-lekérést akartok):**")
+        st.markdown(textwrap.dedent("""
+        - A modell csak egyszer generáljon egy nagyobb mintát (pl. 100 recept), a válaszokat JSON-ban tároljuk (`st.session_state['ai_batch']`) — így nem többszörös API-hívás szükséges.
+        - A generálás után minden recepthez kiszámoljuk a `max_similarity` értéket és a `novelty`-t, majd csak a gyanús (similarity > 0.6) elemeket küldjük emberi ellenőrzésre vagy újragenerálásra.
+        - A promptba beágyazunk 10-20 történeti példát (short snippets) és node-címeket, hogy a modell a stílust kövesse, ugyanakkor explicit tiltást adunk: "Ne idézd szó szerint a forrást; ha hasonlóság >60% ered, generálj új változatot."
+        - Tároljuk a generált batch metaadatait (seed, used_nodes, prompt_hash, timestamp), hogy reprodukálható legyen a folyamat.
+        """), unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.markdown("**Példa: 3 véletlenszerű generált recept (teljes szöveg)**")
+        sample_three = random.Random(1234).sample(batch, min(3, len(batch)))
+        for s in sample_three:
+            st.markdown(f"#### {strip_icon_ligatures(s.get('title','(nincs cím)'))}")
+            st.markdown(f"{s.get('archaic_recipe','')}")
+            st.markdown(f"- Novelty: **{s.get('novelty',0):.3f}**, Max similarity: **{s.get('max_similarity',0):.3f}**, Szavak: **{s.get('word_count',0)}**")
+            st.markdown("---")
+    else:
+        st.info("A szimulált batch-generáláshoz nyomd meg a 'Generálj és elemezz' gombot. Az eredmény egyszer generálódik és cache-elve lesz a session-ben.")
