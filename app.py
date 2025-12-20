@@ -522,10 +522,18 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
                 if m_label and m_label not in seen_labels:
                     sampled_nodes.insert(0, m)
                     seen_labels.add(m_label)
-    simplified_nodes = [{"name": n.get("Label"), "type": n.get("node_type"), "degree": int(n.get("Degree", 0) or 0)} for n in sampled_nodes]
-    sampled_recipes = random.sample(recipes, min(len(recipes), max_recipes)) if recipes else []
-    simplified_recipes = [{"title": r.get("title", ""), "excerpt": r.get("original_text", "")[:150]} for r in sampled_recipes]
-    return simplified_nodes, simplified_recipes
+    related_nodes = [n["name"] for n in nodes_ctx if n.get("name")]
+    related_analogies = []
+    for node in nodes_ctx:
+        analogies = HISTORICAL_ANALOGY_MAP.get(node.get("name"))
+        if analogies:
+            related_analogies.extend(analogies)
+    related_analogies = ", ".join(dict.fromkeys(related_analogies))
+    system_prompt = f"""
+    ...
+    Kapcsolódó alapanyagok: {', '.join(related_nodes)}
+    Kapcsolódó történeti analógiák: {related_analogies}
+    """
 
 def extract_json_from_text(text: str):
     if not isinstance(text, str):
@@ -1338,5 +1346,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
