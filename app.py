@@ -335,64 +335,75 @@ for _, row in tripartit_df.iterrows():
     node_norm_map[norm] = rec
     node_id_map[nid] = rec
 
-def infer_dish_intent(user_query: str, top_k_recipes: int = 6):
+def infer_dish_intent(user_query: str, top_k_recipes: int = 8):
     if not user_query or not isinstance(user_query, str):
         return {"type": "unknown", "confidence": 0.0, "equivalents": []}
 
     q_norm = normalize_label(user_query)
     tokens = [t for t in re.split(r'[\s,;:()"\']+', q_norm) if t]
 
-    # 1) Próbáljunk közvetlen/close matchet a node-címek és receptcímek között
+    # Direct node match (erős bizonyíték)
     direct_node = None
     if q_norm in node_norm_map:
         direct_node = node_norm_map[q_norm]
     else:
-        close = difflib.get_close_matches(q_norm, list(node_norm_map.keys()), n=1, cutoff=0.7)
+        close = difflib.get_close_matches(q_norm, list(node_norm_map.keys()), n=1, cutoff=0.75)
         if close:
             direct_node = node_norm_map[close[0]]
 
-    # 2) Keresés a történeti recept corpusban (cím / teljes szöveg)
-    recipe_matches = search_recipes_by_query(user_query, max_results=top_k_recipes)
-    # recipe_matches items contain 'title' and 'excerpt' (full_text)
-    matched_texts = [r.get("excerpt","") for r in recipe_matches]
+    # Quick known-dessert keywords (seed list, kiterjeszthető)
+    dessert_seeds = {"tiramisu", "sütemény", "desszert", "torta", "piskóta", "kávékrém", "krémes", "mascarpone", "savoiardi", "ladyfingers", "kakaó"}
+    if any(seed in q_norm for seed in dessert_seeds):
+        # If direct node exists and is recipe-like, boost confidence
+        if direct_node and ("recept" in (direct_node.get("node_type") or "").lower() or direct_node.get("node_type") == "Recept"):
+            return {"type": "dessert", "confidence": 0.95, "equivalents": list(dessert_seeds)[:8]}
+        return {"type": "dessert", "confidence": 0.8, "equivalents": list(dessert_seeds)[:8]}
 
-    # 3) Gyakori kulcsszavak kinyerése (egyszerű heur)
+    # Search historical recipe corpus for co-occurrence in titles/ingredients/full text
+    matches = search_recipes_by_query(user_query, max_results=top_k_recipes)
+    matched_texts = []
+    for m in matches:
+        txt = (m.get("excerpt") or "").lower()
+        if txt:
+            matched_texts.append(txt)
+
+    # token frequency from matched texts
     candidate_tokens = []
     for text in matched_texts:
-        if not text:
-            continue
         tnorm = re.sub(r'[^a-z0-9áéíóúöüőű\s]', ' ', strip_icon_ligatures(text).lower())
         toks = [t for t in re.split(r'[\s]+', tnorm) if len(t) > 2]
         candidate_tokens.extend(toks)
-    # stop-words egyszerű listája magyarul (kiterjeszthető)
-    stop = {"és","a","az","vagy","de","hogy","hogyha","mely","amely","mint","is","van","volt","nek","nak","tehát"}
+    stop = {"és","a","az","vagy","de","hogy","mely","amely","mint","is","van","volt","nak","nek","tehát"}
     freq = {}
     for t in candidate_tokens:
         if t in stop:
             continue
         freq[t] = freq.get(t, 0) + 1
-    # legtöbbször előforduló tokenek
     freq_sorted = sorted(freq.items(), key=lambda x: x[1], reverse=True)
     top_tokens = [t for t,_ in freq_sorted[:12]]
 
-    # 4) típusdetektálás: keresünk 'desszert' jeleit a receptcímek/anyagok között
-    dessert_indicators = {"sütemény","desszert","torta","piskóta","krém","kakaó","cukor","kávé","mascarpone","hab","krémsajt"}
+    # Count dessert indicators in matched tokens + query tokens
+    dessert_indicators = {"sütemény","desszert","torta","piskóta","krém","kakaó","cukor","kávé","mascarpone","savoiardi","hab","krémsajt"}
     indicator_count = sum(1 for t in top_tokens if t in dessert_indicators) + sum(1 for t in tokens if t in dessert_indicators)
 
-    # ha van explicit node és annak node_type-ja, használjuk (gyorsbizonyíték)
+    # If direct_node exists and is recipe-like -> dessert/dish
     if direct_node is not None:
-        node_type = direct_node.get("node_type", "").lower()
+        node_type = (direct_node.get("node_type") or "").lower()
         if "recept" in node_type or "desszert" in node_type or "sütemény" in node_type:
-            return {"type": "dessert", "confidence": 0.9, "equivalents": top_tokens[:8]}
+            return {"type": "dessert", "confidence": 0.92, "equivalents": top_tokens[:8]}
 
-    # ha vannak erős indikátorok -> desszert
+    # Heuristic: if any dessert indicators present -> dessert with confidence scaled
     if indicator_count >= 1:
-        conf = min(0.85, 0.35 + 0.25 * indicator_count + (len(matched_texts)/max(1, top_k_recipes))*0.15)
+        conf = min(0.9, 0.4 + 0.2 * indicator_count + min(len(matched_texts), top_k_recipes) * 0.05)
         return {"type": "dessert", "confidence": round(conf, 2), "equivalents": top_tokens[:8]}
 
-    # ha receptcímekre találtunk, de nem egyértelmű desszert, de van sok közös token -> dish
+    # If recipe matches with strong token overlap but no explicit dessert -> dish
     if matched_texts and len(top_tokens) >= 3:
-        return {"type": "dish", "confidence": 0.5, "equivalents": top_tokens[:8]}
+        return {"type": "dish", "confidence": 0.55, "equivalents": top_tokens[:8]}
+
+    # fallback: try to detect if query looks like a dish name by node name patterns
+    if any(len(t) > 2 for t in tokens):
+        return {"type": "dish", "confidence": 0.25, "equivalents": top_tokens[:6]}
 
     return {"type": "unknown", "confidence": 0.0, "equivalents": top_tokens[:6]}
 
@@ -707,29 +718,22 @@ def search_recipes_by_query(query: str, max_results: int = 3):
 def analyze_query_tokens(user_query: str):
     tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
     analysis = []
+    # precompute historical dish map normalized keys
+    hist_dish_norm = {normalize_label(k): v for k, v in HISTORICAL_DISH_STRUCTURE_MAP.items()}
     for tok in tokens:
         item = {"token": tok, "base": tok, "role": None, "status": None, "strategy": None, "mapped_to": None, "confidence": 0.0}
+        # generic tokens
         if tok in GENERIC_TOKENS:
-            item["role"] = "generic_food"
-            item["status"] = "generic"
-            item["strategy"] = "ignore_for_node_selection"
-            item["confidence"] = 0.2
+            item.update({"role": "generic_food", "status": "generic", "strategy": "ignore_for_node_selection", "confidence": 0.2})
             analysis.append(item)
             continue
+        # anachronistic ingredient handling
         if tok in ANACHRONISTIC_INGREDIENTS:
-            item["role"] = "ingredient"
-            item["status"] = "anachronistic"
             mapped = HISTORICAL_ANALOGY_MAP.get(tok)
-            if mapped:
-                item["mapped_to"] = mapped
-                item["strategy"] = "historical_analogy"
-                item["confidence"] = 0.6
-            else:
-                item["mapped_to"] = None
-                item["strategy"] = "analogy_required_manual"
-                item["confidence"] = 0.3
+            item.update({"role": "ingredient", "status": "anachronistic", "mapped_to": mapped, "strategy": ("historical_analogy" if mapped else "analogy_required_manual"), "confidence": 0.6 if mapped else 0.3})
             analysis.append(item)
             continue
+        # descriptor heuristics
         if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és') or tok.endswith('i'):
             base = tok
             if tok.endswith('os') or tok.endswith('ós') or tok.endswith('es') or tok.endswith('és'):
@@ -739,110 +743,83 @@ def analyze_query_tokens(user_query: str):
             item["base"] = base
             item["role"] = "flavour_descriptor"
             item["status"] = "descriptor"
-            mapped_label = None
             norm_base = normalize_label(base)
+            mapped_label = None
             if norm_base in SYNONYM_MAP:
                 for s in SYNONYM_MAP[norm_base]:
                     if normalize_label(s) in node_norm_map:
                         mapped_label = node_norm_map[normalize_label(s)].get("Label")
-                        item["mapped_to"] = [mapped_label]
-                        item["strategy"] = "synonym_map"
-                        item["confidence"] = 0.8
+                        item.update({"mapped_to": [mapped_label], "strategy": "synonym_map", "confidence": 0.8})
                         break
             if not mapped_label and norm_base in node_norm_map:
-                item["mapped_to"] = [node_norm_map[norm_base].get("Label")]
-                item["strategy"] = "direct_node_match"
-                item["confidence"] = 0.85
+                item.update({"mapped_to": [node_norm_map[norm_base].get("Label")], "strategy": "direct_node_match", "confidence": 0.85})
             if not item.get("mapped_to"):
                 analogs = HISTORICAL_ANALOGY_MAP.get(norm_base) or HISTORICAL_ANALOGY_MAP.get(tok)
                 if analogs:
-                    item["mapped_to"] = analogs
-                    item["strategy"] = "historical_analogy_for_descriptor"
-                    item["confidence"] = 0.55
+                    item.update({"mapped_to": analogs, "strategy": "historical_analogy_for_descriptor", "confidence": 0.55})
                 else:
                     fuzzy = fuzzy_suggest_nodes(base, max_suggestions=1)
                     if fuzzy:
-                        item["mapped_to"] = fuzzy
-                        item["strategy"] = "fuzzy_fallback"
-                        item["confidence"] = 0.4
+                        item.update({"mapped_to": fuzzy, "strategy": "fuzzy_fallback", "confidence": 0.4})
                     else:
-                        item["mapped_to"] = None
-                        item["strategy"] = "no_mapping"
-                        item["confidence"] = 0.25
+                        item.update({"mapped_to": None, "strategy": "no_mapping", "confidence": 0.25})
             analysis.append(item)
             continue
+        # synonyms
         norm_tok = normalize_label(tok)
         if norm_tok in SYNONYM_MAP:
             for s in SYNONYM_MAP[norm_tok]:
                 if normalize_label(s) in node_norm_map:
-                    item["role"] = "ingredient"
-                    item["status"] = "direct_synonym"
-                    item["mapped_to"] = [node_norm_map[normalize_label(s)].get("Label")]
-                    item["strategy"] = "synonym_map"
-                    item["confidence"] = 0.9
+                    item.update({"role": "ingredient", "status": "direct_synonym", "mapped_to": [node_norm_map[normalize_label(s)].get("Label")], "strategy": "synonym_map", "confidence": 0.9})
                     break
             if item["mapped_to"]:
                 analysis.append(item)
                 continue
+        # direct node match
         if norm_tok in node_norm_map:
-            item["role"] = "ingredient"
-            item["status"] = "direct_node"
-            item["mapped_to"] = [node_norm_map[norm_tok].get("Label")]
-            item["strategy"] = "direct_node_match"
-            item["confidence"] = 0.95
+            node = node_norm_map[norm_tok]
+            # If node is a recipe/dish, mark dish_structure early
+            if (node.get("node_type") or "").lower() in ("recept", "receptek", "recept") or "recept" in (node.get("node_type") or "").lower():
+                item.update({"role": "dish_structure", "status": "direct_node_recipe", "mapped_to": [node.get("Label")], "strategy": "direct_node_match", "confidence": 0.96})
+                analysis.append(item)
+                continue
+            item.update({"role": "ingredient", "status": "direct_node", "mapped_to": [node.get("Label")], "strategy": "direct_node_match", "confidence": 0.95})
             analysis.append(item)
             continue
+        # close match
         close = difflib.get_close_matches(norm_tok, list(node_norm_map.keys()), n=1, cutoff=0.75)
         if close:
-            item["role"] = "ingredient"
-            item["status"] = "close_match"
-            item["mapped_to"] = [node_norm_map[close[0]].get("Label")]
-            item["strategy"] = "close_string_match"
-            item["confidence"] = 0.75
+            item.update({"role": "ingredient", "status": "close_match", "mapped_to": [node_norm_map[close[0]].get("Label")], "strategy": "close_string_match", "confidence": 0.75})
             analysis.append(item)
             continue
+        # pepper special case
         if 'bors' in norm_tok or 'pepper' in norm_tok or 'pink' in norm_tok:
-            b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'tiszta borssal' in k or 'rózsabors' in k]
+            b_candidates = [k for k in node_norm_map.keys() if 'bors' in k or 'pepper' in k or 'rózsabors' in k]
             if b_candidates:
                 cand = difflib.get_close_matches(norm_tok, b_candidates, n=1, cutoff=0.35)
                 if cand:
-                    item["role"] = "ingredient"
-                    item["status"] = "pepper_family"
-                    item["mapped_to"] = [node_norm_map[cand[0]].get("Label")]
-                    item["strategy"] = "special_pepper_rules"
-                    item["confidence"] = 0.85
+                    item.update({"role": "ingredient", "status": "pepper_family", "mapped_to": [node_norm_map[cand[0]].get("Label")], "strategy": "special_pepper_rules", "confidence": 0.85})
                     analysis.append(item)
                     continue
+        # fuzzy fallback
         fuzzy = fuzzy_suggest_nodes(tok, max_suggestions=1)
         if fuzzy:
-            item["role"] = "ingredient"
-            item["status"] = "fuzzy_suggest"
-            item["mapped_to"] = fuzzy
-            item["strategy"] = "fuzzy"
-            item["confidence"] = 0.35
+            item.update({"role": "ingredient", "status": "fuzzy_suggest", "mapped_to": fuzzy, "strategy": "fuzzy", "confidence": 0.35})
             analysis.append(item)
             continue
-        item["role"] = "unknown"
-        item["status"] = "no_mapping"
-        item["strategy"] = "no_mapping"
-        item["confidence"] = 0.0
+        # dish-structure historical map (normalized key)
+        if norm_tok in hist_dish_norm:
+            item.update({"role": "dish_structure", "status": "historically_interpretable", "mapped_to": hist_dish_norm[norm_tok].get("historical_equivalents"), "strategy": "source_based_structural_mapping", "confidence": hist_dish_norm[norm_tok].get("confidence", 0.5)})
+            analysis.append(item)
+            continue
+        # final fallback
+        item.update({"role": "unknown", "status": "no_mapping", "strategy": "no_mapping", "confidence": 0.0})
         analysis.append(item)
-        if tok in HISTORICAL_DISH_STRUCTURE_MAP:
-            item["role"] = "dish_structure"
-            item["status"] = "historically_interpretable"
-            item["mapped_to"] = HISTORICAL_DISH_STRUCTURE_MAP[tok]["historical_equivalents"]
-            item["strategy"] = "source_based_structural_mapping"
-            item["confidence"] = HISTORICAL_DISH_STRUCTURE_MAP[tok]["confidence"]
-            analysis.append(item)
-            continue
     return analysis
 
 def build_reasoning_paragraph(token_analysis: list) -> str:
-    """
-    A token-analízisből folyó szöveges, narratív reasoning-et készít.
-    """
     sentences = []
-
+    inferred_summary = []
     for item in token_analysis:
         tok = item["token"]
         role = item["role"]
@@ -851,21 +828,29 @@ def build_reasoning_paragraph(token_analysis: list) -> str:
         mapped = item.get("mapped_to")
 
         if role == "flavour_descriptor":
-            s = f"A „{tok}” kifejezés ízleíróként jelenik meg, amely nem önálló alapanyagot, hanem érzékszervi irányt jelöl."
+            s = f"A „{tok}” ízleíróként szerepel; nem feltétlen önálló alapanyag."
         elif status == "anachronistic":
-            s = f"A „{tok}” modern alapanyagnak számít, ezért történeti analógiával került értelmezésre."
+            s = f"A „{tok}” modern alapanyag: történeti analógiára került leképezés."
         elif strategy == "historical_analogy" and mapped:
-            s = f"A „{tok}” esetében a történeti források alapján a következő analóg összetevők jöhetnek szóba: {', '.join(mapped)}."
+            s = f"A „{tok}” esetén a történeti források szerinti analógok: {', '.join(mapped)}."
         elif strategy == "direct_node_match":
-            s = f"A „{tok}” egyértelműen azonosítható a történeti adatbázisban szereplő alapanyagként."
+            s = f"A „{tok}” közvetlenül megtalálható az adatbázisban, ezért erős leképezés adható."
         elif strategy == "fuzzy_fallback":
-            s = f"A „{tok}” pontos megfelelője nem szerepel az adatbázisban, ezért hangalaki hasonlóság alapján történt becslés."
+            s = f"A „{tok}” esetén hangalak alapján javasolt leképezés történt (fuzzy)."
+        elif role == "dish_structure":
+            s = f"A „{tok}” ételszerkezetként (dish) értelmezhető: történeti ekvivalensek alapján rétegzett / formai tipológiát adtunk."
         else:
-            s = f"A „{tok}” értelmezése bizonytalan, ezért csak korlátozottan befolyásolta a keresést."
-
+            s = f"A „{tok}” értelmezése jelenleg bizonytalan; a kereső ezért óvatosan kezelte a hatását."
         sentences.append(s)
+        # small summary line for front-end hint
+        if item.get("confidence", 0) >= 0.7:
+            inferred_summary.append(f"{tok} (erős)")
+        elif item.get("confidence", 0) >= 0.4:
+            inferred_summary.append(f"{tok} (közepes)")
+        else:
+            inferred_summary.append(f"{tok} (gyenge)")
 
-    return " ".join(sentences)
+    return " ".join(sentences) + (" | Összefoglaló: " + ", ".join(inferred_summary) if inferred_summary else "")
 
 def gpt_search_recipes(user_query):
     query_lower = (user_query or "").strip()
@@ -913,41 +898,7 @@ def gpt_search_recipes(user_query):
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
         full_labels_preview = json.dumps(full_labels, ensure_ascii=False)  # ← javítva
-    except Exception:
-        full_labels_preview = "[]"
-    try:
-        perfect_preview = (json.dumps(perfect_ings[:50], ensure_ascii=False) if isinstance(perfect_ings, list) else json.dumps(perfect_ings, ensure_ascii=False))
-    except Exception:
-        perfect_preview = "[]"
-
-    user_prompt = f"""
-Nyelv: magyar
-
-Felhasználói lekérdezés: "{user_query}"
-
-Elérhető csomópontok (rövid mintavétel):
-{json.dumps(nodes_ctx[:40], ensure_ascii=False)}
-
-Található történeti recept-részletek:
-{json.dumps(matched_preview, ensure_ascii=False)}
-
-Teljes node-címek (rövid előnézet):
-{full_labels_preview}
-
-Tökéletes alapanyagok (rövid):
-{perfect_preview}
-
-Utasítások: Kérlek, írj egy rövid, archaizáló, magyar nyelvű ajánlást és adj strukturált JSON javaslatot (suggested_nodes, suggested_recipes, reasoning, mapping).
-"""
-    try:
-        response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
-        raw = response.output_text if hasattr(response, "output_text") else (response.get("output_text") if isinstance(response, dict) else str(response))
-        parsed = extract_json_from_text(raw)
-        if parsed and isinstance(parsed, dict):
-            if "suggested_nodes" in parsed and "suggested_recipes" in parsed:
-                return parsed
-        raise ValueError("Invalid JSON from model")
-    except Exception:
+        except Exception:
         suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
         suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
         analysis = analyze_query_tokens(user_query)
@@ -990,14 +941,19 @@ Utasítások: Kérlek, írj egy rövid, archaizáló, magyar nyelvű ajánlást 
             combined_suggestions = suggested_nodes[:5]
         analysis = analyze_query_tokens(user_query)
         reasoning_text = build_reasoning_paragraph(analysis)
+        # include inferred intent summary
+        inferred_summary = inferred or infer_dish_intent(user_query)
+        inferred_line = f"AI értelmezés: {inferred_summary.get('type','unknown')} (bizalom: {inferred_summary.get('confidence',0):.2f})."
+        full_reasoning = f"{inferred_line} {reasoning_text}"
         result = {
             "suggested_nodes": combined_suggestions,
             "suggested_recipes": suggested_recipes,
-            "reasoning": reasoning_text,
-            "mapping": analysis
+            "reasoning": full_reasoning,
+            "mapping": analysis,
+            "inferred": inferred_summary
         }
         return result
-
+    
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
         return 0.0
@@ -1581,6 +1537,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
