@@ -109,7 +109,7 @@ st.markdown("""
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
-    line-height: 1;
+    line-height: 50px;
 }
 .scroll-to-top:hover {
     transform: translateY(-5px);
@@ -364,38 +364,20 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     </div>
     """, unsafe_allow_html=True)
 
-    # Scroll to top button with working onclick handler
-    st.components.v1.html("""
-    <div id="scroll-to-top" class="scroll-to-top" onclick="window.parent.scrollTo({top: 0, behavior: 'smooth'})" title="Vissza a tetejére">
-        ↑
-    </div>
+    # Scroll to top button - visszaállítva az eredeti működő verzióhoz
+    st.markdown("""
+    <div class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Vissza a tetejére">↑</div>
     
-    <style>
-    .scroll-to-top {
-        position: fixed;
-        bottom: 50px;
-        right: 30px;
-        background: linear-gradient(135deg, #8b5a2b, #d4af37);
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-        z-index: 9999;
-        text-decoration: none;
-        font-size: 24px;
-        font-weight: bold;
-        line-height: 1;
-    }
-    .scroll-to-top:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-        background: linear-gradient(135deg, #d4af37, #8b5a2b);
-    }
-    </style>
-    """, height=0)
+    <script>
+    // Ensure button works after Streamlit renders
+    setTimeout(function() {
+        const btn = document.querySelector('.scroll-to-top');
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+        }
+    }, 100);
+    </script>
+    """, unsafe_allow_html=True)
