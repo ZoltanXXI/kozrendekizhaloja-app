@@ -967,25 +967,25 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
     return float(max_sim)
 
 def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
-system_prompt = (
-    "Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok: "
-    "- 70-110 szó között, "
-    "- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel, "
-    "- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden, "
-    "- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat, "
-    "- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count', "
-    "- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt"
-)
+    system_prompt = (
+        "Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok: "
+        "- 70-110 szó között, "
+        "- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel, "
+        "- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden, "
+        "- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat, "
+        "- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count', "
+        "- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt"
+    )
 
     user_prompt = (
-    f"Felhasználói keresés: {user_query}\n\n"
-    f"Központi elem: {selected}\n\n"
-    f"Kapcsolódó elemek (name,type,degree):\n"
-    f"{json.dumps(connected, ensure_ascii=False)}\n\n"
-    f"Történeti példák (rövid):\n"
-    f"{json.dumps(historical, ensure_ascii=False)}\n\n"
-    "Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra."
-)"""
+        f"Felhasználói keresés: {user_query}\n\n"
+        f"Központi elem: {selected}\n\n"
+        f"Kapcsolódó elemek (name,type,degree):\n"
+        f"{json.dumps(connected, ensure_ascii=False)}\n\n"
+        f"Történeti példák (rövid):\n"
+        f"{json.dumps(historical, ensure_ascii=False)}\n\n"
+        "Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra."
+    )
     candidates = []
     raw_texts = []
     for i in range(samples):
@@ -1442,3 +1442,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
