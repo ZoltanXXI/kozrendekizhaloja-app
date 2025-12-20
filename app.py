@@ -898,7 +898,7 @@ def gpt_search_recipes(user_query):
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
         full_labels_preview = json.dumps(full_labels, ensure_ascii=False)  # ← javítva
-            except Exception:
+        except Exception:
             suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
             suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
             analysis = analyze_query_tokens(user_query)
@@ -1537,6 +1537,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
