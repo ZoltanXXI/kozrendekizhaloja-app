@@ -876,9 +876,18 @@ Teljes node-címek (rövid előnézet):
 Tökéletes alapanyagok (rövid):
 {perfect_preview}
 
-Utasítások: system_prompt = """
-Először folyó, magyar (vagy a felhasználó által írt bármilyen nyelven) nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó kérdését történeti-gasztronómiai szempontból. Ezután külön blokkban add meg a strukturált adatokat JSON formátumban. A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
-"""
+Utasítások: system_prompt = (
+    "Először folyó, magyar, vagy a felhasználó által írt bármilyen nyelven, "
+    "nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó "
+    "kérdését történeti-gasztronómiai szempontból. "
+    "Ezután külön blokkban add meg a strukturált adatokat JSON formátumban. "
+    "A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. "
+    "Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, "
+    "térképezd a legközelebbi ismert node-ra és részletezd a mapping "
+    "indoklását a \"reasoning\" mezőben. "
+    "Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímet."
+)
+
     try:
         response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
         raw = response.output_text if hasattr(response, "output_text") else (response.get("output_text") if isinstance(response, dict) else str(response))
@@ -958,28 +967,25 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
     return float(max_sim)
 
 def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
-    system_prompt = """
-Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok:
-- 70-110 szó között
-- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel
-- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden
-- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat
-- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count'
-- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt
-"""
-    user_prompt = f"""
-Felhasználói keresés: {user_query}
+system_prompt = (
+    "Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok: "
+    "- 70-110 szó között, "
+    "- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel, "
+    "- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden, "
+    "- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat, "
+    "- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count', "
+    "- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt"
+)
 
-Központi elem: {selected}
-
-Kapcsolódó elemek (name,type,degree):
-{json.dumps(connected, ensure_ascii=False)}
-
-Történeti példák (rövid):
-{json.dumps(historical, ensure_ascii=False)}
-
-Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra. Adj vissza csak JSON-t.
-"""
+    user_prompt = (
+    f"Felhasználói keresés: {user_query}\n\n"
+    f"Központi elem: {selected}\n\n"
+    f"Kapcsolódó elemek (name,type,degree):\n"
+    f"{json.dumps(connected, ensure_ascii=False)}\n\n"
+    f"Történeti példák (rövid):\n"
+    f"{json.dumps(historical, ensure_ascii=False)}\n\n"
+    "Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra."
+)"""
     candidates = []
     raw_texts = []
     for i in range(samples):
@@ -1047,8 +1053,8 @@ if os.path.exists(banner_path):
 else:
     st.markdown("""
     <div style="background: linear-gradient(135deg, #800000 0%, #2d2d2d 50%, #1a1a1a 100%); 
-                padding: 2.5rem 2rem; 
-                border-radius: 16px; 
+                padding: 2.5rem 2rem;
+                border-radius: 16px;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
                 margin-bottom: 2rem;
                 border: 3px solid #ccaa77;">
@@ -1436,7 +1442,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
