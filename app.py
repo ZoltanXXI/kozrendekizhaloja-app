@@ -837,17 +837,21 @@ def gpt_search_recipes(user_query):
             if len(matched_recipes) >= 10:
                 break
     nodes_ctx, simplified_nodes = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=query)
+    node_analogies = []
+    for node in simplified_nodes:
+        node_analogies.extend(HISTORICAL_ANALOGY_MAP.get(node["name"], []))
+    related_analogies = ", ".join(dict.fromkeys(node_analogies))
+
     system_prompt = f"""
     Te egy XVII. századi magyar szakácskönyv stílusában írsz AI Ajánlást.
     Feladat: a felhasználói kifejezéseket esszészerűen értelmezd, kulturális és érzéki szempontokat összekapcsolva.
     Ne listázz, hanem folyékony prózában indokold, miért és hogyan értelmezted a szavakat történeti gasztronómiai logika mentén.
     A cél: az ízélmény, textúra és jelentés történeti rekonstrukciója.
     Felhasználói query: {user_query}
-    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}    node_analogies = []
-    for node in simplified_nodes:
-        node_analogies.extend(HISTORICAL_ANALOGY_MAP.get(node["name"], []))
-    related_analogies = ", ".join(dict.fromkeys(node_analogies))
+    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}
+    Kapcsolódó történeti analógiák: {related_analogies}
     """
+
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
     try:
@@ -859,6 +863,7 @@ def gpt_search_recipes(user_query):
         perfect_preview = (json.dumps(perfect_ings[:50], ensure_ascii=False) if isinstance(perfect_ings, list) else json.dumps(perfect_ings, ensure_ascii=False))
     except Exception:
         perfect_preview = "[]"
+
     user_prompt = f"""
 Nyelv: magyar
 
@@ -876,18 +881,8 @@ Teljes node-címek (rövid előnézet):
 Tökéletes alapanyagok (rövid):
 {perfect_preview}
 
-Utasítások: system_prompt = (
-    "Először folyó, magyar, vagy a felhasználó által írt bármilyen nyelven, "
-    "nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó "
-    "kérdését történeti-gasztronómiai szempontból. "
-    "Ezután külön blokkban add meg a strukturált adatokat JSON formátumban. "
-    "A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. "
-    "Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, "
-    "térképezd a legközelebbi ismert node-ra és részletezd a mapping "
-    "indoklását a \"reasoning\" mezőben. "
-    "Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímet."
-)
-
+Utasítások: Kérlek, írj egy rövid, archaizáló, magyar nyelvű ajánlást és adj strukturált JSON javaslatot (suggested_nodes, suggested_recipes, reasoning, mapping).
+"""
     try:
         response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
         raw = response.output_text if hasattr(response, "output_text") else (response.get("output_text") if isinstance(response, dict) else str(response))
@@ -1442,4 +1437,5 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
