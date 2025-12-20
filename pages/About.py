@@ -88,6 +88,37 @@ st.markdown("""
 /* Large centered quote */
 .large-quote { font-family: 'Cinzel', serif; font-size: 2rem; color: #3b2b1b; text-align: center; margin: 2rem auto; max-width: 1200px; line-height: 1.2; font-weight:700; }
 .large-quote small { display:block; font-size:0.85rem; margin-top:0.5rem; color:#7a5b3a; font-weight:400; }
+
+/* Scroll to top button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #8b5a2b, #d4af37);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    text-decoration: none;
+    font-size: 24px;
+}
+.scroll-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    background: linear-gradient(135deg, #d4af37, #8b5a2b);
+}
+
+/* Prevent overscroll */
+body {
+    overscroll-behavior: none;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -314,7 +345,7 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     st.markdown('<div class="large-quote">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni."<small>– Guy Savoy</small></div>', unsafe_allow_html=True)
 
     st.markdown("""
-    <div style="text-align: center; margin-top: 2rem; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
+    <div style="text-align: center; margin-top: 2rem; margin-bottom: 0; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
         <div style="font-size: 1.1rem; font-weight: bold; color: #2c1810; font-family: Georgia, serif; margin-bottom: 0.5rem;">
             Közrendek Ízhálója
         </div>
@@ -325,4 +356,26 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
             © 2025 | Built with Streamlit, NetworkX, SciPy, OpenAI API, Claude, GrokAI & Open-source tools
         </div>
     </div>
+    """, unsafe_allow_html=True)
+
+    # Scroll to top button with JavaScript
+    st.markdown("""
+    <a href="#" class="scroll-to-top" title="Vissza a tetejére">↑</a>
+    
+    <script>
+    // Smooth scroll to top
+    document.querySelector('.scroll-to-top').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    </script>
+    
+    <style>
+    /* Hide Streamlit's default footer and extra space */
+    footer {visibility: hidden;}
+    .block-container {padding-bottom: 2rem !important;}
+    </style>
     """, unsafe_allow_html=True)
