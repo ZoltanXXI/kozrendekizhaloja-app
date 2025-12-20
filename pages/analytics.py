@@ -13,71 +13,12 @@ st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 
-/* === ÁLTALÁNOS BEÁLLÍTÁSOK === */
-body {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.05rem;
-    line-height: 1.65;
-}
-
-/* === CÍMSOROK === */
-h1, h2, h3, h4 {
-    font-family: 'Cinzel', serif !important;
-    color: #2c1810 !important;
-    letter-spacing: 0.6px;
-}
-
-h1 {
-    font-size: 2.6rem !important;
-    font-weight: 900 !important;
-    font-style: normal !important;
-}
-
-h2 {
-    font-size: 2.05rem !important;
-    font-weight: 700 !important;
-    font-style: normal !important;
-}
-
-h3 {
-    font-size: 1.55rem !important;
-    font-weight: 700 !important;
-    font-style: italic !important;
-}
-
-h4 {
-    font-size: 1.28rem !important;
-    font-weight: 600 !important;
-    font-style: italic !important;
-}
-
-/* === BEKEZDÉSEK ÉS SZÖVEGEK === */
-p, div, span, li {
-    font-family: 'Cormorant Garamond', serif !important;
-    font-size: 1.12rem !important;
-    line-height: 1.7 !important;
-}
-
-/* === KIEMELT SZÖVEGEK === */
-strong, b {
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 700 !important;
-    font-size: 1.08rem !important;
-}
-
-em, i {
-    font-family: 'Playfair Display', italic !important;
-    font-style: italic !important;
-}
-
-/* === SIDEBAR === */
 [data-testid="stSidebar"] > div:first-child {
     background-color: #5c1a1a !important;
     font-family: 'Cinzel', serif !important;
     color: #ffffff !important;
-    font-size: 1.02rem;
 }
 
 [data-testid="stSidebar"] button,
@@ -86,7 +27,6 @@ em, i {
 [data-testid="stSidebar"] div[data-testid$="-label"] {
     font-family: 'Cinzel', serif !important;
     color: #ffffff !important;
-    font-size: 1.02rem;
 }
 
 [data-testid="stSidebar"] span[data-testid="stIconMaterial"],
@@ -94,110 +34,70 @@ em, i {
     display: none !important;
 }
 
-/* === GOMBOK === */
-button, .stButton > button {
-    font-family: 'Cinzel', serif !important;
-    font-weight: 600 !important;
-    font-size: 1rem !important;
-}
-
-/* === TÁBLÁZATOK === */
-.dataframe {
-    font-family: 'Cormorant Garamond', serif !important;
-    font-size: 1.02rem !important;
-}
-
-.dataframe th {
-    font-family: 'Cinzel', serif !important;
-    font-weight: 700 !important;
-    font-size: 1.03rem !important;
-}
-
-/* === METRIKÁK === */
-[data-testid="stMetricValue"] {
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 700 !important;
-    font-size: 2.2rem !important;
-}
-
-[data-testid="stMetricLabel"] {
-    font-family: 'Cinzel', serif !important;
-    font-size: 0.95rem !important;
-}
-
-/* === EXPANDER-ek === */
-.streamlit-expanderHeader {
-    font-family: 'Cinzel', serif !important;
-    font-weight: 600 !important;
-    font-size: 1.02rem !important;
-}
-
-/* === INFO/WARNING/SUCCESS BOXOK === */
-.stAlert {
-    font-family: 'Cormorant Garamond', serif !important;
-    font-size: 1.02rem !important;
-}
-
-.stAlert strong {
-    font-family: 'Playfair Display', serif !important;
-    font-style: italic !important;
-}
-
-/* === TAB-ok === */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 1rem;
-}
-
-.stTabs [data-baseweb="tab"] {
-    background: #fffbf0;
-    border: 2px solid #d4af37;
-    border-radius: 8px 8px 0 0;
-    color: #2c1810;
-    font-family: 'Cinzel', serif !important;
-    font-weight: 700 !important;
-    font-size: 1.08rem !important;
-}
-
-.stTabs [aria-selected="true"] {
-    background: linear-gradient(to bottom, #d4af37, #b8941f);
-    color: white;
-}
-
-/* === INPUTOK === */
-input, textarea, select {
-    font-family: 'Cormorant Garamond', serif !important;
-    font-size: 1rem !important;
-}
-
-/* === EGYÉB === */
 [data-testid="stKeyboardShortcutButton"],
 button[aria-label="Show keyboard shortcuts"],
 button[aria-label="Show keyboard navigation"],
 [data-testid^="stTooltip"] {
     display: none !important;
 }
+</style>
+""", unsafe_allow_html=True)
 
-.main {
-    background: linear-gradient(to bottom, #5c1a1a, #7b1f1f);
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
+
+[data-testid="stSidebar"] > div:first-child {
+    background-color: #5c1a1a !important;
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
 }
 
-.subtitle {
-    text-align: center;
-    color: #5c4033;
-    font-family: 'Playfair Display', italic;
-    font-size: 1.22rem;
-    margin-bottom: 2rem;
-    font-style: italic;
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] .st-expander,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div[data-testid$="-label"] {
+    font-family: 'Cinzel', serif !important;
+    color: #ffffff !important;
 }
+</style>
+""", unsafe_allow_html=True)
 
-/* Prevent overscroll */
-body {
-    overscroll-behavior: none;
+st.markdown("""
+<style>
+    .main {
+        background: linear-gradient(to bottom, #5c1a1a, #7b1f1f); /* sötét bordó árnyalatok */
 }
-
-/* Hide Streamlit's default footer and extra space */
-footer {visibility: hidden;}
-.block-container {padding-bottom: 2rem !important;}
+    
+    h1, h2, h3 {
+        color: #2c1810 !important;
+        font-family: 'Georgia', serif !important;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #5c4033;
+        font-style: italic;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 1rem;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: #fffbf0;
+        border: 2px solid #d4af37;
+        border-radius: 8px 8px 0 0;
+        color: #2c1810;
+        font-weight: bold;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(to bottom, #d4af37, #b8941f);
+        color: white;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -335,13 +235,13 @@ st.markdown("""
     text-align: center;
     color: #fff8e0;
     font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    font-weight: 900;
+    font-size: 1.5rem;
+    font-weight: bold;
     box-shadow: 2px 4px 12px rgba(0,0,0,0.4);
     margin-bottom: 1.5rem;
 ">
 📊 Receptadatok Mélyelemzése<br>
-<span style='font-size:1.1rem; font-style:italic; color:#f5e1d1; font-family: Playfair Display, italic;'>Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák</span>
+<span style='font-size:1rem; font-style:italic; color:#f5e1d1;'>Hálózati statisztikák, recept hosszúság eloszlás és AI generálási stratégiák</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -420,8 +320,7 @@ with tab1:
             paper_bgcolor='#fcf5e5',
             plot_bgcolor='#fcf5e5',
             height=400,
-            showlegend=True,
-            font=dict(family="Cormorant Garamond, serif", size=14)
+            showlegend=True
         )
         st.plotly_chart(fig_degree, use_container_width=True)
         
@@ -457,13 +356,11 @@ with tab1:
             labels=type_counts.index,
             values=type_counts.values,
             marker=dict(colors=['#8b5a2b', '#4a7c59', '#b85450', '#cccccc']),
-            hole=0.4,
-            textfont=dict(family="Cinzel, serif", size=14)
+            hole=0.4
         )])
         fig_types.update_layout(
             paper_bgcolor='#fcf5e5',
-            height=350,
-            font=dict(family="Cormorant Garamond, serif", size=14)
+            height=350
         )
         st.plotly_chart(fig_types, use_container_width=True)
         
@@ -561,8 +458,7 @@ with tab2:
                 y=0.99,
                 xanchor="right",
                 x=0.99
-            ),
-            font=dict(family="Cormorant Garamond, serif", size=14)
+            )
         )
         st.plotly_chart(fig_hist, use_container_width=True)
         
@@ -650,13 +546,11 @@ with tab2:
             values=category_counts.values,
             marker=dict(colors=[colors[cat] for cat in category_counts.index]),
             textinfo='label+percent',
-            textposition='outside',
-            textfont=dict(family="Cinzel, serif", size=13)
+            textposition='outside'
         )])
         fig_pie.update_layout(
             paper_bgcolor='#fcf5e5',
-            height=400,
-            font=dict(family="Cormorant Garamond, serif", size=14)
+            height=400
         )
         st.plotly_chart(fig_pie, use_container_width=True)
         
