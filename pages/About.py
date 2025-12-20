@@ -249,28 +249,7 @@ else:
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
-    # --- KÜLÖN METRIKA-BLOKK a felül elhelyezéshez (kézzel megadott értékek a kérést követően) ---
-    st.markdown("""
-    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem;">
-        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
-            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">330</div>
-            <div style="color:#4a3728; margin-top:0.3rem;">Történeti receptek</div>
-        </div>
-        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
-            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">833</div>
-            <div style="color:#4a3728; margin-top:0.3rem;">Node (hálózat)</div>
-        </div>
-        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
-            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">72.1</div>
-            <div style="color:#4a3728; margin-top:0.3rem;">Átlag szószám (recept szövegtest)</div>
-        </div>
-        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
-            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">2.4%</div>
-            <div style="color:#4a3728; margin-top:0.3rem;">Böjti receptek (detektálva)</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
 
@@ -368,3 +347,4 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
+
