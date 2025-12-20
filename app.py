@@ -15,6 +15,18 @@ import re
 import base64
 import difflib
 
+# ===== PAGE ROUTER – KÖTELEZŐEN LEGELŐL =====
+
+page = st.query_params.get("page", ["home"])[0].lower()
+
+if page == "about":
+    render_about_page()
+    st.stop()
+
+elif page == "analytics":
+    render_analytics_page()
+    st.stop()
+    
 st.set_page_config(
     page_title="Közrendek Ízhálója",
     page_icon="📜",
@@ -1356,12 +1368,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Csak ez a rész cserélendő: a gombok on_click callbacket használnak, így ugyanaz a módszer mint a sidebarban.
-def _navigate(page: str):
-    st.experimental_set_query_params(page=page)
-    st.session_state["page"] = page
-    st.experimental_rerun()
-
 # Csak ezt a blokkot cseréld le az app.py-ben (a korábbi nav gombok helyére).
 def _set_nav(page: str):
     st.session_state["navigate_to"] = page
@@ -1397,11 +1403,8 @@ with nav_col2:
     """, unsafe_allow_html=True)
     st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True, on_click=_set_nav, args=("analytics",))
 
-# Ha a callback beállította a navigációt, itt kezeljük (fő futási szálban).
-if "navigate_to" in st.session_state:
-    target = st.session_state.pop("navigate_to")
-    st.experimental_set_query_params(page=target)
-    st.rerun()
+def _set_nav(page: str):
+    st.query_params["page"] = page
     
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1463,6 +1466,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
