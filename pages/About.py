@@ -9,7 +9,6 @@ import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
-from streamlit.components.v1 import html as components_html
 
 from utils.fasting import FASTING_RECIPE_TITLES, is_fasting_title
 
@@ -89,34 +88,6 @@ st.markdown("""
 /* Large centered quote */
 .large-quote { font-family: 'Cinzel', serif; font-size: 2rem; color: #3b2b1b; text-align: center; margin: 2rem auto; max-width: 1200px; line-height: 1.2; font-weight:700; }
 .large-quote small { display:block; font-size:0.85rem; margin-top:0.5rem; color:#7a5b3a; font-weight:400; }
-
-/* Scroll to top button */
-.scroll-to-top {
-    position: fixed;
-    bottom: 50px;
-    right: 30px;
-    background: linear-gradient(135deg, #8b5a2b, #d4af37);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-    z-index: 9999;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 50px;
-}
-.scroll-to-top:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-    background: linear-gradient(135deg, #d4af37, #8b5a2b);
-}
 
 /* Prevent overscroll */
 body {
@@ -368,42 +339,36 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     </div>
     """, unsafe_allow_html=True)
 
-    # Scroll to top button with reliable component-based approach
-    components_html("""
-    <div id="scroll-to-top-root">
-      <div class="scroll-to-top" id="scrollBtn" title="Vissza a tetejére">↑</div>
-    </div>
-    <script>
-    (function(){
-      const scrollBtn = document.getElementById('scrollBtn');
-      function doScrollTop() {
-        const main = document.querySelector('main');
-        const sc = document.scrollingElement || document.documentElement || document.body;
-        try {
-          if (main) {
-            main.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-          sc.scrollTo({ top: 0, behavior: 'smooth' });
-          location.hash = ''; // clear hash so repeated clicks still work
-        } catch (e) {
-          sc.scrollTop = 0;
-        }
-      }
-      if (scrollBtn) {
-        scrollBtn.addEventListener('click', function(e){
-          e.preventDefault();
-          doScrollTop();
-        });
-        // show/hide based on scroll position (optional)
-        window.addEventListener('scroll', function() {
-          const show = (window.scrollY || document.documentElement.scrollTop) > 300;
-          scrollBtn.style.opacity = show ? '1' : '0';
-          scrollBtn.style.pointerEvents = show ? 'auto' : 'none';
-        });
-        // initial state
-        scrollBtn.style.opacity = '0';
-        scrollBtn.style.pointerEvents = 'none';
-      }
-    })();
-    </script>
-    """, height=90)
+    # --- Scroll-to-top: anchor alapú, a fő DOM-ba injektálva (nem iframe) ---
+    st.markdown("""
+    <a href="#top-anchor" class="scroll-to-top" aria-label="Vissza a tetejére">↑</a>
+    
+    <style>
+    .scroll-to-top {
+        position: fixed;
+        bottom: 50px;
+        right: 30px;
+        background: linear-gradient(135deg, #8b5a2b, #d4af37);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: all 0.18s ease;
+        z-index: 9999;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 50px;
+    }
+    .scroll-to-top:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        background: linear-gradient(135deg, #d4af37, #8b5a2b);
+    }
+    </style>
+    """, unsafe_allow_html=True)
