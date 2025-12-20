@@ -9,6 +9,7 @@ import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
+from streamlit.components.v1 import html as components_html
 
 from utils.fasting import FASTING_RECIPE_TITLES, is_fasting_title
 
@@ -134,6 +135,9 @@ st.markdown("""
 </div>
 <div style="width:100px; height:4px; background:linear-gradient(to right,#d4af37,#f0d98d,#d4af37); margin:1rem auto 1.5rem auto; border-radius:2px;"></div>
 """, unsafe_allow_html=True)
+
+# Top anchor for scroll-to-top functionality
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="reader-quote">
@@ -364,20 +368,42 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     </div>
     """, unsafe_allow_html=True)
 
-    # Scroll to top button - visszaállítva az eredeti működő verzióhoz
-    st.markdown("""
-    <div class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Vissza a tetejére">↑</div>
-    
+    # Scroll to top button with reliable component-based approach
+    components_html("""
+    <div id="scroll-to-top-root">
+      <div class="scroll-to-top" id="scrollBtn" title="Vissza a tetejére">↑</div>
+    </div>
     <script>
-    // Ensure button works after Streamlit renders
-    setTimeout(function() {
-        const btn = document.querySelector('.scroll-to-top');
-        if (btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            });
+    (function(){
+      const scrollBtn = document.getElementById('scrollBtn');
+      function doScrollTop() {
+        const main = document.querySelector('main');
+        const sc = document.scrollingElement || document.documentElement || document.body;
+        try {
+          if (main) {
+            main.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          sc.scrollTo({ top: 0, behavior: 'smooth' });
+          location.hash = ''; // clear hash so repeated clicks still work
+        } catch (e) {
+          sc.scrollTop = 0;
         }
-    }, 100);
+      }
+      if (scrollBtn) {
+        scrollBtn.addEventListener('click', function(e){
+          e.preventDefault();
+          doScrollTop();
+        });
+        // show/hide based on scroll position (optional)
+        window.addEventListener('scroll', function() {
+          const show = (window.scrollY || document.documentElement.scrollTop) > 300;
+          scrollBtn.style.opacity = show ? '1' : '0';
+          scrollBtn.style.pointerEvents = show ? 'auto' : 'none';
+        });
+        // initial state
+        scrollBtn.style.opacity = '0';
+        scrollBtn.style.pointerEvents = 'none';
+      }
+    })();
     </script>
-    """, unsafe_allow_html=True)
+    """, height=90)
