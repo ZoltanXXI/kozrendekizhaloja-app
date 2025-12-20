@@ -1360,19 +1360,13 @@ if "selected" in st.session_state:
             st.error("❌ Hiba történt a generálás során")
 
 st.markdown("---")
-st.markdown("""
-<div style="text-align: center; margin: 3rem 0 2rem 0;">
-    <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
-        🧭 További oldalak
-    </h3>
-</div>
-""", unsafe_allow_html=True)
 
-# Csak ezt a blokkot cseréld le az app.py-ben (a korábbi nav gombok helyére).
 def _set_nav(page: str):
-    st.session_state["navigate_to"] = page
+    st.query_params["page"] = page
+
 
 nav_col1, nav_col2 = st.columns(2)
+
 with nav_col1:
     st.markdown("""
     <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
@@ -1386,7 +1380,14 @@ with nav_col1:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
     """, unsafe_allow_html=True)
-    st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True, on_click=_set_nav, args=("About",))
+
+    st.button(
+        "📖 Tovább a Projektről oldalra",
+        key="nav_about",
+        use_container_width=True,
+        on_click=_set_nav,
+        args=("about",)
+    )
 
 with nav_col2:
     st.markdown("""
@@ -1401,11 +1402,15 @@ with nav_col2:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
     </div>
     """, unsafe_allow_html=True)
-    st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True, on_click=_set_nav, args=("analytics",))
 
-def _set_nav(page: str):
-    st.query_params["page"] = page
-    
+    st.button(
+        "📊 Tovább az elemzői oldalra",
+        key="nav_analytics",
+        use_container_width=True,
+        on_click=_set_nav,
+        args=("analytics",)
+    )
+
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
     💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
@@ -1466,6 +1471,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
