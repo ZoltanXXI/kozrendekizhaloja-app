@@ -937,9 +937,10 @@ Utasítások: Kérlek, írj egy rövid, archaizáló, magyar nyelvű ajánlást 
         result = {
             "suggested_nodes": combined_suggestions,
             "suggested_recipes": suggested_recipes,
-            "reasoning": reasoning,
+            "reasoning": reasoning_text,
             "mapping": analysis
         }
+        return result
 
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
@@ -1436,6 +1437,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
