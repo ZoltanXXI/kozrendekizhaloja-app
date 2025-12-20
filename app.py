@@ -1308,7 +1308,20 @@ filtered_nodes = []
 if "gpt_search_results" not in st.session_state or not query:
     candidates = (all_nodes or [])
 else:
-    suggested = st.session_state["gpt_search_results"].get("suggested_nodes", [])
+    results = st.session_state.get("gpt_search_results")
+    # Normalizáljuk a különböző lehetséges típusokat (dict, list, None)
+    if isinstance(results, dict):
+        suggested = results.get("suggested_nodes", []) or []
+    elif isinstance(results, list):
+        # Ha régebbi forma: lista stringekből → treat as suggested nodes
+        if results and all(isinstance(x, str) for x in results):
+            suggested = results
+        else:
+            # Ismeretlen listastruktúra: ne okozzon hibát, üres javaslat
+            suggested = []
+    else:
+        suggested = []
+
     candidates = []
     for n in (all_nodes or []):
         if not isinstance(n, dict):
@@ -1316,7 +1329,16 @@ else:
         if _node_type(n) not in node_type_filter_set:
             continue
         label = n.get("Label", "")
-        if not query or query.lower() in str(label).lower() or label in suggested:
+        # Biztonsági összehasonlítás: normalizált címekre is próbálunk egyezést
+        try:
+            match_by_label = query and query.lower() in str(label).lower()
+        except Exception:
+            match_by_label = False
+        try:
+            match_in_suggested = label in suggested or normalize_label(label) in [normalize_label(s) for s in suggested]
+        except Exception:
+            match_in_suggested = False
+        if not query or match_by_label or match_in_suggested:
             candidates.append(n)
 
 if "gpt_search_results" not in st.session_state or not query:
@@ -1542,6 +1564,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
