@@ -1353,6 +1353,7 @@ st.markdown("""
 <div style="text-align: center; margin: 3rem 0 2rem 0;">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
 
+# Javított rész — eltávolítottam a félbemarad st.markdown() hívást, és az ASCII-barát idézetekkel egyetlen, lezárt blokkba tettem a bemenetet.
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
     <p style="font-family: 'Cinzel', serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.3rem; color: #e8c896; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">Közrendek Ízhálója</p>
@@ -1360,7 +1361,7 @@ st.markdown(textwrap.dedent("""
     <p style="font-family: 'Crimson Text', serif; font-size: 1.05rem; opacity: 0.9; margin: 0.2rem 0 1.6rem 0; letter-spacing: 0.04em;">Hálózatelemzés - Történeti források - AI-alapú generálás</p>
     <p style="font-size: 0.95rem; line-height: 1.7; max-width: 820px; margin: 0 auto; opacity: 0.85; color: #efe6d8;">
         A projekt Barabási Albert-László hálózatkutatásaira és a
-        <em>"Szakácsmesterségnek könyvecskéje\"</em> (Tótfalusi Kis Miklós, 1698)
+        <em>&quot;Szakácsmesterségnek könyvecskéje&quot;</em> (Tótfalusi Kis Miklós, 1698)
         című szakácskönyv digitális elemzésére épül.<br>
         Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár
     </p>
@@ -1407,5 +1408,6 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
