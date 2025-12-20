@@ -1,14 +1,15 @@
 import os
 import re
+import json
 import unicodedata
 from html import unescape
 from pathlib import Path
+from difflib import SequenceMatcher
 
 import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
-from difflib import SequenceMatcher
 
 try:
     from utils.fasting import FASTING_RECIPE_TITLES, FASTING_KEYWORDS, classify_fasting_text
@@ -23,6 +24,7 @@ except Exception:
 def strip_icon_ligatures(s):
     if not isinstance(s, str):
         return ""
+    s = unescape(s)
     s = unicodedata.normalize('NFKC', s)
     s = re.sub(r'<[^>]+>', '', s)
     s = re.sub(r'[_\-\s]+', ' ', s).strip()
@@ -35,153 +37,65 @@ def normalize_label(s):
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
-def resolve_historical_csv_path():
+def resolve_path_candidates(rel_paths):
     script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'HistoricalRecipe_export.csv'),
-        os.path.join(os.getcwd(), 'data', 'HistoricalRecipe_export.csv'),
-        os.path.join(os.path.abspath(os.path.join(script_dir, '..')), 'data', 'HistoricalRecipe_export.csv'),
-        'data/HistoricalRecipe_export.csv',
-        'HistoricalRecipe_export.csv'
-    ]
+    candidates = []
+    bases = [script_dir, os.getcwd(), os.path.abspath(os.path.join(script_dir, '..'))]
+    for b in bases:
+        for rp in rel_paths:
+            candidates.append(os.path.normpath(os.path.join(b, rp)))
+    candidates.extend(rel_paths)
     for p in candidates:
         if os.path.exists(p):
             return p
     return None
 
-def resolve_tripartit_path():
-    script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'Recept_halo__molekula_tripartit.csv'),
-        os.path.join(os.getcwd(), 'data', 'Recept_halo__molekula_tripartit.csv'),
-        'data/Recept_halo__molekula_tripartit.csv',
-        'Recept_halo__molekula_tripartit.csv'
-    ]
-    for p in candidates:
-        if os.path.exists(p):
-            return p
-    return None
-
-def resolve_edges_path():
-    script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'recept_halo_edges.csv'),
-        os.path.join(os.getcwd(), 'data', 'recept_halo_edges.csv'),
-        'data/recept_halo_edges.csv',
-        'recept_halo_edges.csv'
-    ]
-    for p in candidates:
-        if os.path.exists(p):
-            return p
-    return None
-
-def sequence_similarity(a, b):
-    if not a or not b:
-        return 0.0
-    return SequenceMatcher(None, a, b).ratio()
+@st.cache_data
+def load_csv_flexible(path, default_sep=None):
+    if not path:
+        return pd.DataFrame()
+    try:
+        if default_sep:
+            return pd.read_csv(path, delimiter=default_sep, encoding='utf-8', on_bad_lines='skip')
+        else:
+            return pd.read_csv(path, encoding='utf-8', on_bad_lines='skip')
+    except Exception:
+        try:
+            return pd.read_csv(path, sep=None, engine='python', encoding='utf-8', on_bad_lines='skip')
+        except Exception:
+            try:
+                if default_sep:
+                    return pd.read_csv(path, delimiter=default_sep, encoding='latin1', on_bad_lines='skip')
+                else:
+                    return pd.read_csv(path, encoding='latin1', on_bad_lines='skip')
+            except Exception:
+                return pd.DataFrame()
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
-[data-testid="stSidebar"] > div:first-child {
-    background-color: #5c1a1a !important;
-    font-family: 'Cinzel', serif !important;
-    color: #ffffff !important;
-}
-.list-card {
-    background: #fffaf2;
-    border: 1px solid #e6d2a3;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-.list-title {
-    font-weight: 700;
-    color: #2c1810;
-    font-size: 1.05rem;
-    margin-bottom: 8px;
-}
-.list-item {
-    margin: 6px 0;
-    line-height: 1.4;
-}
-.metric-card {
-    text-align: center;
-    padding: 1.5rem;
-    background: #fffbf0;
-    border-radius: 8px;
-    border: 2px solid #d4af37;
-}
-.reader-quote {
-    background: linear-gradient(to right, #fff8e6, #fff5da);
-    border: 2px solid #d4af37;
-    padding: 2rem 2.5rem;
-    color: #5c4033;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    border-radius: 10px;
-    position: relative;
-    margin-bottom: 1.5rem;
-}
-.reader-quote .first-letter {
-    float: left;
-    font-size: 5.2rem;
-    line-height: 1;
-    font-weight: 700;
-    margin-right: 0.4rem;
-    color: #8b5a2b;
-    font-family: 'Georgia', serif;
-}
-.reader-quote .signature {
-    text-align: right;
-    margin-top: 1rem;
-    font-style: italic;
-    color: #8b5a2b;
-    font-size: 0.95rem;
-    font-family: 'Georgia', serif;
-}
-.section-title {
-    color: #2c1810;
-    font-size: 1.35rem;
-    font-weight: bold;
-    margin-top: 1.2rem;
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.highlight-box {
-    background: linear-gradient(to right, #fffbf0, #fff9e6);
-    border-left: 4px solid #d4af37;
-    padding: 1rem;
-    margin: 1.2rem 0;
-    color: #5c4033;
-    border-radius: 6px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+[data-testid="stSidebar"] > div:first-child { background-color: #5c1a1a !important; font-family: 'Cinzel', serif !important; color: #ffffff !important; }
+[data-testid="stSidebar"] button, [data-testid="stSidebar"] .st-expander, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div[data-testid$="-label"] { font-family: 'Cinzel', serif !important; color: #ffffff !important; }
+[data-testid="stSidebar"] span[data-testid="stIconMaterial"], .span[data-testid="stIconMaterial"] { display: none !important; }
+.reader-quote { background: linear-gradient(to right, #fff8e6, #fff5da); border: 2px solid #d4af37; padding: 2rem 2.5rem; color: #5c4033; font-size: 1.05rem; line-height: 1.7; border-radius: 10px; position: relative; margin-bottom: 1.5rem; }
+.reader-quote .first-letter { float: left; font-size: 5.6rem; line-height: 1; font-weight: 700; margin-right: 0.5rem; color: #8b5a2b; font-family: 'Georgia', serif; }
+.reader-quote .signature { text-align: right; margin-top: 1rem; font-style: italic; color: #8b5a2b; font-size: 0.95rem; font-family: 'Georgia', serif; }
+.list-card { background: #fffaf2; border: 1px solid #e6d2a3; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+.list-title { font-weight: 700; color: #2c1810; font-size: 1.05rem; margin-bottom: 8px; }
+.list-item { margin: 6px 0; line-height: 1.4; }
+.metric-card { text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37; }
+.section-title { color: #2c1810; font-size: 1.35rem; font-weight: bold; margin-top: 1.2rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+.highlight-box { background: linear-gradient(to right, #fffbf0, #fff9e6); border-left: 4px solid #d4af37; padding: 1rem; margin: 1.2rem 0; color: #5c4033; border-radius: 6px; }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div style="
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
-    padding: 0.5rem 2rem;
-    background: linear-gradient(to right, #5c070d, #840a13);
-    border-radius: 8px;
-    text-align: center;
-">
-    <h1 style="font-family: Cinzel, serif; color: #ffffff; margin: 0;">A PROJEKTRŐL</h1>
+<div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
+    <h1 style="font-family:Cinzel, serif; color:#ffffff; margin:0;">A PROJEKTRŐL</h1>
 </div>
-<div style="
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37);
-    margin: 1rem auto 2rem auto;
-    border-radius: 2px;
-"></div>
+<div style="width:100px; height:4px; background:linear-gradient(to right,#d4af37,#f0d98d,#d4af37); margin:1rem auto 1.5rem auto; border-radius:2px;"></div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -197,26 +111,19 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="section-title">📖 Rövid leírás</div>
-<div style="color: #4a3728; font-size:1rem; line-height:1.7;">
-    A Közrendek Ízhálója projekt célja, hogy modern technológiával elevenítse fel a XVII. századi magyar gasztronómia világát.
-</div>
-""", unsafe_allow_html=True)
-
-tripartit_path = resolve_tripartit_path()
-edges_path = resolve_edges_path()
-hist_path = resolve_historical_csv_path()
+tripartit_path = resolve_path_candidates([os.path.join('data','Recept_halo__molekula_tripartit.csv')])
+edges_path = resolve_path_candidates([os.path.join('data','recept_halo_edges.csv')])
+hist_path = resolve_path_candidates([os.path.join('data','HistoricalRecipe_export.csv')])
 
 if not (tripartit_path and edges_path and hist_path):
-    st.warning("A szükséges CSV fájlok nem találhatók. Ellenőrizd, hogy a `data/` mappában vannak-e:\n- Recept_halo__molekula_tripartit.csv\n- recept_halo_edges.csv\n- HistoricalRecipe_export.csv")
+    st.warning("A szükséges adatfájlok nem találhatók. Helyezd a `data/` mappába a következőket: Recept_halo__molekula_tripartit.csv, recept_halo_edges.csv, HistoricalRecipe_export.csv")
 else:
-    tripartit = pd.read_csv(tripartit_path, delimiter=';', encoding='utf-8', on_bad_lines='skip')
-    edges = pd.read_csv(edges_path, delimiter=',', encoding='utf-8', on_bad_lines='skip')
-    historical = pd.read_csv(hist_path, encoding='utf-8', on_bad_lines='skip')
+    tripartit = load_csv_flexible(tripartit_path, default_sep=';')
+    edges = load_csv_flexible(edges_path, default_sep=',')
+    historical = load_csv_flexible(hist_path, default_sep=',')
 
-    label_col = next((c for c in tripartit.columns if c.lower() in ('label','name','title')), tripartit.columns[0])
-    tripartit['Label'] = tripartit[label_col].astype(str).apply(strip_icon_ligatures)
+    label_col = next((c for c in tripartit.columns if c.lower() in ('label','name','title','node')), tripartit.columns[0] if len(tripartit.columns) else None)
+    tripartit['Label'] = tripartit[label_col].astype(str).apply(strip_icon_ligatures) if label_col else tripartit.index.astype(str)
     type_col = next((c for c in tripartit.columns if 'type' in c.lower() or 'category' in c.lower()), None)
     tripartit['node_type'] = tripartit[type_col].astype(str).fillna('Egyéb') if type_col is not None else 'Egyéb'
     tripartit['norm'] = tripartit['Label'].apply(normalize_label)
@@ -225,8 +132,8 @@ else:
         srcs = edges['norm_source'].astype(str).tolist()
         tgts = edges['norm_target'].astype(str).tolist()
     else:
-        srcs = edges.iloc[:,0].astype(str).tolist()
-        tgts = edges.iloc[:,1].astype(str).tolist()
+        srcs = edges.iloc[:,0].astype(str).tolist() if edges.shape[1] >= 1 else []
+        tgts = edges.iloc[:,1].astype(str).tolist() if edges.shape[1] >= 2 else []
 
     def resolve_norm(val):
         if not isinstance(val, str):
@@ -242,12 +149,11 @@ else:
         G.add_node(r['norm'], label=r['Label'], node_type=r['node_type'])
     G.add_edges_from(edge_list)
 
-    ingredient_nodes = [n for n, d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type', '')).lower() or 'alapanyag' in str(d.get('node_type', '')).lower()]
+    ingredient_nodes = [n for n, d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type','')).lower() or 'alapanyag' in str(d.get('node_type','')).lower()]
 
     deg = dict(G.degree())
     pr = nx.pagerank(G, alpha=0.85) if G.number_of_nodes() > 0 else {}
     bet = nx.betweenness_centrality(G) if G.number_of_nodes() > 0 else {}
-    eig = {}
     try:
         eig = nx.eigenvector_centrality_numpy(G) if G.number_of_nodes() > 0 else {}
     except Exception:
@@ -259,13 +165,12 @@ else:
     top_deg = top_for(deg, ingredient_nodes, 10)
     top_pr = top_for(pr, ingredient_nodes, 10)
     top_bet = top_for(bet, ingredient_nodes, 10)
-    top_eig = top_for(eig, ingredient_nodes, 10)
 
     def readable(norm):
         return G.nodes[norm].get('label') if norm in G.nodes else norm
 
-    molecules = [n for n, d in G.nodes(data=True) if 'molecule' in str(d.get('node_type', '')).lower() or 'molekula' in str(d.get('node_type', '')).lower()]
-    recipes = [n for n, d in G.nodes(data=True) if 'dish' in str(d.get('node_type', '')).lower() or 'recept' in str(d.get('node_type', '')).lower() or 'recipe' in str(d.get('node_type', '')).lower()]
+    molecules = [n for n, d in G.nodes(data=True) if 'molecule' in str(d.get('node_type','')).lower() or 'molekula' in str(d.get('node_type','')).lower()]
+    recipes = [n for n, d in G.nodes(data=True) if 'dish' in str(d.get('node_type','')).lower() or 'recept' in str(d.get('node_type','')).lower() or 'recipe' in str(d.get('node_type','')).lower()]
 
     ing_to_mols = {ing: set() for ing in ingredient_nodes}
     ing_to_recipes = {ing: set() for ing in ingredient_nodes}
@@ -295,17 +200,23 @@ else:
     if len(pair_shared_mols) >= 10 and sum(pair_shared_mols) > 0:
         corr, pval = spearmanr(pair_shared_mols, pair_coocc)
 
-    fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
     text_fields = []
-    for c in ('text', 'instructions', 'description', 'ingredients', 'body'):
+    for c in ('original_text','text','instructions','description','ingredients','body'):
         if c in historical.columns:
             text_fields.append(c)
+    if text_fields:
+        bodies = historical[text_fields].astype(str).agg(' '.join, axis=1).apply(normalize_label)
+    else:
+        bodies = historical['title'].astype(str).apply(normalize_label) if 'title' in historical.columns else pd.Series([], dtype=str)
+    avg_words_body = round(bodies.apply(lambda t: len(t.split())).mean() if len(bodies) > 0 else 0, 1)
+
+    fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
     fasting_flags = []
     for idx, row in historical.iterrows():
-        title = normalize_label(str(row.get('title', '')))
+        title = normalize_label(str(row.get('title','')))
         combined_text = title
         for c in text_fields:
-            combined_text = combined_text + ' ' + normalize_label(str(row.get(c, '')))
+            combined_text = combined_text + ' ' + normalize_label(str(row.get(c,'')))
         is_fasting = False
         if title in fasting_set:
             is_fasting = True
@@ -319,19 +230,13 @@ else:
                 clf_res = classify_fasting_text(title + ' ' + combined_text)
                 if isinstance(clf_res, bool):
                     is_fasting = is_fasting or clf_res
-                elif isinstance(clf_res, (int, float)) and clf_res >= 0.5:
+                elif isinstance(clf_res, (int,float)) and clf_res >= 0.5:
                     is_fasting = True
             except Exception:
                 pass
         fasting_flags.append(is_fasting)
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
-
-    if text_fields:
-        bodies = historical[text_fields].astype(str).agg(' '.join, axis=1).apply(normalize_label)
-    else:
-        bodies = historical['title'].astype(str).apply(normalize_label)
-    avg_words_body = round(bodies.apply(lambda t: len(t.split())).mean() if len(bodies) > 0 else 0, 1)
 
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
@@ -342,18 +247,21 @@ else:
         st.markdown('<div class="list-card"><div class="list-title">Top 10 — Degree (kapcsolatok száma)</div>', unsafe_allow_html=True)
         for i, (n, v) in enumerate(top_deg, start=1):
             st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {int(v)}</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:8px; color:#4a3728;">A Degree megmutatja, hány közvetlen kapcsolat van egy alapanyagnak: minél nagyobb, annál több recepthez, molekulához vagy más alapanyaghoz kapcsolódott (azaz gyakrabban használták vagy sokoldalú volt).</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with pr_col:
         st.markdown('<div class="list-card"><div class="list-title">Top 10 — PageRank (hálózati befolyás)</div>', unsafe_allow_html=True)
         for i, (n, v) in enumerate(top_pr, start=1):
             st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:8px; color:#4a3728;">A PageRank nemcsak a kapcsolatok számát nézi, hanem azok minőségét: ha egy alapanyag kapcsolatban áll más fontos alapanyagokkal, akkor magasabb a PageRank-je — ez a „befolyásosság” mutatója a hálózatban.</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with bet_col:
         st.markdown('<div class="list-card"><div class="list-title">Top 10 — Betweenness (hidak)</div>', unsafe_allow_html=True)
         for i, (n, v) in enumerate(top_bet, start=1):
             st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:8px; color:#4a3728;">A Betweenness azt jelenti, hogy egy alapanyag milyen gyakran van a legrövidebb utak „közepén” a hálózatban — ezek a csomópontok gyakran kötik össze a különböző ízvilágokat, vagy átjárót képeznek két csoport között.</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
@@ -366,16 +274,15 @@ else:
             st.markdown("Értékelés: statisztikailag szignifikáns korreláció — a közös molekulák száma részben magyarázza az együtt előfordulás gyakoriságát.")
         else:
             st.markdown("Értékelés: nincs szignifikáns korreláció — a molekuláris hasonlóság önmagában nem magyarázza a történeti párosításokat.")
-        if corr is not None:
-            if corr < 0:
-                st.markdown("""
-                **Magyarázat laikusoknak:** A negatív Spearman-korreláció azt jelenti, hogy minél több közös aroma- (molekula) jelleg van két alapanyag között,
-                annál ritkábban fordult elő történetileg, hogy együtt szerepeljenek ugyanabban a receptben. Ennek több magyarázata lehet:
-                - **Komplementer ízek**: A szakácsok gyakran kombinálnak ellentétes karakterű alapanyagokat (például édes és sós, savas és zsíros), hogy kontrasztot hozzanak létre. Ha két alapanyag nagyon hasonló aromájú, kevésbé adnak hozzá új dimenziót.
-                - **Ritkaság és státusz**: Különleges, hasonló aromájú hozzávalókat lehet, hogy általában különféle, ritkább ételekhez használtak, így kevésbé kerültek párba.
-                - **Kulináris szokások**: A korabeli receptek ízlését, készítési módszereit és elérhető hozzávalókat befolyásolta a kultúra; a hasonló aromájú alapanyagokat lehet, hogy különböző fogásokban használták.
-                Röviden: a negatív kapcsolat nem jelenti, hogy az aroma ne számítana; inkább azt mutatja, hogy a közös molekulák nem vezettek gyakori közös használathoz a vizsgált receptkorpuszban.
-                """, unsafe_allow_html=True)
+        if corr is not None and corr < 0:
+            st.markdown("""
+            **Magyarázat laikusoknak:** A negatív Spearman-korreláció azt jelenti, hogy minél több közös aroma- (molekula) jelleg van két alapanyag között,
+            annál ritkábban fordult elő történetileg, hogy együtt szerepeljenek ugyanabban a receptben. Ennek lehetséges okai:
+            - **Kontrasztkészítés**: A szakácsok gyakran akartak ellentétes karaktereket egyesíteni (édes vs. sós, savas vs. zsíros), így különböző aromájú összetevőket párosítottak.
+            - **Ritkaság / speciális használat**: Hasonló aromájú hozzávalókat lehet, hogy általában különféle, speciális fogásokban használtak, ezért ritkán szerepeltek együtt.
+            - **Kulináris kultúra**: A korabeli receptek célja és szokásai befolyásolták, hogy miket párosítottak; a hasonló molekuláris profil nem feltétlenül vezet együtt használathoz.
+            Röviden: a negatív kapcsolat nem jelenti, hogy az aroma fontos lenne; azt jelzi, hogy a hasonlóság gyakran nem vezetett együtthasználathoz a vizsgált korpuszban.
+            """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -394,47 +301,74 @@ else:
         st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?")
-    st.markdown("Az alábbi eszközzel beilleszthetsz AI által generált recept(eke)t, és megmérjük a hasonlóságot a történeti korpusszal. Ha a similarity > 0.6, javasolt újragenerálni vagy erősebb groundingot alkalmazni.")
+    st.markdown("### 3) Mennyire megbízhatóak az AI által generált receptek (elemzés a generált szövegek alapján)")
+    st.markdown("Az oldal nem hívja újra az AI-t. Az app.py által egyszer generált recept(ek)et használjuk, amely(ek) a `st.session_state['ai_recipe']`-ben találhatók. Ha nincs ott semmi, lehet feltölteni a generált recept JSON-ét.")
 
-    gen_input = st.text_area("Illeszd be ide az AI által generált receptet(eke)t (különítsd el '---' vonallal több recept esetén):", height=220)
-    uploaded = st.file_uploader("Vagy tölts fel txt fájlt (opcionális)", type=['txt'], accept_multiple_files=False)
+    ai_candidates = []
+    if "ai_recipe" in st.session_state and st.session_state["ai_recipe"]:
+        ar = st.session_state["ai_recipe"]
+        if isinstance(ar, dict):
+            ai_candidates.append(ar)
+        elif isinstance(ar, list):
+            ai_candidates.extend(ar)
+    if "ai_recipes" in st.session_state and st.session_state["ai_recipes"]:
+        arc = st.session_state["ai_recipes"]
+        if isinstance(arc, list):
+            ai_candidates.extend([r for r in arc if isinstance(r, dict)])
+    uploaded = st.file_uploader("Tölts fel AI által generált recept(ek) JSON fájlt (opcionális)", type=['json','txt'], accept_multiple_files=False)
     if uploaded is not None:
         try:
-            content = uploaded.read().decode('utf-8')
-            if gen_input.strip():
-                gen_input = gen_input + "\n\n---\n\n" + content
-            else:
-                gen_input = content
+            raw = uploaded.read().decode('utf-8')
+            parsed = json.loads(raw)
+            if isinstance(parsed, dict):
+                ai_candidates.append(parsed)
+            elif isinstance(parsed, list):
+                ai_candidates.extend([p for p in parsed if isinstance(p, dict)])
         except Exception:
-            pass
+            try:
+                text = uploaded.read().decode('utf-8', errors='ignore')
+                ai_candidates.append({'archaic_recipe': text})
+            except Exception:
+                pass
 
-    corpus_texts = bodies.tolist() if len(bodies) > 0 else historical['title'].astype(str).apply(normalize_label).tolist()
-
-    generated_list = [g.strip() for g in gen_input.split('---') if g.strip()]
-    results = []
-    for gen in generated_list:
-        norm_gen = normalize_label(gen)
-        sims = [sequence_similarity(norm_gen, c) for c in corpus_texts]
-        max_sim = max(sims) if sims else 0.0
-        mean_sim = sum(sims) / len(sims) if sims else 0.0
-        novelty = 1.0 - max_sim
-        results.append({'generated': gen, 'max_similarity': max_sim, 'mean_similarity': mean_sim, 'novelty': novelty})
-
-    if generated_list:
-        for i, r in enumerate(results, start=1):
-            st.markdown(f"**Recept {i}**")
-            st.markdown(f"- Legnagyobb similarity a korpusszal: **{r['max_similarity']:.3f}**")
-            st.markdown(f"- Átlag similarity: **{r['mean_similarity']:.3f}**")
-            st.markdown(f"- Novelty (1 - max_similarity): **{r['novelty']:.3f}**")
-            if r['max_similarity'] > 0.6:
-                st.warning("A similarity > 0.6. Javasolt az újragenerálás vagy a prompt grounding erősítése (több kontextus/azonosító példa a történeti stílusról).")
-            else:
-                st.success("A generált recept elég eltérőnek tűnik a korpuszhoz képest (novelty magas).")
+    if not ai_candidates:
+        st.info("Nincs elérhető AI-generált recept a session-ben. Generálj egy receptet az `app.py` oldalon, majd térj vissza ide, vagy tölts fel JSON fájlt.")
     else:
-        st.info("Nincsenek generált receptek bemeneti mezőben. Illessz be szöveget a fenti mezőbe vagy tölts fel txt fájlt.")
+        corpus_texts = bodies.tolist() if len(bodies) > 0 else []
+        def seq_sim(a, b):
+            if not a or not b:
+                return 0.0
+            return SequenceMatcher(None, a, b).ratio()
+        hist_texts = []
+        for idx, row in historical.iterrows():
+            text = ''
+            for c in ('original_text','text','instructions','description'):
+                if c in historical.columns and isinstance(row.get(c,''), str):
+                    text = text + ' ' + row.get(c,'')
+            text = text.strip() or row.get('title','') or ''
+            hist_texts.append(strip_icon_ligatures(text))
+        for i, cand in enumerate(ai_candidates, start=1):
+            gen_text = cand.get('archaic_recipe') or cand.get('text') or cand.get('recipe') or cand.get('full_text') or ''
+            gen_text_norm = normalize_label(gen_text)
+            sims = [seq_sim(gen_text_norm, normalize_label(c)) for c in corpus_texts] if corpus_texts else []
+            max_sim = max(sims) if sims else 0.0
+            mean_sim = sum(sims)/len(sims) if sims else 0.0
+            novelty = 1.0 - max_sim
+            hist_sims = [seq_sim(gen_text_norm, normalize_label(h)) for h in hist_texts] if hist_texts else []
+            hist_max = max(hist_sims) if hist_sims else 0.0
+            st.markdown(f"**Generált recept {i}**")
+            st.markdown(f"- Cím / címke: **{strip_icon_ligatures(cand.get('title','(nincs cím)'))}**")
+            st.markdown(f"- Szószám (generált): **{len(gen_text.split())}**")
+            st.markdown(f"- Legnagyobb similarity a korpusszal: **{max_sim:.3f}**")
+            st.markdown(f"- Átlag similarity: **{mean_sim:.3f}**")
+            st.markdown(f"- Novelty (1 - max_similarity): **{novelty:.3f}**")
+            st.markdown(f"- Legnagyobb similarity bármely történeti példával: **{hist_max:.3f}**")
+            if max_sim > 0.6:
+                st.warning("A similarity > 0.6. Ez azt jelenti, hogy a generált szöveg erősen hasonlít a történeti korpusz egy vagy több példájához — ajánlott újragenerálni vagy erősebb groundingot alkalmazni, hogy elkerüljük a túlzott átjárást a forrásokból.")
+            else:
+                st.success("A generált recept elég eltérőnek tűnik a korpusz tipikus elemeihez képest (novelty magas).")
+            st.markdown("---")
 
-    st.markdown("---")
     st.markdown('<div class="highlight-box" style="text-align:center; font-size:1.1rem;">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.” – Guy Savoy</div>', unsafe_allow_html=True)
 
     st.markdown("""
