@@ -1,3 +1,4 @@
+
 import streamlit as st
 import streamlit.components.v1 as components
 import networkx as nx
@@ -74,24 +75,6 @@ st.markdown("""
     .card-title { font-size: 26px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
     .card-value { font-size: 42px; margin: 0; font-weight: 600; }
     .card-desc { font-size: 16px; line-height: 1.6; margin-top: 12px; color: #e7dac5; }
-</style>
-""", unsafe_allow_html=True)
-
-# CSS overrides to ensure interactive elements are clickable (fix for overlay blocking)
-st.markdown("""
-<style>
-.stButton > button, .stButton button, button, input, textarea, select, .stTextInput, .stSelectbox {
-    pointer-events: auto !important;
-    position: relative !important;
-    z-index: 10010 !important;
-}
-.scroll-to-top { pointer-events: auto !important; z-index: 10020 !important; }
-div[style*="position: absolute"], div[style*="position: fixed"] {
-    pointer-events: none !important;
-}
-div[style*="position: absolute"] * , div[style*="position: fixed"] * {
-    pointer-events: auto !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -793,6 +776,9 @@ def analyze_query_tokens(user_query: str):
     return analysis
 
 def build_reasoning_paragraph(token_analysis: list) -> str:
+    """
+    A token-analízisből folyó szöveges, narratív reasoning-et készít.
+    """
     sentences = []
 
     for item in token_analysis:
@@ -1366,57 +1352,6 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; margin: 3rem 0 2rem 0;">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
-        🧭 További oldalak
-    </h3>
-</div>
-""", unsafe_allow_html=True)
-
-nav_col1, nav_col2 = st.columns(2)
-with nav_col1:
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
-                border: 2px solid #ccaa77; 
-                border-radius: 12px; 
-                padding: 2rem; 
-                text-align: center;
-                margin-bottom: 1rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
-        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">A Projektről</h4>
-        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
-    </div>
-    """, unsafe_allow_html=True)
-    if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
-        try:
-            st.experimental_set_query_params(page="About")
-            st.experimental_rerun()
-        except Exception:
-            pass
-
-with nav_col2:
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
-                border: 2px solid #ccaa77; 
-                border-radius: 12px; 
-                padding: 2rem; 
-                text-align: center;
-                margin-bottom: 1rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">Analitika Dashboard</h4>
-        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
-    </div>
-    """, unsafe_allow_html=True)
-    if st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True):
-        try:
-            st.experimental_set_query_params(page="analytics")
-            st.experimental_rerun()
-        except Exception:
-            pass
-
-st.markdown("""
-<p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
-    💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
-</p>
-""", unsafe_allow_html=True)
 
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
