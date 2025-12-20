@@ -960,7 +960,7 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
 def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
     system_prompt = """
 Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok:
-- 70–110 szó között
+- 70-110 szó között
 - archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel
 - használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden
 - kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat
@@ -1436,6 +1436,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
