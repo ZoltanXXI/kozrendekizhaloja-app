@@ -430,7 +430,7 @@ st.markdown("""
         </li>
         <li>
             <strong>OpenAI:</strong> GPT-5.1 Prompting Guide 
-            - <a href="https://cookbook.openai.com/examples/gpt-5/gpt-5-2_prompting_guide" target="_blank">cookbook.openai.com</a>
+            - <a href="https://cookbook.openai.com/examples/gpt-5/gpt-5-1_prompting_guide" target="_blank">cookbook.openai.com</a>
         </li>
     </ul>
 </div>
@@ -486,6 +486,7 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
+
 
 
 
