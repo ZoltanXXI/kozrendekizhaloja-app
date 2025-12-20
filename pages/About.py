@@ -3,12 +3,12 @@ import re
 import unicodedata
 from html import unescape
 from pathlib import Path
-from collections import defaultdict
 
 import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
+from difflib import SequenceMatcher
 
 try:
     from utils.fasting import FASTING_RECIPE_TITLES, FASTING_KEYWORDS, classify_fasting_text
@@ -17,7 +17,7 @@ except Exception:
         from utils.fasting import FASTING_RECIPE_TITLES
     except Exception:
         FASTING_RECIPE_TITLES = []
-    FASTING_KEYWORDS = ['böjt', 'post', 'fast', 'fasta', 'luszt', 'lent'] 
+    FASTING_KEYWORDS = ['böjt', 'post', 'fast', 'fasta', 'luszt', 'lent']
     classify_fasting_text = None
 
 def strip_icon_ligatures(s):
@@ -75,6 +75,11 @@ def resolve_edges_path():
             return p
     return None
 
+def sequence_similarity(a, b):
+    if not a or not b:
+        return 0.0
+    return SequenceMatcher(None, a, b).ratio()
+
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
 st.markdown("""
@@ -84,23 +89,6 @@ st.markdown("""
     background-color: #5c1a1a !important;
     font-family: 'Cinzel', serif !important;
     color: #ffffff !important;
-}
-[data-testid="stSidebar"] button,
-[data-testid="stSidebar"] .st-expander,
-[data-testid="stSidebar"] span,
-[data-testid="stSidebar"] div[data-testid$="-label"] {
-    font-family: 'Cinzel', serif !important;
-    color: #ffffff !important;
-}
-[data-testid="stSidebar"] span[data-testid="stIconMaterial"],
-.span[data-testid="stIconMaterial"] {
-    display: none !important;
-}
-[data-testid="stKeyboardShortcutButton"],
-button[aria-label="Show keyboard shortcuts"],
-button[aria-label="Show keyboard navigation"],
-[data-testid^="stTooltip"] {
-    display: none !important;
 }
 .list-card {
     background: #fffaf2;
@@ -126,6 +114,52 @@ button[aria-label="Show keyboard navigation"],
     border-radius: 8px;
     border: 2px solid #d4af37;
 }
+.reader-quote {
+    background: linear-gradient(to right, #fff8e6, #fff5da);
+    border: 2px solid #d4af37;
+    padding: 2rem 2.5rem;
+    color: #5c4033;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+.reader-quote .first-letter {
+    float: left;
+    font-size: 5.2rem;
+    line-height: 1;
+    font-weight: 700;
+    margin-right: 0.4rem;
+    color: #8b5a2b;
+    font-family: 'Georgia', serif;
+}
+.reader-quote .signature {
+    text-align: right;
+    margin-top: 1rem;
+    font-style: italic;
+    color: #8b5a2b;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+}
+.section-title {
+    color: #2c1810;
+    font-size: 1.35rem;
+    font-weight: bold;
+    margin-top: 1.2rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.highlight-box {
+    background: linear-gradient(to right, #fffbf0, #fff9e6);
+    border-left: 4px solid #d4af37;
+    padding: 1rem;
+    margin: 1.2rem 0;
+    color: #5c4033;
+    border-radius: 6px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -145,7 +179,7 @@ st.markdown("""
     width: 100px;
     height: 4px;
     background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37);
-    margin: 1.5rem auto 3rem auto;
+    margin: 1rem auto 2rem auto;
     border-radius: 2px;
 "></div>
 """, unsafe_allow_html=True)
@@ -155,51 +189,27 @@ st.markdown("""
     <span class="first-letter">E</span>z az én könyvecském nem siet az udvarokban való nagy konyhákhoz,
     ahol a szakácsok csak magoktól is jóízű étkeket tudnak főzni; hanem csak leginkább
     a becsületes közrendeknek, akik gyakorta szakács nélkül szűkölködnek, akar szolgálni…
-    <br/><br/>
+    <div style="margin-top:0.8rem;">
     Azért jámbor Olvasó, ha kedved szerint vagyon ez a könyvecske, vegyed jó néven,
     és légy jó egészségben!
+    </div>
     <div class="signature">— Az Olvasóhoz, Kolozsvár, 1698</div>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div class="body-text">
-    <p>
-        <span class="first-letter-main">A</span> Közrendek Ízhálója projekt célja,
-        hogy modern technológia segítségével elevenítse fel a XVII. századi magyar gasztronómia
-        elfeledett világát. A projekt alapját a híres "Szakácsmesterségnek könyvecskéje" képezi,
-        amely 1698-ban jelent meg Kolozsváron, és az egyik legkorábbi ránk maradt magyar nyelvű
-        nyomtatott szakácskönyv.
-    </p>
+<div class="section-title">📖 Rövid leírás</div>
+<div style="color: #4a3728; font-size:1rem; line-height:1.7;">
+    A Közrendek Ízhálója projekt célja, hogy modern technológiával elevenítse fel a XVII. századi magyar gasztronómia világát.
 </div>
 """, unsafe_allow_html=True)
-
-st.markdown("""
-<h3 class="section-title">
-    📖 A Forrásmű
-</h3>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="body-text">
-    <p>
-        A <a href="https://mek.oszk.hu/08300/08343/08343.htm" target="_blank" rel="noopener noreferrer">
-        Szakácsmesterségnek könyvecskéje</a> receptjei nem pontos mennyiségeket, hanem arányokat és
-        eljárásokat rögzítenek. A könyv kifejezetten a "becsületes közrendeknek" készült, akik gyakorta
-        szakács nélkül szűkölködtek. Ez a <em>network science</em> (hálózatkutatás) szempontjából
-        különösen izgalmas, hiszen az alapanyagok kapcsolódásai rajzolják ki a kor ízlésvilágának térképét.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("---")
 
 tripartit_path = resolve_tripartit_path()
 edges_path = resolve_edges_path()
 hist_path = resolve_historical_csv_path()
 
 if not (tripartit_path and edges_path and hist_path):
-    st.warning("A hálózati / történeti CSV fájlok nem találhatók. Ellenőrizd, hogy a projekt `data/` mappájában vannak-e:\n- Recept_halo__molekula_tripartit.csv\n- recept_halo_edges.csv\n- HistoricalRecipe_export.csv")
+    st.warning("A szükséges CSV fájlok nem találhatók. Ellenőrizd, hogy a `data/` mappában vannak-e:\n- Recept_halo__molekula_tripartit.csv\n- recept_halo_edges.csv\n- HistoricalRecipe_export.csv")
 else:
     tripartit = pd.read_csv(tripartit_path, delimiter=';', encoding='utf-8', on_bad_lines='skip')
     edges = pd.read_csv(edges_path, delimiter=',', encoding='utf-8', on_bad_lines='skip')
@@ -210,7 +220,6 @@ else:
     type_col = next((c for c in tripartit.columns if 'type' in c.lower() or 'category' in c.lower()), None)
     tripartit['node_type'] = tripartit[type_col].astype(str).fillna('Egyéb') if type_col is not None else 'Egyéb'
     tripartit['norm'] = tripartit['Label'].apply(normalize_label)
-    node_norm_map = {r['norm']: r for _, r in tripartit.iterrows()}
 
     if 'norm_source' in edges.columns and 'norm_target' in edges.columns:
         srcs = edges['norm_source'].astype(str).tolist()
@@ -287,7 +296,6 @@ else:
         corr, pval = spearmanr(pair_shared_mols, pair_coocc)
 
     fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
-    titles_norm = historical['title'].astype(str).apply(normalize_label)
     text_fields = []
     for c in ('text', 'instructions', 'description', 'ingredients', 'body'):
         if c in historical.columns:
@@ -319,6 +327,12 @@ else:
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
+    if text_fields:
+        bodies = historical[text_fields].astype(str).agg(' '.join, axis=1).apply(normalize_label)
+    else:
+        bodies = historical['title'].astype(str).apply(normalize_label)
+    avg_words_body = round(bodies.apply(lambda t: len(t.split())).mean() if len(bodies) > 0 else 0, 1)
+
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
 
@@ -345,55 +359,94 @@ else:
     st.markdown("---")
     st.markdown("**2) Van-e mérhető kapcsolat az íz-aroma molekulák és a történeti párosítások között?**")
     if corr is None:
-        st.markdown("Nem volt elég páros adat a megbízható Spearman korreláció számításhoz (kevés közös molekula / páros).")
+        st.markdown("Nem volt elég páros adat a megbízható Spearman korreláció számítához (kevés közös molekula / páros).")
     else:
         st.markdown(f"Spearman rho = **{corr:.3f}**, p = **{pval:.3g}**")
         if pval < 0.05:
             st.markdown("Értékelés: statisztikailag szignifikáns korreláció — a közös molekulák száma részben magyarázza az együtt előfordulás gyakoriságát.")
         else:
             st.markdown("Értékelés: nincs szignifikáns korreláció — a molekuláris hasonlóság önmagában nem magyarázza a történeti párosításokat.")
+        if corr is not None:
+            if corr < 0:
+                st.markdown("""
+                **Magyarázat laikusoknak:** A negatív Spearman-korreláció azt jelenti, hogy minél több közös aroma- (molekula) jelleg van két alapanyag között,
+                annál ritkábban fordult elő történetileg, hogy együtt szerepeljenek ugyanabban a receptben. Ennek több magyarázata lehet:
+                - **Komplementer ízek**: A szakácsok gyakran kombinálnak ellentétes karakterű alapanyagokat (például édes és sós, savas és zsíros), hogy kontrasztot hozzanak létre. Ha két alapanyag nagyon hasonló aromájú, kevésbé adnak hozzá új dimenziót.
+                - **Ritkaság és státusz**: Különleges, hasonló aromájú hozzávalókat lehet, hogy általában különféle, ritkább ételekhez használtak, így kevésbé kerültek párba.
+                - **Kulináris szokások**: A korabeli receptek ízlését, készítési módszereit és elérhető hozzávalókat befolyásolta a kultúra; a hasonló aromájú alapanyagokat lehet, hogy különböző fogásokban használták.
+                Röviden: a negatív kapcsolat nem jelenti, hogy az aroma ne számítana; inkább azt mutatja, hogy a közös molekulák nem vezettek gyakori közös használathoz a vizsgált receptkorpuszban.
+                """, unsafe_allow_html=True)
 
     st.markdown("---")
 
     metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
 
     with metric_col1:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Történeti Recept</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek</div></div>', unsafe_allow_html=True)
 
     with metric_col2:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Node (Hálózat)</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
 
     with metric_col3:
-        avg_words = round(historical['title'].astype(str).apply(lambda t: len(t.split())).mean() if 'title' in historical.columns else 0, 1)
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{avg_words}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Átlag Szószám (cím)</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{avg_words_body}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Átlag szószám (recept szövegtest)</div></div>', unsafe_allow_html=True)
 
     with metric_col4:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Böjti Receptek (detektálva)</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("**4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
-    st.markdown("Az AI-alapú generálás `novelty` / `similarity` metrikával mérhető: SequenceMatcher/levenshtein alapú hasonlóság a történeti corpus-szal, majd `novelty = 1 - max_similarity` minden generációra.")
-    st.markdown("Ajánlott küszöb: ha similarity > 0.6 → új generálás vagy erősebb prompt grounding.")
+    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?")
+    st.markdown("Az alábbi eszközzel beilleszthetsz AI által generált recept(eke)t, és megmérjük a hasonlóságot a történeti korpusszal. Ha a similarity > 0.6, javasolt újragenerálni vagy erősebb groundingot alkalmazni.")
 
-st.markdown("---")
+    gen_input = st.text_area("Illeszd be ide az AI által generált receptet(eke)t (különítsd el '---' vonallal több recept esetén):", height=220)
+    uploaded = st.file_uploader("Vagy tölts fel txt fájlt (opcionális)", type=['txt'], accept_multiple_files=False)
+    if uploaded is not None:
+        try:
+            content = uploaded.read().decode('utf-8')
+            if gen_input.strip():
+                gen_input = gen_input + "\n\n---\n\n" + content
+            else:
+                gen_input = content
+        except Exception:
+            pass
 
-st.markdown("""
-<div class="highlight-box" style="text-align: center; font-size: 1.3rem;">
-    „A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.”
-                                                                                                    – Guy Savoy
-</div>
-""", unsafe_allow_html=True)
+    corpus_texts = bodies.tolist() if len(bodies) > 0 else historical['title'].astype(str).apply(normalize_label).tolist()
 
-st.markdown("""
-<div style="text-align: center; margin-top: 4rem; padding: 2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
-    <div style="font-size: 1.5rem; font-weight: bold; color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">
-        Közrendek Ízhálója
+    generated_list = [g.strip() for g in gen_input.split('---') if g.strip()]
+    results = []
+    for gen in generated_list:
+        norm_gen = normalize_label(gen)
+        sims = [sequence_similarity(norm_gen, c) for c in corpus_texts]
+        max_sim = max(sims) if sims else 0.0
+        mean_sim = sum(sims) / len(sims) if sims else 0.0
+        novelty = 1.0 - max_sim
+        results.append({'generated': gen, 'max_similarity': max_sim, 'mean_similarity': mean_sim, 'novelty': novelty})
+
+    if generated_list:
+        for i, r in enumerate(results, start=1):
+            st.markdown(f"**Recept {i}**")
+            st.markdown(f"- Legnagyobb similarity a korpusszal: **{r['max_similarity']:.3f}**")
+            st.markdown(f"- Átlag similarity: **{r['mean_similarity']:.3f}**")
+            st.markdown(f"- Novelty (1 - max_similarity): **{r['novelty']:.3f}**")
+            if r['max_similarity'] > 0.6:
+                st.warning("A similarity > 0.6. Javasolt az újragenerálás vagy a prompt grounding erősítése (több kontextus/azonosító példa a történeti stílusról).")
+            else:
+                st.success("A generált recept elég eltérőnek tűnik a korpuszhoz képest (novelty magas).")
+    else:
+        st.info("Nincsenek generált receptek bemeneti mezőben. Illessz be szöveget a fenti mezőbe vagy tölts fel txt fájlt.")
+
+    st.markdown("---")
+    st.markdown('<div class="highlight-box" style="text-align:center; font-size:1.1rem;">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.” – Guy Savoy</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="text-align: center; margin-top: 2rem; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
+        <div style="font-size: 1.1rem; font-weight: bold; color: #2c1810; font-family: Georgia, serif; margin-bottom: 0.5rem;">
+            Közrendek Ízhálója
+        </div>
+        <div style="color: #5c4033; font-size: 0.95rem; margin-bottom: 0.2rem;">
+            Hálózatelemzés + Történeti Források + AI Generálás
+        </div>
+        <div style="color: #8b5a2b; font-size: 0.85rem;">
+            © 2025 | Built with Streamlit, NetworkX, SciPy & Open-source tools
+        </div>
     </div>
-    <div style="color: #5c4033; font-size: 1rem; margin-bottom: 0.5rem;">
-        Hálózatelemzés + Történeti Források + AI Generálás
-    </div>
-    <div style="color: #8b5a2b; font-size: 0.9rem;">
-        © 2025 | Built with Streamlit, NetworkX, Plotly, Anthropic's Claude, GrokAI & OpenAI GPTs
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
