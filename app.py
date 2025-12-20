@@ -946,28 +946,25 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
             max_sim = sim
     return float(max_sim)
 
-def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.5, retries=2):
+def generate_ai_recipe(selected, connected, historical, user_query=None, samples=3, temperature=0.7, retries=1):
     import json
     import time
     import traceback
 
     system_prompt = (
-        "You are a concise, disciplined historical-recipe generator tuned for reliability (GPT-5.2 behavior). "
-        "Requirements: 1) Output must be valid JSON ONLY (no surrounding text) using Hungarian field names. "
-        "2) Required fields: 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count'. Optional: 'reasoning', 'clarifying_questions', 'self_check', 'error'. "
-        "3) Verbosity clamp: the 'archaic_recipe' must be between 70 and 110 words. If impossible, state precise word_count and set confidence='low'. "
-        "4) If the user query is ambiguous, produce up to 2 short 'clarifying_questions' instead of a recipe; set 'confidence'='uncertain'. "
-        "5) Include a brief 'self_check' object verifying: word_count range, potential overlap with historical examples (>60% similarity), and whether any assumptions were made. "
-        "6) No invented facts; when unsure, state assumptions under 'reasoning'. "
-        "7) Keep JSON field values in Hungarian and give 'novelty_score' between 0.0 and 1.0."
+        "Feladat: rövid, történeties hangvételű receptgenerálás a rendelkezésre álló csomópontok és történeti példák alapján. "
+        "Válasz csak és kizárólag érvényes JSON legyen magyar mezőnevekkel. Kötelező mezők: "
+        "'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count'. Opcionális: 'reasoning', 'clarifying_questions', 'self_check', 'error'. "
+        "Szabályok: az 'archaic_recipe' célzottan 70–110 szó között legyen; ha a bemenet homályos, max 2 rövid 'clarifying_questions'-t adj és állítsd 'confidence'='uncertain'. "
+        "Adj rövid 'self_check' objektumot, amely jelzi a szóhatárok betartását és magas átfedés történeti példákkal (>60%). Ne írj körítést, csak a JSON-t."
     )
 
     user_prompt = (
         f"Felhasználói keresés: {user_query}\n\n"
         f"Központi elem: {selected}\n\n"
-        f"Kapcsolódó elemek (name,type,degree): {json.dumps(connected, ensure_ascii=False)}\n\n"
+        f"Kapcsolódó elemek: {json.dumps(connected, ensure_ascii=False)}\n\n"
         f"Történeti példák (rövid): {json.dumps(historical, ensure_ascii=False)}\n\n"
-        "Ha kell, térképezd modern fogalmakat historikus megfelelőkre és indokold röviden a 'reasoning' mezőben."
+        "Ha modern fogalom szerepel, javasolj rövid historikus megfeleltetést a 'reasoning' mezőben."
     )
 
     attempt = 0
@@ -977,7 +974,7 @@ def generate_ai_recipe(selected, connected, historical, user_query=None, samples
     while attempt <= retries:
         try:
             response = client.responses.create(
-                model="gpt-5.2",
+                model="gpt-5.1",
                 input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
                 temperature=temperature,
                 max_output_tokens=700
@@ -986,36 +983,62 @@ def generate_ai_recipe(selected, connected, historical, user_query=None, samples
             if not ai_text:
                 try:
                     ai_text = ""
-                    for item in response.output:
-                        for content in item.get("content", []):
-                            if content.get("type") == "output_text":
-                                ai_text += content.get("text", "")
+                    for item in getattr(response, "output", []) or []:
+                        for c in item.get("content", []) or []:
+                            if c.get("type") == "output_text":
+                                ai_text += c.get("text", "")
                 except Exception:
                     ai_text = str(response)
-            ai_text = ai_text.strip()
+            ai_text = (ai_text or "").strip()
             if ai_text:
                 raw_texts.append(ai_text)
                 parsed = extract_json_from_text(ai_text)
                 if parsed and isinstance(parsed, dict):
-                    parsed["source_model"] = "gpt-5.2"
+                    parsed["source_model"] = "gpt-5.1"
                     candidates.append(parsed)
-                else:
-                    pass
             break
-        except Exception as e:
+        except Exception:
             raw_texts.append(traceback.format_exc())
             attempt += 1
-            time.sleep(0.5 * attempt)
+            time.sleep(0.4 * attempt)
             if attempt > retries:
                 break
 
-    if not candidates:
-        hist_texts = []
-        for h in historical:
+    def _hist_texts(historical_list):
+        res = []
+        for h in historical_list or []:
             if isinstance(h, dict):
-                hist_texts.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
+                res.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
             else:
-                hist_texts.append(str(h))
+                res.append(str(h))
+        return res
+
+    hist_texts = _hist_texts(historical)
+
+    if not candidates:
+        ambiguous = False
+        q = (user_query or "").strip()
+        if not q or len(q.split()) <= 1:
+            ambiguous = True
+        generic_tokens = {"recept", "kaja", "étel", "tiramisu", "desszert"}
+        if any(tok in (q or "").lower() for tok in generic_tokens) and len((q or "").split()) < 3:
+            ambiguous = True
+        if ambiguous:
+            clarifs = []
+            if not q:
+                clarifs.append("Milyen típusú ételre gondolsz (sütemény, főétel, leves)?")
+            else:
+                clarifs.append("Szeretnéd-e, hogy a recept a történeti (XVII. századi) megfeleltetés legyen, vagy modern alapanyagokkal dolgozzon?")
+            return {
+                "title": selected or "Tisztázó kérdés",
+                "archaic_recipe": "",
+                "confidence": "uncertain",
+                "novelty_score": 0.0,
+                "word_count": 0,
+                "clarifying_questions": clarifs,
+                "error": "ambiguous_query",
+                "source_model": "gpt-5.1"
+            }
 
         fallback_text = None
         for t in raw_texts:
@@ -1025,32 +1048,23 @@ def generate_ai_recipe(selected, connected, historical, user_query=None, samples
 
         if not fallback_text:
             center = strip_icon_ligatures(selected or "Ismeretlen")
-            parts = [strip_icon_ligatures(p.get("name","")) for p in connected[:4]]
+            parts = [strip_icon_ligatures(p.get("name", "")) for p in (connected or [])[:4]]
             parts_text = ", ".join([p for p in parts if p])
-            fallback_text = (
-                f"{center} köré szőtt emlékekből: keverve és párolva, {parts_text} szemléletével, "
-                "súlyos és lágy ízek egyesülnek, melyeket sóval és ecettel jóváhagynak."
-            )
+            fallback_text = f"{center} szerű tál: {parts_text} összeállítva, sóval, kevés édesítéssel, kávés vagy vajas aromával harmonizálva."
 
         wc = len(fallback_text.split())
         return {
-            "title": selected or "Generált recept",
+            "title": selected or "Generált recept (fallback)",
             "archaic_recipe": fallback_text,
             "confidence": "low",
-            "word_count": wc,
             "novelty_score": 0.0,
+            "word_count": wc,
             "error": "fallback_used",
-            "source_model": "gpt-5.2"
+            "source_model": "gpt-5.1"
         }
 
     best = None
-    best_score = -1.0
-    hist_texts = []
-    for h in historical:
-        if isinstance(h, dict):
-            hist_texts.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
-        else:
-            hist_texts.append(str(h))
+    best_novelty = -1.0
 
     for cand in candidates:
         recipe_text = cand.get("archaic_recipe", "") or cand.get("text", "") or ""
@@ -1059,35 +1073,35 @@ def generate_ai_recipe(selected, connected, historical, user_query=None, samples
         wc = len(recipe_text.split())
         cand["novelty_score"] = novelty
         cand["word_count"] = wc
-        if 70 <= wc <= 110 and novelty >= 0.1:
+        if 70 <= wc <= 110:
             cand["confidence"] = cand.get("confidence", "high")
         elif 50 <= wc <= 130:
             cand["confidence"] = cand.get("confidence", "medium")
         else:
             cand["confidence"] = "low"
-        if novelty > best_score:
-            best_score = novelty
+        if novelty > best_novelty:
+            best_novelty = novelty
             best = cand
 
     if best:
         if "self_check" not in best:
-            self_check = {
+            best["self_check"] = {
                 "word_count_ok": 70 <= best.get("word_count", 0) <= 110,
                 "high_overlap_with_historical": max_similarity_to_historical(best.get("archaic_recipe", ""), hist_texts) > 0.6,
                 "assumptions_present": bool(best.get("reasoning"))
             }
-            best["self_check"] = self_check
         return best
 
-    wc = len(raw_texts[0].split()) if raw_texts else 0
+    first_raw = raw_texts[0] if raw_texts else "A recept generálása sikertelen volt."
+    wc = len(first_raw.split())
     return {
         "title": selected or "Hiba",
-        "archaic_recipe": raw_texts[0] if raw_texts else "A recept generálása sikertelen volt.",
+        "archaic_recipe": first_raw,
         "confidence": "low",
-        "word_count": wc,
         "novelty_score": 0.0,
+        "word_count": wc,
         "error": "no_valid_candidate",
-        "source_model": "gpt-5.2"
+        "source_model": "gpt-5.1"
     }
     
 # Top anchor for scroll-to-top functionality
@@ -1496,6 +1510,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
