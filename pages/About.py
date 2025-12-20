@@ -8,7 +8,7 @@ import networkx as nx
 from collections import defaultdict
 from scipy.stats import spearmanr
 import streamlit as st
-from utils.fasting import FASTING_RECIPE_TITLES  # Ha van ilyen modul; különben távolítsd el és használd a keyword fallback-et
+from utils.fasting import FASTING_RECIPE_TITLES
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
@@ -277,6 +277,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
+
 with col1:
     st.markdown("""
     <div style="background: #fffbf0; padding: 1.5rem; border-radius: 8px; border: 2px solid #d4af37;">
@@ -289,12 +290,13 @@ with col1:
         </ul>
     </div>
     """, unsafe_allow_html=True)
+
 with col2:
     st.markdown("""
     <div style="background: #fffbf0; padding: 1.5rem; border-radius: 8px; border: 2px solid #d4af37;">
         <h4 style="color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">🧠 AI Receptgenerálás</h4>
         <ul style="color: #4a3728; line-height: 1.8;">
-            <li><strong>GPT-5.1 Prompting:</strong> Strukturált, grounding-alapú</li>
+            <li><strong>GPT-5.2 Prompting:</strong> Strukturált, grounding-alapú</li>
             <li><strong>Adaptív hosszúság:</strong> Korpusz-vezérelt (40-160 szó)</li>
             <li><strong>Network-informed:</strong> Degree-súlyozott döntések</li>
             <li><strong>Confidence score:</strong> Transzparens megbízhatóság</li>
@@ -302,13 +304,48 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
+# ===== ADATOK =====
 st.markdown("---")
-
 st.markdown("""
 <h3 class="section-title">
     📚 Az Adatbázis
 </h3>
 """, unsafe_allow_html=True)
+
+# Metrikák
+metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+
+with metric_col1:
+    st.markdown("""
+    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">330</div>
+        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Történeti Recept</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col2:
+    st.markdown("""
+    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">838</div>
+        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Node (Hálózat)</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col3:
+    st.markdown("""
+    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">70.7</div>
+        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Átlag Szószám</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with metric_col4:
+    st.markdown("""
+    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">32%</div>
+        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Böjti Receptek</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 def strip_icon_ligatures(s):
     if not isinstance(s, str): return ""
@@ -320,7 +357,6 @@ def strip_icon_ligatures(s):
 def normalize_label(s):
     if not isinstance(s, str): return ''
     s = strip_icon_ligatures(s).lower()
-    s = re.sub(r'[^a-z0-9\s]', '', s)  # Speciális karakterek eltávolítása
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
@@ -378,98 +414,117 @@ else:
     # Standardise labels & types
     label_col = next((c for c in tripartit.columns if c.lower() in ('label','name','title')), tripartit.columns[0])
     tripartit['Label'] = tripartit[label_col].astype(str).apply(strip_icon_ligatures)
-    type_col = next((c for c in tripartit.columns if 'type' in c.lower()), None)
+    type_col = next((c for c in tripartit.columns if 'type' in c.lower() or 'category' in c.lower()), None)
     tripartit['node_type'] = tripartit[type_col].astype(str).fillna('Egyéb') if type_col is not None else 'Egyéb'
     tripartit['norm'] = tripartit['Label'].apply(normalize_label)
+    node_norm_map = {r['norm']: r for _, r in tripartit.iterrows()}
 
-    # Pre-computed top for ingredients
-    ingredients = tripartit[tripartit['node_type'] == 'ingredient']
-    top_deg = ingredients.sort_values('Degree', ascending=False).head(10)
-    top_pr = ingredients.sort_values('PageRank', ascending=False).head(10)
-    top_bet = ingredients.sort_values('Betweeness Centrality', ascending=False).head(10)
-    top_eig = ingredients.sort_values('Eigen Centrality', ascending=False).head(10)
+    # Edges processing
+    if 'norm_source' in edges.columns and 'norm_target' in edges.columns:
+        srcs = edges['norm_source'].astype(str).tolist()
+        tgts = edges['norm_target'].astype(str).tolist()
+    else:
+        srcs = edges.iloc[:,0].astype(str).tolist()
+        tgts = edges.iloc[:,1].astype(str).tolist()  # Javítva: Target a második oszlop
 
-    # Build graph for correlation
+    def resolve_norm(val):
+        if not isinstance(val, str): return ''
+        return normalize_label(val)
+
+    srcs = [resolve_norm(s) for s in srcs]
+    tgts = [resolve_norm(t) for t in tgts]
+    edge_list = [(s,t) for s,t in zip(srcs,tgts) if s and t]
+
+    # Build graph
     G = nx.Graph()
     for _, r in tripartit.iterrows():
         G.add_node(r['norm'], label=r['Label'], node_type=r['node_type'])
-    srcs = edges['Source'].astype(str).apply(normalize_label).tolist()
-    tgts = edges['Target'].astype(str).apply(normalize_label).tolist()
-    edge_list = [(s, t) for s, t in zip(srcs, tgts) if s and t and s in G.nodes and t in G.nodes]
     G.add_edges_from(edge_list)
 
     # Ingredient nodes
-    ingredient_nodes = [n for n, d in G.nodes(data=True) if d.get('node_type') == 'ingredient']
+    ingredient_nodes = [n for n,d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type','')).lower()]
+
+    # Centralities
+    deg = dict(G.degree())
+    pr = nx.pagerank(G, alpha=0.85) if G.number_of_nodes()>0 else {}
+    bet = nx.betweenness_centrality(G) if G.number_of_nodes()>0 else {}
+    eig = {}
+    try:
+        eig = nx.eigenvector_centrality_numpy(G) if G.number_of_nodes()>0 else {}
+    except Exception:
+        eig = {}
+
+    def top_for(metric_dict, nodes, topn=10):
+        return sorted(((n, metric_dict.get(n,0)) for n in nodes), key=lambda x: x[1], reverse=True)[:topn]
+
+    top_deg = top_for(deg, ingredient_nodes, 10)
+    top_pr = top_for(pr, ingredient_nodes, 10)
+    top_bet = top_for(bet, ingredient_nodes, 10)
+    top_eig = top_for(eig, ingredient_nodes, 10)
+
+    def readable(norm):
+        return G.nodes[norm].get('label') if norm in G.nodes else norm
 
     # Molecule vs pairing correlation
-    molecules = [n for n, d in G.nodes(data=True) if d.get('node_type') == 'molecule']
-    recipes = [n for n, d in G.nodes(data=True) if d.get('node_type') == 'dish']
-    ing_to_mols = {ing: set(nb for nb in G.neighbors(ing) if G.nodes[nb]['node_type'] == 'molecule') for ing in ingredient_nodes}
-    ing_to_recipes = {ing: set(nb for nb in G.neighbors(ing) if G.nodes[nb]['node_type'] == 'dish') for ing in ingredient_nodes}
+    molecules = [n for n,d in G.nodes(data=True) if 'molecule' in str(d.get('node_type','')).lower()]
+    recipes = [n for n,d in G.nodes(data=True) if 'dish' in str(d.get('node_type','')).lower()]
+    ing_to_mols = {ing:set() for ing in ingredient_nodes}
+    ing_to_recipes = {ing:set() for ing in ingredient_nodes}
+    for ing in ingredient_nodes:
+        for mol in molecules:
+            if G.has_edge(ing,mol): ing_to_mols[ing].add(mol)
+        for rec in recipes:
+            if G.has_edge(ing,rec): ing_to_recipes[ing].add(rec)
+
     pair_shared_mols = []
     pair_coocc = []
-    for i in range(len(ingredient_nodes)):
-        for j in range(i + 1, len(ingredient_nodes)):
-            a, b = ingredient_nodes[i], ingredient_nodes[j]
+    ing_list = ingredient_nodes
+    for i in range(len(ing_list)):
+        for j in range(i+1, len(ing_list)):
+            a = ing_list[i]; b = ing_list[j]
             shared = len(ing_to_mols[a] & ing_to_mols[b])
             coocc = len(ing_to_recipes[a] & ing_to_recipes[b])
             if shared > 0 or coocc > 0:
                 pair_shared_mols.append(shared)
                 pair_coocc.append(coocc)
-    corr, pval = spearmanr(pair_shared_mols, pair_coocc) if len(pair_shared_mols) >= 10 and sum(pair_shared_mols) > 0 else (None, None)
+
+    corr = None; pval = None
+    if len(pair_shared_mols) >= 10 and sum(pair_shared_mols) > 0:
+        corr, pval = spearmanr(pair_shared_mols, pair_coocc)
 
     # Fasting percentage
-    fast_kws = ['böjt', 'böjti', 'post', 'fast', 'lenten']
-    titles = historical['title'].astype(str).apply(strip_icon_ligatures).str.lower()
-    fast_count = titles.apply(lambda s: any(k in s for k in fast_kws)).sum()
-    fast_pct = round(fast_count / len(titles) * 100, 1) if len(titles) > 0 else None
+    fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
+    titles_norm = historical['title'].astype(str).apply(normalize_label)
+    fast_count = sum(1 for t in titles_norm if t in fasting_set)
+    fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else None
 
     # Render results
     st.markdown("### Kutatási eredmények (adatok alapján)")
-
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
-    st.markdown("*Degree (kapcsolatok száma): Az alapanyag hány receptben vagy molekulában kapcsolódik közvetlenül. Minél magasabb, annál gyakoribb használat.*")
-    for _, row in top_deg.iterrows():
-        st.markdown(f"- **{row['Label']}** — Degree: {int(row['Degree'])}")
-
-    st.markdown("*PageRank (hálózati befolyás): Mint a Google keresőnél, mutatja az alapanyag 'fontosságát' a teljes hálózatban.*")
-    for _, row in top_pr.iterrows():
-        st.markdown(f"- **{row['Label']}** — PageRank: {row['PageRank']:.6f}")
-
-    st.markdown("*Betweenness (hidak): Az alapanyag hányszor 'közvetít' más elemek között. Magas érték = kulcsösszetevő.*")
-    for _, row in top_bet.iterrows():
-        st.markdown(f"- **{row['Label']}** — Betweenness: {row['Betweeness Centrality']:.6f}")
-
-    st.markdown("*Eigen Centrality (globális központiság): Az alapanyag kapcsolatai mennyire központi elemekhez kötődnek.*")
-    for _, row in top_eig.iterrows():
-        st.markdown(f"- **{row['Label']}** — Eigen: {row['Eigen Centrality']:.6f}")
+    st.markdown("Top 10 — Degree (kapcsolatok száma):")
+    for n,v in top_deg:
+        st.markdown(f"- **{readable(n)}** — Degree: {int(v)}")
+    st.markdown("Top 10 — PageRank (hálózati befolyás):")
+    for n,v in top_pr:
+        st.markdown(f"- **{readable(n)}** — PageRank: {v:.6f}")
+    st.markdown("Top 10 — Betweenness (hidak):")
+    for n,v in top_bet:
+        st.markdown(f"- **{readable(n)}** — Betweenness: {v:.6f}")
 
     st.markdown("---")
-
     st.markdown("**2) Van-e mérhető kapcsolat az íz-aroma molekulák és a történeti párosítások között?**")
-    st.markdown("*Ez a korreláció mutatja, hogy a hasonló ízű alapanyagok (közös molekulák) mennyire gyakran szerepelnek együtt receptekben.*")
     if corr is None:
-        st.markdown("Nem volt elég páros adat a megbízható Spearman korreláció számításhoz.")
+        st.markdown("Nem volt elég páros adat a megbízható Spearman korreláció számításhoz (kevés közös molekula / páros).")
     else:
         st.markdown(f"Spearman rho = **{corr:.3f}**, p = **{pval:.3g}**")
         if pval < 0.05:
-            st.markdown("Értékelés: Szignifikáns kapcsolat – a molekuláris hasonlóság részben magyarázza a párosításokat.")
+            st.markdown("Értékelés: statisztikailag szignifikáns korreláció — a közös molekulák száma részben magyarázza az együtt előfordulás gyakoriságát.")
+            st.markdown("A negatív érték azt jelenti, hogy minél több közös molekula (hasonló íz), annál ritkábban használták együtt az alapanyagokat. Ez kontrasztos párosításokat jelez (pl. édes-sós), nem hasonlókat.")
         else:
-            st.markdown("Értékelés: Nincs szignifikáns kapcsolat – más tényezők (pl. kultúra) dominálnak.")
+            st.markdown("Értékelés: nincs szignifikáns korreláció — a molekuláris hasonlóság önmagában nem magyarázza a történeti párosításokat.")
 
     st.markdown("---")
-
-    st.markdown("**3) Hány százalék a böjti recept?**")
-    st.markdown("*Böjti receptek: Olyan ételek, amelyek hús nélkül készülnek, böjti időszakokra.*")
-    if fast_pct is not None:
-        st.markdown(f"A receptek **{fast_pct}%**-a böjti jellegű (kulcsszavak alapján).")
-    else:
-        st.markdown("Nem sikerült kiszámítani (hiányzó adatok).")
-
-    st.markdown("---")
-
     st.markdown("**4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
-    st.markdown("*Similarity: Mennyire hasonlít az AI-generált recept a régi szövegekre (szavak, stílus). Novelty: Mennyire új az ötlet.*")
     st.markdown("Az AI-alapú generálás `novelty` / `similarity` metrikával mérhető: SequenceMatcher/levenshtein alapú hasonlóság a történeti corpus-szal, majd `novelty = 1 - max_similarity` minden generációra.")
     st.markdown("Ajánlott küszöb: ha similarity > 0.6 → új generálás vagy erősebb prompt grounding.")
 
