@@ -1,4 +1,3 @@
-#About.py
 import os
 import re
 import unicodedata
@@ -10,6 +9,8 @@ import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
+
+from utils.fasting import FASTING_RECIPE_TITLES, is_fasting_title
 
 def strip_icon_ligatures(s):
     if not isinstance(s, str):
@@ -71,17 +72,47 @@ st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+/* Sidebar styling (aligns with app.py) */
+[data-testid="stSidebar"] > div:first-child { background-color: #5c1a1a !important; font-family: 'Cinzel', serif !important; color: #ffffff !important; }
+[data-testid="stSidebar"] button, [data-testid="stSidebar"] .st-expander, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div[data-testid$="-label"] { font-family: 'Cinzel', serif !important; color: #ffffff !important; }
+[data-testid="stSidebar"] span[data-testid="stIconMaterial"], .span[data-testid="stIconMaterial"] { display: none !important; }
+
+/* Main page styling */
 .reader-quote { background: linear-gradient(to right, #fff8e6, #fff5da); border: 2px solid #d4af37; padding: 2rem 2.5rem; color: #5c4033; font-size: 1.05rem; line-height: 1.7; border-radius: 10px; position: relative; margin-bottom: 1.5rem; }
-.reader-quote .first-letter { float: left; font-size: 5.6rem; line-height: 1; font-weight: 700; margin-right: 0.5rem; color: #8b5a2b; font-family: 'Georgia', serif; }
-.reader-quote .signature { text-align: right; margin-top: 1rem; font-style: italic; color: #8b5a2b; font-size: 0.95rem; font-family: 'Georgia', serif; }
 .list-card { background: #fffaf2; border: 1px solid #e6d2a3; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
 .list-title { font-weight: 700; color: #2c1810; font-size: 1.05rem; margin-bottom: 8px; }
 .list-item { margin: 6px 0; line-height: 1.4; }
 .metric-card { text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37; }
 .section-title { color: #2c1810; font-size: 1.35rem; font-weight: bold; margin-top: 1.2rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
 .highlight-box { background: linear-gradient(to right, #fffbf0, #fff9e6); border-left: 4px solid #d4af37; padding: 1rem; margin: 1.2rem 0; color: #5c4033; border-radius: 6px; }
+/* Large centered quote */
+.large-quote { font-family: 'Cinzel', serif; font-size: 2rem; color: #3b2b1b; text-align: center; margin: 2rem auto; max-width: 1200px; line-height: 1.2; font-weight:700; }
+.large-quote small { display:block; font-size:0.85rem; margin-top:0.5rem; color:#7a5b3a; font-weight:400; }
 </style>
 """, unsafe_allow_html=True)
+
+with st.sidebar:
+    st.markdown("<div style='padding:1rem; font-family:Cinzel, serif; color:#fff;'><h3 style='margin:0;'>Közrendek Ízhálója</h3></div>", unsafe_allow_html=True)
+    if st.button("🏠 Főoldal", use_container_width=True):
+        try:
+            st.experimental_set_query_params(page="home")
+            st.experimental_rerun()
+        except Exception:
+            pass
+    if st.button("📖 Projektről", use_container_width=True):
+        try:
+            st.experimental_set_query_params(page="about")
+            st.experimental_rerun()
+        except Exception:
+            pass
+    if st.button("📊 Analitika", use_container_width=True):
+        try:
+            st.experimental_set_query_params(page="analytics")
+            st.experimental_rerun()
+        except Exception:
+            pass
+    st.markdown("---")
+    st.markdown("<div style='padding:0.4rem 0.6rem; color:#f5efe6; font-size:0.95rem;'>Kapcsolódó oldalak és vezérlők</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
@@ -92,14 +123,15 @@ st.markdown("""
 
 st.markdown("""
 <div class="reader-quote">
-    <span class="first-letter">E</span>z az én könyvecském nem siet az udvarokban való nagy konyhákhoz,
+    <span style="font-size:4.2rem; float:left; line-height:1; margin-right:0.5rem; color:#8b5a2b; font-family:Georgia, serif;">E</span>
+    z az én könyvecském nem siet az udvarokban való nagy konyhákhoz,
     ahol a szakácsok csak magoktól is jóízű étkeket tudnak főzni; hanem csak leginkább
     a becsületes közrendeknek, akik gyakorta szakács nélkül szűkölködnek, akar szolgálni…
     <div style="margin-top:0.8rem;">
     Azért jámbor Olvasó, ha kedved szerint vagyon ez a könyvecske, vegyed jó néven,
     és légy jó egészségben!
     </div>
-    <div class="signature">— Az Olvasóhoz, Kolozsvár, 1698</div>
+    <div style="text-align:right; font-style:italic; margin-top:0.6rem; color:#8b5a2b;">— Az Olvasóhoz, Kolozsvár, 1698</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -204,32 +236,42 @@ else:
         bodies = historical['title'].astype(str).apply(normalize_label) if 'title' in historical.columns else pd.Series([], dtype=str)
     avg_words_body = round(bodies.apply(lambda t: len(t.split())).mean() if len(bodies) > 0 else 0, 1)
 
-    try:
-        from utils.fasting import FASTING_RECIPE_TITLES, FASTING_KEYWORDS, classify_fasting_text
-        fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
-    except Exception:
-        FASTING_KEYWORDS = ['böjt', 'post', 'fast', 'fasta', 'luszt', 'lent']
-        fasting_set = set()
+    # Böjti receptek: használjuk a utils.fasting.is_fasting_title függvényt
     fasting_flags = []
     for idx, row in historical.iterrows():
-        title = normalize_label(str(row.get('title','')))
-        combined_text = title
-        for c in text_fields:
-            combined_text = combined_text + ' ' + normalize_label(str(row.get(c,'')))
-        is_fasting = False
-        if title in fasting_set:
-            is_fasting = True
-        else:
-            for kw in (FASTING_KEYWORDS if 'FASTING_KEYWORDS' in globals() else []):
-                if kw in combined_text:
-                    is_fasting = True
-                    break
-        fasting_flags.append(is_fasting)
+        title_raw = row.get('title', '') or ''
+        flag = False
+        try:
+            flag = bool(is_fasting_title(title_raw))
+        except Exception:
+            flag = False
+        fasting_flags.append(flag)
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
-    st.markdown("### Kutatási eredmények (adatok alapján)")
+    # --- KÜLÖN METRIKA-BLOKK a felül elhelyezéshez (kézzel megadott értékek a kérést követően) ---
+    st.markdown("""
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem;">
+        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
+            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">330</div>
+            <div style="color:#4a3728; margin-top:0.3rem;">Történeti receptek</div>
+        </div>
+        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
+            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">833</div>
+            <div style="color:#4a3728; margin-top:0.3rem;">Node (hálózat)</div>
+        </div>
+        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
+            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">72.1</div>
+            <div style="color:#4a3728; margin-top:0.3rem;">Átlag szószám (recept szövegtest)</div>
+        </div>
+        <div style="min-width:160px; text-align:center; background:#fffbf0; border:2px solid #d4af37; padding:1rem; border-radius:10px;">
+            <div style="font-size:2rem; font-weight:700; color:#8b5a2b;">2.4%</div>
+            <div style="color:#4a3728; margin-top:0.3rem;">Böjti receptek (detektálva)</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
+    st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
 
     deg_col, pr_col, bet_col = st.columns(3)
@@ -280,7 +322,7 @@ else:
     metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
 
     with metric_col1:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek (adatból)</div></div>', unsafe_allow_html=True)
 
     with metric_col2:
         st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
@@ -311,8 +353,7 @@ Mit jelent ez a gyakorlatban? Az AI képes címeket és alapanyagokat generálni
 Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles rekonstrukciójára - csak modern, sablonos utánzatokat hoz létre.
     """, unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown('<div class="highlight-box" style="text-align:center; font-size:1.1rem;">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.” – Guy Savoy</div>', unsafe_allow_html=True)
+    st.markdown('<div class="large-quote">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.”<small>– Guy Savoy</small></div>', unsafe_allow_html=True)
 
     st.markdown("""
     <div style="text-align: center; margin-top: 2rem; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
@@ -327,4 +368,3 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
-
