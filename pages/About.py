@@ -70,9 +70,6 @@ st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
-[data-testid="stSidebar"] > div:first-child { background-color: #5c1a1a !important; font-family: 'Cinzel', serif !important; color: #ffffff !important; }
-[data-testid="stSidebar"] button, [data-testid="stSidebar"] .st-expander, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div[data-testid$="-label"] { font-family: 'Cinzel', serif !important; color: #ffffff !important; }
-[data-testid="stSidebar"] span[data-testid="stIconMaterial"], .span[data-testid="stIconMaterial"] { display: none !important; }
 .reader-quote { background: linear-gradient(to right, #fff8e6, #fff5da); border: 2px solid #d4af37; padding: 2rem 2.5rem; color: #5c4033; font-size: 1.05rem; line-height: 1.7; border-radius: 10px; position: relative; margin-bottom: 1.5rem; }
 .reader-quote .first-letter { float: left; font-size: 5.6rem; line-height: 1; font-weight: 700; margin-right: 0.5rem; color: #8b5a2b; font-family: 'Georgia', serif; }
 .reader-quote .signature { text-align: right; margin-top: 1rem; font-style: italic; color: #8b5a2b; font-size: 0.95rem; font-family: 'Georgia', serif; }
@@ -82,16 +79,8 @@ st.markdown("""
 .metric-card { text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37; }
 .section-title { color: #2c1810; font-size: 1.35rem; font-weight: bold; margin-top: 1.2rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
 .highlight-box { background: linear-gradient(to right, #fffbf0, #fff9e6); border-left: 4px solid #d4af37; padding: 1rem; margin: 1.2rem 0; color: #5c4033; border-radius: 6px; }
-.sidebar-section { color: #ffffff; font-family: Cinzel, serif; margin-bottom: 12px; }
 </style>
 """, unsafe_allow_html=True)
-
-with st.sidebar:
-    st.markdown('<div class="sidebar-section"><strong>Navigation</strong></div>', unsafe_allow_html=True)
-    st.markdown("- `app.py`")
-    st.markdown("- `about.py` (this page)")
-    st.markdown("- `data/`")
-    st.markdown("---")
 
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
@@ -239,6 +228,7 @@ else:
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
     st.markdown("### Kutatási eredmények (adatok alapján)")
+
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
 
     deg_col, pr_col, bet_col = st.columns(3)
@@ -301,72 +291,24 @@ else:
         st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét? (Összegzés)")
+    st.markdown("**3) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
     st.markdown("""
-- Összes generált recept: **100**
+Az AI nem tudja utánozni a történeti receptek stílusát.
 
-- Átlag legnagyobb similarity a korpusszal: **0.287**
+A probléma: A generált receptek monoton, gépiesen ismétlődő mondatokat produkálnak ("majd ecettel főzve, majd mézzel párolva..."), amelyek semmiben nem hasonlítanak az eredeti történeti receptekre.
 
-- Átlag novelty (1 - max_similarity): **0.713**
+A számok ezt igazolják:
 
-- Hány recept haladja meg a similarity > 0.6 küszöböt: **0 (0.0%)**
+- Átlagos hasonlóság a történeti korpusszal: csak **28.7%**
 
-**Leginkább a korpusszal megegyező/hasonsző generált példák (top 6)**
+- Egyetlen generált recept sem éri el a **60%**-os hasonlósági küszöböt
 
-1) **hagyma** — max_similarity: **0.347**, novelty: **0.653**, szavak: 26
+- Minden recept **71%** "újdonságot" mutat — ami itt azt jelenti, hogy teljesen más, mint az eredeti stílus
 
-Vegyünk hagymaot. majd ecettel főzve. majd mézzel párolva. majd hagymával párolva. majd mézzel párolva. majd hagymával pirítva. majd mézzel pirítva. majd hagymával párolva. majd ecettel főzve....
+Mit jelent ez a gyakorlatban? Az AI képes címeket és alapanyagokat generálni, de a szöveg stílusa, szerkezete és hangvétele gépiesen ismétlődő sablon, nem pedig autentikus történeti nyelv. A "hagyma" receptben például 9-szer ismétlődik ugyanaz a szerkezet, ami egy valódi történeti receptben soha nem fordulna elő.
 
-2) **Palacsinta** — max_similarity: **0.336**, novelty: **0.664**, szavak: 26
-
-Vegyünk Palacsintaot. majd ecettel főzve. majd hagymával pirítva. majd mézzel párolva. majd ecettel párolva. majd borssal pirítva. majd hagymával párolva. majd mézzel főzve. majd borssal főzve....
-
-3) **Ludas kása** — max_similarity: **0.334**, novelty: **0.666**, szavak: 27
-
-Vegyünk Ludas kásaot. majd borssal főzve. majd ecettel főzve. majd mézzel párolva. majd mézzel párolva. majd hagymával pirítva. majd ecettel pirítva. majd hagymával párolva. majd hagymával főzve....
-
-4) **Tyúk tiszta borssal** — max_similarity: **0.334**, novelty: **0.666**, szavak: 28
-
-Vegyünk Tyúk tiszta borssalot. majd mézzel pirítva. majd hagymával párolva. majd mézzel párolva. majd hagymával főzve. majd mézzel párolva. majd borssal párolva. majd hagymával főzve. majd mézzel főzve....
-
-5) **Serleves** — max_similarity: **0.321**, novelty: **0.679**, szavak: 26
-
-Vegyünk Serlevesot. majd ecettel párolva. majd ecettel főzve. majd hagymával párolva. majd borssal pirítva. majd ecettel pirítva. majd borssal pirítva. majd ecettel főzve. majd mézzel párolva....
-
-6) **sódar (füstölt sertéssonka)** — max_similarity: **0.320**, novelty: **0.680**, szavak: 28
-
-Vegyünk sódar (füstölt sertéssonka)ot. majd mézzel főzve. majd mézzel főzve. majd borssal pirítva. majd hagymával párolva. majd ecettel főzve. majd borssal pirítva. majd borssal főzve. majd borssal főzve....
-
-**Módszertan röviden (ami történt a generálásnál):**
-
-- A GPT-5.1-nek egyszer küldünk egy promptot, amely tartalmaz rövid történeti példákat és néhány node-címet; a modell JSON tömböt ad vissza `title` és `archaic_recipe` mezőkkel.
-
-- A visszaadott receptekhez kiszámoljuk a legnagyobb similarity értéket (SequenceMatcher) a történeti korpusz bármely teljes receptjével: ez a `max_similarity`.
-
-- Novelty = 1 - max_similarity. Ha `max_similarity` > 0.6, akkor a generált szöveg erősen hasonlít egy vagy több forráspéldához — ilyenkor javasolt újragenerálás vagy erősebb grounding.
-
-- A lekérést egyszer végezzük el; az eredmény a session-ben cache-elve és elmentve marad, így további elemzések tokenmentesek.
-
-**Példa: 3 véletlenszerű generált recept (teljes szöveg)**
-
-- **phenylacetaldehyde**
-
-Vegyünk phenylacetaldehydeot. majd borssal pirítva. majd mézzel pirítva. majd mézzel pirítva. majd hagymával pirítva. majd borssal párolva. majd borssal pirítva. majd hagymával főzve. majd hagymával párolva.
-
-Novelty: **0.738**, Max similarity: **0.262**, Szavak: 26
-
-- **Torzsa saláta**
-
-Vegyünk Torzsa salátaot. majd mézzel főzve. majd borssal főzve. majd ecettel főzve. majd ecettel főzve. majd ecettel párolva. majd ecettel pirítva. majd mézzel főzve. majd mézzel párolva.
-
-Novelty: **0.709**, Max similarity: **0.291**, Szavak: 27
-
-- **Luther lév**
-
-Vegyünk Luther lévot. majd ecettel főzve. majd borssal pirítva. majd hagymával főzve. majd hagymával pirítva. majd hagymával pirítva. majd ecettel pirítva. majd borssal főzve. majd borssal pirítva.
-
-Novelty: **0.717**, Max similarity: **0.283**, Szavak: 27
-""", unsafe_allow_html=True)
+Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles rekonstrukciójára - csak modern, sablonos utánzatokat hoz létre.
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown('<div class="highlight-box" style="text-align:center; font-size:1.1rem;">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.” – Guy Savoy</div>', unsafe_allow_html=True)
