@@ -12,6 +12,9 @@ import streamlit as st
 
 from utils.fasting import FASTING_RECIPE_TITLES, is_fasting_title
 
+# Top anchor for scroll-to-top functionality - MOVED BEFORE Banner
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
+
 def strip_icon_ligatures(s):
     if not isinstance(s, str):
         return ""
@@ -68,9 +71,6 @@ def sequence_similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
-
-# Top anchor for scroll-to-top functionality - MOVED BEFORE Banner
-st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <style>
@@ -372,4 +372,5 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     }
     </style>
     """, unsafe_allow_html=True)
+
 
