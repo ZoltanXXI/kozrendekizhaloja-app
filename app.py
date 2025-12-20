@@ -937,7 +937,7 @@ Utasítások: Kérlek, írj egy rövid, archaizáló, magyar nyelvű ajánlást 
         result = {
             "suggested_nodes": combined_suggestions,
             "suggested_recipes": suggested_recipes,
-            "reasoning": reasoning,
+            "reasoning": reasoning text,
             "mapping": analysis
         }
         return result
@@ -1437,5 +1437,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
