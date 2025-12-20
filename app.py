@@ -1353,26 +1353,39 @@ st.markdown("""
 <div style="text-align: center; margin: 3rem 0 2rem 0;">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
 
-st.markdown(textwrap.dedent("""
-<div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
-    <p style="font-family: 'Cinzel', serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.3rem; color: #e8c896; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">Közrendek Ízhálója</p>
-    <div style="width: 120px; height: 2px; background: linear-gradient(90deg, transparent, #ccaa77, transparent); margin: 0.8rem auto 1.2rem auto;"></div>
-    <p style="font-family: 'Crimson Text', serif; font-size: 1.05rem; opacity: 0.9; margin: 0.2rem 0 1.6rem 0; letter-spacing: 0.04em;">Hálózatelemzés - Történeti források - AI-alapú generálás</p>
-    <p style="font-size: 0.95rem; line-height: 1.7; max-width: 820px; margin: 0 auto; opacity: 0.85; color: #efe6d8;">
-        A projekt Barabási Albert-László hálózatkutatásaira és a
-        <em>&quot;Szakácsmesterségnek könyvecskéje&quot;</em> (Tótfalusi Kis Miklós, 1698)
-        című szakácskönyv digitális elemzésére épül.<br>
-        Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár
-    </p>
-    <p style="font-size: 0.9rem; margin-top: 1.4rem; opacity: 0.75; color: #d6b98c; letter-spacing: 0.06em;">
-        Felhasznált technológiák: Streamlit - NetworkX - Plotly - SciPy - OpenAI GPT-5.1; 5-nano; 5-mini - Claude - Grok
-    </p>
-    <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
-    <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">
-        &copy; 2025 - Digitális bölcsészet-, társadalom- és hálózattudományi projekt
-    </p>
-</div>
-"""), unsafe_allow_html=True)
+st.markdown("""
+<a href="#top-anchor" class="scroll-to-top" aria-label="Vissza a tetejére">&uarr;</a>
+
+<style>
+.scroll-to-top {
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    background: linear-gradient(135deg, #8b5a2b, #d4af37);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.18s ease;
+    z-index: 9999;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 50px;
+}
+.scroll-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+    background: linear-gradient(135deg, #d4af37, #8b5a2b);
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- Scroll-to-top: anchor alapú, a fő DOM-ba injektálva (nem iframe) ---
 st.markdown("""
 <a href="#top-anchor" class="scroll-to-top" aria-label="Vissza a tetejére">↑</a>
@@ -1406,3 +1419,4 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
