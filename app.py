@@ -484,6 +484,7 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
             sampled_nodes.extend(random.sample(group, min(len(group), max_nodes // max(1, len(grouped)))))
     else:
         sampled_nodes = nodes[:max_nodes]
+    normalized_query = None
     if user_query:
         def _normalize(s):
             if not isinstance(s, str):
@@ -494,6 +495,7 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
             s = re.sub(r"[^a-z0-9]+", ' ', s)
             s = ' '.join(s.split())
             return s
+        normalized_query = _normalize(user_query)
     nodes_ctx = []
     for node in sampled_nodes:
         entry = dict(node)
@@ -514,9 +516,20 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
         }
         for n in nodes_ctx if n.get("name")
     ]
-        q_norm = _normalize(user_query)
+
+    if normalized_query and user_query:
+        q_norm = normalized_query
         q_tokens = [t for t in q_norm.split() if len(t) > 1]
         if q_tokens:
+            def _normalize(s):
+                if not isinstance(s, str):
+                    return ""
+                s = s.lower()
+                s = unicodedata.normalize('NFKD', s)
+                s = ''.join(ch for ch in s if not unicodedata.combining(ch))
+                s = re.sub(r"[^a-z0-9]+", ' ', s)
+                s = ' '.join(s.split())
+                return s
             matched = [n for n in nodes if any(tok in _normalize(n.get("Label", "")) for tok in q_tokens)]
             matched_perfect = []
             if perfect_ings:
@@ -554,6 +567,7 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
     Kapcsolódó alapanyagok: {', '.join(related_nodes)}
     Kapcsolódó történeti analógiák: {related_analogies}
     """
+    return nodes_ctx, simplified_nodes
 
 def extract_json_from_text(text: str):
     if not isinstance(text, str):
@@ -1366,7 +1380,3 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
-
-
-
-
