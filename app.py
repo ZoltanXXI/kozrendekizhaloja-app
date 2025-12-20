@@ -1370,14 +1370,9 @@ with nav_col1:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
     """, unsafe_allow_html=True)
-    st.markdown(
-        '<a href="?page=About" role="button" '
-        'style="display:inline-block; text-decoration:none; background: linear-gradient(135deg, #800000 0%, #5c1a1a 100%); '
-        'color:#fff; padding:0.6rem 1rem; border-radius:8px; font-family: Cinzel, serif; font-weight:600; '
-        'box-shadow:0 4px 8px rgba(0,0,0,0.3);">'
-        '📖 Tovább a Projektről oldalra</a>',
-        unsafe_allow_html=True
-    )
+    if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
+        st.experimental_set_query_params(page="About")
+        st.experimental_rerun()
 
 with nav_col2:
     st.markdown("""
@@ -1392,14 +1387,9 @@ with nav_col2:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
     </div>
     """, unsafe_allow_html=True)
-    st.markdown(
-        '<a href="?page=analytics" role="button" '
-        'style="display:inline-block; text-decoration:none; background: linear-gradient(135deg, #800000 0%, #5c1a1a 100%); '
-        'color:#fff; padding:0.6rem 1rem; border-radius:8px; font-family: Cinzel, serif; font-weight:600; '
-        'box-shadow:0 4px 8px rgba(0,0,0,0.3);">'
-        '📖 Tovább az elemzői oldalra</a>',
-        unsafe_allow_html=True
-    )
+    if st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True):
+        st.experimental_set_query_params(page="analytics")
+        st.experimental_rerun()
 
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1461,6 +1451,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
