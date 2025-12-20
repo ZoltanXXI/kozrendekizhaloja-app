@@ -639,7 +639,9 @@ def search_recipes_by_query(query: str, max_results: int = 3):
         if score > 0:
             matches.append((score, r))
     matches.sort(key=lambda x: x[0], reverse=True)
-    return [ {"title": m[1].get("title",""), "excerpt": (m[1].get("full_text","")[:400])} for m in matches[:max_results] ]
+    
+    # Visszatérés a teljes recept szöveggel, nem csak az első 400 karakterrel
+    return [ {"title": m[1].get("title",""), "excerpt": m[1].get("full_text","")} for m in matches[:max_results] ]
 
 def analyze_query_tokens(user_query: str):
     tokens = [t for t in re.split(r'[\s,;:()"\']+', normalize_label(user_query)) if t]
@@ -836,7 +838,7 @@ def gpt_search_recipes(user_query):
     """
 
     top_matched = matched_recipes[:5]
-    matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
+    matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text",""))} for r in top_matched]
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
         full_labels_preview = json.dumps(full_labels[:300], ensure_ascii=False)
@@ -1410,6 +1412,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
