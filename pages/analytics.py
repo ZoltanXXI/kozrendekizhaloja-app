@@ -257,6 +257,7 @@ node_type_colors = {
     'Molekula':  '#a67c52',   # meleg barna
     'Recept':    '#d4af37',   # arany
     'Egyéb':     '#dcc5a0'    # világos bézs
+}
 
 # ===== TAB-ok =====
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -788,5 +789,6 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
