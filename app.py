@@ -1362,6 +1362,10 @@ def _navigate(page: str):
     st.session_state["page"] = page
     st.experimental_rerun()
 
+# Csak ezt a blokkot cseréld le az app.py-ben (a korábbi nav gombok helyére).
+def _set_nav(page: str):
+    st.session_state["navigate_to"] = page
+
 nav_col1, nav_col2 = st.columns(2)
 with nav_col1:
     st.markdown("""
@@ -1376,7 +1380,7 @@ with nav_col1:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
     """, unsafe_allow_html=True)
-    st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True, on_click=_navigate, args=("About",))
+    st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True, on_click=_set_nav, args=("About",))
 
 with nav_col2:
     st.markdown("""
@@ -1391,7 +1395,13 @@ with nav_col2:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
     </div>
     """, unsafe_allow_html=True)
-    st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True, on_click=_navigate, args=("analytics",))
+    st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True, on_click=_set_nav, args=("analytics",))
+
+# Ha a callback beállította a navigációt, itt kezeljük (fő futási szálban).
+if "navigate_to" in st.session_state:
+    target = st.session_state.pop("navigate_to")
+    st.experimental_set_query_params(page=target)
+    st.experimental_rerun()
     
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1453,6 +1463,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
