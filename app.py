@@ -1393,8 +1393,21 @@ for i, n in enumerate(filtered_nodes[:60]):
         st.rerun()
 
 if "gpt_search_results" in st.session_state:
-    results = st.session_state["gpt_search_results"]
-    reasoning = strip_icon_ligatures(results.get('reasoning', ''))
+    raw_results = st.session_state.get("gpt_search_results")
+    # Normalizáljuk a különböző formátumokat egy dict-re
+    if isinstance(raw_results, dict):
+        results = raw_results
+    elif isinstance(raw_results, list):
+        if raw_results and all(isinstance(x, str) for x in raw_results):
+            results = {"suggested_nodes": raw_results}
+        else:
+            results = {"suggested_nodes": [str(x) for x in raw_results]}
+    elif isinstance(raw_results, str):
+        results = {"reasoning": raw_results}
+    else:
+        results = {}
+
+    reasoning = strip_icon_ligatures((results.get('reasoning') or results.get('explanation') or ""))
     st.markdown(f"""
     <div style="background: linear-gradient(135deg, #2d2d2d, #1a1a1a); border: 2px solid #ccaa77; border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
         <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">
@@ -1405,10 +1418,12 @@ if "gpt_search_results" in st.session_state:
         </p>
     </div>
     """, unsafe_allow_html=True)
-    if results.get("suggested_nodes"):
+
+    suggested_nodes = results.get("suggested_nodes") or []
+    if suggested_nodes:
         st.markdown("**🎯 Ajánlott alapanyagok/csomópontok (nodes):**")
-        cols_suggested = st.columns(min(len(results["suggested_nodes"]), 5))
-        for i, node_name in enumerate(results["suggested_nodes"][:5]):
+        cols_suggested = st.columns(min(len(suggested_nodes), 5))
+        for i, node_name in enumerate(suggested_nodes[:5]):
             clean_node_name = strip_icon_ligatures(str(node_name))
             node = node_norm_map.get(normalize_label(clean_node_name))
             if not node:
@@ -1439,8 +1454,8 @@ if "gpt_search_results" in st.session_state:
                         {
                             "title": strip_icon_ligatures(r.get("title", "Névtelen")),
                             "text": strip_icon_ligatures(r.get("original_text", ""))
-                        } 
-                        for r in historical_recipes 
+                        }
+                        for r in historical_recipes
                         if sel.lower() in str(r).lower()
                     ][:5]
                     st.session_state["selected"] = sel
@@ -1450,9 +1465,11 @@ if "gpt_search_results" in st.session_state:
                         ai_recipe = generate_ai_recipe(sel, connected, historical_recipe, user_query=st.session_state.get("search_query"))
                         st.session_state["ai_recipe"] = ai_recipe
                     st.rerun()
-    if results.get("suggested_recipes"):
+
+    suggested_recipes = results.get("suggested_recipes") or []
+    if suggested_recipes:
         st.markdown("**📖 Releváns történeti receptek:**")
-        for recipe_title in results["suggested_recipes"][:3]:
+        for recipe_title in suggested_recipes[:3]:
             clean_recipe_title = strip_icon_ligatures(str(recipe_title))
             recipe = next(
                 (
@@ -1464,7 +1481,6 @@ if "gpt_search_results" in st.session_state:
             if recipe:
                 clean_title = strip_icon_ligatures(recipe.get("title", "Névtelen"))
                 clean_text = strip_icon_ligatures(recipe.get("original_text", ""))
-        
                 with st.expander(f"📜 {clean_title}"):
                     st.markdown(clean_text)
 
@@ -1564,6 +1580,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
