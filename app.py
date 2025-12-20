@@ -791,8 +791,10 @@ def gpt_search_recipes(user_query):
     Ne listázz, hanem folyékony prózában indokold, miért és hogyan értelmezted a szavakat történeti gasztronómiai logika mentén.
     A cél: az ízélmény, textúra és jelentés történeti rekonstrukciója.
     Felhasználói query: {user_query}
-    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}
-    Kapcsolódó történeti analógiák: {', '.join(HISTORICAL_ANALOGY_MAP.get(n['name'], []) for n in simplified_nodes)}
+    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}    node_analogies = []
+    for node in simplified_nodes:
+        node_analogies.extend(HISTORICAL_ANALOGY_MAP.get(node["name"], []))
+    related_analogies = ", ".join(dict.fromkeys(node_analogies))
     """
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text") or "")[:400]} for r in top_matched]
@@ -1380,3 +1382,4 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
