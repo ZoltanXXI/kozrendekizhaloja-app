@@ -897,62 +897,61 @@ def gpt_search_recipes(user_query):
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text",""))} for r in top_matched]
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
-        full_labels_preview = json.dumps(full_labels, ensure_ascii=False)  # ← javítva
-        except Exception:
-            suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
-            suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
-            analysis = analyze_query_tokens(user_query)
-            reasoning_parts = []
-            mapped_nodes = []
-            for item in analysis:
-                tok = item["token"]
-                status = item.get("status", "unknown")
-                strat = item.get("strategy", "none")
-                conf = item.get("confidence", 0.0)
-                mapped = item.get("mapped_to")
-                if isinstance(mapped, list):
-                    mapped_display = ", ".join([str(m) for m in mapped if m])
-                else:
-                    mapped_display = str(mapped) if mapped else "—"
-                reasoning_parts.append(f'"{tok}" → státusz: {status}; stratégia: {strat}; leképezés: {mapped_display}; bizalom: {conf:.2f}')
-                if item.get("mapped_to"):
-                    if isinstance(item["mapped_to"], list):
-                        for m in item["mapped_to"]:
-                            if isinstance(m, str) and normalize_label(m) in node_norm_map:
-                                mapped_nodes.append(node_norm_map[normalize_label(m)].get("Label"))
-                            elif isinstance(m, str):
-                                mapped_nodes.append(m)
-                    else:
-                        m = item["mapped_to"]
+        full_labels_preview = json.dumps(full_labels, ensure_ascii=False)
+    except Exception:
+        suggested_nodes = fuzzy_suggest_nodes(user_query, max_suggestions=5)
+        suggested_recipes = [r["title"] for r in search_recipes_by_query(user_query, max_results=3)]
+        analysis = analyze_query_tokens(user_query)
+        reasoning_parts = []
+        mapped_nodes = []
+        for item in analysis:
+            tok = item["token"]
+            status = item.get("status", "unknown")
+            strat = item.get("strategy", "none")
+            conf = item.get("confidence", 0.0)
+            mapped = item.get("mapped_to")
+            if isinstance(mapped, list):
+                mapped_display = ", ".join([str(m) for m in mapped if m])
+            else:
+                mapped_display = str(mapped) if mapped else "—"
+            reasoning_parts.append(f'"{tok}" → státusz: {status}; stratégia: {strat}; leképezés: {mapped_display}; bizalom: {conf:.2f}')
+            if item.get("mapped_to"):
+                if isinstance(item["mapped_to"], list):
+                    for m in item["mapped_to"]:
                         if isinstance(m, str) and normalize_label(m) in node_norm_map:
                             mapped_nodes.append(node_norm_map[normalize_label(m)].get("Label"))
                         elif isinstance(m, str):
                             mapped_nodes.append(m)
-            mapped_nodes = [m for m in mapped_nodes if m]
-            combined_suggestions = []
-            seen = set()
-            for n in mapped_nodes + suggested_nodes:
-                if n and n not in seen:
-                    combined_suggestions.append(n)
-                    seen.add(n)
-                if len(combined_suggestions) >= 5:
-                    break
-            if not combined_suggestions:
-                combined_suggestions = suggested_nodes[:5]
-            analysis = analyze_query_tokens(user_query)
-            reasoning_text = build_reasoning_paragraph(analysis)
-            # include inferred intent summary
-            inferred_summary = inferred or infer_dish_intent(user_query)
-            inferred_line = f"AI értelmezés: {inferred_summary.get('type','unknown')} (bizalom: {inferred_summary.get('confidence',0):.2f})."
-            full_reasoning = f"{inferred_line} {reasoning_text}"
-            result = {
-                "suggested_nodes": combined_suggestions,
-                "suggested_recipes": suggested_recipes,
-                "reasoning": full_reasoning,
-                "mapping": analysis,
-                "inferred": inferred_summary
-            }
-            return result
+                else:
+                    m = item["mapped_to"]
+                    if isinstance(m, str) and normalize_label(m) in node_norm_map:
+                        mapped_nodes.append(node_norm_map[normalize_label(m)].get("Label"))
+                    elif isinstance(m, str):
+                        mapped_nodes.append(m)
+        mapped_nodes = [m for m in mapped_nodes if m]
+        combined_suggestions = []
+        seen = set()
+        for n in mapped_nodes + suggested_nodes:
+            if n and n not in seen:
+                combined_suggestions.append(n)
+                seen.add(n)
+            if len(combined_suggestions) >= 5:
+                break
+        if not combined_suggestions:
+            combined_suggestions = suggested_nodes[:5]
+        analysis = analyze_query_tokens(user_query)
+        reasoning_text = build_reasoning_paragraph(analysis)
+        inferred_summary = inferred or infer_dish_intent(user_query)
+        inferred_line = f"AI értelmezés: {inferred_summary.get('type','unknown')} (bizalom: {inferred_summary.get('confidence',0):.2f})."
+        full_reasoning = f"{inferred_line} {reasoning_text}"
+        result = {
+            "suggested_nodes": combined_suggestions,
+            "suggested_recipes": suggested_recipes,
+            "reasoning": full_reasoning,
+            "mapping": analysis,
+            "inferred": inferred_summary
+        }
+        return result
         
 def max_similarity_to_historical(candidate: str, historical_list: list) -> float:
     if not candidate or not historical_list:
@@ -1537,6 +1536,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
