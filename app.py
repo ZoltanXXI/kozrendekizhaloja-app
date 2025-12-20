@@ -1356,6 +1356,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Csak ez a rész cserélendő: a gombok on_click callbacket használnak, így ugyanaz a módszer mint a sidebarban.
+def _navigate(page: str):
+    st.experimental_set_query_params(page=page)
+    st.session_state["page"] = page
+    st.experimental_rerun()
+
 nav_col1, nav_col2 = st.columns(2)
 with nav_col1:
     st.markdown("""
@@ -1370,9 +1376,7 @@ with nav_col1:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True):
-        st.experimental_set_query_params(page="About")
-        st.experimental_rerun()
+    st.button("📖 Tovább a Projektről oldalra", key="nav_about", use_container_width=True, on_click=_navigate, args=("About",))
 
 with nav_col2:
     st.markdown("""
@@ -1387,10 +1391,8 @@ with nav_col2:
         <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True):
-        st.experimental_set_query_params(page="analytics")
-        st.experimental_rerun()
-
+    st.button("📖 Tovább az elemzői oldalra", key="nav_analytics", use_container_width=True, on_click=_navigate, args=("analytics",))
+    
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
     💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
@@ -1451,6 +1453,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
