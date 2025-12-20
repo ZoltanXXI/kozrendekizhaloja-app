@@ -262,115 +262,176 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ===== TAB 1: HÁLÓZATI ELEMZÉS =====
 with tab1:
     col1, col2 = st.columns(2)
-    
+
+    # =========================
+    # BAL OSZLOP – DEGREE ELEMZÉS
+    # =========================
     with col1:
         st.markdown("### 🔢 Alapstatisztikák")
-        
+
         metrics_col1, metrics_col2, metrics_col3 = st.columns(3)
         metrics_col1.metric("Node-ok száma", len(tripartit_df))
         metrics_col2.metric("Kapcsolatok száma", len(edges_df))
         metrics_col3.metric("Átlagos degree", round(tripartit_df['Degree'].mean(), 2))
-        
-        # Degree eloszlás histogram
-        st.markdown("### 📊 Degree Eloszlás")
+
+        # ===== DEGREE ELOSZLÁS HISTOGRAM =====
+        st.markdown("### 📊 Degree Eloszlás Histogram")
+
+        degree_data = tripartit_df['Degree'].values
+        x_range = np.linspace(degree_data.min(), degree_data.max(), 200)
+
         fig_degree = go.Figure()
-        
+
         # Histogram
         fig_degree.add_trace(go.Histogram(
-            x=tripartit_df['Degree'],
+            x=degree_data,
             nbinsx=30,
+            histnorm='probability density',
             marker_color='#8b5a2b',
-            name='Degree',
             opacity=0.7,
-            histnorm='probability density'
+            name='Degree'
         ))
-        
-        # Illesztett eloszlás görbe
-        degree_data = tripartit_df['Degree'].values
-        x_range = np.linspace(degree_data.min(), degree_data.max(), 100)
-        
-        # Normális eloszlás görbe
+
+        # Normális eloszlás (elméleti referencia)
         mu, sigma = degree_data.mean(), degree_data.std()
-        normal_curve = stats.norm.pdf(x_range, mu, sigma)
         fig_degree.add_trace(go.Scatter(
             x=x_range,
-            y=normal_curve,
+            y=stats.norm.pdf(x_range, mu, sigma),
             mode='lines',
-            name='Normális illesztés',
-            line=dict(color='red', width=2, dash='dash')
+            name='Normális (elméleti)',
+            line=dict(color='red', dash='dash', width=2)
         ))
-        
-        # Lognormális illesztés (ha ez a legjobb)
+
+        # Lognormális illesztés (hálózati tipikus)
         try:
             shape, loc, scale = stats.lognorm.fit(degree_data, floc=0)
-            lognorm_curve = stats.lognorm.pdf(x_range, shape, loc, scale)
             fig_degree.add_trace(go.Scatter(
                 x=x_range,
-                y=lognorm_curve,
+                y=stats.lognorm.pdf(x_range, shape, loc, scale),
                 mode='lines',
-                name='Lognormális illesztés',
+                name='Lognormális (illesztett)',
                 line=dict(color='green', width=3)
             ))
         except:
             pass
-        
+
+        # Átlag és medián
+        fig_degree.add_vline(
+            x=degree_data.mean(),
+            line_dash="dash",
+            line_color="darkred",
+            annotation_text=f"Átlag: {degree_data.mean():.2f}",
+            annotation_position="top"
+        )
+
+        fig_degree.add_vline(
+            x=np.median(degree_data),
+            line_dash="dash",
+            line_color="darkblue",
+            annotation_text=f"Medián: {np.median(degree_data):.0f}",
+            annotation_position="top"
+        )
+
         fig_degree.update_layout(
-            xaxis_title="Degree",
+            xaxis_title="Degree (kapcsolatok száma)",
             yaxis_title="Sűrűség",
             paper_bgcolor='#fcf5e5',
             plot_bgcolor='#fcf5e5',
-            height=400,
-            showlegend=True
+            height=450,
+            showlegend=True,
+            legend=dict(
+                yanchor="top",
+                y=0.99,
+                xanchor="right",
+                x=0.99
+            )
         )
-        st.plotly_chart(fig_degree, use_container_width=True)
-        
-        # Eloszlás analízis a Degree-re
-        st.markdown("### 📈 Degree Eloszlás Elemzése")
-        degree_analysis = analyze_distribution(tripartit_df['Degree'].values)
-        
-        st.info(f"""
-        **{degree_analysis['type']}**
-        
-        {degree_analysis['explanation']}
-        
-        - **Legjobb illeszkedés:** {degree_analysis['best_fit']}
-        - **Ferdeség (skewness):** {degree_analysis['skewness']:.3f}
-        - **Csúcsosság (kurtosis):** {degree_analysis['kurtosis']:.3f} — {degree_analysis['kurtosis_type']}
-        """)
 
-    
+        st.plotly_chart(fig_degree, use_container_width=True)
+
+        # ===== DEGREE ELOSZLÁS STATISZTIKAI ELEMZÉS =====
+        st.markdown("### 📈 Degree Eloszlás Elemzése")
+
+        degree_analysis = analyze_distribution(degree_data)
+
+        st.success(f"""
+**{degree_analysis['type']}**
+
+{degree_analysis['explanation']}
+
+**Statisztikai jellemzők:**
+- **Legjobb illeszkedés:** {degree_analysis['best_fit']}
+- **Átlagos degree:** {degree_analysis['mean']:.2f}
+- **Medián degree:** {degree_analysis['median']:.0f}
+- **Szórás:** {degree_analysis['std']:.2f}
+- **Ferdeség (skewness):** {degree_analysis['skewness']:.3f}
+- **Csúcsosság (kurtosis):** {degree_analysis['kurtosis']:.3f} — {degree_analysis['kurtosis_type']}
+""")
+
+        # ===== JOBBRA FERDE DEGREE MAGYARÁZAT =====
+        if degree_analysis['skewness'] > 0.5:
+            st.warning("""
+⚠️ **Jobbra ferde Degree eloszlás – hálózati értelmezés**
+
+Ez azt jelenti, hogy a hálózatban:
+
+- 🕸️ A node-ok többsége **kevés kapcsolattal** rendelkezik
+- ⭐ Néhány **hub** extrém sok kapcsolattal bír
+- ⚖️ Az **átlag torzít**, a medián mutatja a tipikus node-ot
+
+👉 Ez **skálafüggetlen (scale-free) hálózat** jellegzetessége.
+""")
+
+        # ===== HÁLÓZATELMÉLETI KÖVETKEZMÉNYEK =====
+        st.markdown("#### 🧠 Hálózatelméleti következtetések")
+
+        st.markdown("""
+- 🧬 A hálózat **nem véletlen**
+- 🕸️ **Preferenciális kapcsolódás** figyelhető meg
+- ⭐ **Hub-alapú struktúra** dominál
+
+**Gyakorlati jelentőség:**
+- Bizonyos node-ok **strukturális dominanciát** élveznek
+- Ezek aránytalanul befolyásolják az AI-ajánlásokat
+- A degree-alapú súlyozás **indokolt és szükséges**
+""")
+
+    # =========================
+    # JOBB OSZLOP – NODE TÍPUSOK
+    # =========================
     with col2:
         st.markdown("### 🎨 Node Típusok")
-        
+
         type_counts = tripartit_df['node_type'].value_counts()
-        
-        # Részletes statisztika
+
         st.markdown("#### 📊 Típus Eloszlás")
         for node_type, count in type_counts.items():
-            percent = (count / len(tripartit_df)) * 100
+            percent = count / len(tripartit_df) * 100
             emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(node_type, '⚪')
             st.markdown(f"{emoji} **{node_type}:** {count} db ({percent:.1f}%)")
-        
-        # Pie chart
+
         fig_types = go.Figure(data=[go.Pie(
             labels=type_counts.index,
             values=type_counts.values,
-            marker=dict(colors=['#8b5a2b', '#4a7c59', '#b85450', '#cccccc']),
             hole=0.4
         )])
+
         fig_types.update_layout(
             paper_bgcolor='#fcf5e5',
             height=350
         )
+
         st.plotly_chart(fig_types, use_container_width=True)
-        
-        # Top 10 legnagyobb degree
+
+        # ===== TOP DEGREE NODE-OK =====
         st.markdown("### 🏆 Top 10 Node (degree szerint)")
+
         top_nodes = tripartit_df.nlargest(10, 'Degree')[['Label', 'Degree', 'node_type']]
-        
-        for idx, row in top_nodes.iterrows():
+
+        for _, row in top_nodes.iterrows():
             emoji = {'Alapanyag': '🥘', 'Molekula': '⚗️', 'Recept': '📖', 'Egyéb': '⚪'}.get(row['node_type'], '⚪')
-            st.markdown(f"{emoji} **{row['Label']}** - Degree: {row['Degree']}")
+            st.markdown(f"{emoji} **{row['Label']}** — Degree: {row['Degree']}")
+
 
 # ===== TAB 2: RECEPT HOSSZÚSÁG =====
 with tab2:
