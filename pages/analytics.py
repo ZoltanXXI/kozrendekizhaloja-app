@@ -71,7 +71,7 @@ st.markdown("""
     
     h1, h2, h3 {
         color: #2c1810 !important;
-        font-family: 'Georgia', serif !important;
+        font-family: 'Cinzel', serif !important;
     }
     
     .subtitle {
@@ -715,3 +715,4 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
