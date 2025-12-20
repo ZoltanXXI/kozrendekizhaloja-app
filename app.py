@@ -1401,7 +1401,7 @@ with nav_col2:
 if "navigate_to" in st.session_state:
     target = st.session_state.pop("navigate_to")
     st.experimental_set_query_params(page=target)
-    st.experimental_rerun()
+    st.rerun()
     
 st.markdown("""
 <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
@@ -1463,6 +1463,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
