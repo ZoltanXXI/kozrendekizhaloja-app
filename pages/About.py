@@ -9,7 +9,16 @@ import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
-from utils.fasting import FASTING_RECIPE_TITLES
+
+try:
+    from utils.fasting import FASTING_RECIPE_TITLES, FASTING_KEYWORDS, classify_fasting_text
+except Exception:
+    try:
+        from utils.fasting import FASTING_RECIPE_TITLES
+    except Exception:
+        FASTING_RECIPE_TITLES = []
+    FASTING_KEYWORDS = ['böjt', 'post', 'fast', 'fasta', 'luszt', 'lent'] 
+    classify_fasting_text = None
 
 def strip_icon_ligatures(s):
     if not isinstance(s, str):
@@ -93,106 +102,30 @@ button[aria-label="Show keyboard navigation"],
 [data-testid^="stTooltip"] {
     display: none !important;
 }
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-    .main-title {
-        text-align: center;
-        color: #2c1810;
-        font-size: 3.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        font-family: 'Georgia', serif;
-    }
-    .divider {
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(to right, #d4af37, #f0d98d, #d4af37);
-        margin: 0 auto 3rem auto;
-        border-radius: 2px;
-    }
-    .reader-quote {
-        background: linear-gradient(to right, #fffbf0, #fff9e6);
-        border-left: 8px solid #d4af37;
-        padding: 3rem 2rem 3rem 4rem;
-        font-style: italic;
-        color: #5c4033;
-        font-size: 1.2rem;
-        line-height: 1.8;
-        margin: 3rem 0;
-        box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
-        border-radius: 0 8px 8px 0;
-    }
-    .reader-quote .first-letter {
-        float: left;
-        font-size: 5rem;
-        line-height: 1;
-        font-weight: bold;
-        margin-right: 0.5rem;
-        color: #8b5a2b;
-        font-family: 'Georgia', serif;
-    }
-    .signature {
-        text-align: right;
-        margin-top: 2rem;
-        font-family: 'Georgia', serif;
-        color: #8b5a2b;
-        font-size: 0.95rem;
-    }
-    .body-text {
-        color: #4a3728;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        text-align: justify;
-    }
-    .body-text .first-letter-main {
-        float: left;
-        font-size: 4rem;
-        line-height: 1;
-        font-weight: bold;
-        margin-right: 0.5rem;
-        color: #8b5a2b;
-        font-family: 'Georgia', serif;
-    }
-    .section-title {
-        color: #2c1810;
-        font-size: 2rem;
-        font-weight: bold;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
-        font-family: 'Georgia', serif;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .highlight-box {
-        background: linear-gradient(to right, #fffbf0, #fff9e6);
-        border-left: 4px solid #d4af37;
-        padding: 2rem;
-        margin: 2rem 0;
-        font-style: italic;
-        color: #5c4033;
-        border-radius: 0 8px 8px 0;
-    }
-    a {
-        color: #8b5a2b !important;
-        text-decoration: underline;
-    }
-    a:hover {
-        color: #d4af37 !important;
-    }
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #fffbf0;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #d4af37;
-        border-radius: 5px;
-    }
+.list-card {
+    background: #fffaf2;
+    border: 1px solid #e6d2a3;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+.list-title {
+    font-weight: 700;
+    color: #2c1810;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+.list-item {
+    margin: 6px 0;
+    line-height: 1.4;
+}
+.metric-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fffbf0;
+    border-radius: 8px;
+    border: 2px solid #d4af37;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -259,127 +192,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<h3 class="section-title">
-    🕸️ Hálózatelemzés és Gasztronómia
-</h3>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="body-text">
-    <p>
-        Barabási Albert-László <em>Network Science</em> című könyvében bemutatja a <strong>flavor network</strong>
-        módszertant: egy háromrétegű hálózatot, amely recepteket, alapanyagokat és ízmolekulákat kapcsol össze.
-        A modell szerint két alapanyag akkor kerül közel egymáshoz a hálózatban, ha jelentős számú közös
-        ízkomponensük van.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="highlight-box">
-    "Az ízek nem véletlenszerűen találkoznak, hanem rejtett hálózatok mentén szerveződnek harmóniába."
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="body-text">
-    <p>
-        A XVII. századi magyar konyha jellegzetes alapanyag-kombinációinak (sáfrány-gyömbér-bors-ecet-gyümölcs)
-        flavor network szempontú elemzését tűztem ki célul Barabási Albert-László <em>Hálózatok Tudománya</em>
-        című könyve nyomán, abból ihletődve. Ez a weboldal a hálózatelemzéses statisztikai számítások
-        (<strong>Nodes, Edges, Eccentricity, Closeness Centrality, Harmonic Closeness Centrality,
-        Betweenness Centrality, Degree, Eigen Centrality, PageRank</strong>, stb.) alapján igyekszik
-        AI segítségével a meglévő receptek stílusa és összetevői, molekulái mellett és alapján is új,
-        de stílusban illeszkedő recepteket generálni, összekötve ezzel is a múltat a jelennel.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
 st.markdown("---")
-
-st.markdown("""
-<h3 class="section-title">
-    🤖 Technikai Megvalósítás
-</h3>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="body-text">
-    <p>
-        A projekt modern mesterséges intelligencia és hálózattudomány eszközeit használja:
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("""
-    <div style="background: #fffbf0; padding: 1.5rem; border-radius: 8px; border: 2px solid #d4af37;">
-        <h4 style="color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">📊 Hálózatelemzés</h4>
-        <ul style="color: #4a3728; line-height: 1.8;">
-            <li><strong>Tripartit hálózat:</strong> Receptek ↔ Alapanyagok ↔ Molekulák</li>
-            <li><strong>Degree Centrality:</strong> Központi alapanyagok azonosítása</li>
-            <li><strong>Betweenness:</strong> "Híd" szerepű összetevők</li>
-            <li><strong>PageRank:</strong> Kulcsfontosságú node-ok rangsorolása</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div style="background: #fffbf0; padding: 1.5rem; border-radius: 8px; border: 2px solid #d4af37;">
-        <h4 style="color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">🧠 AI Receptgenerálás</h4>
-        <ul style="color: #4a3728; line-height: 1.8;">
-            <li><strong>GPT-5.2 Prompting:</strong> Strukturált, grounding-alapú</li>
-            <li><strong>Adaptív hosszúság:</strong> Korpusz-vezérelt (40-160 szó)</li>
-            <li><strong>Network-informed:</strong> Degree-súlyozott döntések</li>
-            <li><strong>Confidence score:</strong> Transzparens megbízhatóság</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("---")
-st.markdown("""
-<h3 class="section-title">
-    📚 Az Adatbázis
-</h3>
-""", unsafe_allow_html=True)
-
-metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
-
-with metric_col1:
-    st.markdown("""
-    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
-        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">330</div>
-        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Történeti Recept</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col2:
-    st.markdown("""
-    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
-        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">838</div>
-        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Node (Hálózat)</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col3:
-    st.markdown("""
-    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
-        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">70.7</div>
-        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Átlag Szószám</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with metric_col4:
-    st.markdown("""
-    <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
-        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">32%</div>
-        <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Böjti Receptek</div>
-    </div>
-    """, unsafe_allow_html=True)
 
 tripartit_path = resolve_tripartit_path()
 edges_path = resolve_edges_path()
@@ -420,7 +233,7 @@ else:
         G.add_node(r['norm'], label=r['Label'], node_type=r['node_type'])
     G.add_edges_from(edge_list)
 
-    ingredient_nodes = [n for n, d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type', '')).lower()]
+    ingredient_nodes = [n for n, d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type', '')).lower() or 'alapanyag' in str(d.get('node_type', '')).lower()]
 
     deg = dict(G.degree())
     pr = nx.pagerank(G, alpha=0.85) if G.number_of_nodes() > 0 else {}
@@ -442,8 +255,8 @@ else:
     def readable(norm):
         return G.nodes[norm].get('label') if norm in G.nodes else norm
 
-    molecules = [n for n, d in G.nodes(data=True) if 'molecule' in str(d.get('node_type', '')).lower()]
-    recipes = [n for n, d in G.nodes(data=True) if 'dish' in str(d.get('node_type', '')).lower()]
+    molecules = [n for n, d in G.nodes(data=True) if 'molecule' in str(d.get('node_type', '')).lower() or 'molekula' in str(d.get('node_type', '')).lower()]
+    recipes = [n for n, d in G.nodes(data=True) if 'dish' in str(d.get('node_type', '')).lower() or 'recept' in str(d.get('node_type', '')).lower() or 'recipe' in str(d.get('node_type', '')).lower()]
 
     ing_to_mols = {ing: set() for ing in ingredient_nodes}
     ing_to_recipes = {ing: set() for ing in ingredient_nodes}
@@ -475,20 +288,59 @@ else:
 
     fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
     titles_norm = historical['title'].astype(str).apply(normalize_label)
-    fast_count = sum(1 for t in titles_norm if t in fasting_set)
-    fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else None
+    text_fields = []
+    for c in ('text', 'instructions', 'description', 'ingredients', 'body'):
+        if c in historical.columns:
+            text_fields.append(c)
+    fasting_flags = []
+    for idx, row in historical.iterrows():
+        title = normalize_label(str(row.get('title', '')))
+        combined_text = title
+        for c in text_fields:
+            combined_text = combined_text + ' ' + normalize_label(str(row.get(c, '')))
+        is_fasting = False
+        if title in fasting_set:
+            is_fasting = True
+        else:
+            for kw in (FASTING_KEYWORDS if FASTING_KEYWORDS else []):
+                if kw in combined_text:
+                    is_fasting = True
+                    break
+        if classify_fasting_text is not None:
+            try:
+                clf_res = classify_fasting_text(title + ' ' + combined_text)
+                if isinstance(clf_res, bool):
+                    is_fasting = is_fasting or clf_res
+                elif isinstance(clf_res, (int, float)) and clf_res >= 0.5:
+                    is_fasting = True
+            except Exception:
+                pass
+        fasting_flags.append(is_fasting)
+    fast_count = sum(1 for f in fasting_flags if f)
+    fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
-    st.markdown("Top 10 — Degree (kapcsolatok száma):")
-    for n, v in top_deg:
-        st.markdown(f"- **{readable(n)}** — Degree: {int(v)}")
-    st.markdown("Top 10 — PageRank (hálózati befolyás):")
-    for n, v in top_pr:
-        st.markdown(f"- **{readable(n)}** — PageRank: {v:.6f}")
-    st.markdown("Top 10 — Betweenness (hidak):")
-    for n, v in top_bet:
-        st.markdown(f"- **{readable(n)}** — Betweenness: {v:.6f}")
+
+    deg_col, pr_col, bet_col = st.columns(3)
+
+    with deg_col:
+        st.markdown('<div class="list-card"><div class="list-title">Top 10 — Degree (kapcsolatok száma)</div>', unsafe_allow_html=True)
+        for i, (n, v) in enumerate(top_deg, start=1):
+            st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {int(v)}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with pr_col:
+        st.markdown('<div class="list-card"><div class="list-title">Top 10 — PageRank (hálózati befolyás)</div>', unsafe_allow_html=True)
+        for i, (n, v) in enumerate(top_pr, start=1):
+            st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with bet_col:
+        st.markdown('<div class="list-card"><div class="list-title">Top 10 — Betweenness (hidak)</div>', unsafe_allow_html=True)
+        for i, (n, v) in enumerate(top_bet, start=1):
+            st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("**2) Van-e mérhető kapcsolat az íz-aroma molekulák és a történeti párosítások között?**")
@@ -498,9 +350,25 @@ else:
         st.markdown(f"Spearman rho = **{corr:.3f}**, p = **{pval:.3g}**")
         if pval < 0.05:
             st.markdown("Értékelés: statisztikailag szignifikáns korreláció — a közös molekulák száma részben magyarázza az együtt előfordulás gyakoriságát.")
-            st.markdown("A negatív érték azt jelenti, hogy minél több közös molekula (hasonló íz), annál ritkábban használták együtt az alapanyagokat. Ez kontrasztos párosításokat jelez (pl. édes-sós), nem hasonlókat.")
         else:
             st.markdown("Értékelés: nincs szignifikáns korreláció — a molekuláris hasonlóság önmagában nem magyarázza a történeti párosításokat.")
+
+    st.markdown("---")
+
+    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+
+    with metric_col1:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Történeti Recept</div></div>', unsafe_allow_html=True)
+
+    with metric_col2:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Node (Hálózat)</div></div>', unsafe_allow_html=True)
+
+    with metric_col3:
+        avg_words = round(historical['title'].astype(str).apply(lambda t: len(t.split())).mean() if 'title' in historical.columns else 0, 1)
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{avg_words}</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Átlag Szószám (cím)</div></div>', unsafe_allow_html=True)
+
+    with metric_col4:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:1rem; margin-top:0.5rem;">Böjti Receptek (detektálva)</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("**4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
