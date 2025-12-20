@@ -1,14 +1,70 @@
 import os
-from pathlib import Path
 import re
-from html import unescape
 import unicodedata
+from html import unescape
+from pathlib import Path
+from collections import defaultdict
+
 import pandas as pd
 import networkx as nx
-from collections import defaultdict
 from scipy.stats import spearmanr
 import streamlit as st
 from utils.fasting import FASTING_RECIPE_TITLES
+
+def strip_icon_ligatures(s):
+    if not isinstance(s, str):
+        return ""
+    s = unicodedata.normalize('NFKC', s)
+    s = re.sub(r'<[^>]+>', '', s)
+    s = re.sub(r'[_\-\s]+', ' ', s).strip()
+    return s
+
+def normalize_label(s):
+    if not isinstance(s, str):
+        return ''
+    s = strip_icon_ligatures(s).lower()
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
+
+def resolve_historical_csv_path():
+    script_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(script_dir, 'data', 'HistoricalRecipe_export.csv'),
+        os.path.join(os.getcwd(), 'data', 'HistoricalRecipe_export.csv'),
+        os.path.join(os.path.abspath(os.path.join(script_dir, '..')), 'data', 'HistoricalRecipe_export.csv'),
+        'data/HistoricalRecipe_export.csv',
+        'HistoricalRecipe_export.csv'
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+def resolve_tripartit_path():
+    script_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(script_dir, 'data', 'Recept_halo__molekula_tripartit.csv'),
+        os.path.join(os.getcwd(), 'data', 'Recept_halo__molekula_tripartit.csv'),
+        'data/Recept_halo__molekula_tripartit.csv',
+        'Recept_halo__molekula_tripartit.csv'
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+def resolve_edges_path():
+    script_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(script_dir, 'data', 'recept_halo_edges.csv'),
+        os.path.join(os.getcwd(), 'data', 'recept_halo_edges.csv'),
+        'data/recept_halo_edges.csv',
+        'recept_halo_edges.csv'
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
@@ -42,7 +98,6 @@ button[aria-label="Show keyboard navigation"],
 
 st.markdown("""
 <style>
-    /* Főcím középre, középkori stílus */
     .main-title {
         text-align: center;
         color: #2c1810;
@@ -51,7 +106,6 @@ st.markdown("""
         margin-bottom: 1rem;
         font-family: 'Georgia', serif;
     }
-  
     .divider {
         width: 100px;
         height: 4px;
@@ -59,8 +113,6 @@ st.markdown("""
         margin: 0 auto 3rem auto;
         border-radius: 2px;
     }
-  
-    /* Az Olvasóhoz idézet */
     .reader-quote {
         background: linear-gradient(to right, #fffbf0, #fff9e6);
         border-left: 8px solid #d4af37;
@@ -73,7 +125,6 @@ st.markdown("""
         box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
         border-radius: 0 8px 8px 0;
     }
-  
     .reader-quote .first-letter {
         float: left;
         font-size: 5rem;
@@ -83,7 +134,6 @@ st.markdown("""
         color: #8b5a2b;
         font-family: 'Georgia', serif;
     }
-  
     .signature {
         text-align: right;
         margin-top: 2rem;
@@ -91,15 +141,12 @@ st.markdown("""
         color: #8b5a2b;
         font-size: 0.95rem;
     }
-  
-    /* Fő szöveg stílus */
     .body-text {
         color: #4a3728;
         font-size: 1.1rem;
         line-height: 1.8;
         text-align: justify;
     }
-  
     .body-text .first-letter-main {
         float: left;
         font-size: 4rem;
@@ -109,8 +156,6 @@ st.markdown("""
         color: #8b5a2b;
         font-family: 'Georgia', serif;
     }
-  
-    /* Szekciócím */
     .section-title {
         color: #2c1810;
         font-size: 2rem;
@@ -122,8 +167,6 @@ st.markdown("""
         align-items: center;
         gap: 0.5rem;
     }
-  
-    /* Kiemelés doboz */
     .highlight-box {
         background: linear-gradient(to right, #fffbf0, #fff9e6);
         border-left: 4px solid #d4af37;
@@ -133,26 +176,19 @@ st.markdown("""
         color: #5c4033;
         border-radius: 0 8px 8px 0;
     }
-  
-    /* Link stílus */
     a {
         color: #8b5a2b !important;
         text-decoration: underline;
     }
-  
     a:hover {
         color: #d4af37 !important;
     }
-  
-    /* Scrollbar stílus */
     ::-webkit-scrollbar {
         width: 10px;
     }
-  
     ::-webkit-scrollbar-track {
         background: #fffbf0;
     }
-  
     ::-webkit-scrollbar-thumb {
         background: #d4af37;
         border-radius: 5px;
@@ -164,7 +200,7 @@ st.markdown("""
 <div style="
     display: block;
     width: fit-content;
-    margin: 0 auto; /* középre helyezés */
+    margin: 0 auto;
     padding: 0.5rem 2rem;
     background: linear-gradient(to right, #5c070d, #840a13);
     border-radius: 8px;
@@ -304,7 +340,6 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== ADATOK =====
 st.markdown("---")
 st.markdown("""
 <h3 class="section-title">
@@ -312,7 +347,6 @@ st.markdown("""
 </h3>
 """, unsafe_allow_html=True)
 
-# Metrikák
 metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
 
 with metric_col1:
@@ -347,59 +381,6 @@ with metric_col4:
     </div>
     """, unsafe_allow_html=True)
 
-def strip_icon_ligatures(s):
-    if not isinstance(s, str): return ""
-    s = unicodedata.normalize('NFKC', s)
-    s = re.sub(r'<[^>]+>', '', s)
-    s = re.sub(r'[_\-\s]+', ' ', s).strip()
-    return s
-
-def normalize_label(s):
-    if not isinstance(s, str): return ''
-    s = strip_icon_ligatures(s).lower()
-    s = re.sub(r'\s+', ' ', s).strip()
-    return s
-
-def resolve_historical_csv_path():
-    script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'HistoricalRecipe_export.csv'),
-        os.path.join(os.getcwd(), 'data', 'HistoricalRecipe_export.csv'),
-        os.path.join(os.path.abspath(os.path.join(script_dir, '..')), 'data', 'HistoricalRecipe_export.csv'),
-        'data/HistoricalRecipe_export.csv',
-        'HistoricalRecipe_export.csv'
-    ]
-    for p in candidates:
-        if os.path.exists(p):
-            return p
-    return None
-
-def resolve_tripartit_path():
-    script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'Recept_halo__molekula_tripartit.csv'),
-        os.path.join(os.getcwd(), 'data', 'Recept_halo__molekula_tripartit.csv'),
-        'data/Recept_halo__molekula_tripartit.csv',
-        'Recept_halo__molekula_tripartit.csv'
-    ]
-    for p in candidates:
-        if os.path.exists(p):
-            return p
-    return None
-
-def resolve_edges_path():
-    script_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.join(script_dir, 'data', 'recept_halo_edges.csv'),
-        os.path.join(os.getcwd(), 'data', 'recept_halo_edges.csv'),
-        'data/recept_halo_edges.csv',
-        'recept_halo_edges.csv'
-    ]
-    for p in candidates:
-        if os.path.exists(p):
-            return p
-    return None
-
 tripartit_path = resolve_tripartit_path()
 edges_path = resolve_edges_path()
 hist_path = resolve_historical_csv_path()
@@ -411,7 +392,6 @@ else:
     edges = pd.read_csv(edges_path, delimiter=',', encoding='utf-8', on_bad_lines='skip')
     historical = pd.read_csv(hist_path, encoding='utf-8', on_bad_lines='skip')
 
-    # Standardise labels & types
     label_col = next((c for c in tripartit.columns if c.lower() in ('label','name','title')), tripartit.columns[0])
     tripartit['Label'] = tripartit[label_col].astype(str).apply(strip_icon_ligatures)
     type_col = next((c for c in tripartit.columns if 'type' in c.lower() or 'category' in c.lower()), None)
@@ -419,43 +399,40 @@ else:
     tripartit['norm'] = tripartit['Label'].apply(normalize_label)
     node_norm_map = {r['norm']: r for _, r in tripartit.iterrows()}
 
-    # Edges processing
     if 'norm_source' in edges.columns and 'norm_target' in edges.columns:
         srcs = edges['norm_source'].astype(str).tolist()
         tgts = edges['norm_target'].astype(str).tolist()
     else:
         srcs = edges.iloc[:,0].astype(str).tolist()
-        tgts = edges.iloc[:,1].astype(str).tolist()  # Javítva: Target a második oszlop
+        tgts = edges.iloc[:,1].astype(str).tolist()
 
     def resolve_norm(val):
-        if not isinstance(val, str): return ''
+        if not isinstance(val, str):
+            return ''
         return normalize_label(val)
 
     srcs = [resolve_norm(s) for s in srcs]
     tgts = [resolve_norm(t) for t in tgts]
-    edge_list = [(s,t) for s,t in zip(srcs,tgts) if s and t]
+    edge_list = [(s, t) for s, t in zip(srcs, tgts) if s and t]
 
-    # Build graph
     G = nx.Graph()
     for _, r in tripartit.iterrows():
         G.add_node(r['norm'], label=r['Label'], node_type=r['node_type'])
     G.add_edges_from(edge_list)
 
-    # Ingredient nodes
-    ingredient_nodes = [n for n,d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type','')).lower()]
+    ingredient_nodes = [n for n, d in G.nodes(data=True) if 'ingredient' in str(d.get('node_type', '')).lower()]
 
-    # Centralities
     deg = dict(G.degree())
-    pr = nx.pagerank(G, alpha=0.85) if G.number_of_nodes()>0 else {}
-    bet = nx.betweenness_centrality(G) if G.number_of_nodes()>0 else {}
+    pr = nx.pagerank(G, alpha=0.85) if G.number_of_nodes() > 0 else {}
+    bet = nx.betweenness_centrality(G) if G.number_of_nodes() > 0 else {}
     eig = {}
     try:
-        eig = nx.eigenvector_centrality_numpy(G) if G.number_of_nodes()>0 else {}
+        eig = nx.eigenvector_centrality_numpy(G) if G.number_of_nodes() > 0 else {}
     except Exception:
         eig = {}
 
     def top_for(metric_dict, nodes, topn=10):
-        return sorted(((n, metric_dict.get(n,0)) for n in nodes), key=lambda x: x[1], reverse=True)[:topn]
+        return sorted(((n, metric_dict.get(n, 0)) for n in nodes), key=lambda x: x[1], reverse=True)[:topn]
 
     top_deg = top_for(deg, ingredient_nodes, 10)
     top_pr = top_for(pr, ingredient_nodes, 10)
@@ -465,50 +442,52 @@ else:
     def readable(norm):
         return G.nodes[norm].get('label') if norm in G.nodes else norm
 
-    # Molecule vs pairing correlation
-    molecules = [n for n,d in G.nodes(data=True) if 'molecule' in str(d.get('node_type','')).lower()]
-    recipes = [n for n,d in G.nodes(data=True) if 'dish' in str(d.get('node_type','')).lower()]
-    ing_to_mols = {ing:set() for ing in ingredient_nodes}
-    ing_to_recipes = {ing:set() for ing in ingredient_nodes}
+    molecules = [n for n, d in G.nodes(data=True) if 'molecule' in str(d.get('node_type', '')).lower()]
+    recipes = [n for n, d in G.nodes(data=True) if 'dish' in str(d.get('node_type', '')).lower()]
+
+    ing_to_mols = {ing: set() for ing in ingredient_nodes}
+    ing_to_recipes = {ing: set() for ing in ingredient_nodes}
     for ing in ingredient_nodes:
         for mol in molecules:
-            if G.has_edge(ing,mol): ing_to_mols[ing].add(mol)
+            if G.has_edge(ing, mol):
+                ing_to_mols[ing].add(mol)
         for rec in recipes:
-            if G.has_edge(ing,rec): ing_to_recipes[ing].add(rec)
+            if G.has_edge(ing, rec):
+                ing_to_recipes[ing].add(rec)
 
     pair_shared_mols = []
     pair_coocc = []
     ing_list = ingredient_nodes
     for i in range(len(ing_list)):
-        for j in range(i+1, len(ing_list)):
-            a = ing_list[i]; b = ing_list[j]
+        for j in range(i + 1, len(ing_list)):
+            a = ing_list[i]
+            b = ing_list[j]
             shared = len(ing_to_mols[a] & ing_to_mols[b])
             coocc = len(ing_to_recipes[a] & ing_to_recipes[b])
             if shared > 0 or coocc > 0:
                 pair_shared_mols.append(shared)
                 pair_coocc.append(coocc)
 
-    corr = None; pval = None
+    corr = None
+    pval = None
     if len(pair_shared_mols) >= 10 and sum(pair_shared_mols) > 0:
         corr, pval = spearmanr(pair_shared_mols, pair_coocc)
 
-    # Fasting percentage
     fasting_set = {normalize_label(t) for t in FASTING_RECIPE_TITLES}
     titles_norm = historical['title'].astype(str).apply(normalize_label)
     fast_count = sum(1 for t in titles_norm if t in fasting_set)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else None
 
-    # Render results
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
     st.markdown("Top 10 — Degree (kapcsolatok száma):")
-    for n,v in top_deg:
+    for n, v in top_deg:
         st.markdown(f"- **{readable(n)}** — Degree: {int(v)}")
     st.markdown("Top 10 — PageRank (hálózati befolyás):")
-    for n,v in top_pr:
+    for n, v in top_pr:
         st.markdown(f"- **{readable(n)}** — PageRank: {v:.6f}")
     st.markdown("Top 10 — Betweenness (hidak):")
-    for n,v in top_bet:
+    for n, v in top_bet:
         st.markdown(f"- **{readable(n)}** — Betweenness: {v:.6f}")
 
     st.markdown("---")
