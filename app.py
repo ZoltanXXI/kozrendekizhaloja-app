@@ -947,71 +947,129 @@ def max_similarity_to_historical(candidate: str, historical_list: list) -> float
     return float(max_sim)
 
 def generate_ai_recipe(selected, connected, historical, user_query=None, samples=4, temperature=0.7):
-    system_prompt = (
-        "Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok: "
-        "- 70-110 szó között, "
-        "- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel, "
-        "- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden, "
-        "- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat, "
-        "- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count', "
-        "- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt"
-    )
+    import traceback
+    try:
+        system_prompt = (
+            "Írj egy XVII. századi magyar stílusú, választékos és beszédes receptet. Szabályok: "
+            "- 70-110 szó között, "
+            "- archaikus, mégis érthető magyar stílus, összetett mondatokkal és gazdag szókinccsel, "
+            "- használj lehetőleg csak a megadott összetevőket/kapcsolatokat; ha a felhasználói lekérdezés modern kifejezést tartalmaz, térképezd historikus megfelelőre és indokold röviden, "
+            "- kerüld az adott történeti példák szó szerinti másolását; ha a generált szöveg >60% hasonlóságot mutat egy történeti példához, generálj újat, "
+            "- a válasz CSAK ÉS KIZÁRÓLAG érvényes JSON legyen magyar mezőnevekkel: legalább 'title', 'archaic_recipe', 'confidence', 'novelty_score', 'word_count', "
+            "- legyél gondolkodó és okos: a 'reasoning' mezőben röviden írd le, hogyan képzeled el a mappingot, ha volt"
+        )
 
-    user_prompt = (
-        f"Felhasználói keresés: {user_query}\n\n"
-        f"Központi elem: {selected}\n\n"
-        f"Kapcsolódó elemek (name,type,degree):\n"
-        f"{json.dumps(connected, ensure_ascii=False)}\n\n"
-        f"Történeti példák (rövid):\n"
-        f"{json.dumps(historical, ensure_ascii=False)}\n\n"
-        "Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra."
-    )
-    candidates = []
-    raw_texts = []
-    for i in range(samples):
-        try:
-            response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], temperature=temperature, max_output_tokens=700)
-            ai_text = response.output_text.strip() if hasattr(response, "output_text") else str(response)
-            parsed = extract_json_from_text(ai_text)
-            if parsed and isinstance(parsed, dict):
-                candidates.append(parsed)
-                raw_texts.append(parsed.get("archaic_recipe", "") or parsed.get("text", "") or "")
+        user_prompt = (
+            f"Felhasználói keresés: {user_query}\n\n"
+            f"Központi elem: {selected}\n\n"
+            f"Kapcsolódó elemek (name,type,degree):\n"
+            f"{json.dumps(connected, ensure_ascii=False)}\n\n"
+            f"Történeti példák (rövid):\n"
+            f"{json.dumps(historical, ensure_ascii=False)}\n\n"
+            "Ha valamelyik kapcsolt elem bizonytalan, térképezd a legplausibilisebb történeti alapanyagra."
+        )
+
+        candidates = []
+        raw_texts = []
+        for i in range(samples):
+            try:
+                response = client.responses.create(
+                    model="gpt-5.1",
+                    input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+                    temperature=temperature,
+                    max_output_tokens=700
+                )
+                ai_text = response.output_text.strip() if hasattr(response, "output_text") else str(response)
+                parsed = extract_json_from_text(ai_text)
+                if parsed and isinstance(parsed, dict):
+                    candidates.append(parsed)
+                    raw_texts.append(parsed.get("archaic_recipe", "") or parsed.get("text", "") or "")
+                else:
+                    if ai_text:
+                        raw_texts.append(ai_text)
+            except Exception:
+                raw_texts.append(traceback.format_exc())
+
+        if not candidates and not raw_texts:
+            return {
+                "title": "Hiba történt",
+                "archaic_recipe": "A recept generálása sikertelen volt: nincs érvényes válasz az API-tól.",
+                "confidence": "low",
+                "word_count": 0,
+                "novelty_score": 0.0,
+                "error": "no_response"
+            }
+
+        hist_texts = []
+        for h in historical:
+            if isinstance(h, dict):
+                hist_texts.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
             else:
-                if ai_text:
-                    raw_texts.append(ai_text)
-        except Exception:
-            continue
-    if not candidates and not raw_texts:
-        return {"title": "Hiba történt", "archaic_recipe": "A recept generálása sikertelen volt: nincs érvényes válasz.", "confidence": "low", "word_count": 0, "novelty_score": 0.0}
-    hist_texts = []
-    for h in historical:
-        if isinstance(h, dict):
-            hist_texts.append(h.get("text", "") or h.get("original_text", "") or h.get("excerpt", "") or h.get("title", ""))
-        else:
-            hist_texts.append(str(h))
-    best = None
-    best_novelty = -1.0
-    for cand in candidates:
-        recipe_text = cand.get("archaic_recipe", "") or cand.get("text", "") or ""
-        sim = max_similarity_to_historical(recipe_text, hist_texts)
-        novelty = 1.0 - sim
-        cand["novelty_score"] = round(novelty, 4)
-        wc = len(recipe_text.split())
-        cand["word_count"] = wc
-        if 70 <= wc <= 110:
-            cand["confidence"] = "high"
-        elif 50 <= wc <= 130:
-            cand["confidence"] = "medium"
-        else:
-            cand["confidence"] = "low"
-        if novelty > best_novelty:
-            best_novelty = novelty
-            best = cand
-    if not best:
-        fallback_text = raw_texts[0] if raw_texts else ""
+                hist_texts.append(str(h))
+
+        best = None
+        best_novelty = -1.0
+        for cand in candidates:
+            recipe_text = cand.get("archaic_recipe", "") or cand.get("text", "") or ""
+            sim = max_similarity_to_historical(recipe_text, hist_texts)
+            novelty = 1.0 - sim
+            cand["novelty_score"] = round(novelty, 4)
+            wc = len(recipe_text.split())
+            cand["word_count"] = wc
+            if 70 <= wc <= 110:
+                cand["confidence"] = "high"
+            elif 50 <= wc <= 130:
+                cand["confidence"] = "medium"
+            else:
+                cand["confidence"] = "low"
+            if novelty > best_novelty:
+                best_novelty = novelty
+                best = cand
+
+        if best:
+            return best
+
+        # Ha nem találtunk valid GPT-választ, próbáljunk egy egyszerű, determinisztikus fallback sablont adni
+        fallback_text = None
+        for t in raw_texts:
+            if isinstance(t, str) and len(t.strip()) > 30 and "{" not in t:
+                fallback_text = t
+                break
+
+        if not fallback_text:
+            # Készítünk egy egyszerű archaizáló receptet a bemenet alapján
+            center = strip_icon_ligatures(selected or "Ismeretlen")
+            parts = [strip_icon_ligatures(p.get("name","")) for p in connected[:4]]
+            parts_text = ", ".join([p for p in parts if p])
+            fallback_text = (
+                f"{center} köré szőtt emlékekből: keverve és párolva, {parts_text} szemléletével, "
+                "súlyos és lágy ízek egyesülnek, melyeket sóval és ecettel jóváhagynak."
+            )
+
         wc = len(fallback_text.split())
-        return {"title": selected, "archaic_recipe": fallback_text, "confidence": "low", "word_count": wc, "novelty_score": 0.0}
-    return best
+        novelty_score = 0.0
+        return {
+            "title": selected or "Generált recept",
+            "archaic_recipe": fallback_text,
+            "confidence": "low",
+            "word_count": wc,
+            "novelty_score": novelty_score,
+            "error": "fallback_used"
+        }
+
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        return {
+            "title": selected or "Hiba",
+            "archaic_recipe": "A recept generálása közben kivétel történt.",
+            "confidence": "low",
+            "word_count": 0,
+            "novelty_score": 0.0,
+            "error": "exception",
+            "exception": str(e),
+            "traceback": tb[:2000]
+        }
     
 # Top anchor for scroll-to-top functionality
 st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
@@ -1419,6 +1477,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
