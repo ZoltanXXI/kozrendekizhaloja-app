@@ -69,6 +69,9 @@ def sequence_similarity(a, b):
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
+# Top anchor for scroll-to-top functionality - MOVED BEFORE Banner
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
@@ -99,9 +102,6 @@ footer {visibility: hidden;}
 .block-container {padding-bottom: 2rem !important;}
 </style>
 """, unsafe_allow_html=True)
-
-# Top anchor for scroll-to-top functionality - MOVED BEFORE HEADER
-st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
@@ -372,3 +372,4 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     }
     </style>
     """, unsafe_allow_html=True)
+
