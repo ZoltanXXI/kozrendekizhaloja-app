@@ -1360,7 +1360,7 @@ st.markdown(textwrap.dedent("""
     <p style="font-family: 'Crimson Text', serif; font-size: 1.05rem; opacity: 0.9; margin: 0.2rem 0 1.6rem 0; letter-spacing: 0.04em;">Hálózatelemzés - Történeti források - AI-alapú generálás</p>
     <p style="font-size: 0.95rem; line-height: 1.7; max-width: 820px; margin: 0 auto; opacity: 0.85; color: #efe6d8;">
         A projekt Barabási Albert-László hálózatkutatásaira és a
-        <em>„Szakácsmesterségnek könyvecskéje\"</em> (Tótfalusi Kis Miklós, 1698)
+        <em>"Szakácsmesterségnek könyvecskéje\"</em> (Tótfalusi Kis Miklós, 1698)
         című szakácskönyv digitális elemzésére épül.<br>
         Forrás: Magyar Elektronikus Könyvtár (MEK), Országos Széchényi Könyvtár
     </p>
@@ -1407,4 +1407,5 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
