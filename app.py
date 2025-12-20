@@ -14,18 +14,6 @@ import unicodedata
 import re
 import base64
 import difflib
-
-# ===== PAGE ROUTER – KÖTELEZŐEN LEGELŐL =====
-
-page = st.query_params.get("page", ["home"])[0].lower()
-
-if page == "about":
-    render_about_page()
-    st.stop()
-
-elif page == "analytics":
-    render_analytics_page()
-    st.stop()
     
 st.set_page_config(
     page_title="Közrendek Ízhálója",
@@ -1471,6 +1459,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
