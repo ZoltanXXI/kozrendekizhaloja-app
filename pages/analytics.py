@@ -251,6 +251,13 @@ st.markdown("""
             margin: 0 auto 2rem auto; border-radius: 2px;"></div>
 """, unsafe_allow_html=True)
 
+# ===== NODE TÍPUS SZÍNEK (barnás–aranyló paletta) =====
+node_type_colors = {
+    'Alapanyag': '#8b5a2b',   # mély barna
+    'Molekula':  '#a67c52',   # meleg barna
+    'Recept':    '#d4af37',   # arany
+    'Egyéb':     '#dcc5a0'    # világos bézs
+
 # ===== TAB-ok =====
 tab1, tab2, tab3, tab4 = st.tabs([
     "🕸️ Hálózati Elemzés",
@@ -781,4 +788,5 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
