@@ -91,29 +91,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-with st.sidebar:
-    st.markdown("<div style='padding:1rem; font-family:Cinzel, serif; color:#fff;'><h3 style='margin:0;'>Közrendek Ízhálója</h3></div>", unsafe_allow_html=True)
-    if st.button("🏠 Főoldal", use_container_width=True):
-        try:
-            st.experimental_set_query_params(page="home")
-            st.experimental_rerun()
-        except Exception:
-            pass
-    if st.button("📖 Projektről", use_container_width=True):
-        try:
-            st.experimental_set_query_params(page="about")
-            st.experimental_rerun()
-        except Exception:
-            pass
-    if st.button("📊 Analitika", use_container_width=True):
-        try:
-            st.experimental_set_query_params(page="analytics")
-            st.experimental_rerun()
-        except Exception:
-            pass
-    st.markdown("---")
-    st.markdown("<div style='padding:0.4rem 0.6rem; color:#f5efe6; font-size:0.95rem;'>Kapcsolódó oldalak és vezérlők</div>", unsafe_allow_html=True)
-
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
     <h1 style="font-family:Cinzel, serif; color:#ffffff; margin:0;">A PROJEKTRŐL</h1>
@@ -347,4 +324,3 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
-
