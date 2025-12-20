@@ -1010,6 +1010,9 @@ def generate_ai_recipe(selected, connected, historical, user_query=None, samples
         wc = len(fallback_text.split())
         return {"title": selected, "archaic_recipe": fallback_text, "confidence": "low", "word_count": wc, "novelty_score": 0.0}
     return best
+    
+# Top anchor for scroll-to-top functionality
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 banner_path = "83076027-f357-4e82-8716-933911048498.png"
 if os.path.exists(banner_path):
@@ -1045,9 +1048,6 @@ else:
     </div>
     """, unsafe_allow_html=True)
     
-# Top anchor for scroll-to-top functionality
-st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
-
 st.markdown("""
 <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); border: 3px solid #ccaa77; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1rem; text-align: center;">
@@ -1457,6 +1457,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
