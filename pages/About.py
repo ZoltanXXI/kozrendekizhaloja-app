@@ -7,11 +7,17 @@ from pathlib import Path
 from difflib import SequenceMatcher
 import random
 import textwrap
+import time
 
 import pandas as pd
 import networkx as nx
 from scipy.stats import spearmanr
 import streamlit as st
+
+try:
+    import openai
+except Exception:
+    openai = None
 
 try:
     from utils.fasting import FASTING_RECIPE_TITLES, FASTING_KEYWORDS, classify_fasting_text
@@ -73,6 +79,11 @@ def load_csv_flexible(path, default_sep=None):
             except Exception:
                 return pd.DataFrame()
 
+def sequence_similarity(a, b):
+    if not a or not b:
+        return 0.0
+    return SequenceMatcher(None, a, b).ratio()
+
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
 st.markdown("""
@@ -90,8 +101,16 @@ st.markdown("""
 .metric-card { text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37; }
 .section-title { color: #2c1810; font-size: 1.35rem; font-weight: bold; margin-top: 1.2rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
 .highlight-box { background: linear-gradient(to right, #fffbf0, #fff9e6); border-left: 4px solid #d4af37; padding: 1rem; margin: 1.2rem 0; color: #5c4033; border-radius: 6px; }
+.sidebar-section { color: #ffffff; font-family: Cinzel, serif; margin-bottom: 12px; }
 </style>
 """, unsafe_allow_html=True)
+
+with st.sidebar:
+    st.markdown('<div class="sidebar-section"><strong>Navigation</strong></div>', unsafe_allow_html=True)
+    st.markdown("- `app.py`")
+    st.markdown("- `about.py` (this page)")
+    st.markdown("- `data/`")
+    st.markdown("---")
 
 st.markdown("""
 <div style="display:block; width:fit-content; margin:0 auto; padding:0.5rem 2rem; background:linear-gradient(to right,#5c070d,#840a13); border-radius:8px; text-align:center;">
@@ -304,78 +323,8 @@ else:
         st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 3) Mennyire megbízhatóak az AI által generált receptek (elemzés a generált szövegek alapján)")
-    st.markdown("Az oldal nem hívja újra az AI-t. Az app.py által egyszer generált recept(ek)et használjuk, amely(ek) a `st.session_state['ai_recipe']`-ben találhatók. Ha nincs ott semmi, lehet feltölteni a generált recept JSON-ét.")
+    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét? (Valódi modell-lekéréssel — GPT-5.1)")
 
-    ai_candidates = []
-    if "ai_recipe" in st.session_state and st.session_state["ai_recipe"]:
-        ar = st.session_state["ai_recipe"]
-        if isinstance(ar, dict):
-            ai_candidates.append(ar)
-        elif isinstance(ar, list):
-            ai_candidates.extend(ar)
-    if "ai_recipes" in st.session_state and st.session_state["ai_recipes"]:
-        arc = st.session_state["ai_recipes"]
-        if isinstance(arc, list):
-            ai_candidates.extend([r for r in arc if isinstance(r, dict)])
-    uploaded = st.file_uploader("Tölts fel AI által generált recept(ek) JSON fájlt (opcionális)", type=['json','txt'], accept_multiple_files=False)
-    if uploaded is not None:
-        try:
-            raw = uploaded.read().decode('utf-8')
-            parsed = json.loads(raw)
-            if isinstance(parsed, dict):
-                ai_candidates.append(parsed)
-            elif isinstance(parsed, list):
-                ai_candidates.extend([p for p in parsed if isinstance(p, dict)])
-        except Exception:
-            try:
-                text = uploaded.read().decode('utf-8', errors='ignore')
-                ai_candidates.append({'archaic_recipe': text})
-            except Exception:
-                pass
-
-    if not ai_candidates:
-        st.info("Nincs elérhető AI-generált recept a session-ben. Generálj egy receptet az `app.py` oldalon, majd térj vissza ide, vagy tölts fel JSON fájlt.")
-    else:
-        corpus_texts = bodies.tolist() if len(bodies) > 0 else []
-        def seq_sim(a, b):
-            if not a or not b:
-                return 0.0
-            return SequenceMatcher(None, a, b).ratio()
-        hist_texts = []
-        for idx, row in historical.iterrows():
-            text = ''
-            for c in ('original_text','text','instructions','description'):
-                if c in historical.columns and isinstance(row.get(c,''), str):
-                    text = text + ' ' + row.get(c,'')
-            text = text.strip() or row.get('title','') or ''
-            hist_texts.append(strip_icon_ligatures(text))
-        for i, cand in enumerate(ai_candidates, start=1):
-            gen_text = cand.get('archaic_recipe') or cand.get('text') or cand.get('recipe') or cand.get('full_text') or ''
-            gen_text_norm = normalize_label(gen_text)
-            sims = [seq_sim(gen_text_norm, normalize_label(c)) for c in corpus_texts] if corpus_texts else []
-            max_sim = max(sims) if sims else 0.0
-            mean_sim = sum(sims)/len(sims) if sims else 0.0
-            novelty = 1.0 - max_sim
-            hist_sims = [seq_sim(gen_text_norm, normalize_label(h)) for h in hist_texts] if hist_texts else []
-            hist_max = max(hist_sims) if hist_sims else 0.0
-            st.markdown(f"**Generált recept {i}**")
-            st.markdown(f"- Cím / címke: **{strip_icon_ligatures(cand.get('title','(nincs cím)'))}**")
-            st.markdown(f"- Szószám (generált): **{len(gen_text.split())}**")
-            st.markdown(f"- Legnagyobb similarity a korpusszal: **{max_sim:.3f}**")
-            st.markdown(f"- Átlag similarity: **{mean_sim:.3f}**")
-            st.markdown(f"- Novelty (1 - max_similarity): **{novelty:.3f}**")
-            st.markdown(f"- Legnagyobb similarity bármely történeti példával: **{hist_max:.3f}**")
-            if max_sim > 0.6:
-                st.warning("A similarity > 0.6. Ez azt jelenti, hogy a generált szöveg erősen hasonlít a történeti korpusz egy vagy több példájához — ajánlott újragenerálni vagy erősebb groundingot alkalmazni, hogy elkerüljük a túlzott átjárást a forrásokból.")
-            else:
-                st.success("A generált recept elég eltérőnek tűnik a korpusz tipikus elemeihez képest (novelty magas).")
-            st.markdown("---")
-
-    st.markdown("---")
-    st.markdown("### 4) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét? (Szimulált 100 recept-generálás és eredményei)")
-
-    @st.cache_data
     def build_generation_pool(all_nodes_df, edges_df, historical_df):
         nodes = []
         for _, r in all_nodes_df.iterrows():
@@ -404,104 +353,103 @@ else:
 
     nodes_pool, edge_map, historical_texts = build_generation_pool(tripartit, edges, historical)
 
-    def local_generate_recipe(selected_label, connected_list, historical_snippets, seed_val=None):
-        rnd = random.Random(seed_val)
-        title_terms = []
-        if selected_label:
-            title_terms.append(selected_label)
-        for c in connected_list[:3]:
-            title_terms.append(c.get("name") if isinstance(c, dict) else str(c))
-        title = " és ".join([t for t in title_terms if t])[:60].strip()
-        archaic_phrases = [
-            "vévén meg", "szerént", "módra készíttetvén", "fordítandó mód", "porrá törvén", "olyan módon főztetvén",
-            "hagymával és ecettel", "forró zsírban pirítva", "mérsékelten sózva", "vízzel párolva", "édesítvén mézzel"
+    def prepare_prompt_samples(hist_list, max_snippets=8, max_len=220):
+        samples = [strip_icon_ligatures(h) for h in hist_list if h]
+        rnd = random.Random(0)
+        picked = rnd.sample(samples, min(len(samples), max_snippets)) if samples else []
+        truncated = [s.replace('\n', ' ')[:max_len].strip() for s in picked]
+        return truncated
+
+    def call_openai_batch_generate(n_recipes, seed, sample_nodes, sample_snippets):
+        if openai is None:
+            return None, "OpenAI SDK not installed"
+        api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_KEY")
+        if not api_key:
+            return None, "OPENAI_API_KEY not set in environment"
+        openai.api_key = api_key
+        prompt_snippets = "\n".join(f"- {s}" for s in sample_snippets)
+        sample_nodes_text = ", ".join(sample_nodes[:20])
+        system_msg = "You are a concise historical recipe generator that produces short archaic-style Hungarian recipe descriptions (not exact quotes). Output must be valid JSON: an array of objects with keys 'title' and 'archaic_recipe' and 'word_count'. Do not include any commentary outside the JSON."
+        user_instructions = textwrap.dedent(f"""
+        Generate {n_recipes} distinct recipes based on the provided node pool and example snippets.
+        Constraints:
+        1) Each recipe: 'title' (short), 'archaic_recipe' (Hungarian archaic style, 80-120 words), 'word_count' integer.
+        2) Do not copy verbatim from the examples. Be inspired by style and vocabulary only.
+        3) Prefer mixing node names/ingredients from the node list. Use simple, short archaic connectors.
+        4) Return EXACTLY one JSON array, nothing else.
+        Provided example snippets (do not copy verbatim):
+        {prompt_snippets}
+        Node examples (use for inspiration): {sample_nodes_text}
+        Use deterministic seed: {seed}
+        """)
+        messages = [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_instructions}
         ]
-        connectors = ["aztán", "majd", "közben", "végül"]
-        parts = []
-        parts.append(f"Vegyünk {selected_label}ot és {len(connected_list)} vele kapcsolatos alapanyagot.")
-        k = rnd.randint(3, 6)
-        for i in range(k):
-            ing = connected_list[rnd.randrange(len(connected_list))]["name"] if connected_list else (rnd.choice([n["Label"] for n in nodes_pool]) if nodes_pool else "valami")
-            phrase = rnd.choice(archaic_phrases)
-            parts.append(f"{connectors[rnd.randrange(len(connectors))]} {ing} {phrase}.")
-        if historical_snippets:
-            sample = rnd.choice(historical_snippets)
-            sample_fragment = strip_icon_ligatures(sample)[:140]
-            parts.append(f"Korabeli minta: „{sample_fragment}…”")
-        body = " ".join(parts).strip()
-        words = body.split()
-        if len(words) < 70:
-            add_words = 70 - len(words)
-            filler = " ".join([rnd.choice(archaic_phrases) for _ in range(add_words//2 + 1)])
-            body = body + " " + filler
-        elif len(words) > 130:
-            body = " ".join(words[:110])
-        body = re.sub(r'\s+', ' ', body).strip()
-        wc = len(body.split())
-        if 70 <= wc <= 110:
-            confidence = "high"
-        elif 50 <= wc <= 130:
-            confidence = "medium"
-        else:
-            confidence = "low"
-        return {
-            "title": title or "Cím nélküli",
-            "archaic_recipe": body,
-            "word_count": wc,
-            "confidence": confidence
-        }
+        try:
+            resp = openai.ChatCompletion.create(model="gpt-5.1", messages=messages, max_tokens=25000, temperature=0.8)
+            text = resp['choices'][0]['message']['content']
+            start = text.find('[')
+            end = text.rfind(']') + 1
+            if start != -1 and end != -1:
+                json_text = text[start:end]
+            else:
+                json_text = text
+            parsed = json.loads(json_text)
+            return parsed, None
+        except Exception as e:
+            return None, str(e)
 
-    def max_similarity_to_historical_local(candidate: str, hist_list: list):
-        if not candidate or not hist_list:
-            return 0.0
-        cand = re.sub(r'\s+', ' ', candidate.strip().lower())
-        best = 0.0
-        for h in hist_list:
-            txt = re.sub(r'\s+', ' ', strip_icon_ligatures(h).strip().lower())
-            if not txt:
-                continue
-            sim = SequenceMatcher(None, cand, txt).ratio()
-            if sim > best:
-                best = sim
-        return float(best)
+    n_generate = st.number_input("Generálandó receptek száma (valódi modell-lekérés):", min_value=10, max_value=200, value=100, step=10)
+    seed_input = st.number_input("Random seed (deterministic):", min_value=0, max_value=999999, value=42, step=1)
+    run_openai = st.button("Lekér GPT-5.1 és elemez (egyszer lefut, majd cache-el)")
 
-    n_generate = st.number_input("Generálandó receptek száma (szimulált, helyi):", min_value=10, max_value=500, value=100, step=10)
-    seed_input = st.number_input("Random seed (deterministic futtatáshoz):", min_value=0, max_value=999999, value=42, step=1)
-    run_button = st.button("Generálj és elemezz (szimulált, offline)")
+    @st.cache_data(show_spinner=False)
+    def run_openai_generation_cached(n_generate, seed_input, nodes_pool_serialized, edge_map_serialized, historical_texts_serialized):
+        sample_nodes = [n.get("Label") for n in nodes_pool_serialized if n.get("Label")]
+        sample_snippets = prepare_prompt_samples(historical_texts_serialized, max_snippets=8, max_len=220)
+        generated, err = call_openai_batch_generate(int(n_generate), int(seed_input), sample_nodes, sample_snippets)
+        return generated, err
 
-    @st.cache_data
-    def run_batch_generation(nodes_pool, edge_map, historical_texts, n, seed):
-        rnd = random.Random(seed)
-        generated = []
-        node_labels = [n["Label"] for n in nodes_pool if n.get("Label")]
-        for i in range(n):
-            sel = rnd.choice(node_labels) if node_labels else f"alapanyag_{i}"
-            sel_norm = normalize_label(sel)
-            connected_norms = list(edge_map.get(sel_norm, []))
-            connected = []
-            for cn in connected_norms:
-                node_record = next((x for x in nodes_pool if normalize_label(x.get("Label","")) == cn), None)
-                if node_record:
-                    connected.append({"name": node_record.get("Label"), "degree": int(node_record.get("Degree", 0) or 0), "type": node_record.get("node_type","Egyéb")})
-            sample_hist = [h for h in historical_texts if h]
-            seed_val = seed + i
-            rec = local_generate_recipe(sel, connected if connected else [{"name": rnd.choice(node_labels)}], sample_hist, seed_val=seed_val)
-            rec_text = rec.get("archaic_recipe","")
-            sim = max_similarity_to_historical_local(rec_text, sample_hist)
-            rec["max_similarity"] = sim
-            rec["novelty"] = 1.0 - sim
-            rec["selected"] = sel
-            rec["connected_sample_count"] = len(connected)
-            generated.append(rec)
-        return generated
+    if run_openai:
+        st.session_state.pop("ai_batch_generated", None)
+        with st.spinner("Lekérés a GPT-5.1 modellhez... kérlek várj (egyszeri hívás, hosszabb ideig tarthat)"):
+            nodes_serial = nodes_pool
+            edge_map_serial = edge_map
+            hist_serial = historical_texts
+            gen, error = run_openai_generation_cached(n_generate, seed_input, nodes_serial, edge_map_serial, hist_serial)
+            if gen is None:
+                st.error(f"OpenAI hívás sikertelen: {error}. Helyi szimulációt futtatok helyette.")
+                batch = []
+                rnd = random.Random(seed_input)
+                node_labels = [n["Label"] for n in nodes_pool if n.get("Label")]
+                for i in range(int(n_generate)):
+                    sel = rnd.choice(node_labels) if node_labels else f"alapanyag_{i}"
+                    connected_norms = list(edge_map.get(normalize_label(sel), []))
+                    connected = []
+                    for cn in connected_norms:
+                        node_record = next((x for x in nodes_pool if normalize_label(x.get("Label","")) == cn), None)
+                        if node_record:
+                            connected.append({"name": node_record.get("Label")})
+                    title = sel
+                    body = f"Vegyünk {sel}ot. " + " ".join([f"majd {rnd.choice(['hagymával','ecettel','mézzel','borssal'])} {rnd.choice(['pirítva','főzve','párolva'])}." for _ in range(8)])
+                    wc = len(body.split())
+                    sim = max(sequence_similarity(normalize_label(body), normalize_label(h)) for h in historical_texts) if historical_texts else 0.0
+                    batch.append({"title": title, "archaic_recipe": body, "word_count": wc, "max_similarity": sim, "novelty": 1.0 - sim})
+                st.session_state["ai_batch_generated"] = batch
+            else:
+                parsed = gen
+                batch = []
+                for item in parsed:
+                    txt = item.get("archaic_recipe","") if isinstance(item, dict) else ""
+                    wc = int(item.get("word_count", len(txt.split()))) if isinstance(item, dict) else len(txt.split())
+                    sim = max(sequence_similarity(normalize_label(txt), normalize_label(h)) for h in historical_texts) if historical_texts else 0.0
+                    batch.append({"title": item.get("title","(nincs cím)"), "archaic_recipe": txt, "word_count": wc, "max_similarity": sim, "novelty": 1.0 - sim})
+                st.session_state["ai_batch_generated"] = batch
+            st.success("Generálás és feldolgozás befejezve.")
 
-    if run_button:
-        with st.spinner("Generálás fut (offline szimuláció, egyszer lefuttatva és cache-elve)..."):
-            batch = run_batch_generation(nodes_pool, edge_map, historical_texts, int(n_generate), int(seed_input))
-            st.session_state["simulated_ai_batch"] = batch
-
-    if "simulated_ai_batch" in st.session_state:
-        batch = st.session_state["simulated_ai_batch"]
+    if "ai_batch_generated" in st.session_state:
+        batch = st.session_state["ai_batch_generated"]
         sims = [b.get("max_similarity", 0.0) for b in batch]
         novelties = [b.get("novelty", 0.0) for b in batch]
         mean_max_sim = sum(sims)/len(sims) if sims else 0.0
@@ -518,23 +466,13 @@ else:
             excerpt = t.get("archaic_recipe","")[:300]
             st.markdown(f"> {excerpt}...")
         st.markdown("---")
-        st.markdown("**Módszertan röviden (ami történt):**")
+        st.markdown("**Módszertan röviden (ami történik a generálásnál):**")
         st.markdown(textwrap.dedent("""
-        - Lokális, offline szimulációt futtattunk: az `app.py`-ban található node/edge/historical adatok alapján véletlenszerűen választottunk központi csomópontokat és azok kapcsolatait.
-        - Minden generált recept rövid, archaizáló sablonokból összeállított szöveg volt (70–110 szó körül), amelyek tartalmaztak kapcsolódó alapanyagokat és rövid korabeli részlet-hivatkozást.
-        - Minden generátumra kiszámoltuk a legnagyobb lineáris hasonlóságot (SequenceMatcher ratio) a történeti receptek teljes szövegéhez, ez a `max_similarity`.
-        - Novelty = 1 - max_similarity. Javasolt küszöb: ha `max_similarity` > 0.6, akkor gyanítható a forrásokhoz túl közel álló (kevésbé „eredeti”) generálás — ilyenkor érdemes erősebb groundingot alkalmazni.
-        - A futtatás determinisztikus seed mellett ismételhető; az eredményeket a session-ben cache-eljük, így egyszer generálva, többször elemezhetőek.
+        - A GPT-5.1-nek egyszer küldünk egy promptot, amely tartalmaz rövid történeti példákat és néhány node-címet; a modell JSON tömböt ad vissza `title` és `archaic_recipe` mezőkkel.
+        - A visszaadott receptekhez kiszámoljuk a legnagyobb similarity értéket (SequenceMatcher) a történeti korpusz bármely teljes receptjével: ez a `max_similarity`.
+        - Novelty = 1 - max_similarity. Ha `max_similarity` > 0.6, akkor a generált szöveg erősen hasonlít egy vagy több forráspéldához — ilyenkor javasolt újragenerálás vagy erősebb grounding.
+        - A lekérést egyszer végezzük el; az eredmény a session-ben cache-elve és elmentve marad, így további elemzések tokenmentesek.
         """), unsafe_allow_html=True)
-
-        st.markdown("**Javaslat a valós AI-hívásos protokollra (ha később valódi modell-lekérést akartok):**")
-        st.markdown(textwrap.dedent("""
-        - A modell csak egyszer generáljon egy nagyobb mintát (pl. 100 recept), a válaszokat JSON-ban tároljuk (`st.session_state['ai_batch']`) — így nem többszörös API-hívás szükséges.
-        - A generálás után minden recepthez kiszámoljuk a `max_similarity` értéket és a `novelty`-t, majd csak a gyanús (similarity > 0.6) elemeket küldjük emberi ellenőrzésre vagy újragenerálásra.
-        - A promptba beágyazunk 10-20 történeti példát (short snippets) és node-címeket, hogy a modell a stílust kövesse, ugyanakkor explicit tiltást adunk: "Ne idézd szó szerint a forrást; ha hasonlóság >60% ered, generálj új változatot."
-        - Tároljuk a generált batch metaadatait (seed, used_nodes, prompt_hash, timestamp), hogy reprodukálható legyen a folyamat.
-        """), unsafe_allow_html=True)
-
         st.markdown("---")
         st.markdown("**Példa: 3 véletlenszerű generált recept (teljes szöveg)**")
         sample_three = random.Random(1234).sample(batch, min(3, len(batch)))
@@ -544,4 +482,4 @@ else:
             st.markdown(f"- Novelty: **{s.get('novelty',0):.3f}**, Max similarity: **{s.get('max_similarity',0):.3f}**, Szavak: **{s.get('word_count',0)}**")
             st.markdown("---")
     else:
-        st.info("A szimulált batch-generáláshoz nyomd meg a 'Generálj és elemezz' gombot. Az eredmény egyszer generálódik és cache-elve lesz a session-ben.")
+        st.info("A GPT-5.1 lekéréshez nyomd meg a 'Lekér GPT-5.1 és elemez' gombot. Az eredmény egyszer generálódik és cache-elve lesz a session-ben.")
