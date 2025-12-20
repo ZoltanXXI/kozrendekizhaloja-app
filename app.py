@@ -1303,7 +1303,7 @@ if "gpt_search_results" in st.session_state:
             recipe = next((r for r in historical_recipes if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()), None)
             if recipe:
                 clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
-                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:400])
+                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:15000])
                 with st.expander(f"📜 {clean_title}"):
                     st.markdown(clean_text + "...")
 
@@ -1403,6 +1403,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
