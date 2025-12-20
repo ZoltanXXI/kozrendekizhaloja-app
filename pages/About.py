@@ -226,6 +226,22 @@ else:
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
+        st.markdown("---")
+
+    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+
+    with metric_col1:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek (adatból)</div></div>', unsafe_allow_html=True)
+
+    with metric_col2:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
+
+    with metric_col3:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{avg_words_body}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Átlag szószám (recept szövegtest)</div></div>', unsafe_allow_html=True)
+
+    with metric_col4:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
+
     
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
@@ -272,23 +288,6 @@ else:
             - **Kulináris kultúra**: A korabeli receptek célja és szokásai befolyásolták, hogy miket párosítottak; a hasonló molekuláris profil nem feltétlenül vezet együtt használathoz.
             Röviden: a negatív kapcsolat nem jelenti, hogy az aroma fontos lenne; azt jelzi, hogy a hasonlóság gyakran nem vezetett együtthasználathoz a vizsgált korpuszban.
             """, unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
-
-    with metric_col1:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek (adatból)</div></div>', unsafe_allow_html=True)
-
-    with metric_col2:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
-
-    with metric_col3:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{avg_words_body}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Átlag szószám (recept szövegtest)</div></div>', unsafe_allow_html=True)
-
-    with metric_col4:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
-
     st.markdown("---")
     st.markdown("**3) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
     st.markdown("""
@@ -324,5 +323,6 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
+
 
 
