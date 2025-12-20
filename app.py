@@ -1291,11 +1291,13 @@ if "gpt_search_results" in st.session_state:
                         if nnode:
                             connected.append({"name": nnode.get("Label"), "degree": int(nnode.get("Degree", 0) or 0), "type": nnode.get("node_type", "unknown")})
                     historical_recipe = [
-    {"title": strip_icon_ligatures(r.get("title", "Névtelen")), 
-     "text": strip_icon_ligatures(r.get("original_text", ""))}  # teljes szöveg
-    for r in historical_recipes 
-    if sel.lower() in str(r).lower()
-][:5]  # 5 receptet tartunk csak
+                        {
+                            "title": strip_icon_ligatures(r.get("title", "Névtelen")),
+                            "text": strip_icon_ligatures(r.get("original_text", ""))
+                        } 
+                        for r in historical_recipes 
+                        if sel.lower() in str(r).lower()
+                    ][:5]
                     st.session_state["selected"] = sel
                     st.session_state["connected"] = connected
                     st.session_state["historical_recipe"] = historical_recipe
@@ -1417,4 +1419,5 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
