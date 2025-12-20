@@ -335,6 +335,67 @@ for _, row in tripartit_df.iterrows():
     node_norm_map[norm] = rec
     node_id_map[nid] = rec
 
+def infer_dish_intent(user_query: str, top_k_recipes: int = 6):
+    if not user_query or not isinstance(user_query, str):
+        return {"type": "unknown", "confidence": 0.0, "equivalents": []}
+
+    q_norm = normalize_label(user_query)
+    tokens = [t for t in re.split(r'[\s,;:()"\']+', q_norm) if t]
+
+    # 1) Próbáljunk közvetlen/close matchet a node-címek és receptcímek között
+    direct_node = None
+    if q_norm in node_norm_map:
+        direct_node = node_norm_map[q_norm]
+    else:
+        close = difflib.get_close_matches(q_norm, list(node_norm_map.keys()), n=1, cutoff=0.7)
+        if close:
+            direct_node = node_norm_map[close[0]]
+
+    # 2) Keresés a történeti recept corpusban (cím / teljes szöveg)
+    recipe_matches = search_recipes_by_query(user_query, max_results=top_k_recipes)
+    # recipe_matches items contain 'title' and 'excerpt' (full_text)
+    matched_texts = [r.get("excerpt","") for r in recipe_matches]
+
+    # 3) Gyakori kulcsszavak kinyerése (egyszerű heur)
+    candidate_tokens = []
+    for text in matched_texts:
+        if not text:
+            continue
+        tnorm = re.sub(r'[^a-z0-9áéíóúöüőű\s]', ' ', strip_icon_ligatures(text).lower())
+        toks = [t for t in re.split(r'[\s]+', tnorm) if len(t) > 2]
+        candidate_tokens.extend(toks)
+    # stop-words egyszerű listája magyarul (kiterjeszthető)
+    stop = {"és","a","az","vagy","de","hogy","hogyha","mely","amely","mint","is","van","volt","nek","nak","tehát"}
+    freq = {}
+    for t in candidate_tokens:
+        if t in stop:
+            continue
+        freq[t] = freq.get(t, 0) + 1
+    # legtöbbször előforduló tokenek
+    freq_sorted = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    top_tokens = [t for t,_ in freq_sorted[:12]]
+
+    # 4) típusdetektálás: keresünk 'desszert' jeleit a receptcímek/anyagok között
+    dessert_indicators = {"sütemény","desszert","torta","piskóta","krém","kakaó","cukor","kávé","mascarpone","hab","krémsajt"}
+    indicator_count = sum(1 for t in top_tokens if t in dessert_indicators) + sum(1 for t in tokens if t in dessert_indicators)
+
+    # ha van explicit node és annak node_type-ja, használjuk (gyorsbizonyíték)
+    if direct_node is not None:
+        node_type = direct_node.get("node_type", "").lower()
+        if "recept" in node_type or "desszert" in node_type or "sütemény" in node_type:
+            return {"type": "dessert", "confidence": 0.9, "equivalents": top_tokens[:8]}
+
+    # ha vannak erős indikátorok -> desszert
+    if indicator_count >= 1:
+        conf = min(0.85, 0.35 + 0.25 * indicator_count + (len(matched_texts)/max(1, top_k_recipes))*0.15)
+        return {"type": "dessert", "confidence": round(conf, 2), "equivalents": top_tokens[:8]}
+
+    # ha receptcímekre találtunk, de nem egyértelmű desszert, de van sok közös token -> dish
+    if matched_texts and len(top_tokens) >= 3:
+        return {"type": "dish", "confidence": 0.5, "equivalents": top_tokens[:8]}
+
+    return {"type": "unknown", "confidence": 0.0, "equivalents": top_tokens[:6]}
+
 def find_edge_candidate_cols(edges_df):
     cols = list(edges_df.columns)
     src_candidates = [c for c in cols if 'source' in c.lower() or 'from' in c.lower() or c.lower().startswith('src')]
@@ -813,6 +874,18 @@ def gpt_search_recipes(user_query):
         q_tokens = [t for t in re.sub(r'[^a-z0-9\s]', ' ', query_lower.lower()).split() if len(t) > 1]
     else:
         q_tokens = []
+
+    # ---- új: automatikus intent / equivalence következtetés a helyi korpuszból ----
+    inferred = infer_dish_intent(user_query)
+    # ha a rendszer desszertként azonosította, priorizáljuk a desszert-alkalmazkodó tokeneket
+    if inferred and inferred.get("type") == "dessert" and inferred.get("equivalents"):
+        eqs = inferred.get("equivalents", [])
+        # adjuk hozzá a tokenekhez (kis súllyal): segít a fuzzy_suggest_nodes-nak
+        for eq in eqs:
+            for tok in re.split(r'[\s,;:()"\']+', normalize_label(eq)):
+                if tok and tok not in q_tokens:
+                    q_tokens.append(tok)
+    # -------------------------------------------------------------------------------
     for recipe in full_recipe_corpus:
         text = (recipe.get('full_text') or "").lower()
         if not text:
@@ -827,16 +900,14 @@ def gpt_search_recipes(user_query):
         node_analogies.extend(HISTORICAL_ANALOGY_MAP.get(node["name"], []))
     related_analogies = ", ".join(dict.fromkeys(node_analogies))
 
-    system_prompt = f"""
-    Te egy XVII. századi magyar szakácskönyv stílusában írsz AI Ajánlást.
-    Feladat: a felhasználói kifejezéseket esszészerűen értelmezd, kulturális és érzéki szempontokat összekapcsolva.
-    Ne listázz, hanem folyékony prózában indokold, miért és hogyan értelmezted a szavakat történeti gasztronómiai logika mentén.
-    A cél: az ízélmény, textúra és jelentés történeti rekonstrukciója.
-    Felhasználói query: {user_query}
-    Kapcsolódó alapanyagok: {', '.join([n['name'] for n in simplified_nodes])}
-    Kapcsolódó történeti analógiák: {related_analogies}
-    """
-
+    system_prompt = (
+        "Te egy XVII. századi magyar szakácskönyv stílusában írsz AI Ajánlást."
+        "Feladat: rövid, történeties hangvételű receptgenerálás a rendelkezésre álló csomópontok és történeti példák alapján. "
+        "Engedélyezett: először rövid, természetes nyelvű leírást adj (2-4 rövid bekezdés), majd ha lehet, tüntesd fel egy JSON blokkban a metaadatokat (title, word_count, confidence, novelty_score, suggested_nodes). "
+        "NE KÖTELEZD kizárólagos, hibára érzékeny JSON-re: ha a modell inkább narratív választ ad, azt is fogadd el. "
+        "Szabály: ha adsz JSON-t, tedd külön `<<<JSON>>>` és `<<<ENDJSON>>>` jelölők közé, hogy könnyen parse-olható legyen. "
+        "Az 'archaic_recipe' célzottan ~70–120 szó legyen ha lehetséges, de a természetes nyelvű rész az elsődleges."
+    )
     top_matched = matched_recipes[:5]
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text",""))} for r in top_matched]
     try:
@@ -1510,6 +1581,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
