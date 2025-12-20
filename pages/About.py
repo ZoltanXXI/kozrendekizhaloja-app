@@ -1,3 +1,4 @@
+#About.py
 import os
 import re
 import unicodedata
@@ -326,3 +327,4 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
+
