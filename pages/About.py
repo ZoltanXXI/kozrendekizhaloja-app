@@ -226,6 +226,24 @@ else:
     fast_count = sum(1 for f in fasting_flags if f)
     fast_pct = round(fast_count / len(historical) * 100, 1) if len(historical) > 0 else 0.0
 
+    # METRICS SECTION - moved here (after the quote, before "Kutatási eredmények")
+    st.markdown("---")
+    
+    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+
+    with metric_col1:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek (adatból)</div></div>', unsafe_allow_html=True)
+
+    with metric_col2:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
+
+    with metric_col3:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{avg_words_body}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Átlag szószám (recept szövegtest)</div></div>', unsafe_allow_html=True)
+
+    with metric_col4:
+        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
+
+    st.markdown("---")
     
     st.markdown("### Kutatási eredmények (adatok alapján)")
     st.markdown("**1) Mely alapanyagok voltak a legközpontibbak?**")
@@ -243,14 +261,14 @@ else:
         st.markdown('<div class="list-card"><div class="list-title">Top 10 — PageRank (hálózati befolyás)</div>', unsafe_allow_html=True)
         for i, (n, v) in enumerate(top_pr, start=1):
             st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
-        st.markdown('<div style="margin-top:8px; color:#4a3728;">A PageRank nemcsak a kapcsolatok számát nézi, hanem azok minőségét: ha egy alapanyag kapcsolatban áll más fontos alapanyagokkal, akkor magasabb a PageRank-je — ez a „befolyásosság” mutatója a hálózatban.</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:8px; color:#4a3728;">A PageRank nemcsak a kapcsolatok számát nézi, hanem azok minőségét: ha egy alapanyag kapcsolatban áll más fontos alapanyagokkal, akkor magasabb a PageRank-je — ez a „befolyásosság" mutatója a hálózatban.</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with bet_col:
         st.markdown('<div class="list-card"><div class="list-title">Top 10 — Betweenness (hidak)</div>', unsafe_allow_html=True)
         for i, (n, v) in enumerate(top_bet, start=1):
             st.markdown(f'<div class="list-item">{i}. <strong>{readable(n)}</strong> — {v:.6f}</div>', unsafe_allow_html=True)
-        st.markdown('<div style="margin-top:8px; color:#4a3728;">A Betweenness azt jelenti, hogy egy alapanyag milyen gyakran van a legrövidebb utak „közepén” a hálózatban — ezek a csomópontok gyakran kötik össze a különböző ízvilágokat, vagy átjárót képeznek két csoport között.</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:8px; color:#4a3728;">A Betweenness azt jelenti, hogy egy alapanyag milyen gyakran van a legrövidebb utak „közepén" a hálózatban — ezek a csomópontok gyakran kötik össze a különböző ízvilágokat, vagy átjárót képeznek két csoport között.</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
@@ -274,22 +292,6 @@ else:
             """, unsafe_allow_html=True)
 
     st.markdown("---")
-
-    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
-
-    with metric_col1:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{len(historical)}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Történeti receptek (adatból)</div></div>', unsafe_allow_html=True)
-
-    with metric_col2:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{G.number_of_nodes()}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Node (hálózat)</div></div>', unsafe_allow_html=True)
-
-    with metric_col3:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{avg_words_body}</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Átlag szószám (recept szövegtest)</div></div>', unsafe_allow_html=True)
-
-    with metric_col4:
-        st.markdown(f'<div class="metric-card"><div style="font-size: 2.2rem; font-weight: bold; color: #8b5a2b;">{fast_pct}%</div><div style="color:#4a3728; font-size:0.95rem; margin-top:0.5rem;">Böjti receptek (detektálva)</div></div>', unsafe_allow_html=True)
-
-    st.markdown("---")
     st.markdown("**3) Mennyire közelíti meg az AI a történeti receptek stílusát és szerkezetét?**")
     st.markdown("""
 Az AI nem tudja utánozni a történeti receptek stílusát.
@@ -309,7 +311,7 @@ Mit jelent ez a gyakorlatban? Az AI képes címeket és alapanyagokat generálni
 Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles rekonstrukciójára - csak modern, sablonos utánzatokat hoz létre.
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="large-quote">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni.”<small>– Guy Savoy</small></div>', unsafe_allow_html=True)
+    st.markdown('<div class="large-quote">„A főzés az az a fajta művészet, amely a történelmi termékeket képes pillanatok alatt élvezetté varázsolni."<small>– Guy Savoy</small></div>', unsafe_allow_html=True)
 
     st.markdown("""
     <div style="text-align: center; margin-top: 2rem; padding: 1.2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
@@ -324,4 +326,3 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
         </div>
     </div>
     """, unsafe_allow_html=True)
-
