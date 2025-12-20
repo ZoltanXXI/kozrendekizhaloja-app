@@ -877,7 +877,7 @@ Tökéletes alapanyagok (rövid):
 {perfect_preview}
 
 Utasítások: system_prompt = """
-Először folyó, magyar (vagy a felhasználó által írt bármilyen nyelven) nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó kérdését történeti-gasztronómiai szempontból. Ezután – külön blokkban – add meg a strukturált adatokat JSON formátumban. A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
+Először folyó, magyar (vagy a felhasználó által írt bármilyen nyelven) nyelvű magyarázó szövegben írd le, hogyan értelmezed a felhasználó kérdését történeti-gasztronómiai szempontból. Ezután külön blokkban add meg a strukturált adatokat JSON formátumban. A szöveg legyen élvezetes, értelmező jellegű, ne csak felsorolás. Ha a felhasználó olyan kifejezést említ, amely nincs a node-listában, térképezd a legközelebbi ismert node-ra és részletezd a mapping indoklását a "reasoning" mezőben. Javasolj legfeljebb 5 node-ot és legfeljebb 3 történeti receptcímeket.
 """
     try:
         response = client.responses.create(model="gpt-5.1", input=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}], max_output_tokens=900)
@@ -1436,5 +1436,6 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
