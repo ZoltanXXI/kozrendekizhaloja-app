@@ -1349,62 +1349,6 @@ if "selected" in st.session_state:
 
 st.markdown("---")
 
-def _set_nav(page: str):
-    st.query_params["page"] = page
-
-
-nav_col1, nav_col2 = st.columns(2)
-
-with nav_col1:
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
-                border: 2px solid #ccaa77; 
-                border-radius: 12px; 
-                padding: 2rem; 
-                text-align: center;
-                margin-bottom: 1rem; position: relative; z-index: 10010;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
-        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">A Projektről</h4>
-        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Történet, módszertan és források</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.button(
-        "📖 Tovább a Projektről oldalra",
-        key="nav_about",
-        use_container_width=True,
-        on_click=_set_nav,
-        args=("about",)
-    )
-
-with nav_col2:
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); 
-                border: 2px solid #ccaa77; 
-                border-radius: 12px; 
-                padding: 2rem; 
-                text-align: center;
-                margin-bottom: 1rem; position: relative; z-index: 10010;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-        <h4 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 0.5rem;">Analitika Dashboard</h4>
-        <p style="color: #e8dcc8; font-size: 0.95rem; opacity: 0.8;">Részletes statisztikák és eloszlások</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.button(
-        "📊 Tovább az elemzői oldalra",
-        key="nav_analytics",
-        use_container_width=True,
-        on_click=_set_nav,
-        args=("analytics",)
-    )
-
-st.markdown("""
-<p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1.5rem;">
-    💡 <em>Vagy használd a bal felső sarokban lévő menüt (>>) a navigáláshoz!</em>
-</p>
-""", unsafe_allow_html=True)
-
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
     <p style="font-family: 'Cinzel', serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.3rem; color: #e8c896; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">Közrendek Ízhálója</p>
@@ -1459,6 +1403,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
