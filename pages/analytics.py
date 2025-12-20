@@ -7,6 +7,8 @@ import numpy as np
 from scipy import stats
 
 st.set_page_config(page_title="Statisztika", page_icon="📊", layout="wide")
+# Top anchor for scroll-to-top functionality
+st.markdown('<div id="top-anchor"></div>', unsafe_allow_html=True)
 
 # ===== CUSTOM CSS - TÖRTÉNELMI STÍLUS =====
 st.markdown("""
@@ -680,3 +682,36 @@ st.markdown(
 
 )
 
+# --- Scroll-to-top: anchor alapú, a fő DOM-ba injektálva (nem iframe) ---
+st.markdown("""
+<a href="#top-anchor" class="scroll-to-top" aria-label="Vissza a tetejére">↑</a>
+
+<style>
+.scroll-to-top {
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    background: linear-gradient(135deg, #8b5a2b, #d4af37);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.18s ease;
+    z-index: 9999;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 50px;
+}
+.scroll-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+    background: linear-gradient(135deg, #d4af37, #8b5a2b);
+}
+</style>
+""", unsafe_allow_html=True)
