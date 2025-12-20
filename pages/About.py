@@ -92,7 +92,7 @@ st.markdown("""
 /* Scroll to top button */
 .scroll-to-top {
     position: fixed;
-    bottom: 30px;
+    bottom: 50px;
     right: 30px;
     background: linear-gradient(135deg, #8b5a2b, #d4af37);
     color: white;
@@ -105,9 +105,11 @@ st.markdown("""
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 9999;
     text-decoration: none;
     font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
 }
 .scroll-to-top:hover {
     transform: translateY(-5px);
@@ -119,6 +121,10 @@ st.markdown("""
 body {
     overscroll-behavior: none;
 }
+
+/* Hide Streamlit's default footer and extra space */
+footer {visibility: hidden;}
+.block-container {padding-bottom: 2rem !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -358,24 +364,38 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
     </div>
     """, unsafe_allow_html=True)
 
-    # Scroll to top button with JavaScript
-    st.markdown("""
-    <a href="#" class="scroll-to-top" title="Vissza a tetejére">↑</a>
-    
-    <script>
-    // Smooth scroll to top
-    document.querySelector('.scroll-to-top').addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    </script>
+    # Scroll to top button with working onclick handler
+    st.components.v1.html("""
+    <div id="scroll-to-top" class="scroll-to-top" onclick="window.parent.scrollTo({top: 0, behavior: 'smooth'})" title="Vissza a tetejére">
+        ↑
+    </div>
     
     <style>
-    /* Hide Streamlit's default footer and extra space */
-    footer {visibility: hidden;}
-    .block-container {padding-bottom: 2rem !important;}
+    .scroll-to-top {
+        position: fixed;
+        bottom: 50px;
+        right: 30px;
+        background: linear-gradient(135deg, #8b5a2b, #d4af37);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        z-index: 9999;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1;
+    }
+    .scroll-to-top:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        background: linear-gradient(135deg, #d4af37, #8b5a2b);
+    }
     </style>
-    """, unsafe_allow_html=True)
+    """, height=0)
