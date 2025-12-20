@@ -1126,7 +1126,7 @@ with col_search:
                             node = node_norm_map.get(rn)
                             if node:
                                 connected.append({"name": node.get("Label"), "degree": int(node.get("Degree", 0) or 0), "type": node.get("node_type", "unknown")})
-                        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")),"text": strip_icon_ligatures(r.get("original_text", ""))} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", ""))} for r in historical_recipes if sel.lower() in str(r).lower()][:5]; st.session_state["selected"] = sel
                         st.session_state["selected"] = sel
                         st.session_state["connected"] = connected
                         st.session_state["historical_recipe"] = historical_recipe
@@ -1238,7 +1238,7 @@ for i, n in enumerate(filtered_nodes[:60]):
             node = node_norm_map.get(rn)
             if node:
                 connected.append({"name": node.get("Label"), "degree": int(node.get("Degree", 0) or 0), "type": node.get("node_type", "unknown")})
-        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", ""))} for r in historical_recipes if sel.lower() in str(r).lower()][:5]; st.session_state["selected"] = sel
         st.session_state["selected"] = sel
         st.session_state["connected"] = connected
         st.session_state["historical_recipe"] = historical_recipe
@@ -1419,6 +1419,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
