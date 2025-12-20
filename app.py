@@ -841,7 +841,7 @@ def gpt_search_recipes(user_query):
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text",""))} for r in top_matched]
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
-        full_labels_preview = json.dumps(full_labels[], ensure_ascii=False)
+        full_labels_preview = json.dumps(full_labels, ensure_ascii=False)  # ← javítva
     except Exception:
         full_labels_preview = "[]"
     try:
@@ -1417,3 +1417,4 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
