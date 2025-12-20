@@ -841,7 +841,7 @@ def gpt_search_recipes(user_query):
     matched_preview = [{"title": r.get("title", ""), "excerpt": (r.get("full_text",""))} for r in top_matched]
     try:
         full_labels = sorted({n.get("Label", "") for n in all_nodes if n.get("Label")})
-        full_labels_preview = json.dumps(full_labels[:300], ensure_ascii=False)
+        full_labels_preview = json.dumps(full_labels[], ensure_ascii=False)
     except Exception:
         full_labels_preview = "[]"
     try:
@@ -1126,7 +1126,7 @@ with col_search:
                             node = node_norm_map.get(rn)
                             if node:
                                 connected.append({"name": node.get("Label"), "degree": int(node.get("Degree", 0) or 0), "type": node.get("node_type", "unknown")})
-                        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
                         st.session_state["selected"] = sel
                         st.session_state["connected"] = connected
                         st.session_state["historical_recipe"] = historical_recipe
@@ -1238,7 +1238,7 @@ for i, n in enumerate(filtered_nodes[:60]):
             node = node_norm_map.get(rn)
             if node:
                 connected.append({"name": node.get("Label"), "degree": int(node.get("Degree", 0) or 0), "type": node.get("node_type", "unknown")})
-        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+        historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
         st.session_state["selected"] = sel
         st.session_state["connected"] = connected
         st.session_state["historical_recipe"] = historical_recipe
@@ -1290,7 +1290,12 @@ if "gpt_search_results" in st.session_state:
                         nnode = node_norm_map.get(rn)
                         if nnode:
                             connected.append({"name": nnode.get("Label"), "degree": int(nnode.get("Degree", 0) or 0), "type": nnode.get("node_type", "unknown")})
-                    historical_recipe = [{"title": strip_icon_ligatures(r.get("title", "Névtelen")), "text": strip_icon_ligatures(r.get("original_text", "")[:300])} for r in historical_recipes if sel.lower() in str(r).lower()][:5]
+                    historical_recipe = [
+    {"title": strip_icon_ligatures(r.get("title", "Névtelen")), 
+     "text": strip_icon_ligatures(r.get("original_text", ""))}  # teljes szöveg
+    for r in historical_recipes 
+    if sel.lower() in str(r).lower()
+][:5]  # 5 receptet tartunk csak
                     st.session_state["selected"] = sel
                     st.session_state["connected"] = connected
                     st.session_state["historical_recipe"] = historical_recipe
@@ -1412,20 +1417,3 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
