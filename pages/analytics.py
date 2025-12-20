@@ -413,9 +413,14 @@ Ez azt jelenti, hogy a hálózatban:
         fig_types = go.Figure(data=[go.Pie(
             labels=type_counts.index,
             values=type_counts.values,
-            hole=0.4
+            hole=0.4,
+            marker=dict(
+                colors=[node_type_colors.get(t, '#dcc5a0') for t in type_counts.index]
+            ),
+            textinfo="label+percent",
+            textfont=dict(color="#2c1810")
         )])
-
+        
         fig_types.update_layout(
             paper_bgcolor='#fcf5e5',
             height=350
@@ -776,3 +781,4 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
