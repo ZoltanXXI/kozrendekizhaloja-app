@@ -77,6 +77,24 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# CSS overrides to ensure interactive elements are clickable (fix for overlay blocking)
+st.markdown("""
+<style>
+.stButton > button, .stButton button, button, input, textarea, select, .stTextInput, .stSelectbox {
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 10010 !important;
+}
+.scroll-to-top { pointer-events: auto !important; z-index: 10020 !important; }
+div[style*="position: absolute"], div[style*="position: fixed"] {
+    pointer-events: none !important;
+}
+div[style*="position: absolute"] * , div[style*="position: fixed"] * {
+    pointer-events: auto !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 load_dotenv()
 api_key = None
 try:
@@ -775,9 +793,6 @@ def analyze_query_tokens(user_query: str):
     return analysis
 
 def build_reasoning_paragraph(token_analysis: list) -> str:
-    """
-    A token-analízisből folyó szöveges, narratív reasoning-et készít.
-    """
     sentences = []
 
     for item in token_analysis:
@@ -1457,10 +1472,3 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-
-
-
-
-
-
