@@ -1300,12 +1300,19 @@ if "gpt_search_results" in st.session_state:
         st.markdown("**📖 Releváns történeti receptek:**")
         for recipe_title in results["suggested_recipes"][:3]:
             clean_recipe_title = strip_icon_ligatures(str(recipe_title))
-            recipe = next((r for r in historical_recipes if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()), None)
+            recipe = next(
+                (
+                    r for r in historical_recipes
+                    if strip_icon_ligatures(r.get("title", "")).lower() == clean_recipe_title.lower()
+                ),
+                None
+            )
             if recipe:
-                clean_title = strip_icon_ligatures(recipe.get('title', 'Névtelen'))
-                clean_text = strip_icon_ligatures(recipe.get('original_text', '')[:15000])
+                clean_title = strip_icon_ligatures(recipe.get("title", "Névtelen"))
+                clean_text = strip_icon_ligatures(recipe.get("original_text", ""))
+        
                 with st.expander(f"📜 {clean_title}"):
-                    st.markdown(clean_text + "...")
+                    st.markdown(clean_text)
 
 if "selected" in st.session_state:
     st.markdown("---")
@@ -1403,6 +1410,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
