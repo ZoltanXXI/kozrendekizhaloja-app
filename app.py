@@ -494,6 +494,26 @@ def build_gpt_context(nodes, recipes, perfect_ings=None, user_query=None, max_no
             s = re.sub(r"[^a-z0-9]+", ' ', s)
             s = ' '.join(s.split())
             return s
+    nodes_ctx = []
+    for node in sampled_nodes:
+        entry = dict(node)
+        entry_name = strip_icon_ligatures(entry.get("Label")
+                                          or entry.get("label")
+                                          or entry.get("node_name")
+                                          or entry.get("node_id")
+                                          or entry.get("name")
+                                          or "")
+        entry["name"] = entry_name
+        nodes_ctx.append(entry)
+
+    simplified_nodes = [
+        {
+            "name": n["name"],
+            "type": n.get("node_type") or n.get("type") or n.get("Type") or "Egyéb",
+            "degree": int(n.get("Degree", n.get("degree", 0) or 0))
+        }
+        for n in nodes_ctx if n.get("name")
+    ]
         q_norm = _normalize(user_query)
         q_tokens = [t for t in q_norm.split() if len(t) > 1]
         if q_tokens:
@@ -750,7 +770,7 @@ def gpt_search_recipes(user_query):
             matched_recipes.append(recipe)
             if len(matched_recipes) >= 10:
                 break
-    nodes_ctx, _ = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=user_query)
+    nodes_ctx, simplified_nodes = build_gpt_context(all_nodes, historical_recipes, perfect_ings, user_query=query)
     system_prompt = f"""
     Te egy XVII. századi magyar szakácskönyv stílusában írsz AI Ajánlást.
     Feladat: a felhasználói kifejezéseket esszészerűen értelmezd, kulturális és érzéki szempontokat összekapcsolva.
@@ -1346,6 +1366,7 @@ st.markdown(textwrap.dedent("""
     </p>
 </div>
 """), unsafe_allow_html=True)
+
 
 
 
