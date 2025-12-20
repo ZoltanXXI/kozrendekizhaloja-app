@@ -1,8 +1,13 @@
+import os
+import re
+from html import unescape
+
+import pandas as pd
 import streamlit as st
+from utils.fasting import FASTING_RECIPE_TITLES
 
 st.set_page_config(page_title="A PROJEKTRŐL", page_icon="📜", layout="wide")
 
-# Custom CSS - Történelmi stílus
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
@@ -175,7 +180,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
 st.markdown("""
 <div style="
     display: block;
@@ -198,8 +202,6 @@ st.markdown("""
 "></div>
 """, unsafe_allow_html=True)
 
-
-# ===== AZ OLVASÓHOZ IDÉZET =====
 st.markdown("""
 <div class="reader-quote">
     <span class="first-letter">E</span>z az én könyvecském nem siet az udvarokban való nagy konyhákhoz, 
@@ -212,7 +214,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== FŐ SZÖVEG =====
 st.markdown("""
 <div class="body-text">
     <p>
@@ -225,7 +226,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== A FORRÁSMŰ =====
 st.markdown("""
 <h3 class="section-title">
     📖 A Forrásmű
@@ -244,7 +244,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== HÁLÓZATELEMZÉS ÉS GASZTRONÓMIA =====
 st.markdown("""
 <h3 class="section-title">
     🕸️ Hálózatelemzés és Gasztronómia
@@ -282,7 +281,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== TECHNIKAI RÉSZLETEK (új szekció) =====
 st.markdown("---")
 st.markdown("""
 <h3 class="section-title">
@@ -326,7 +324,6 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-# ===== ADATOK =====
 st.markdown("---")
 st.markdown("""
 <h3 class="section-title">
@@ -334,7 +331,47 @@ st.markdown("""
 </h3>
 """, unsafe_allow_html=True)
 
-# Metrikák
+def strip_icon_ligatures_simple(s):
+    if not isinstance(s, str):
+        return ""
+    s = unescape(s)
+    s = re.sub(r"<[^>]+>", "", s)
+    return s.strip()
+
+def resolve_historical_csv_path():
+    script_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(script_dir, 'data', 'HistoricalRecipe_export.csv'),
+        os.path.join(os.getcwd(), 'data', 'HistoricalRecipe_export.csv'),
+        os.path.join(os.path.abspath(os.path.join(script_dir, '..')), 'data', 'HistoricalRecipe_export.csv'),
+        'data/HistoricalRecipe_export.csv',
+        'HistoricalRecipe_export.csv'
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+hist_path = resolve_historical_csv_path()
+fasting_pct_display = "—"
+if hist_path:
+    try:
+        hist_df = pd.read_csv(hist_path, sep=',', encoding='utf-8', on_bad_lines='skip')
+    except Exception:
+        try:
+            hist_df = pd.read_csv(hist_path, sep=';', encoding='utf-8', on_bad_lines='skip')
+        except Exception:
+            hist_df = pd.read_csv(hist_path, sep=None, engine='python', encoding='latin1', on_bad_lines='skip')
+    if 'title' in hist_df.columns:
+        titles = hist_df['title'].apply(lambda x: strip_icon_ligatures_simple(x) if isinstance(x, str) else "")
+        total = len(titles)
+        if total > 0:
+            fasting_count = sum(1 for t in titles if t in FASTING_RECIPE_TITLES)
+            pct = round(fasting_count / total * 100)
+            fasting_pct_display = f"{pct}%"
+else:
+    fasting_pct_display = "N/A"
+
 metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
 
 with metric_col1:
@@ -362,14 +399,13 @@ with metric_col3:
     """, unsafe_allow_html=True)
 
 with metric_col4:
-    st.markdown("""
+    st.markdown(f"""
     <div style="text-align: center; padding: 1.5rem; background: #fffbf0; border-radius: 8px; border: 2px solid #d4af37;">
-        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">32%</div>
+        <div style="font-size: 2.5rem; font-weight: bold; color: #8b5a2b;">{fasting_pct_display}</div>
         <div style="color: #4a3728; font-size: 1rem; margin-top: 0.5rem;">Böjti Receptek</div>
     </div>
     """, unsafe_allow_html=True)
 
-# ===== HIVATKOZÁSOK =====
 st.markdown("---")
 st.markdown("""
 <h3 class="section-title">
@@ -400,7 +436,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== KUTATÁSI KÉRDÉSEK =====
 st.markdown("---")
 st.markdown("""
 <h3 class="section-title">
@@ -429,7 +464,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== ZÁRÓ IDÉZET =====
 st.markdown("---")
 st.markdown("""
 <div class="highlight-box" style="text-align: center; font-size: 1.3rem;">
@@ -438,7 +472,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== FOOTER =====
 st.markdown("""
 <div style="text-align: center; margin-top: 4rem; padding: 2rem; background: linear-gradient(to bottom, #fffbf0, #fff9e6); border-radius: 8px;">
     <div style="font-size: 1.5rem; font-weight: bold; color: #2c1810; font-family: Georgia, serif; margin-bottom: 1rem;">
@@ -453,17 +486,3 @@ st.markdown("""
 </div>
 
 """, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
