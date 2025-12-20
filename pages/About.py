@@ -320,7 +320,8 @@ Konklúzió: Az AI jelen formájában nem alkalmas történeti receptek hiteles 
             Hálózatelemzés + Történeti Források + AI Generálás
         </div>
         <div style="color: #8b5a2b; font-size: 0.85rem;">
-            © 2025 | Built with Streamlit, NetworkX, SciPy & Open-source tools
+            © 2025 | Built with Streamlit, NetworkX, SciPy, OPENAI API, Claude, GrokAI & Open-source tools
         </div>
     </div>
     """, unsafe_allow_html=True)
+
