@@ -1353,7 +1353,6 @@ st.markdown("""
 <div style="text-align: center; margin: 3rem 0 2rem 0;">
     <h3 style="color: #ccaa77; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">
 
-# Javított rész — eltávolítottam a félbemarad st.markdown() hívást, és az ASCII-barát idézetekkel egyetlen, lezárt blokkba tettem a bemenetet.
 st.markdown(textwrap.dedent("""
 <div style="text-align: center; padding: 3.5rem 2.5rem; background: linear-gradient(145deg, #1a0d0d 0%, #2b0f12 100%); color: #f5efe6; margin-top: 5rem; border-radius: 20px; border: 2px solid #ccaa77; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
     <p style="font-family: 'Cinzel', serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.3rem; color: #e8c896; text-shadow: 0 2px 6px rgba(0,0,0,0.8);">Közrendek Ízhálója</p>
@@ -1370,11 +1369,10 @@ st.markdown(textwrap.dedent("""
     </p>
     <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(204,170,119,0.4), transparent); margin: 2rem 0 1.2rem 0;"></div>
     <p style="font-size: 0.85rem; opacity: 0.55; letter-spacing: 0.05em; color: #cbb58a;">
-        © 2025 - Digitális bölcsészet-, társadalom- és hálózattudományi projekt
+        &copy; 2025 - Digitális bölcsészet-, társadalom- és hálózattudományi projekt
     </p>
 </div>
 """), unsafe_allow_html=True)
-
 # --- Scroll-to-top: anchor alapú, a fő DOM-ba injektálva (nem iframe) ---
 st.markdown("""
 <a href="#top-anchor" class="scroll-to-top" aria-label="Vissza a tetejére">↑</a>
@@ -1408,6 +1406,3 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-
-
